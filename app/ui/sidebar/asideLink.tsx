@@ -1,11 +1,19 @@
-'use'
+'use client'
+
+import clsx from 'clsx';
 import Link from "next/link";
 
 
-export function AsideLink({ link }: { link: { label: string; link: string; icon: React.ReactNode } }) {
+export function AsideLink({ link }: { link: { label: string; link: string; active: boolean; icon: React.ReactNode } }) {
   return (
     <Link
-      className="group relative flex items-center justify-center w-12 h-12 rounded-md border border-panel border-solid hover:border-gray-500 duration-200"
+      className={clsx(
+        "group relative flex items-center justify-center w-12 h-12 rounded-md border  ",
+        {
+					'border-panel border-solid duration-200 hover:border-gray-500': !link.active,
+					'bg-primary-1 border-0': link.active,
+        }
+      )}
       key={link.label}
       href={link.link}>
       {link.icon}

@@ -1,5 +1,6 @@
 "use client";
 
+import { usePathname } from 'next/navigation'
 import { IconLogin, IconLogout, IconLanguage } from "@tabler/icons-react";
 import { AsideLink } from "./asideLink";
 import { navLinks } from "@/app/data/navManu";
@@ -7,6 +8,7 @@ import { AsideButton } from "./asideButton";
 import { useUser } from "@/app/hooks/useUser";
 
 export function Sidebar() {
+  const pathname = usePathname();
   const { user } = useUser();
 
   const languageButtonHandler: React.MouseEventHandler<HTMLButtonElement> = (e) => {
@@ -26,6 +28,7 @@ export function Sidebar() {
             link={{
               label: link.label,
               link: link.link,
+              active: pathname === link.link,
               icon: (<link.icon size={20} />) as React.ReactNode,
             }}
           />
