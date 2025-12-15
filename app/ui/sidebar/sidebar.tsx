@@ -51,10 +51,11 @@ export function Sidebar() {
             }}
           />
         ) : (
-          <AsideButton
-            button={{
-              label: "Login",
-              onClick: loginButtonHandler,
+          <AsideLink
+            link={{
+              active: false,
+              label: 'Login',
+              link: '/login',
               icon: <IconLogin size={20} />,
             }}
           />

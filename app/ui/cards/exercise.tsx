@@ -1,13 +1,34 @@
+"use client";
+
+import { Button } from "../buttons/button";
+import { IconHeart } from "@tabler/icons-react";
+
 export function ExerciseCard() {
+  const favButtonHandler: React.MouseEventHandler<HTMLButtonElement> = (e) => {
+    console.log("Exercise favorite");
+  };
+
   return (
     <div className="flex flex-col rounded-md bg-panel">
-      <div className="flex flex-col gap-2 p-4">
-        <div className="flex gap-1">
-          <span className="px-2 bg-primary-1 rounded-4xl text-sm font-medium">Body weight</span>
+      <div className="flex gap-2 justify-between items-center p-4">
+        <div className="flex flex-col gap-2 ">
+          <div className="flex gap-1">
+            <span className="px-2 bg-primary-1 rounded-4xl text-sm font-medium">Body weight</span>
+          </div>
+          <div className="flex gap-1">
+            <span className="px-2 bg-primary-1/50 rounded-4xl text-sm font-medium text-primary-2">Waist</span>
+            <span className="px-2 bg-primary-1/50 rounded-4xl text-sm font-medium text-primary-2">Chest</span>
+          </div>
         </div>
         <div className="flex gap-1">
-          <span className="px-2 bg-primary-1/50 rounded-4xl text-sm font-medium text-primary-2">Waist</span>
-          <span className="px-2 bg-primary-1/50 rounded-4xl text-sm font-medium text-primary-2">Chest</span>
+          <Button
+            button={{
+              onClick: favButtonHandler,
+              icon: <IconHeart size={20} />,
+              border: true,
+              big: true,
+            }}
+          />
         </div>
       </div>
       <div className="h-40 bg-white">//Image</div>

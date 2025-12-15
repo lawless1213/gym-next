@@ -13,6 +13,7 @@
   --color-panel: #2e2e2e;
   --color-primary-1: #aaa317;
   --color-primary-2: #e7e17c; 
+  --color-dimmed: #828282;
 }
 
 @media (prefers-color-scheme: dark) {
