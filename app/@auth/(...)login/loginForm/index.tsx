@@ -1,20 +1,44 @@
 "use client";
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
+import { z } from "zod";
 import { Button } from "@/app/ui/buttons/button";
 import { useAuth } from "@/app/hooks/useAuth";
+
+const loginSchema = z.object({
+  email: z.string().email("Введіть коректний email"),
+  password: z.string().min(6, "Пароль має бути мінімум 6 символів"),
+});
+
+type LoginFormData = z.infer<typeof loginSchema>;
 
 export default function LoginForm() {
   const router = useRouter();
   const { login } = useAuth();
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [fieldErrors, setFieldErrors] = useState<Partial<Record<keyof LoginFormData, string>>>({});
   const [error, setError] = useState<string | null>(null);
   const [isLoading, setIsLoading] = useState(false);
 
   const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError(null);
+    setFieldErrors({});
+
+    const validationResult = loginSchema.safeParse({ email, password });
+
+    if (!validationResult.success) {
+      const errors: Partial<Record<keyof LoginFormData, string>> = {};
+      validationResult.error.issues.forEach((err) => {
+        if (err.path[0]) {
+          errors[err.path[0] as keyof LoginFormData] = err.message;
+        }
+      });
+      setFieldErrors(errors);
+      return;
+    }
+
     setIsLoading(true);
 
     try {
@@ -30,22 +54,44 @@ export default function LoginForm() {
   return (
     <form onSubmit={handleLogin} className="flex flex-col items-center w-full gap-2">
       <div className="flex flex-col items-center w-full">
-        <input
-          type="email"
-          placeholder="Email"
-          value={email}
-          onChange={(e) => setEmail(e.target.value)}
-          className="border p-2 mb-2 w-full"
-          required
-        />
-        <input
-          type="password"
-          placeholder="Password"
-          value={password}
-          onChange={(e) => setPassword(e.target.value)}
-          className="border p-2 mb-2 w-full"
-          required
-        />
+        <div className="w-full mb-2">
+          <input
+            type="email"
+            placeholder="Email"
+            value={email}
+            onChange={(e) => {
+              setEmail(e.target.value);
+              if (fieldErrors.email) {
+                setFieldErrors((prev) => ({ ...prev, email: undefined }));
+              }
+            }}
+            className={`border p-2 w-full ${
+              fieldErrors.email ? "border-red-500" : ""
+            }`}
+          />
+          {fieldErrors.email && (
+            <p className="text-xs text-red-500 mt-1">{fieldErrors.email}</p>
+          )}
+        </div>
+        <div className="w-full mb-2">
+          <input
+            type="password"
+            placeholder="Password"
+            value={password}
+            onChange={(e) => {
+              setPassword(e.target.value);
+              if (fieldErrors.password) {
+                setFieldErrors((prev) => ({ ...prev, password: undefined }));
+              }
+            }}
+            className={`border p-2 w-full ${
+              fieldErrors.password ? "border-red-500" : ""
+            }`}
+          />
+          {fieldErrors.password && (
+            <p className="text-xs text-red-500 mt-1">{fieldErrors.password}</p>
+          )}
+        </div>
       </div>
 
       {error && <p className="w-full text-sm text-red-500 mb-1">{error}</p>}

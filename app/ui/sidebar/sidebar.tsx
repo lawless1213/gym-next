@@ -19,7 +19,11 @@ export function Sidebar() {
   return (
     <aside className=" flex flex-col justify-between border-r-2 border-panel p-4 sticky left-0 top-0 h-screen">
       <div className="flex flex-col gap-1">
-        {navLinks.map((link) => (
+        {navLinks
+        .filter((navItem) => {
+          return !navItem.loginRequired || user;
+        })
+        .map((link) => (
           <AsideLink
             key={link.label}
             link={{
