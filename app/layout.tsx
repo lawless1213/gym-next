@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Ubuntu } from "next/font/google";
 import "./globals.css";
 import { Sidebar } from "./ui/sidebar/sidebar";
+import { AuthProvider } from "./hooks/useAuth";
 
 const ubuntu = Ubuntu({
   variable: "--font-ubuntu",
@@ -23,14 +24,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body
-        className={`${ubuntu.variable} antialiased flex`}
-      >
-        <Sidebar />
-        <main className="p-4 flex-1">
-          {children}
-        </main>
-        {auth}
+      <body className={`${ubuntu.variable} antialiased flex`}>
+        <AuthProvider>
+          <Sidebar />
+          <main className="p-4 flex-1">{children}</main>
+          {auth}
+        </AuthProvider>
       </body>
     </html>
   );

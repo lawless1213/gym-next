@@ -5,18 +5,15 @@ import { IconLogin, IconLogout, IconLanguage } from "@tabler/icons-react";
 import { AsideLink } from "./asideLink";
 import { navLinks } from "@/app/data/navManu";
 import { AsideButton } from "./asideButton";
-import { useUser } from "@/app/hooks/useUser";
+import { useAuth } from "@/app/hooks/useAuth";
 
 export function Sidebar() {
   const pathname = usePathname();
-  const { user } = useUser();
+  const { user, logout } = useAuth();
+  
 
   const languageButtonHandler: React.MouseEventHandler<HTMLButtonElement> = (e) => {
     console.log("language");
-  };
-
-  const loginButtonHandler: React.MouseEventHandler<HTMLButtonElement> = (e) => {
-    console.log("login");
   };
 
   return (
@@ -46,7 +43,7 @@ export function Sidebar() {
           <AsideButton
             button={{
               label: "Logout",
-              onClick: loginButtonHandler,
+              onClick: logout,
               icon: <IconLogout size={20} />,
             }}
           />
