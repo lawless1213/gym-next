@@ -4,6 +4,7 @@ import { useRouter } from "next/navigation";
 import { z } from "zod";
 import { Button } from "@/app/ui/buttons/button";
 import { useAuth } from "@/app/hooks/useAuth";
+import { Input } from "@/app/ui/form/input";
 
 const loginSchema = z.object({
   email: z.string().email("Введіть коректний email"),
@@ -52,45 +53,45 @@ export default function LoginForm() {
   };
 
   return (
-    <form onSubmit={handleLogin} className="flex flex-col items-center w-full gap-2">
+    <form
+      onSubmit={handleLogin}
+      className="flex flex-col items-center w-full gap-2">
       <div className="flex flex-col items-center w-full">
         <div className="w-full mb-2">
-          <input
-            type="email"
-            placeholder="Email"
-            value={email}
-            onChange={(e) => {
-              setEmail(e.target.value);
-              if (fieldErrors.email) {
-                setFieldErrors((prev) => ({ ...prev, email: undefined }));
-              }
+          <Input
+            input={{
+              placeholder: "Email",
+              value: email,
+              type: "email",
+              onChange: (e) => {
+                setEmail(e.target.value);
+                if (fieldErrors.email) {
+                  setFieldErrors((prev) => ({ ...prev, email: undefined }));
+                }
+              },
+              id: "email",
+              name: "email",
+              error: fieldErrors.email,
             }}
-            className={`border p-2 w-full ${
-              fieldErrors.email ? "border-red-500" : ""
-            }`}
           />
-          {fieldErrors.email && (
-            <p className="text-xs text-red-500 mt-1">{fieldErrors.email}</p>
-          )}
         </div>
         <div className="w-full mb-2">
-          <input
-            type="password"
-            placeholder="Password"
-            value={password}
-            onChange={(e) => {
-              setPassword(e.target.value);
-              if (fieldErrors.password) {
-                setFieldErrors((prev) => ({ ...prev, password: undefined }));
-              }
+          <Input
+            input={{
+              placeholder: "Password",
+              value: password,
+              type: "password",
+              onChange: (e) => {
+                setPassword(e.target.value);
+                if (fieldErrors.password) {
+                  setFieldErrors((prev) => ({ ...prev, password: undefined }));
+                }
+              },
+              id: "password",
+              name: "password",
+              error: fieldErrors.password,
             }}
-            className={`border p-2 w-full ${
-              fieldErrors.password ? "border-red-500" : ""
-            }`}
           />
-          {fieldErrors.password && (
-            <p className="text-xs text-red-500 mt-1">{fieldErrors.password}</p>
-          )}
         </div>
       </div>
 
