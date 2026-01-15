@@ -5,6 +5,7 @@ import { z } from "zod";
 import { Button } from "@/app/ui/buttons/button";
 import { useAuth } from "@/app/hooks/useAuth";
 import { Input } from "@/app/ui/form/input";
+import { AUTH_ERRORS } from "@/app/lib/errors/auth";
 
 const loginSchema = z.object({
   email: z.string().email("Введіть коректний email"),
@@ -46,7 +47,8 @@ export default function LoginForm() {
       await login(email, password);
       router.back();
     } catch (err: any) {
-      setError(err.message ?? "Не вдалось увійти. Спробуйте ще раз.");
+      const message = AUTH_ERRORS[err.code] || AUTH_ERRORS["default"];
+      setError(message);
     } finally {
       setIsLoading(false);
     }
@@ -62,7 +64,7 @@ export default function LoginForm() {
             input={{
               placeholder: "Email",
               value: email,
-              type: "email",
+              // type: "email",
               onChange: (e) => {
                 setEmail(e.target.value);
                 if (fieldErrors.email) {
@@ -95,7 +97,8 @@ export default function LoginForm() {
         </div>
       </div>
 
-      {error && <p className="w-full text-sm text-red-500 mb-1">{error}</p>}
+      {error && <p className="w-full text-sm text-red-500 mb-1">{error ?? "Не вдалось увійти. Спробуйте ще раз."}</p>}
+      
 
       <Button
         button={{
