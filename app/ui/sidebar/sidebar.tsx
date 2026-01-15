@@ -1,66 +1,41 @@
 "use client";
 
-import { usePathname } from 'next/navigation'
+import { usePathname } from "next/navigation";
 import { IconLogin, IconLogout, IconLanguage } from "@tabler/icons-react";
 import { AsideLink } from "./asideLink";
 import { navLinks } from "@/app/data/navManu";
 import { AsideButton } from "./asideButton";
 import { useAuth } from "@/app/hooks/useAuth";
+import { LOCALES } from "@/app/lib/i18n/locales";
+import { useState } from "react";
+import { DefaultAside } from "./modes/default";
+import { LanguageAside } from "./modes/language";
 
 export function Sidebar() {
   const pathname = usePathname();
   const { user, logout } = useAuth();
-  
+  const [languageMode, setLanguageMode] = useState(false);
 
-  const languageButtonHandler: React.MouseEventHandler<HTMLButtonElement> = (e) => {
-    console.log("language");
+  const asideModeHandler: React.MouseEventHandler<HTMLButtonElement> = (e) => {
+    setLanguageMode(!languageMode);
   };
 
   return (
     <aside className=" flex flex-col justify-between border-r-2 border-panel p-4 sticky left-0 top-0 h-screen">
-      <div className="flex flex-col gap-1">
-        {navLinks
-        .filter((navItem) => {
-          return !navItem.loginRequired || user;
-        })
-        .map((link) => (
-          <AsideLink
-            key={link.label}
-            link={{
-              label: link.label,
-              link: link.link,
-              active: pathname === link.link,
-              icon: (<link.icon size={20} />) as React.ReactNode,
-            }}
-          />
-        ))}
-      </div>
+      {
+        languageMode ?
+        <LanguageAside/> :
+        <DefaultAside/>
+      }
+  
       <div className="flex flex-col gap-1">
         <AsideButton
           button={{
             label: "Language",
-            onClick: languageButtonHandler,
+            onClick: asideModeHandler,
             icon: <IconLanguage size={20} />,
           }}
         />
-        {user ? (
-          <AsideButton
-            button={{
-              label: "Logout",
-              onClick: logout,
-              icon: <IconLogout size={20} />,
-            }}
-          />
-        ) : (
-          <AsideLink
-            link={{
-              active: false,
-              label: 'Login',
-              link: '/login',
-              icon: <IconLogin size={20} />,
-            }}
-          />
-        )}
       </div>
     </aside>
   );

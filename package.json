@@ -11,9 +11,11 @@
   "dependencies": {
     "@headlessui/react": "^2.2.9",
     "@tabler/icons-react": "^3.35.0",
+    "@tailwindplus/elements": "^1.0.22",
     "clsx": "^2.1.1",
     "firebase": "^12.5.0",
     "next": "16.0.1",
+    "next-intl": "^4.7.0",
     "react": "19.2.0",
     "react-dom": "19.2.0",
     "zod": "^4.2.1"
