@@ -1,4 +1,19 @@
 {
+	"languages": {
+		"uk": "Ukrainian",
+		"en": "English"
+	},
+	"nav": {
+		"home" : "Home",
+		"exercises" : "Exercises",
+		"programs" : "Programs",
+		"workout" : "Workout",
+		"profile" : "Profile",
+		"settings" : "Settings",
+		"login": "Login",
+		"logout": "logout",
+		"language": "Language"
+	},
   "HomePage": {
     "title": "Home Page"
   }

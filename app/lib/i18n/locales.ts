@@ -1,4 +1,1 @@
-export const LOCALES: string[] = [
-	'uk',
-	'en',
-];
+export const LOCALES = ['en', 'uk'] as const;
