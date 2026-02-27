@@ -8,7 +8,7 @@ export function AsideLink({ link }: { link: { label: string; link: string; activ
   return (
     <Link
       className={clsx(
-        "group relative flex items-center justify-center w-12 h-12 rounded-md border  ",
+        "group relative flex items-center justify-center w-12 h-12 rounded-md border hover:cursor-pointer",
         {
 					'border-panel border-solid duration-200 hover:border-gray-500': !link.active,
 					'bg-primary-1 border-0': link.active,

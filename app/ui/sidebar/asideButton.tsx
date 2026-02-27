@@ -6,7 +6,7 @@ export function AsideButton({ button }: { button: { label: string; onClick: Reac
   return (
     <button
       className={clsx(
-        "group relative flex items-center justify-center w-12 h-12 rounded-md border  ",
+        "group relative flex items-center justify-center w-12 h-12 rounded-md border hover:cursor-pointer",
         {
 					'border-panel border-solid duration-200 hover:border-gray-500': !button.active,
 					'bg-primary-1 border-0': button.active,

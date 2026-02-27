@@ -1,17 +1,19 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { IconLogin, IconLogout, IconLanguage } from "@tabler/icons-react";
+import { IconLogin, IconLogout } from "@tabler/icons-react";
 import { AsideLink } from "../asideLink";
 import { navLinks } from "@/app/data/navManu";
 import { AsideButton } from "../asideButton";
 import { useAuth } from "@/app/hooks/useAuth";
-import { useTranslations } from 'next-intl';
+import { useLocale, useTranslations } from 'next-intl';
+
 
 export function DefaultAside({ modeSwitcher }: { modeSwitcher: React.MouseEventHandler<HTMLButtonElement> }) {
   const pathname = usePathname();
   const { user, logout } = useAuth();
-	const t = useTranslations('nav');
+  const locale = useLocale();
+  const t = useTranslations("nav");
 
   return (
     <>
@@ -36,7 +38,7 @@ export function DefaultAside({ modeSwitcher }: { modeSwitcher: React.MouseEventH
         {user ? (
           <AsideButton
             button={{
-              label: t('logout'),
+              label: t("logout"),
               onClick: logout,
               icon: <IconLogout size={20} />,
             }}
@@ -45,7 +47,7 @@ export function DefaultAside({ modeSwitcher }: { modeSwitcher: React.MouseEventH
           <AsideLink
             link={{
               active: false,
-              label: t('login'),
+              label: t("login"),
               link: "/login",
               icon: <IconLogin size={20} />,
             }}
@@ -53,9 +55,9 @@ export function DefaultAside({ modeSwitcher }: { modeSwitcher: React.MouseEventH
         )}
         <AsideButton
           button={{
-            label: t('language'),
+            label: t("language"),
+            shortLabel: locale.toUpperCase(),
             onClick: modeSwitcher,
-            icon: <IconLanguage size={20} />,
           }}
         />
       </div>
