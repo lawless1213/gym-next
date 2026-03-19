@@ -6,7 +6,9 @@ import { IconX } from "@tabler/icons-react";
 type ModalType = {
   title?: string;
   children?: React.ReactNode;
-  classes?: string,
+  classes?: string;
+  loading?: boolean;
+  size?: 'default' | 'large';
 };
 
 type ModalProps = {
@@ -25,7 +27,10 @@ export function Modal({ modal }: ModalProps) {
       className="absolute top-0 left-0 w-full h-full bg-black/50 flex items-center justify-center backdrop-blur-sm"
       onClick={handleClose}>
       <div
-        className={`flex flex-col rounded-md bg-background w-[600px] max-w-screen overflow-hidden ${modal.classes}`}
+        className={clsx("flex flex-col rounded-md bg-background  max-w-screen overflow-hidden", modal.classes, {
+          "w-[600px]": modal.size === 'default',
+          "h-[90vh] w-[90vw]": modal.size === 'large',
+        })}
         onClick={(e) => e.stopPropagation()}>
         <div className="p-4 flex gap-5 justify-between items-center">
           <h2 className="text-xl">{modal.title}</h2>
@@ -36,7 +41,12 @@ export function Modal({ modal }: ModalProps) {
             onClick={handleClose}
           />
         </div>
-        <div className="p-8 m-4 mt-0 border border-dimmed rounded-md">{modal.children}</div>
+        <div
+          className={clsx("p-8 m-4 mt-0 h-full rounded-md bg-white/10", {
+            " animate-pulse": modal.loading,
+          })}>
+          {modal.loading ? <></> : modal.children}
+        </div>
       </div>
     </div>
   );

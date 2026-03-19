@@ -1,5 +1,5 @@
 import { db } from '@/app/lib/firebaseConfig';
-import { collection, getDocs } from 'firebase/firestore';
+import { collection, doc, getDoc, getDocs } from 'firebase/firestore';
 import { Exercise } from '@/app/types/exercise';
 
 export async function getExercises(): Promise<Exercise[]> {
@@ -13,4 +13,11 @@ export async function getExercises(): Promise<Exercise[]> {
       id: doc.id, 
     } as Exercise;
   });
+}
+
+export async function getExercise(id: string): Promise<Exercise> {
+  const docSnapshot = await getDoc(doc(db, "exercises", id));
+  const data = docSnapshot.data();
+  
+  return data as Exercise;
 }

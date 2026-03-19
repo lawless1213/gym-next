@@ -5,6 +5,7 @@ import { Button } from "../buttons/button";
 import { IconHeart, IconCameraOff, IconVideo, IconVideoFilled, IconHeartFilled } from "@tabler/icons-react";
 import Image from "next/image";
 import { useState } from "react";
+import Link from "next/link";
 
 export function ExerciseCard({ exercise }: { exercise: Exercise }) {
   const [isFav, setIsFav] = useState(false);
@@ -20,7 +21,7 @@ export function ExerciseCard({ exercise }: { exercise: Exercise }) {
   };
 
   return (
-    <div className="flex flex-col rounded-md bg-panel">
+    <Link href={`/exercise?id=${exercise.id}`} className="flex flex-col rounded-md bg-panel">
       <div className="flex gap-2 justify-between items-center p-4">
         <div className="flex flex-col gap-2 ">
           <div className="flex gap-1">
@@ -42,7 +43,7 @@ export function ExerciseCard({ exercise }: { exercise: Exercise }) {
             ))}
           </div>
         </div>
-        <div className="flex gap-1">
+        {/* <div className="flex gap-1">
           <Button
             button={{
               onClick: favButtonHandler,
@@ -51,20 +52,11 @@ export function ExerciseCard({ exercise }: { exercise: Exercise }) {
               big: true,
             }}
           />
-        </div>
+        </div> */}
       </div>
       <div className="h-40 bg-white flex items-center justify-center relative">
         {isVideo ? (
-          !!exercise.video && (
-            <video
-              className="w-full h-full object-contain"
-              src={exercise.video}
-              autoPlay
-              muted
-              loop>
-              Your browser does not support the video tag.
-            </video>
-          )
+          
         ) : exercise.preview ? (
           <Image
             src={exercise.preview}
@@ -80,7 +72,7 @@ export function ExerciseCard({ exercise }: { exercise: Exercise }) {
           />
         )}
 
-        {exercise.video &&
+        {/* {exercise.video &&
           (isVideo ? (
             <Button
               button={{
@@ -99,14 +91,12 @@ export function ExerciseCard({ exercise }: { exercise: Exercise }) {
                 border: false,
               }}
             />
-          ))}
+          ))} */}
       </div>
       <div className="flex flex-col gap-1 p-4">
         <p className="text-xl font-bold">{exercise.name}</p>
-        <p className="text-md">{exercise.description}</p>
-        <p className="text-sm text-gray-400">{exercise.type === "time" ? `${exercise.valuePerSet} exercise.time.per.set` : `${exercise.valuePerSet} exercise.reps.per.set`}</p>
-        <p className="text-sm text-gray-400 ml-auto">{exercise.caloriesPerUnit} exercise.calories.per.unit</p>
+        {/* <p className="text-md">{exercise.description}</p> */}
       </div>
-    </div>
+    </Link>
   );
 }
