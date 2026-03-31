@@ -55,22 +55,13 @@ export function ExerciseCard({ exercise }: { exercise: Exercise }) {
         </div> */}
       </div>
       <div className="h-40 bg-white flex items-center justify-center relative">
-        {isVideo ? (
-          
-        ) : exercise.preview ? (
-          <Image
+        <Image
             src={exercise.preview}
             alt={exercise.name}
             width={300}
             height={300}
             className="w-full h-full object-contain"
           />
-        ) : (
-          <IconCameraOff
-            size={30}
-            className="text-gray-400 m-auto"
-          />
-        )}
 
         {/* {exercise.video &&
           (isVideo ? (
