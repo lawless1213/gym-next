@@ -105,7 +105,7 @@ export default function LoginForm() {
           label: isLoading ? "Logging in..." : "Login",
           big: true,
           type: "submit",
-          disabled: isLoading,
+          disabled: isLoading || !email || !password,
         }}
       />
     </form>

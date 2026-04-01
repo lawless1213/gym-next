@@ -42,7 +42,7 @@ export function Modal({ modal }: ModalProps) {
           />
         </div>
         <div
-          className={clsx("p-8 m-4 mt-0 h-full rounded-md bg-white/10", {
+          className={clsx("p-3 sm:p-8 m-4 mt-0 h-full rounded-md bg-white/10", {
             " animate-pulse": modal.loading,
           })}>
           {modal.loading ? <></> : modal.children}

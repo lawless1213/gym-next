@@ -13,4 +13,5 @@ export interface Exercise {
   createdAt: string | any;
 	type: "reps" | "time";
 	valuePerSet: number;
+  instruction: string[];
 }

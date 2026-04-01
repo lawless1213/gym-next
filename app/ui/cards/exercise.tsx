@@ -11,7 +11,6 @@ export function ExerciseCard({ exercise }: { exercise: Exercise }) {
   const [isFav, setIsFav] = useState(false);
   const [isVideo, setIsVideo] = useState(false);
 
-
   const favButtonHandler: React.MouseEventHandler<HTMLButtonElement> = (e) => {
     setIsFav(!isFav);
   };
@@ -21,7 +20,9 @@ export function ExerciseCard({ exercise }: { exercise: Exercise }) {
   };
 
   return (
-    <Link href={`/exercise?id=${exercise.id}`} className="flex flex-col rounded-md bg-panel">
+    <Link
+      href={`/exercise?id=${exercise.id}`}
+      className="flex flex-col rounded-md bg-panel">
       <div className="flex gap-2 justify-between items-center p-4">
         <div className="flex flex-col gap-2 ">
           <div className="flex gap-1">
@@ -43,50 +44,24 @@ export function ExerciseCard({ exercise }: { exercise: Exercise }) {
             ))}
           </div>
         </div>
-        {/* <div className="flex gap-1">
-          <Button
-            button={{
-              onClick: favButtonHandler,
-              icon: isFav ? <IconHeartFilled size={20} /> : <IconHeart size={20} />,
-              border: true,
-              big: true,
-            }}
-          />
-        </div> */}
       </div>
       <div className="h-40 bg-white flex items-center justify-center relative">
-        <Image
+        {exercise.preview ? (
+          <Image
             src={exercise.preview}
             alt={exercise.name}
             width={300}
             height={300}
             className="w-full h-full object-contain"
           />
-
-        {/* {exercise.video &&
-          (isVideo ? (
-            <Button
-              button={{
-                onClick: videoButtonHandler,
-                icon: <IconVideoFilled size={20} />,
-                classes: "absolute right-2 bottom-2 w-10 h-10",
-                border: false,
-              }}
-            />
-          ) : (
-            <Button
-              button={{
-                onClick: videoButtonHandler,
-                icon: <IconVideo size={20} />,
-                classes: "absolute right-2 bottom-2 w-10 h-10",
-                border: false,
-              }}
-            />
-          ))} */}
+        ) : (
+          <div className="flex items-center justify-center w-full h-full">
+            <IconCameraOff size={40} />
+          </div>
+        )}
       </div>
       <div className="flex flex-col gap-1 p-4">
         <p className="text-xl font-bold">{exercise.name}</p>
-        {/* <p className="text-md">{exercise.description}</p> */}
       </div>
     </Link>
   );
