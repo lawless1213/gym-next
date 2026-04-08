@@ -24,7 +24,7 @@ export function Modal({ modal }: ModalProps) {
 
   return (
     <div
-      className="absolute top-0 left-0 w-full h-full bg-black/50 flex items-center justify-center backdrop-blur-sm"
+      className="absolute top-0 left-0 w-full h-full bg-black/50 flex items-center justify-center backdrop-blur-sm z-10"
       onClick={handleClose}>
       <div
         className={clsx("flex flex-col rounded-md bg-background  max-w-screen overflow-hidden", modal.classes, {
