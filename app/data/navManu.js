@@ -1,17 +1,13 @@
 import {
-  IconGauge,
-  IconListDetails,
-  IconHome2,
-  IconSettings,
-  IconUser,
-  IconStretching,
+  IconHome,
+  IconBarbell,
+  IconHistory,
+  IconChartBar
 } from '@tabler/icons-react';
 
 export const navLinks = [
-  { link: '/', label: 'home', icon: IconHome2 },
-  { link: '/exercises', label: 'exercises', icon: IconListDetails },
-  { link: '/programs', label: 'programs', icon: IconGauge, loginRequired: true },
-  { link: '/workout', label: 'workout', icon: IconStretching, loginRequired: true },
-  { link: '/profile', label: 'profile', icon: IconUser, loginRequired: true },
-  { link: '/settings', label: 'settings', icon: IconSettings },
+  { link: '/', label: 'home', icon: IconHome },
+  { link: '/library', label: 'library', icon: IconBarbell },
+  { link: '/history', label: 'history', icon: IconHistory, loginRequired: true },
+  { link: '/stats', label: 'stats', icon: IconChartBar },
 ];

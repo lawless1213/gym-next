@@ -1,14 +1,13 @@
-import type { Metadata } from "next";
-import { Ubuntu } from "next/font/google";
+import type { Metadata } from 'next'
+import { Inter } from "next/font/google";
 import "./globals.css";
-import { Sidebar } from "./ui/sidebar/sidebar";
+import { BottomNav } from "./ui/bottomNav";
 import { AuthProvider } from "./hooks/useAuth";
 import { NextIntlClientProvider } from "next-intl";
 
-const ubuntu = Ubuntu({
-  variable: "--font-ubuntu",
+const inter = Inter({ 
   subsets: ["latin"],
-  weight: ["400", "500", "700"],
+  variable: "--font-inter"
 });
 
 export const metadata: Metadata = {
@@ -24,12 +23,12 @@ export default function RootLayout({
   modal: React.ReactNode;
 }>) {
   return (
-    <html lang="en">
-      <body className={`${ubuntu.variable} antialiased flex`}>
+    <html lang="en" className="dark">
+      <body className={`${inter.variable} antialiased flex min-h-screen flex-col bg-background`}>
         <NextIntlClientProvider>
           <AuthProvider>
-            <Sidebar />
-            <main className="p-4 flex-1">{children}</main>
+            <BottomNav />
+            <main className="flex-1 overflow-y-auto p-4 pb-24">{children}</main>
             {modal}
           </AuthProvider>
         </NextIntlClientProvider>

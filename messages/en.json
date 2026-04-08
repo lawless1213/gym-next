@@ -3,18 +3,15 @@
 		"uk": "Ukrainian",
 		"en": "English"
 	},
-	"nav": {
+	"bottomNav": {
 		"home" : "Home",
-		"exercises" : "Exercises",
-		"programs" : "Programs",
-		"workout" : "Workout",
-		"profile" : "Profile",
-		"settings" : "Settings",
-		"login": "Login",
-		"logout": "logout",
-		"language": "Language"
+		"library" : "Library",
+		"history" : "History",
+		"stats" : "Stats"
 	},
   "HomePage": {
-    "title": "Home Page"
+    "header": {
+			"welcome": "Welcome back,"
+		}
   }
 }
