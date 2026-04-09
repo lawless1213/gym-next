@@ -1,4 +1,4 @@
-'use client';
+"use client";
 
 import { useState, useMemo, useEffect } from "react";
 import { Exercise } from "@/app/types";
@@ -6,29 +6,29 @@ import { ExerciseCategory } from "@/app/ui/exerciseList";
 import { IconSearch, IconPlus, IconBarbell, IconFolderOpen } from "@tabler/icons-react";
 import { getUserExercises } from "../lib/services/exercises";
 import { useUser } from "@/app/hooks/useUser";
-
+import Loader from "../ui/common/loader";
 
 export default function Exercises() {
-	const { user } = useUser();
-	const userID = user?.uid;
+  const { user } = useUser();
+  const userID = user?.uid;
   const [searchQuery, setSearchQuery] = useState("");
   const [exercises, setExercises] = useState<Exercise[]>([]);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-		if (!userID) {
-			setExercises([]);
-			setLoading(false);
-			return;
-		}
-		const fetchData = async () => {
-			setLoading(true);
-			const data = await getUserExercises(userID);
-			setExercises(data);
-			setLoading(false);
-		};
-		fetchData();
-	}, [userID]);
+    if (!userID) {
+      setExercises([]);
+      setLoading(false);
+      return;
+    }
+    const fetchData = async () => {
+      setLoading(true);
+      const data = await getUserExercises(userID);
+      setExercises(data);
+      setLoading(false);
+    };
+    fetchData();
+  }, [userID]);
 
   const filteredExercises = useMemo(() => {
     if (!searchQuery) return exercises;
@@ -47,7 +47,11 @@ export default function Exercises() {
     return groups;
   }, [filteredExercises]);
 
-  return (
+  return loading ? (
+    <div className="flex items-center justify-center min-h-[300px]">
+			<Loader />
+		</div>
+  ) : (
     <>
       {/* Search */}
       <div className="relative">

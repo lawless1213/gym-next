@@ -7,7 +7,7 @@ export interface Exercise {
   isCustom?: boolean;
 }
 
-export interface WorkoutSet { 
+export interface WorkoutSet {
   id: string;
   weight: number;
   reps: number;

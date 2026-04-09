@@ -1,11 +1,40 @@
-'use client';
+"use client";
 
-// import { useState, useMemo, useEffect } from "react";
-import { routines } from "@/app/data/mock-data";
+import { useState, useMemo, useEffect } from "react";
 import { IconPlus } from "@tabler/icons-react";
+import { useUser } from "@/app/hooks/useUser";
+import { Routine } from "../types";
+import { getUserRoutines } from "../lib/services/routines";
+import Loader from "../ui/common/loader";
 
 export default function Routines() {
-  return (
+  const { user } = useUser();
+  const userID = user?.uid;
+  const [routines, setRoutines] = useState<Routine[]>([]);
+  const [loading, setLoading] = useState(true);
+
+  useEffect(() => {
+    if (!userID) {
+      setRoutines([]);
+      setLoading(false);
+      return;
+    }
+    const fetchData = async () => {
+      setLoading(true);
+      const data = await getUserRoutines(userID);
+      setRoutines(data);
+      setLoading(false);
+    };
+    fetchData();
+  }, [userID]);
+
+  console.log(routines);
+
+  return loading ? (
+    <div className="flex items-center justify-center min-h-[300px]">
+      <Loader />
+    </div>
+  ) : (
     <>
       <div className="space-y-3">
         {routines.map((routine) => (
