@@ -1,8 +1,9 @@
 'use client';
 
 import { Exercise } from '@/app//types';
-import { IconBarbell, IconChevronRight } from '@tabler/icons-react';
+import { IconBarbell, IconCameraOff, IconChevronRight } from '@tabler/icons-react';
 import { cn } from '@/app/lib/utils';
+import Image from "next/image";
 
 interface ExerciseListItemProps {
   exercise: Exercise;
@@ -15,12 +16,22 @@ export function ExerciseListItem({ exercise, onClick }: ExerciseListItemProps) {
       onClick={onClick}
       className="flex w-full items-center gap-3 rounded-xl bg-card p-3 text-left transition-colors hover:bg-secondary"
     >
-      {/* Thumbnail */}
       <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-secondary">
-        <IconBarbell className="h-5 w-5 text-muted-foreground" />
+        {exercise.imageUrl ? (
+          <Image
+            width={100}
+            height={100}
+            src={exercise.imageUrl}
+            alt={exercise.name}
+            className="w-full h-full object-contain"
+          />
+        ) : (
+          <div className="flex items-center justify-center w-full h-full">
+            <IconBarbell className="h-5 w-5 text-muted-foreground" />
+          </div>
+        )}
       </div>
 
-      {/* Info */}
       <div className="flex-1 min-w-0">
         <div className="flex items-center gap-2">
           <h3 className="truncate font-medium text-foreground">{exercise.name}</h3>
@@ -33,7 +44,6 @@ export function ExerciseListItem({ exercise, onClick }: ExerciseListItemProps) {
         <p className="truncate text-sm text-muted-foreground">{exercise.muscleGroup}</p>
       </div>
 
-      {/* Arrow */}
       <IconChevronRight className="h-5 w-5 shrink-0 text-muted-foreground" />
     </button>
   );

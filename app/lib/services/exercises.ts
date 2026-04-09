@@ -1,23 +1,24 @@
-import { db } from '@/app/lib/firebaseConfig';
-import { collection, doc, getDoc, getDocs } from 'firebase/firestore';
-import { Exercise } from '@/app/types/exercise';
+import { db } from "@/app/lib/firebaseConfig";
+import { collection, doc, getDoc, getDocs } from "firebase/firestore";
+import { Exercise } from "@/app/types";
 
-export async function getExercises(): Promise<Exercise[]> {
-  const querySnapshot = await getDocs(collection(db, "exercises"));
-  
-  return querySnapshot.docs.map(doc => {
-    const data = doc.data();
-    
-    return {
-      ...data,
-      id: doc.id, 
-    } as Exercise;
-  });
-}
+export async function getUserExercises(userId: string): Promise<Exercise[]> {
+  if (!userId) return [];
 
-export async function getExercise(id: string): Promise<Exercise> {
-  const docSnapshot = await getDoc(doc(db, "exercises", id));
-  const data = docSnapshot.data();
-  
-  return data as Exercise;
+  try {
+    const exercisesRef = collection(db, "users", userId, "exercises");
+    const querySnapshot = await getDocs(exercisesRef);
+
+    return querySnapshot.docs.map((doc) => {
+      const data = doc.data();
+
+      return {
+        ...data,
+        id: doc.id,
+      } as Exercise;
+    });
+  } catch (error) {
+    console.error("Error:", error);
+    return [];
+  }
 }
