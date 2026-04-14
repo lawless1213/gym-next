@@ -7,7 +7,7 @@ import {
 
 export const navLinks = [
   { link: '/', label: 'home', icon: IconHome },
-  { link: '/library', label: 'library', icon: IconBarbell },
+  { link: '/library', label: 'library', icon: IconBarbell, loginRequired: true },
   { link: '/history', label: 'history', icon: IconHistory, loginRequired: true },
-  { link: '/stats', label: 'stats', icon: IconChartBar },
+  { link: '/stats', label: 'stats', icon: IconChartBar, loginRequired: true },
 ];

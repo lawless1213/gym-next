@@ -56,3 +56,13 @@ export interface BodyMeasurement {
   arms?: number;
   thighs?: number;
 }
+
+export interface ScheduleDay {
+  name: weekDay;
+  routines: Routine[];
+};
+
+export type ScheduleMap = Record<weekDay, Routine[]>;
+
+export const weekDays = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'] as const;
+export type weekDay = typeof weekDays[number];

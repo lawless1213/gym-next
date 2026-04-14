@@ -11,7 +11,140 @@
 	},
   "HomePage": {
     "header": {
-			"welcome": "З поверненням,"
+			"welcome": {
+				"auth": "З поверненням,",
+				"unauth": "Вітаємо,"
+			},
+			"guest": "Гість"
 		}
-  }
+  },
+	"home": {
+		"quickStats": {
+			"workoutsLabel": "Тренування",
+			"thisMonth": "Цього місяця",
+			"volumeLabel": "Обʼєм",
+			"kgLifted": "кг піднято",
+			"prsLabel": "PR"
+		},
+		"banner": {
+			"dayStreak": "12 днів поспіль",
+			"title": "Продовжуй рухатися до межі!",
+			"subtitle": "Ти на шляху до перевиконання тижневої цілі.",
+			"volumeChange": "+15% обʼєму порівняно з минулим тижнем"
+		},
+		"calendar": {
+			"thisWeek": "Цей тиждень"
+		},
+		"nextWorkout": {
+			"title": "Наступне тренування",
+			"exercises": "вправ",
+			"duration": "~45 хв",
+			"startButton": "Почати тренування"
+		}
+	},
+	"library": {
+		"title": "Бібліотека",
+		"subtitle": "Твої вправи та рутини",
+		"tabs": {
+			"exercises": "Вправи",
+			"routines": "Рутини"
+		},
+		"exercises": {
+			"searchPlaceholder": "Пошук вправ...",
+			"createAriaLabel": "Створити вправу",
+			"customBadge": "Власна"
+		},
+		"routines": {
+			"exercisesCount": "вправ",
+			"moreSuffix": "ще",
+			"createAriaLabel": "Створити рутину"
+		}
+	},
+	"history": {
+		"title": "Історія",
+		"subtitle": "Твій шлях тренувань",
+		"summary": {
+			"thisWeek": "Цей тиждень",
+			"workouts": "тренувань",
+			"volume": "Обʼєм",
+			"kgThisWeek": "кг цього тижня"
+		},
+		"list": {
+			"recentTitle": "Останні тренування",
+			"exercises": "вправ",
+			"kg": "кг",
+			"prSingle": "PR",
+			"prPlural": "PR"
+		}
+	},
+	"stats": {
+		"title": "Статистика",
+		"subtitle": "Відстежуй свій прогрес",
+		"tabs": {
+			"progress": "Прогрес",
+			"records": "Рекорди"
+		},
+		"measurements": {
+			"weight": "Вага",
+			"waist": "Талія",
+			"other": "Інші вимірювання",
+			"chestCm": "Груди (см)",
+			"armsCm": "Руки (см)",
+			"thighsCm": "Стегна (см)"
+		},
+		"records": {
+			"title": "Особисті рекорди",
+			"allTime": "Статистика за весь час",
+			"heaviestLift": "Найважчий підхід"
+		}
+	},
+	"workout": {
+		"title": "Сторінка тренування"
+	},
+	"common": {
+		"notFound": "Не знайдено"
+	},
+	"auth": {
+		"modal": {
+			"title": "Ласкаво просимо до GYM",
+			"registerTab": "реєстрація",
+			"loginTab": "вхід",
+			"alreadyHaveAccount": "Вже маєш акаунт? Увійти",
+			"dontHaveAccount": "Ще не маєш акаунта? Зареєструватися"
+		},
+		"fields": {
+			"email": "Електронна пошта",
+			"password": "Пароль"
+		},
+		"login": {
+			"submit": "Увійти",
+			"submitting": "Вхід..."
+		},
+		"signup": {
+			"submit": "Зареєструватися",
+			"submitting": "Реєстрація..."
+		},
+		"errors": {
+			"loginFailed": "Не вдалось увійти. Спробуйте ще раз.",
+			"signupFailed": "Не вдалось зареєструватися. Спробуйте ще раз."
+		}
+	},
+	"exercise": {
+		"modal": {
+			"videoUnsupported": "Ваш браузер не підтримує тег відео.",
+			"title": "Вправа {name}",
+			"authorPrefix": "від",
+			"instruction": "Інструкція:",
+			"notFound": "Вправу не знайдено"
+		}
+	},
+	"WeeklyCalendar": {
+		"mon": "Пн",
+		"tue": "Вт",
+		"wed": "Ср",
+		"thu": "Чт",
+		"fri": "Пт",
+		"sat": "Сб",
+		"sun": "Нд"
+	}
 }

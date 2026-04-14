@@ -21,7 +21,7 @@ export function HomeHeader() {
   return (
     <header className="flex items-center justify-between">
       <div>
-        <p className="text-sm text-muted-foreground">{t("header.welcome")}</p>
+        <p className="text-sm text-muted-foreground">{t(`header.welcome.${user ? "auth" : "unauth"}`)}</p>
         <h1 className="text-2xl font-bold text-foreground">{user ? user.displayName : t("header.guest")}</h1>
       </div>
       <div className="flex gap-1">

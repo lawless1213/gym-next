@@ -151,7 +151,7 @@ export const bodyMeasurements: BodyMeasurement[] = [
   { id: 'm7', date: '2026-04-01', weight: 79, waist: 80, chest: 105, arms: 38, thighs: 61 },
 ];
 
-export const weekDays = ['Mon', 'Tue', 'Wed', 'Thu', 'Fri', 'Sat', 'Sun'];
+export const weekDays = ['mon', 'tue', 'wed', 'thu', 'fri', 'sat', 'sun'];
 
 export const workoutSchedule: Record<string, string | null> = {
   'Mon': 'Push Day',

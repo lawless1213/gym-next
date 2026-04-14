@@ -28,8 +28,6 @@ export default function Routines() {
     fetchData();
   }, [userID]);
 
-  console.log(routines);
-
   return loading ? (
     <div className="flex items-center justify-center min-h-[300px]">
       <Loader />

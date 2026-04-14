@@ -11,7 +11,140 @@
 	},
   "HomePage": {
     "header": {
-			"welcome": "Welcome back,"
+			"welcome": {
+				"auth": "Welcome back,",
+				"unauth": "Welcome,"
+			},
+			"guest": "Guest"
 		}
-  }
+  },
+	"home": {
+		"quickStats": {
+			"workoutsLabel": "Workouts",
+			"thisMonth": "This month",
+			"volumeLabel": "Volume",
+			"kgLifted": "kg lifted",
+			"prsLabel": "PRs"
+		},
+		"banner": {
+			"dayStreak": "12 Day Streak",
+			"title": "Keep pushing your limits!",
+			"subtitle": "You're on track to beat your weekly goal.",
+			"volumeChange": "+15% volume vs last week"
+		},
+		"calendar": {
+			"thisWeek": "This Week"
+		},
+		"nextWorkout": {
+			"title": "Next Planned",
+			"exercises": "exercises",
+			"duration": "~45 min",
+			"startButton": "Start Workout"
+		}
+	},
+	"library": {
+		"title": "Library",
+		"subtitle": "Your exercises and routines",
+		"tabs": {
+			"exercises": "Exercises",
+			"routines": "Routines"
+		},
+		"exercises": {
+			"searchPlaceholder": "Search exercises...",
+			"createAriaLabel": "Create exercise",
+			"customBadge": "Custom"
+		},
+		"routines": {
+			"exercisesCount": "exercises",
+			"moreSuffix": "more",
+			"createAriaLabel": "Create routine"
+		}
+	},
+	"history": {
+		"title": "History",
+		"subtitle": "Your workout journey",
+		"summary": {
+			"thisWeek": "This Week",
+			"workouts": "workouts",
+			"volume": "Volume",
+			"kgThisWeek": "kg this week"
+		},
+		"list": {
+			"recentTitle": "Recent Workouts",
+			"exercises": "exercises",
+			"kg": "kg",
+			"prSingle": "PR",
+			"prPlural": "PRs"
+		}
+	},
+	"stats": {
+		"title": "Stats",
+		"subtitle": "Track your progress",
+		"tabs": {
+			"progress": "Progress",
+			"records": "Records"
+		},
+		"measurements": {
+			"weight": "Weight",
+			"waist": "Waist",
+			"other": "Other Measurements",
+			"chestCm": "Chest (cm)",
+			"armsCm": "Arms (cm)",
+			"thighsCm": "Thighs (cm)"
+		},
+		"records": {
+			"title": "Personal Records",
+			"allTime": "All-Time Stats",
+			"heaviestLift": "Heaviest Lift"
+		}
+	},
+	"workout": {
+		"title": "Workout Page"
+	},
+	"common": {
+		"notFound": "Not Found"
+	},
+	"auth": {
+		"modal": {
+			"title": "Welcome to GYM",
+			"registerTab": "register",
+			"loginTab": "login",
+			"alreadyHaveAccount": "Already have an account? Login",
+			"dontHaveAccount": "Don't have an account? Register"
+		},
+		"fields": {
+			"email": "Email",
+			"password": "Password"
+		},
+		"login": {
+			"submit": "Login",
+			"submitting": "Logging in..."
+		},
+		"signup": {
+			"submit": "Sign up",
+			"submitting": "Signing up..."
+		},
+		"errors": {
+			"loginFailed": "Failed to log in. Please try again.",
+			"signupFailed": "Failed to sign up. Please try again."
+		}
+	},
+	"exercise": {
+		"modal": {
+			"videoUnsupported": "Your browser does not support the video tag.",
+			"title": "Exercise {name}",
+			"authorPrefix": "by",
+			"instruction": "Instruction:",
+			"notFound": "Exercise not found"
+		}
+	},
+	"WeeklyCalendar": {
+		"mon": "Mon",
+		"tue": "Tue",
+		"wed": "Wed",
+		"thu": "Thu",
+		"fri": "Fri",
+		"sat": "Sat",
+		"sun": "Sun"
+	}
 }
