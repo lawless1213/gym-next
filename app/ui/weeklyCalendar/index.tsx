@@ -36,11 +36,9 @@ export function WeeklyCalendar() {
     };
     fetchData();
   }, [userID]);
-  
-  console.log(scheduleDays);
 
   const today = new Date().getDay();
-  // Convert Sunday=0 to Monday=0 based index
+  const todayDate = new Date().getDate();
   const todayIndex = today === 0 ? 6 : today - 1;
 
   return (
@@ -52,9 +50,6 @@ export function WeeklyCalendar() {
           const workout = scheduleDays[day];
           const hasWorkout = workout.length > 0;
           const isPast = index < todayIndex;
-
-          console.log(scheduleDays[day]);
-          
           
           return (
             <button
@@ -78,7 +73,7 @@ export function WeeklyCalendar() {
               <span className={`text-sm font-bold ${
                 isToday ? 'text-primary-foreground' : ''
               }`}>
-                {8 + index}
+                {(todayDate - todayIndex) + index}
               </span>
               {hasWorkout && (
                 <div className={`h-1.5 w-1.5 rounded-full ${
@@ -88,6 +83,9 @@ export function WeeklyCalendar() {
                 </>
               }
               
+              <div>
+               
+              </div>
             </button>
           );
         })}
