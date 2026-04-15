@@ -12,12 +12,12 @@ export function WeeklyCalendar() {
   const t = useTranslations("WeeklyCalendar");
   const { user } = useUser();
   const userID = user?.uid;
+
   const createEmptySchedule = (): ScheduleMap =>
     weekDays.reduce((acc, day) => {
       acc[day] = [];
       return acc;
     }, {} as ScheduleMap);
-
   const [scheduleDays, setScheduleDays] = useState<ScheduleMap>(createEmptySchedule());
   const [loading, setLoading] = useState(true);
   const [openCardIndex, setopenCardIndex] = useState<null | number>(null);
@@ -44,8 +44,6 @@ export function WeeklyCalendar() {
   const today = new Date().getDay();
   const todayDate = new Date().getDate();
   const todayIndex = today === 0 ? 6 : today - 1;
-
-  console.log(openCardIndex && scheduleDays[weekDays[openCardIndex]]);
 
   return (
     <div className="rounded-2xl bg-card p-4">

@@ -1,10 +1,16 @@
 import { db } from "@/app/lib/firebaseConfig";
 import { getDoc, doc, DocumentReference, DocumentData } from "firebase/firestore";
-import { weekDay, weekDays, ScheduleMap, Routine } from "@/app/types";
+import { Exercise, weekDay, weekDays, ScheduleMap, Routine } from "@/app/types";
 
 type ScheduleDoc = {
   name: weekDay;
   routine: Array<DocumentReference<DocumentData> | string>;
+};
+
+type RoutineDoc = {
+  name?: string;
+  color?: string;
+  exercises?: Array<DocumentReference<DocumentData> | string>;
 };
 
 function createEmptyScheduleMap(): ScheduleMap {
@@ -61,17 +67,46 @@ export async function getUserScheddule(userId: string): Promise<ScheduleMap> {
           .filter((ref): ref is DocumentReference<DocumentData> => ref !== null);
 
         const routineSnaps = await Promise.all(refs.map((ref) => getDoc(ref)));
-        const routines: Routine[] = routineSnaps
-          .filter((snap) => snap.exists())
-          .map((snap) => {
-            const routineData = snap.data() as Partial<Routine>;
-            return {
-              id: snap.id,
-              name: routineData.name ?? "",
-              color: routineData.color ?? "#2563EB",
-              exercises: [],
-            } satisfies Routine;
-          });
+        const routines: Routine[] = await Promise.all(
+          routineSnaps
+            .filter((snap) => snap.exists())
+            .map(async (snap) => {
+              const routineData = snap.data() as RoutineDoc;
+
+              const rawExercises = Array.isArray(routineData.exercises) ? routineData.exercises : [];
+              const exerciseRefs: DocumentReference<DocumentData>[] = rawExercises
+                .map((exerciseItem) => {
+                  if (exerciseItem && typeof exerciseItem === "object" && "id" in exerciseItem && "path" in exerciseItem) {
+                    return exerciseItem as DocumentReference<DocumentData>;
+                  }
+
+                  if (typeof exerciseItem === "string" && exerciseItem.trim()) {
+                    return doc(db, exerciseItem) as DocumentReference<DocumentData>;
+                  }
+
+                  return null;
+                })
+                .filter((ref): ref is DocumentReference<DocumentData> => ref !== null);
+
+              const exerciseSnaps = await Promise.all(exerciseRefs.map((ref) => getDoc(ref)));
+              const exercises: Exercise[] = exerciseSnaps
+                .filter((exerciseSnap) => exerciseSnap.exists())
+                .map((exerciseSnap) => {
+                  const exerciseData = exerciseSnap.data() as Omit<Exercise, "id">;
+                  return {
+                    id: exerciseSnap.id,
+                    ...exerciseData,
+                  };
+                });
+
+              return {
+                id: snap.id,
+                name: routineData.name ?? "",
+                color: routineData.color ?? "#2563EB",
+                exercises,
+              } satisfies Routine;
+            }),
+        );
 
         return {
           day: day.name,

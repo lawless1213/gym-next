@@ -1,6 +1,9 @@
 import { Routine } from "@/app/types";
 
 export default function RoutineCard(routine: Routine) {
+	console.log(routine);
+	
+
   return (
     <div
       key={routine.id}
