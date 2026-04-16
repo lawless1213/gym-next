@@ -1,6 +1,6 @@
 "use client";
 
-import { getUserScheddule } from "@/app/lib/services/schedule";
+import { getUserSchedule } from "@/app/lib/services/schedule";
 import { useUser } from "@/app/hooks/useUser";
 import { useEffect, useState } from "react";
 import { ScheduleMap, weekDays } from "@/app/types";
@@ -30,7 +30,7 @@ export function WeeklyCalendar() {
     }
     const fetchData = async () => {
       setLoading(true);
-      const data = await getUserScheddule(userID);
+      const data = await getUserSchedule(userID);
       setScheduleDays(data);
       setLoading(false);
     };
@@ -59,12 +59,12 @@ export function WeeklyCalendar() {
             <button
               key={day}
               onClick={() => cardToggler(index)}
-              className={`flex flex-1 flex-col items-center gap-1.5 rounded-xl py-2 transition-all min-h-[72px] overflow-hidden cursor-pointer ${loading && "animate-pulse"} ${isToday ? "border-primary border" : hasWorkout && !isPast ? "bg-secondary hover:bg-secondary/80" : "hover:bg-secondary/50"}`}>
+              className={`flex flex-1 flex-col items-center gap-1.5 rounded-xl py-2 transition-all min-h-[72px] overflow-hidden cursor-pointer ${hasWorkout && ""} ${loading && "animate-pulse"} ${isToday ? "border-primary border" : hasWorkout && !isPast ? "bg-secondary hover:bg-secondary/80" : "hover:bg-secondary/50"}`}>
               {!loading && (
                 <>
                   <span className="text-[12px] font-medium uppercase text-muted-foreground">{t(`${day}`)}</span>
                   <span className="text-sm font-bold">{todayDate - todayIndex + index}</span>
-                  {hasWorkout && <div className={`h-1.5 w-1.5 rounded-full ${isToday ? "bg-primary-foreground" : isPast ? "bg-muted-foreground" : "bg-primary"}`} />}
+                  {hasWorkout && <div className={`h-1.5 w-1.5 rounded-full ${isPast ? "bg-muted-foreground" : "bg-primary"}`} />}
                 </>
               )}
             </button>

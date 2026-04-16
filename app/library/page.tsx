@@ -6,8 +6,8 @@ import { Exercise } from '@/app/types';
 import { ExerciseCategory } from '@/app/ui/exerciseList';
 import { IconSearch, IconPlus, IconBarbell, IconFolderOpen } from '@tabler/icons-react';
 import { cn } from '@/app/lib/utils';
-import Exercises from './exercises';
-import Routines from './routines';
+import Exercises from './content/exercises';
+import Routines from './content/routines';
 
 type LibraryTab = 'exercises' | 'routines';
 

@@ -3,10 +3,10 @@
 import { useState, useMemo, useEffect } from "react";
 import { IconPlus } from "@tabler/icons-react";
 import { useUser } from "@/app/hooks/useUser";
-import { Routine } from "../types";
-import { getUserRoutines } from "../lib/services/routines";
-import Loader from "../ui/common/loader";
-import RoutineCard from "../ui/cards/routine";
+import { Routine } from "../../types";
+import { getUserRoutines } from "../../lib/services/routines";
+import Loader from "../../ui/common/loader";
+import RoutineCard from "../../ui/cards/routine";
 
 
 export default function Routines() {
