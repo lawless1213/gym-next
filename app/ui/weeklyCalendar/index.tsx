@@ -21,6 +21,12 @@ export function WeeklyCalendar() {
   const [scheduleDays, setScheduleDays] = useState<ScheduleMap>(createEmptySchedule());
   const [loading, setLoading] = useState(true);
   const [openCardIndex, setopenCardIndex] = useState<null | number>(null);
+  
+  const d = new Date();
+  const today = d.getDay();
+  const todayDate = d.getDate();
+  const todayIndex = today === 0 ? 6 : today - 1;
+
 
   useEffect(() => {
     if (!userID) {
@@ -40,10 +46,6 @@ export function WeeklyCalendar() {
   const cardToggler = (index: number) => {
     setopenCardIndex((prev) => (prev === index ? null : index));
   };
-
-  const today = new Date().getDay();
-  const todayDate = new Date().getDate();
-  const todayIndex = today === 0 ? 6 : today - 1;
 
   return (
     <div className="rounded-2xl bg-card p-4">

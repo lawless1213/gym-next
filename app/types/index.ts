@@ -1,3 +1,5 @@
+import { Timestamp } from "firebase/firestore";
+
 export interface Exercise {
   id: string;
   name: string;
@@ -8,27 +10,25 @@ export interface Exercise {
 }
 
 export interface WorkoutSet {
-  id: string;
-  weight: number;
   reps: number;
+  weight: number;
   completed: boolean;
-  lastWeight?: number;
-  lastReps?: number;
 }
 
 export interface WorkoutExercise {
-  id: string;
-  exercise: Exercise;
+  exerciseId: string;
+  name: string;
   sets: WorkoutSet[];
 }
 
-export interface Workout {
-  id: string;
-  name: string;
-  date: string;
-  exercises: WorkoutExercise[];
-  completed: boolean;
+export interface WorkoutSession {
+  id?: string;
+  routineId: string;
+  routineName: string
+  startedAt: Timestamp;
+  finishedAt?: Timestamp;
   duration?: number;
+  exercises: WorkoutExercise[];
 }
 
 export interface Routine {
@@ -36,6 +36,7 @@ export interface Routine {
   name: string;
   exercises: Exercise[];
   color: string;
+  completed?: boolean;
 }
 
 export interface PersonalRecord {
