@@ -1,6 +1,6 @@
 import { db } from "@/app/lib/firebaseConfig";
 import { getDoc, doc } from "firebase/firestore";
-import { weekDay, weekDays, ScheduleMap } from "@/app/types";
+import { weekDay, weekDays, ScheduleMap, Routine } from "@/app/types";
 import { toDocRef, resolveRoutines } from "./firestoreUtils";
 import { getDateOfWeek } from "../utils";
 import { getUserHistoryForPeriod } from "./history";
@@ -16,6 +16,25 @@ function createEmptyScheduleMap(): ScheduleMap {
     acc[day] = [];
     return acc;
   }, {} as ScheduleMap);
+}
+
+export function getNextPendingRoutine(
+  scheduleMap: ScheduleMap,
+  todayDate: Date = new Date()
+): Routine | null {
+  const jsDay = todayDate.getDay();
+  const todayIndex = jsDay === 0 ? 6 : jsDay - 1;
+
+  for (let dayIndex = todayIndex; dayIndex < weekDays.length; dayIndex += 1) {
+    const day = weekDays[dayIndex];
+    const nextRoutine = scheduleMap[day].find((routine) => !routine.completed);
+
+    if (nextRoutine) {
+      return nextRoutine;
+    }
+  }
+
+  return null;
 }
 
 export async function getUserSchedule(userId: string): Promise<ScheduleMap> {
