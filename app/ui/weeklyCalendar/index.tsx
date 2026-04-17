@@ -8,6 +8,7 @@ import { useTranslations } from "next-intl";
 import { AnimatePresence, motion } from "motion/react";
 import RoutineCard from "../cards/routine";
 
+
 export function WeeklyCalendar() {
   const t = useTranslations("WeeklyCalendar");
   const { user } = useUser();
