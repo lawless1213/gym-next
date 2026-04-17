@@ -10,7 +10,7 @@ import RoutineCard from "../cards/routine";
 
 
 export function WeeklyCalendar() {
-  const t = useTranslations("WeeklyCalendar");
+  const t = useTranslations("HomePage.weeklyCalendar");
   const { user } = useUser();
   const userID = user?.uid;
 
@@ -50,7 +50,7 @@ export function WeeklyCalendar() {
 
   return (
     <div className="rounded-2xl bg-card p-4">
-      <h3 className="mb-3 text-sm font-semibold text-muted-foreground">This Week</h3>
+      <h3 className="mb-3 text-sm font-semibold text-muted-foreground">{t("title")}</h3>
       <div className="flex items-center justify-between gap-1">
         {weekDays.map((day, index) => {
           const isToday = index === todayIndex;

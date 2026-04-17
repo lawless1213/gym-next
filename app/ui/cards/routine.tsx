@@ -1,7 +1,11 @@
 import { Routine } from "@/app/types";
 import { IconPlayerPlay, IconChecks } from "@tabler/icons-react";
+import { useTranslations } from "next-intl";
+
 
 export default function RoutineCard(routine: Routine) {
+  const t = useTranslations("components.routineCard");
+
   return (
     <div
       key={routine.id}
@@ -11,7 +15,7 @@ export default function RoutineCard(routine: Routine) {
         <h3 className="font-semibold text-foreground">
           {routine.name}
         </h3>
-        <p className="text-sm text-muted-foreground">{routine.exercises.length} exercises</p>
+        <p className="text-sm text-muted-foreground">{t("amount")}: {routine.exercises.length}</p>
         <div className="mt-2 flex flex-wrap gap-1">
           {routine.exercises.slice(0, 3).map((ex) => (
             <span
@@ -20,7 +24,7 @@ export default function RoutineCard(routine: Routine) {
               {ex.name}
             </span>
           ))}
-          {routine.exercises.length > 3 && <span className="rounded-md bg-secondary px-2 py-0.5 text-xs text-muted-foreground">+{routine.exercises.length - 3} more</span>}
+          {routine.exercises.length > 3 && <span className="rounded-md bg-secondary px-2 py-0.5 text-xs text-muted-foreground">+{routine.exercises.length - 3}</span>}
         </div>
       </div>
       {routine.completed ? (

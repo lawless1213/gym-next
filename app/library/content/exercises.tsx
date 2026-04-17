@@ -7,8 +7,10 @@ import { IconSearch, IconPlus, IconBarbell, IconFolderOpen } from "@tabler/icons
 import { getUserExercises } from "../../lib/services/exercises";
 import { useUser } from "@/app/hooks/useUser";
 import Loader from "../../ui/common/loader";
+import { useTranslations } from "next-intl";
 
 export default function Exercises() {
+  const t = useTranslations("Library.exercises");
   const { user } = useUser();
   const userID = user?.uid;
   const [searchQuery, setSearchQuery] = useState("");
@@ -58,7 +60,7 @@ export default function Exercises() {
         <IconSearch className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
         <input
           type="text"
-          placeholder="Search exercises..."
+          placeholder={t('searchPlaceholder')}
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className="w-full rounded-xl bg-card py-3 pl-10 pr-4 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"

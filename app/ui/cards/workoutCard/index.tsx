@@ -1,14 +1,18 @@
 "use client";
 
 import { Routine } from "@/app/types";
-import { IconPlayerPlayFilled, IconClock, IconBarbell } from "@tabler/icons-react";
+import { IconPlayerPlayFilled, IconBarbell } from "@tabler/icons-react";
 import { Button } from "@/app/ui/common/button";
+import { useTranslations } from "next-intl";
+
 
 interface WorkoutCardProps {
   routine: Routine;
 }
 
 export function WorkoutCard({ routine }: WorkoutCardProps) {
+  const t = useTranslations("HomePage.worcoutCard");
+
   return (
     <div className="overflow-hidden rounded-2xl bg-card">
       <div
@@ -19,13 +23,13 @@ export function WorkoutCard({ routine }: WorkoutCardProps) {
         }}>
         <div className="flex h-full flex-col justify-between">
           <div>
-            <span className="text-xs font-medium text-muted-foreground">Next Planned</span>
+            <span className="text-xs font-medium text-muted-foreground">{t("title")}</span>
             <h3 className="text-xl font-bold text-foreground">{routine.name}</h3>
           </div>
           <div className="flex items-center gap-4 text-sm text-muted-foreground">
             <span className="flex items-center gap-1">
               <IconBarbell className="h-3.5 w-3.5" />
-              {routine.exercises.length} exercises
+              {t("exercisesValue")}: {routine.exercises.length}
             </span>
           </div>
           <div className="mt-2 flex flex-wrap gap-1">
@@ -42,10 +46,10 @@ export function WorkoutCard({ routine }: WorkoutCardProps) {
       </div> 
       <div className="p-4 pt-3">
         <Button
-          className="w-full gap-2 bg-primary text-primary-foreground hover:bg-primary/90"
+          className="w-full gap-2 bg-primary cursor-pointer text-primary-foreground hover:bg-primary/90"
           size="lg">
           <IconPlayerPlayFilled className="h-5 w-5 fill-current" />
-          Start Workout
+          {t("startButton")}
         </Button>
       </div>
     </div>

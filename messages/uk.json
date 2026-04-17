@@ -1,13 +1,19 @@
 {
-	"languages": {
-		"uk": "Українська",
-		"en": "Англійська"
-	},
-	"bottomNav": {
-		"home" : "Головна",
-		"library" : "Бібліотека",
-		"history" : "Історія",
-		"stats" : "Статистика"
+	
+	"components": {
+		"languages": {
+			"uk": "Українська",
+			"en": "Англійська"
+		},
+		"bottomNav": {
+			"home" : "Головна",
+			"library" : "Бібліотека",
+			"history" : "Історія",
+			"stats" : "Статистика"
+		},
+		"routineCard": {
+			"amount": "Кіл-сть вправ"
+		}
 	},
   "HomePage": {
     "header": {
@@ -16,50 +22,57 @@
 				"unauth": "Вітаємо,"
 			},
 			"guest": "Гість"
-		}
-  },
-	"home": {
-		"quickStats": {
-			"workoutsLabel": "Тренування",
-			"thisMonth": "Цього місяця",
-			"volumeLabel": "Обʼєм",
-			"kgLifted": "кг піднято",
-			"prsLabel": "PR"
 		},
+		"weeklyCalendar": {
+			"title": "Графік тренувань",
+			"mon": "Пн",
+			"tue": "Вт",
+			"wed": "Ср",
+			"thu": "Чт",
+			"fri": "Пт",
+			"sat": "Сб",
+			"sun": "Нд"
+		},
+		"worcoutCard": {
+			"title": "Наступне тренування",
+			"exercisesValue": "Кіл-сть вправ",
+			"startButton": "Почати тренування"
+		},
+
+
 		"banner": {
 			"dayStreak": "12 днів поспіль",
 			"title": "Продовжуй рухатися до межі!",
 			"subtitle": "Ти на шляху до перевиконання тижневої цілі.",
 			"volumeChange": "+15% обʼєму порівняно з минулим тижнем"
 		},
-		"calendar": {
-			"thisWeek": "Цей тиждень"
-		},
-		"nextWorkout": {
-			"title": "Наступне тренування",
-			"exercises": "вправ",
-			"duration": "~45 хв",
-			"startButton": "Почати тренування"
+		"quickStats": {
+			"workoutsLabel": "Тренування",
+			"thisMonth": "Цього місяця",
+			"volumeLabel": "Обʼєм",
+			"kgLifted": "кг піднято",
+			"prsLabel": "PR"
 		}
 	},
-	"library": {
-		"title": "Бібліотека",
-		"subtitle": "Твої вправи та рутини",
+
+
+	"Library": {
+		"title": "База знань",
+		"subtitle": "Твої вправи та програми",
 		"tabs": {
 			"exercises": "Вправи",
-			"routines": "Рутини"
+			"routines": "Програми"
 		},
 		"exercises": {
 			"searchPlaceholder": "Пошук вправ...",
 			"createAriaLabel": "Створити вправу",
 			"customBadge": "Власна"
-		},
-		"routines": {
-			"exercisesCount": "вправ",
-			"moreSuffix": "ще",
-			"createAriaLabel": "Створити рутину"
 		}
 	},
+
+
+
+	
 	"history": {
 		"title": "Історія",
 		"subtitle": "Твій шлях тренувань",
@@ -77,6 +90,7 @@
 			"prPlural": "PR"
 		}
 	},
+
 	"stats": {
 		"title": "Статистика",
 		"subtitle": "Відстежуй свій прогрес",
@@ -98,12 +112,15 @@
 			"heaviestLift": "Найважчий підхід"
 		}
 	},
+
 	"workout": {
 		"title": "Сторінка тренування"
 	},
+
 	"common": {
 		"notFound": "Не знайдено"
 	},
+
 	"auth": {
 		"modal": {
 			"title": "Ласкаво просимо до GYM",
@@ -137,14 +154,5 @@
 			"instruction": "Інструкція:",
 			"notFound": "Вправу не знайдено"
 		}
-	},
-	"WeeklyCalendar": {
-		"mon": "Пн",
-		"tue": "Вт",
-		"wed": "Ср",
-		"thu": "Чт",
-		"fri": "Пт",
-		"sat": "Сб",
-		"sun": "Нд"
 	}
 }

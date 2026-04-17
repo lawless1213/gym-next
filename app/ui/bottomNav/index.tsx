@@ -8,7 +8,7 @@ import { useUser } from "@/app/hooks/useUser";
 
 
 export function BottomNav() {
-  const t = useTranslations("bottomNav");
+  const t = useTranslations("components.bottomNav");
   const { user } = useUser();
 
   const pathname = usePathname();
