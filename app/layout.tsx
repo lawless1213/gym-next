@@ -4,6 +4,7 @@ import "./globals.css";
 import { BottomNav } from "./ui/bottomNav";
 import { AuthProvider } from "./hooks/useAuth";
 import { NextIntlClientProvider } from "next-intl";
+import { ThemeProvider } from "./providers/theme-provider";
 
 const inter = Inter({ 
   subsets: ["latin"],
@@ -23,15 +24,17 @@ export default function RootLayout({
   modal: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" suppressHydrationWarning>
       <body className={`${inter.variable} antialiased flex min-h-screen flex-col bg-background`}>
-        <NextIntlClientProvider>
-          <AuthProvider>
-            <BottomNav />
-            <main className="flex-1 overflow-y-auto p-4 pb-24">{children}</main>
-            {modal}
-          </AuthProvider>
-        </NextIntlClientProvider>
+        <ThemeProvider>
+          <NextIntlClientProvider>
+            <AuthProvider>
+              <BottomNav />
+              <main className="flex-1 overflow-y-auto p-4 pb-24">{children}</main>
+              {modal}
+            </AuthProvider>
+          </NextIntlClientProvider>
+        </ThemeProvider>
       </body>
     </html>
   );

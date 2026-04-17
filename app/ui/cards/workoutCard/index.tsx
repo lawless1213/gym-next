@@ -39,7 +39,7 @@ export function WorkoutCard({ routine }: WorkoutCardProps) {
             {routine.exercises.length > 3 && <span className="rounded-md bg-secondary px-2 py-0.5 text-xs text-muted-foreground">+{routine.exercises.length - 3} more</span>}
           </div>
         </div>
-      </div>
+      </div> 
       <div className="p-4 pt-3">
         <Button
           className="w-full gap-2 bg-primary text-primary-foreground hover:bg-primary/90"
