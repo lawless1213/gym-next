@@ -1,15 +1,18 @@
 "use client";
 
-import { useLocale, useTranslations } from "next-intl";
+import { useLocale } from "next-intl";
 import { setUserLocale } from "@/app/lib/i18n/i18n-action";
 import { IconUser, IconLogout, IconMoon, IconSun } from "@tabler/icons-react";
 import Link from "next/link";
 import { useAuth } from "@/app/hooks/useAuth";
 import { useAppTheme } from "@/app/hooks/useAppTheme";
 
+type HeaderProps = {
+  title: string,
+  subtitle: string
+}
 
-export function HomeHeader() {
-  const t = useTranslations("HomePage");
+export function Header(props: HeaderProps) {
   const locale = useLocale();
   const { user, logout } = useAuth();
   const { mounted, isDark, toggleTheme } = useAppTheme();
@@ -24,8 +27,9 @@ export function HomeHeader() {
   return (
     <header className="flex items-center justify-between">
       <div>
-        <p className="text-sm text-muted-foreground">{t(`header.welcome.${user ? "auth" : "unauth"}`)}</p>
-        <h1 className="text-2xl font-bold text-foreground">{user ? user.displayName : t("header.guest")}</h1>
+        <h1 className="text-2xl font-bold text-foreground">{props.subtitle}</h1>
+        <p className="text-sm text-muted-foreground">{props.title}</p>
+   
       </div>
       <div className="flex gap-1">
         {mounted && <button

@@ -47,9 +47,10 @@
 	"HomePage": {
 		"header": {
 			"welcome": {
-				"auth": "Welcome back,",
-				"unauth": "Welcome,"
+				"auth": "welcome back",
+				"unauth": "welcome"
 			},
+			"user": "{user},",
 			"guest": "Guest"
 		},
 		"weeklyCalendar": {

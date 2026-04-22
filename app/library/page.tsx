@@ -9,6 +9,7 @@ import { cn } from '@/app/lib/utils';
 import Exercises from './content/exercises';
 import Routines from './content/routines';
 import { useTranslations } from "next-intl";
+import { Header } from '../ui/Header';
 
 
 type LibraryTab = 'exercises' | 'routines';
@@ -19,10 +20,10 @@ export default function LibraryScreen() {
 
   return (
     <div className="flex flex-col gap-4 pb-4">
-      <header>
-        <h1 className="text-2xl font-bold text-foreground">{t('title')}</h1>
-        <p className="text-sm text-muted-foreground">{t('subtitle')}</p>
-      </header>
+      <Header
+        title={t('title')}
+        subtitle={t('subtitle')}
+      />
 
       <div className="flex gap-2 rounded-xl bg-secondary p-1">
         <button

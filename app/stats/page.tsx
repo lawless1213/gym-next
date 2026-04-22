@@ -13,6 +13,8 @@ import {
   Tooltip,
   ResponsiveContainer,
 } from 'recharts';
+import { Header } from '../ui/Header';
+import { useTranslations } from 'next-intl';
 
 type StatsTab = 'progress' | 'records';
 
@@ -23,6 +25,7 @@ const chartData = bodyMeasurements.map((m) => ({
 }));
 
 export default function Stats() {
+  const t = useTranslations("stats");
   const [activeTab, setActiveTab] = useState<StatsTab>('progress');
   const [selectedMetric, setSelectedMetric] = useState<'weight' | 'waist'>('weight');
 
@@ -35,10 +38,10 @@ export default function Stats() {
   return (
     <div className="flex flex-col gap-4 pb-4">
       {/* Header */}
-      <header>
-        <h1 className="text-2xl font-bold text-foreground">Stats</h1>
-        <p className="text-sm text-muted-foreground">Track your progress</p>
-      </header>
+      <Header
+        title={t('title')}
+        subtitle={t('subtitle')}
+      />
 
       {/* Tabs */}
       <div className="flex gap-2 rounded-xl bg-secondary p-1">

@@ -6,7 +6,7 @@ import QuickStat from "@/app/ui/common/quickStat";
 import { WeeklyCalendar } from "@/app/ui/weeklyCalendar";
 import { WorkoutCard } from "@/app/ui/cards/workoutCard";
 import { MotivationalBanner } from "@/app/ui/motivationalBanner";
-import { HomeHeader } from "@/app/ui/homeHeader";
+import { Header } from "@/app/ui/Header";
 import { useAuth } from "@/app/hooks/useAuth";
 import { getUserSchedule, getNextPendingRoutine } from "@/app/lib/services/schedule";
 import { Routine } from "@/app/types";
@@ -42,7 +42,10 @@ export default function Home() {
 
   return (
     <div className="flex flex-col gap-4 pb-4">
-      <HomeHeader />
+      <Header 
+        title={ t(`header.welcome.${user ? "auth" : "unauth"}`) } 
+        subtitle={ user && user.displayName ? t("header.user", {user: user.displayName}) : t("header.guest") }
+      />
 
       {/* Weekly Calendar */}
       <WeeklyCalendar />

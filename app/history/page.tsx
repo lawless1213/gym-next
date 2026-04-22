@@ -4,9 +4,11 @@ import { IconCalendarWeekFilled, IconClock, IconBarbell, IconTrendingUp} from '@
 import { getUserHistoryForPeriod } from '../lib/services/history';
 import { useUser } from "@/app/hooks/useUser";
 import { useEffect, useState } from "react";
-import { WorkoutSession } from '../types';
+import { WorkoutSession as workoutSessionType } from '../types';
 import { useTranslations } from "next-intl";
 import { getDateOfWeek } from '../lib/utils';
+import WorkoutSession from './_components/workoutSession';
+import { Header } from '../ui/Header';
 
 export default function History() {
   const t = useTranslations("History");
@@ -16,7 +18,7 @@ export default function History() {
   const userId = user?.uid;
   const startOfWeek = getDateOfWeek('start');
   const endOfWeek = getDateOfWeek('end');
-  const [history, setHistory] = useState<WorkoutSession[]>([]);
+  const [history, setHistory] = useState<workoutSessionType[]>([]);
   const [loading, setLoading] = useState(true);
   const weeklyVolume = history.reduce((total, workout) => total + (workout.volume ?? 0), 0);
 
@@ -36,10 +38,10 @@ export default function History() {
   
   return (
     <div className="flex flex-col gap-4 pb-4">
-      <header>
-        <h1 className="text-2xl font-bold text-foreground">{t('title')}</h1>
-        <p className="text-sm text-muted-foreground">{t('subtitle')}</p>
-      </header>
+      <Header
+        title={t('title')}
+        subtitle={t('subtitle')}
+      />
 
       <div className="grid grid-cols-2 gap-3">
         <div className="rounded-xl bg-card p-4">
@@ -64,50 +66,9 @@ export default function History() {
 
       <div className="space-y-3">
         <h2 className="text-sm font-semibold text-muted-foreground">{t('list.recentTitle')}</h2>
-        {history.map((workout) => {
-          const date = new Date(workout.startedAt);
-          const volume = workout.volume ?? 0;
-          
-          return(
-          <button
-            key={workout.id}
-            className="flex w-full items-center gap-4 rounded-xl bg-card p-4 text-left transition-colors hover:bg-secondary"
-          >
-            <div className="flex h-12 w-12 shrink-0 flex-col items-center justify-center rounded-xl bg-secondary">
-              <span className="text-xs font-medium text-muted-foreground">
-                {tMonth(`short.${String(date.getMonth() + 1)}`)}
-              </span>
-							<span className="text-lg font-bold text-foreground">
-								{date.getDate()}
-							</span>
-            </div>
-
-            <div className="flex-1">
-              <div className="flex items-center gap-2">
-                <h3 className="font-semibold text-foreground">{workout.routineName}</h3>
-              </div>
-              <div className="mt-1 flex items-center gap-4 text-sm text-muted-foreground">
-                <span className="flex items-center gap-1">
-                  <IconClock className="h-3.5 w-3.5" />
-                  {workout.duration}m
-                </span>
-                <span className="flex items-center gap-1">
-                  <IconBarbell className="h-3.5 w-3.5" />
-                  {workout.exercises.length}
-                </span>
-              </div>
-            </div>
-
-            <div className="text-right">
-              <p className="font-semibold text-foreground">
-                {volume >= 1000 ? `${(volume / 1000).toFixed(1)}K` : volume}
-              </p>
-              <p className="text-xs text-muted-foreground">
-                {t('list.kg')}
-              </p>
-            </div>
-          </button>
-        )})}
+        {history.map((workout) => (
+          <WorkoutSession key={workout.id} {...workout} />
+        ))}
       </div>
     </div>
   );
