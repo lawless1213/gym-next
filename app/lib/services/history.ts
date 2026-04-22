@@ -2,6 +2,16 @@ import { collection, query, orderBy, limit, where, getDocs, Timestamp } from "fi
 import { db } from "@/app/lib/firebaseConfig";
 import { WorkoutSession } from "@/app/types";
 
+function calculateWorkoutVolume(workout: WorkoutSession): number {
+  return workout.exercises.reduce((workoutTotal, exercise) => {
+    const exerciseVolume = exercise.sets.reduce((setTotal, set) => {
+      if (!set.completed) return setTotal;
+      return setTotal + set.reps * set.weight;
+    }, 0);
+    return workoutTotal + exerciseVolume;
+  }, 0);
+}
+
 export async function getUserHistoryForPeriod(
   userId: string,
   fromDate: Date,
@@ -15,18 +25,18 @@ export async function getUserHistoryForPeriod(
   );
 
   const snapshot = await getDocs(q);
-
-	console.log(snapshot);
-	
   
   return snapshot.docs.map(doc => {
     const data = doc.data();
-    return {
+    const workout = {
       id: doc.id,
       ...data,
-      // Конвертуємо Timestamp у формат, який "розуміє" Next.js props
       startedAt: data.startedAt?.toDate().toISOString(), 
     } as unknown as WorkoutSession;
+    return {
+      ...workout,
+      volume: calculateWorkoutVolume(workout),
+    };
   });
 }
 
@@ -41,5 +51,17 @@ export async function getUserLastHistory(
   );
 
   const snapshot = await getDocs(q);
-  return snapshot.docs.map(doc => ({ id: doc.id, ...doc.data() } as WorkoutSession));
+  
+  return snapshot.docs.map(doc => {
+    const data = doc.data();
+    const workout = {
+      id: doc.id,
+      ...data,
+      startedAt: data.startedAt?.toDate().toISOString(), 
+    } as unknown as WorkoutSession;
+    return {
+      ...workout,
+      volume: calculateWorkoutVolume(workout),
+    };
+  });
 }
