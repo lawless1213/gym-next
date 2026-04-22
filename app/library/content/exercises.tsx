@@ -8,29 +8,15 @@ import { getUserExercises } from "../../lib/services/exercises";
 import { useUser } from "@/app/hooks/useUser";
 import Loader from "../../ui/common/loader";
 import { useTranslations } from "next-intl";
+import { useExercises } from "@/app/hooks/useServices/useExercises";
 
 export default function Exercises() {
   const t = useTranslations("Library.exercises");
   const { user } = useUser();
   const userID = user?.uid;
   const [searchQuery, setSearchQuery] = useState("");
-  const [exercises, setExercises] = useState<Exercise[]>([]);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if (!userID) {
-      setExercises([]);
-      setLoading(false);
-      return;
-    }
-    const fetchData = async () => {
-      setLoading(true);
-      const data = await getUserExercises(userID);
-      setExercises(data);
-      setLoading(false);
-    };
-    fetchData();
-  }, [userID]);
+  const { data: exercises = [], isLoading: loading } = useExercises(userID);
 
   const filteredExercises = useMemo(() => {
     if (!searchQuery) return exercises;

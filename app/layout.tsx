@@ -1,14 +1,15 @@
-import type { Metadata } from 'next'
+import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { BottomNav } from "./ui/bottomNav";
 import { AuthProvider } from "./hooks/useAuth";
 import { NextIntlClientProvider } from "next-intl";
 import { ThemeProvider } from "./providers/theme-provider";
+import { QueryProvider } from "./providers/QueryProvider";
 
-const inter = Inter({ 
+const inter = Inter({
   subsets: ["latin"],
-  variable: "--font-inter"
+  variable: "--font-inter",
 });
 
 export const metadata: Metadata = {
@@ -24,14 +25,18 @@ export default function RootLayout({
   modal: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
+    <html
+      lang="en"
+      suppressHydrationWarning>
       <body className={`${inter.variable} antialiased flex min-h-screen flex-col bg-background`}>
         <ThemeProvider>
           <NextIntlClientProvider>
             <AuthProvider>
-              <BottomNav />
-              <main className="flex-1 overflow-y-auto p-4 pb-24">{children}</main>
-              {modal}
+              <QueryProvider>
+                <BottomNav />
+                <main className="flex-1 overflow-y-auto p-4 pb-24">{children}</main>
+                {modal}
+              </QueryProvider>
             </AuthProvider>
           </NextIntlClientProvider>
         </ThemeProvider>
