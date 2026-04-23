@@ -9,6 +9,7 @@ import { useTranslations } from "next-intl";
 import { getDateOfWeek } from '../lib/utils';
 import WorkoutSession from './_components/workoutSession';
 import { Header } from '../ui/Header';
+import { useHistoryForPeriod } from '../hooks/useServices/useHistory';
 
 export default function History() {
   const t = useTranslations("History");
@@ -18,23 +19,10 @@ export default function History() {
   const userId = user?.uid;
   const startOfWeek = getDateOfWeek('start');
   const endOfWeek = getDateOfWeek('end');
-  const [history, setHistory] = useState<workoutSessionType[]>([]);
-  const [loading, setLoading] = useState(true);
+  
+  const { data: history = [], isLoading: loading } = useHistoryForPeriod(userId, startOfWeek, endOfWeek);
+  
   const weeklyVolume = history.reduce((total, workout) => total + (workout.volume ?? 0), 0);
-
-  useEffect(() => {
-    if (!userId) {
-      setLoading(false);
-      return;
-    }
-    const fetchData = async () => {
-      setLoading(true);
-      const data = await getUserHistoryForPeriod(userId, startOfWeek, endOfWeek);
-      setHistory(data);
-      setLoading(false);
-    };
-    fetchData();
-  }, [userId]);
   
   return (
     <div className="flex flex-col gap-4 pb-4">

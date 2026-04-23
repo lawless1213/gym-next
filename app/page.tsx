@@ -8,37 +8,26 @@ import { WorkoutCard } from "@/app/ui/cards/workoutCard";
 import { MotivationalBanner } from "@/app/ui/motivationalBanner";
 import { Header } from "@/app/ui/Header";
 import { useAuth } from "@/app/hooks/useAuth";
-import { getUserSchedule, getNextPendingRoutine } from "@/app/lib/services/schedule";
+import { getNextPendingRoutine } from "@/app/lib/services/schedule";
 import { Routine } from "@/app/types";
+import { useSchedule } from "@/app/hooks/useServices/useSchedule";
 
 export default function Home() {
   const t = useTranslations("HomePage");
   const { user } = useAuth();
   const [nextRoutine, setNextRoutine] = useState<Routine | null>(null);
 
+  const userID = user?.uid;
+  const { data: scheduleMap } = useSchedule(userID);
+
   useEffect(() => {
-    let isMounted = true;
-
-    const loadNextRoutine = async () => {
-      if (!user?.uid) {
-        if (isMounted) setNextRoutine(null);
-        return;
-      }
-
-      const scheduleMap = await getUserSchedule(user.uid);
-      const routine = getNextPendingRoutine(scheduleMap);
-
-      if (isMounted) {
-        setNextRoutine(routine);
-      }
-    };
-
-    loadNextRoutine();
-
-    return () => {
-      isMounted = false;
-    };
-  }, [user?.uid]);
+    if (!userID || !scheduleMap) {
+      setNextRoutine(null);
+      return;
+    }
+    const routine = getNextPendingRoutine(scheduleMap);
+    setNextRoutine(routine);
+  }, [userID, scheduleMap]);
 
   return (
     <div className="flex flex-col gap-4 pb-4">

@@ -1,48 +1,34 @@
 "use client";
 
-import { getUserSchedule } from "@/app/lib/services/schedule";
 import { useUser } from "@/app/hooks/useUser";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { ScheduleMap, weekDays } from "@/app/types";
 import { useTranslations } from "next-intl";
 import { AnimatePresence, motion } from "motion/react";
 import RoutineCard from "../cards/routine";
+import { useSchedule } from "@/app/hooks/useServices/useSchedule";
 
 
 export function WeeklyCalendar() {
   const t = useTranslations("HomePage.weeklyCalendar");
   const { user } = useUser();
   const userID = user?.uid;
+  const [openCardIndex, setopenCardIndex] = useState<null | number>(null);
+
+  const d = new Date();
+  const today = d.getDay();
+  const todayDate = d.getDate();
+  const todayIndex = today === 0 ? 6 : today - 1;
 
   const createEmptySchedule = (): ScheduleMap =>
     weekDays.reduce((acc, day) => {
       acc[day] = [];
       return acc;
     }, {} as ScheduleMap);
-  const [scheduleDays, setScheduleDays] = useState<ScheduleMap>(createEmptySchedule());
-  const [loading, setLoading] = useState(true);
-  const [openCardIndex, setopenCardIndex] = useState<null | number>(null);
   
-  const d = new Date();
-  const today = d.getDay();
-  const todayDate = d.getDate();
-  const todayIndex = today === 0 ? 6 : today - 1;
-
-
-  useEffect(() => {
-    if (!userID) {
-      setScheduleDays(createEmptySchedule());
-      setLoading(false);
-      return;
-    }
-    const fetchData = async () => {
-      setLoading(true);
-      const data = await getUserSchedule(userID);
-      setScheduleDays(data);
-      setLoading(false);
-    };
-    fetchData();
-  }, [userID]);
+  const emptySchedule = createEmptySchedule();
+  const { data, isLoading } = useSchedule(userID);
+  const scheduleDays: ScheduleMap = userID ? (data ?? emptySchedule) : emptySchedule;
 
   const cardToggler = (index: number) => {
     setopenCardIndex((prev) => (prev === index ? null : index));
@@ -62,8 +48,8 @@ export function WeeklyCalendar() {
             <button
               key={day}
               onClick={() => cardToggler(index)}
-              className={`flex flex-1 flex-col items-center gap-1.5 rounded-xl py-2 transition-all min-h-[72px] overflow-hidden cursor-pointer ${hasWorkout && ""} ${loading && "animate-pulse"} ${isToday ? "border-primary border" : hasWorkout && !isPast ? "bg-secondary hover:bg-secondary/80" : "hover:bg-secondary/50"}`}>
-              {!loading && (
+              className={`flex flex-1 flex-col items-center gap-1.5 rounded-xl py-2 transition-all min-h-[72px] overflow-hidden cursor-pointer ${hasWorkout && ""} ${isLoading && "animate-pulse"} ${isToday ? "border-primary border" : hasWorkout && !isPast ? "bg-secondary hover:bg-secondary/80" : "hover:bg-secondary/50"}`}>
+              {!isLoading && (
                 <>
                   <span className="text-[12px] font-medium uppercase text-muted-foreground">{t(`${day}`)}</span>
                   <span className="text-sm font-bold">{todayDate - todayIndex + index}</span>

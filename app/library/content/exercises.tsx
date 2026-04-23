@@ -4,7 +4,6 @@ import { useState, useMemo, useEffect } from "react";
 import { Exercise } from "@/app/types";
 import { ExerciseCategory } from "@/app/ui/exerciseList";
 import { IconSearch, IconPlus, IconBarbell, IconFolderOpen } from "@tabler/icons-react";
-import { getUserExercises } from "../../lib/services/exercises";
 import { useUser } from "@/app/hooks/useUser";
 import Loader from "../../ui/common/loader";
 import { useTranslations } from "next-intl";

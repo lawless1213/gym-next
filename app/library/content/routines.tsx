@@ -3,32 +3,16 @@
 import { useState, useMemo, useEffect } from "react";
 import { IconPlus } from "@tabler/icons-react";
 import { useUser } from "@/app/hooks/useUser";
-import { Routine } from "../../types";
-import { getUserRoutines } from "../../lib/services/routines";
 import Loader from "../../ui/common/loader";
 import RoutineCard from "../../ui/cards/routine";
+import { useRoutines } from "@/app/hooks/useServices/useRoutines";
 
 
 export default function Routines() {
   const { user } = useUser();
   const userID = user?.uid;
-  const [routines, setRoutines] = useState<Routine[]>([]);
-  const [loading, setLoading] = useState(true);
 
-  useEffect(() => {
-    if (!userID) {
-      setRoutines([]);
-      setLoading(false);
-      return;
-    }
-    const fetchData = async () => {
-      setLoading(true);
-      const data = await getUserRoutines(userID);
-      setRoutines(data);
-      setLoading(false);
-    };
-    fetchData();
-  }, [userID]);
+  const { data: routines = [], isLoading: loading } = useRoutines(userID);
 
   return loading ? (
     <div className="flex items-center justify-center min-h-[300px]">
