@@ -8,12 +8,6 @@ import { useLastProgress } from "@/app/hooks/useServices/useStats";
 import { useUser } from "@/app/hooks/useUser";
 import { BodyProgress } from "@/app/types";
 
-const chartData = bodyMeasurements.map((m) => ({
-  date: new Date(m.date).toLocaleDateString("en-US", { month: "short", day: "numeric" }),
-  weight: m.weight,
-  waist: m.waist,
-}));
-
 export default function Progress() {
   const t = useTranslations("stats");
   const { user } = useUser();
