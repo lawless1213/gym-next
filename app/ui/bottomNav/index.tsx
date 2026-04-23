@@ -32,9 +32,9 @@ export function BottomNav() {
               }`}
               aria-label={item.label}
             >
-              <div className={`relative ${isActive ? 'scale-110' : ''} transition-transform`}>
+              <div className={`relative ${isActive ? 'scale-130' : ''} transition-transform`}>
                 <item.icon 
-                  className={`h-6 w-6 ${isActive ? 'stroke-[2.5px]' : 'stroke-[1.5px]'}`} 
+                  className={`h-6 w-6`} 
                 />
                 {isActive && (
                   <div className="absolute -bottom-1 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-primary" />

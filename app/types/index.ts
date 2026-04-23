@@ -38,24 +38,19 @@ export interface Routine {
   completed?: boolean;
 }
 
-export interface PersonalRecord {
-  id: string;
-  exerciseId: string;
-  exerciseName: string;
-  weight: number;
-  reps: number;
-  date: string;
+export interface Measurement {
+  date: Date;
+  value: number;
 }
 
-export interface BodyMeasurement {
-  id: string;
-  date: string;
-  weight?: number;
-  waist?: number;
-  chest?: number;
-  arms?: number;
-  thighs?: number;
+export interface BodyProgress {
+  arms: Measurement[];
+  chest: Measurement[];
+  thighs: Measurement[];
+  waist: Measurement[];
+  weight: Measurement[];
 }
+
 
 export interface ScheduleDay {
   name: weekDay;

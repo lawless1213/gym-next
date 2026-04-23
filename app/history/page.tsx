@@ -1,10 +1,7 @@
 'use client';
 
-import { IconCalendarWeekFilled, IconClock, IconBarbell, IconTrendingUp} from '@tabler/icons-react';
-import { getUserHistoryForPeriod } from '../lib/services/history';
+import { IconCalendarWeekFilled, IconTrendingUp} from '@tabler/icons-react';
 import { useUser } from "@/app/hooks/useUser";
-import { useEffect, useState } from "react";
-import { WorkoutSession as workoutSessionType } from '../types';
 import { useTranslations } from "next-intl";
 import { getDateOfWeek } from '../lib/utils';
 import WorkoutSession from './_components/workoutSession';

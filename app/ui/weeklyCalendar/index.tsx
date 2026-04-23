@@ -64,7 +64,7 @@ export function WeeklyCalendar() {
         {openCardIndex !== null && scheduleDays[weekDays[openCardIndex]].length > 0 && (
           <motion.div
             key={weekDays[openCardIndex]}
-            className="mt-2 overflow-hidden flex flex-col gap-2"
+            className="overflow-hidden flex flex-col gap-2"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
