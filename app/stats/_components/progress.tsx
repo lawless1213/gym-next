@@ -70,7 +70,8 @@ export default function Progress() {
             <ResponsiveContainer
               width="100%"
               height="100%">
-              <LineChart data={chartData}>
+								
+              <LineChart data={chartData} accessibilityLayer={false}>
                 <XAxis
                   dataKey="date"
                   tick={{ fill: "var(--muted-foreground)", fontSize: 10 }}
@@ -85,6 +86,7 @@ export default function Progress() {
                   width={30}
                 />
                 <Tooltip
+                  cursor={false}
                   content={({ payload }) => {
                     if (!payload || !payload.length) return null;
                     const { value, date } = payload[0].payload;
@@ -104,7 +106,10 @@ export default function Progress() {
                   stroke="var(--primary)"
                   strokeWidth={2}
                   dot={{ fill: "var(--primary)", strokeWidth: 0, r: 4 }}
-                  activeDot={{ r: 6 }}
+                  activeDot={{ 
+										r: 10,
+										strokeWidth: 0,
+									}}
                 />
               </LineChart>
             </ResponsiveContainer>
