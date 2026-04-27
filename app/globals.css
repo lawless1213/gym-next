@@ -34,6 +34,7 @@
   --chart-4: oklch(0.55 0.2 27);
   --chart-5: oklch(0.6 0.2 310);
   --radius: 0.75rem;
+  --sk-shimmer: oklch(0.93 0.04 264 / 75%);
   
   /* IronStack specific */
   --surface: oklch(1 0 0);
@@ -66,6 +67,7 @@
   --chart-3: oklch(0.55 0.22 264);
   --chart-4: oklch(0.75 0.15 84);
   --chart-5: oklch(0.55 0.2 27);
+  --sk-shimmer: rgba(255,255,255,0.15);
   
   /* IronStack specific */
   --surface: oklch(0.13 0 0);
