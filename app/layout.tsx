@@ -34,7 +34,7 @@ export default function RootLayout({
             <AuthProvider>
               <QueryProvider>
                 <BottomNav />
-                <main className="flex-1 overflow-y-auto p-4 pb-24">{children}</main>
+                <main className="flex-1 overflow-hidden p-4 pb-24">{children}</main>
                 {modal}
               </QueryProvider>
             </AuthProvider>
