@@ -7,19 +7,22 @@ import { WeeklyCalendar } from "@/app/ui/weeklyCalendar";
 import { WorkoutCard } from "@/app/ui/cards/workoutCard";
 import { MotivationalBanner } from "@/app/ui/motivationalBanner";
 import { Header } from "@/app/ui/Header";
-import { useAuth } from "@/app/hooks/useAuth";
+import { useUser } from "@/app/hooks/useUser";
 import { getNextPendingRoutine } from "@/app/lib/services/schedule";
 import { Routine } from "@/app/types";
 import { useSchedule } from "@/app/hooks/useServices/useSchedule";
+import SkeletonBone from "./ui/common/skeletonBone";
+import SkeletonSwitcher from "./ui/common/SkeletonSwitcher";
 
 export default function Home() {
   const t = useTranslations("HomePage");
-  const { user } = useAuth();
+  const { user, loading: isUserLoading } = useUser();
   const [nextRoutine, setNextRoutine] = useState<Routine | null>(null);
 
   const userID = user?.uid;
-  const { data: scheduleMap } = useSchedule(userID);
+  const { data: scheduleMap, isLoading: isLoadingDataPendingRoutine } = useSchedule(userID);
 
+  const isLoadingPendingRoutine = isUserLoading || isLoadingDataPendingRoutine || (!!userID && !scheduleMap);
   useEffect(() => {
     if (!userID || !scheduleMap) {
       setNextRoutine(null);
@@ -31,27 +34,26 @@ export default function Home() {
 
   return (
     <div className="flex flex-col gap-4 pb-4">
-      <Header 
-        title={ t(`header.welcome.${user ? "auth" : "unauth"}`) } 
-        subtitle={ user && user.displayName ? t("header.user", {user: user.displayName}) : t("header.guest") }
+      <Header
+        title={t(`header.welcome.${user ? "auth" : "unauth"}`)}
+        subtitle={user && user.displayName ? t("header.user", { user: user.displayName }) : t("header.guest")}
       />
 
-      {/* Weekly Calendar */}
       <WeeklyCalendar />
 
-      {/* Next Workout Card */}
-      {nextRoutine ? (
-        <WorkoutCard routine={nextRoutine} />
-      ) : (
-        <div className="rounded-2xl bg-card p-4 text-sm text-muted-foreground text-center">
-          No upcoming workouts for this week.
-        </div>
-      )}
-
-      {/* Motivational Banner */}
+      <SkeletonSwitcher
+        isLoading={isLoadingPendingRoutine}
+        skeleton={
+          <SkeletonBone
+            br={16}
+            height={180}
+          />
+        }>
+        {nextRoutine ? <WorkoutCard routine={nextRoutine} /> : <div className="rounded-2xl bg-card p-4 text-sm text-muted-foreground text-center min-h-[180px] flex items-center justify-center">No upcoming workouts for this week.</div>}
+      </SkeletonSwitcher>
+      
       <MotivationalBanner />
 
-      {/* Quick Stats */}
       <div className="grid grid-cols-3 gap-3">
         <QuickStat
           label="Workouts"
