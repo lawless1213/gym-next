@@ -1,4 +1,3 @@
-// app/components/AppShell.tsx — новий клієнтський компонент
 "use client";
 
 import { AnimatePresence } from "motion/react";

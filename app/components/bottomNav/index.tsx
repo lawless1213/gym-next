@@ -36,9 +36,6 @@ export function BottomNav() {
                 <item.icon 
                   className={`h-6 w-6`} 
                 />
-                {isActive && (
-                  <div className="absolute -bottom-1 left-1/2 h-1 w-1 -translate-x-1/2 rounded-full bg-primary" />
-                )}
               </div>
               <span className={`text-[10px] font-medium capitalize ${isActive ? 'font-semibold' : ''}`}>
                 {t(item.label)}
