@@ -7,6 +7,8 @@ import { useTranslations } from "next-intl";
 import { useLastProgress } from "@/app/hooks/useServices/useStats";
 import { useAuth } from "@/app/hooks/useAuth";
 import { BodyProgress } from "@/app/types";
+import SkeletonBone from "@/app/components/common/skeletonBone";
+import SkeletonSwitcher from "@/app/components/common/SkeletonSwitcher";
 
 export default function Progress() {
   const t = useTranslations("stats");
@@ -28,50 +30,71 @@ export default function Progress() {
   const waistChange = progress?.weight && progress.waist.length >= 2 ? progress.waist.at(-1)!.value - progress.waist[0]!.value : 0;
 
   return (
-    <>
-      <div className="grid grid-cols-2 gap-3">
-        <button
-          onClick={() => setSelectedMetric("weight")}
-          className={cn("rounded-xl p-4 text-left transition-all", selectedMetric === "weight" ? "bg-primary/10 ring-2 ring-primary" : "bg-card")}>
-          <div className="flex items-center gap-2">
-            <IconScale className="h-4 w-4 text-muted-foreground" />
-            <span className="text-sm text-muted-foreground">Weight</span>
+    <div className="space-y-2">
+      <SkeletonSwitcher
+        isLoading={loading}
+        skeleton={
+          <div className="grid grid-cols-2 gap-3">
+            {Array.from({ length: 2 }).map((_, i) => (
+              <SkeletonBone
+                br={12}
+                height={112}
+              />
+            ))}
           </div>
-          <p className="mt-1 text-2xl font-bold text-foreground">{progress?.weight.at(-1)!.value} kg</p>
-          {weightChange !== 0 && (
-            <div className={cn("mt-1 flex items-center gap-1 text-sm", weightChange < 0 ? "text-primary" : "text-destructive")}>
-              {weightChange < 0 ? <IconTrendingDown className="h-3.5 w-3.5" /> : <IconTrendingUp className="h-3.5 w-3.5" />}
-              <span>{Math.abs(weightChange).toFixed(1)} kg</span>
+        }>
+        <div className="grid grid-cols-2 gap-3">
+          <button
+            onClick={() => setSelectedMetric("weight")}
+            className={cn("rounded-xl p-4 text-left transition-all", selectedMetric === "weight" ? "bg-primary/10 ring-2 ring-primary" : "bg-card")}>
+            <div className="flex items-center gap-2">
+              <IconScale className="h-4 w-4 text-muted-foreground" />
+              <span className="text-sm text-muted-foreground">{t("measurements.weight")}</span>
             </div>
-          )}
-        </button>
+            <p className="mt-1 text-2xl font-bold text-foreground">{progress?.weight.at(-1)!.value} kg</p>
+            {weightChange !== 0 && (
+              <div className={cn("mt-1 flex items-center gap-1 text-sm", weightChange < 0 ? "text-primary" : "text-destructive")}>
+                {weightChange < 0 ? <IconTrendingDown className="h-3.5 w-3.5" /> : <IconTrendingUp className="h-3.5 w-3.5" />}
+                <span>{Math.abs(weightChange).toFixed(1)} kg</span>
+              </div>
+            )}
+          </button>
 
-        <button
-          onClick={() => setSelectedMetric("waist")}
-          className={cn("rounded-xl p-4 text-left transition-all", selectedMetric === "waist" ? "bg-primary/10 ring-2 ring-primary" : "bg-card")}>
-          <div className="flex items-center gap-2">
-            <IconActivity className="h-4 w-4 text-muted-foreground" />
-            <span className="text-sm text-muted-foreground">Waist</span>
-          </div>
-          <p className="mt-1 text-2xl font-bold text-foreground">{progress?.waist.at(-1)!.value} cm</p>
-          {waistChange !== 0 && (
-            <div className={cn("mt-1 flex items-center gap-1 text-sm", waistChange < 0 ? "text-primary" : "text-destructive")}>
-              {waistChange < 0 ? <IconTrendingDown className="h-3.5 w-3.5" /> : <IconTrendingUp className="h-3.5 w-3.5" />}
-              <span>{Math.abs(waistChange).toFixed(1)} cm</span>
+          <button
+            onClick={() => setSelectedMetric("waist")}
+            className={cn("rounded-xl p-4 text-left transition-all", selectedMetric === "waist" ? "bg-primary/10 ring-2 ring-primary" : "bg-card")}>
+            <div className="flex items-center gap-2">
+              <IconActivity className="h-4 w-4 text-muted-foreground" />
+              <span className="text-sm text-muted-foreground">{t("measurements.waist")}</span>
             </div>
-          )}
-        </button>
-      </div>
+            <p className="mt-1 text-2xl font-bold text-foreground">{progress?.waist.at(-1)!.value} cm</p>
+            {waistChange !== 0 && (
+              <div className={cn("mt-1 flex items-center gap-1 text-sm", waistChange < 0 ? "text-primary" : "text-destructive")}>
+                {waistChange < 0 ? <IconTrendingDown className="h-3.5 w-3.5" /> : <IconTrendingUp className="h-3.5 w-3.5" />}
+                <span>{Math.abs(waistChange).toFixed(1)} cm</span>
+              </div>
+            )}
+          </button>
+        </div>
+      </SkeletonSwitcher>
 
-      {chartData && (
+      <SkeletonSwitcher
+        isLoading={!!chartData && loading}
+        skeleton={
+          <SkeletonBone
+            br={12}
+            height={260}
+          />
+        }>
         <div className="rounded-xl bg-card p-4">
-          <h3 className="mb-4 text-sm font-semibold text-muted-foreground">{selectedMetric === "weight" ? "Weight" : "Waist"} Progress</h3>
+          <h3 className="mb-4 text-sm font-semibold text-muted-foreground">{t(`measurements.${selectedMetric}`)}</h3>
           <div className="h-48">
             <ResponsiveContainer
               width="100%"
               height="100%">
-								
-              <LineChart data={chartData} accessibilityLayer={false}>
+              <LineChart
+                data={chartData}
+                accessibilityLayer={false}>
                 <XAxis
                   dataKey="date"
                   tick={{ fill: "var(--muted-foreground)", fontSize: 10 }}
@@ -106,34 +129,43 @@ export default function Progress() {
                   stroke="var(--primary)"
                   strokeWidth={2}
                   dot={{ fill: "var(--primary)", strokeWidth: 0, r: 4 }}
-                  activeDot={{ 
-										r: 10,
-										strokeWidth: 0,
-									}}
+                  activeDot={{
+                    r: 10,
+                    strokeWidth: 0,
+                  }}
                 />
               </LineChart>
             </ResponsiveContainer>
           </div>
         </div>
-      )}
+      </SkeletonSwitcher>
 
-      <div className="rounded-xl bg-card p-4">
-        <h3 className="mb-3 text-sm font-semibold text-muted-foreground">Other Measurements</h3>
-        <div className="grid grid-cols-3 gap-3">
-          <div className="text-center">
-            <p className="text-lg font-bold text-foreground">{progress?.chest.at(-1)!.value}</p>
-            <p className="text-xs text-muted-foreground">Chest (cm)</p>
-          </div>
-          <div className="text-center">
-            <p className="text-lg font-bold text-foreground">{progress?.arms.at(-1)!.value}</p>
-            <p className="text-xs text-muted-foreground">Arms (cm)</p>
-          </div>
-          <div className="text-center">
-            <p className="text-lg font-bold text-foreground">{progress?.thighs.at(-1)!.value}</p>
-            <p className="text-xs text-muted-foreground">Thighs (cm)</p>
+      <SkeletonSwitcher
+        isLoading={loading}
+        skeleton={
+          <SkeletonBone
+            br={12}
+            height={108}
+          />
+        }>
+        <div className="rounded-xl bg-card p-4">
+          <h3 className="mb-3 text-sm font-semibold text-muted-foreground">{t("measurements.other")}</h3>
+          <div className="grid grid-cols-3 gap-3">
+            <div className="text-center">
+              <p className="text-lg font-bold text-foreground">{progress?.chest.at(-1)!.value}</p>
+              <p className="text-xs text-muted-foreground">{t("measurements.chestCm")}</p>
+            </div>
+            <div className="text-center">
+              <p className="text-lg font-bold text-foreground">{progress?.arms.at(-1)!.value}</p>
+              <p className="text-xs text-muted-foreground">{t("measurements.armsCm")}</p>
+            </div>
+            <div className="text-center">
+              <p className="text-lg font-bold text-foreground">{progress?.thighs.at(-1)!.value}</p>
+              <p className="text-xs text-muted-foreground">{t("measurements.thighsCm")}</p>
+            </div>
           </div>
         </div>
-      </div>
-    </>
+      </SkeletonSwitcher>
+    </div>
   );
 }

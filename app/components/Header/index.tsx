@@ -26,8 +26,8 @@ export function Header(props: HeaderProps) {
   return (
     <header className="flex items-center justify-between gap-2">
       <div className="space-y-1">
-        <h1 className="text-2xl font-bold text-foreground">{props.subtitle}</h1>
-        <p className="text-sm text-muted-foreground">{props.title}</p>
+        <h1 className="text-md font-bold text-foreground sm:text-2xl">{props.subtitle}</h1>
+        <p className="text-xs text-muted-foreground sm:text-sm">{props.title}</p>
       </div>
       <div className="flex gap-1">
         {mounted && (
