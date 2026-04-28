@@ -2,10 +2,10 @@
 
 import { useState, useMemo, useEffect } from "react";
 import { Exercise } from "@/app/types";
-import { ExerciseCategory } from "@/app/ui/exerciseList";
+import { ExerciseCategory } from "@/app/components/exerciseList";
 import { IconSearch, IconPlus, IconBarbell, IconFolderOpen } from "@tabler/icons-react";
 import { useUser } from "@/app/hooks/useUser";
-import Loader from "../../ui/common/loader";
+import Loader from "../../components/common/loader";
 import { useTranslations } from "next-intl";
 import { useExercises } from "@/app/hooks/useServices/useExercises";
 

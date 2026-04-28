@@ -2,9 +2,9 @@
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
-import { Button } from "@/app/ui/buttons/button";
+import { Button } from "@/app/components/buttons/button";
 import { useAuth } from "@/app/hooks/useAuth";
-import { Input } from "@/app/ui/form/input";
+import { Input } from "@/app/components/form/input";
 import { AUTH_ERRORS } from "@/app/lib/errors/auth";
 
 const loginSchema = z.object({

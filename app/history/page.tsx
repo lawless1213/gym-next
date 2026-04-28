@@ -5,10 +5,10 @@ import { useUser } from "@/app/hooks/useUser";
 import { useTranslations } from "next-intl";
 import { getDateOfWeek } from "../lib/utils";
 import WorkoutSession from "./_components/workoutSession";
-import { Header } from "../ui/Header";
+import { Header } from "../components/Header";
 import { useHistoryForPeriod } from "../hooks/useServices/useHistory";
-import SkeletonSwitcher from "../ui/common/SkeletonSwitcher";
-import SkeletonBone from "../ui/common/skeletonBone";
+import SkeletonSwitcher from "../components/common/SkeletonSwitcher";
+import SkeletonBone from "../components/common/skeletonBone";
 
 export default function History() {
   const t = useTranslations("History");

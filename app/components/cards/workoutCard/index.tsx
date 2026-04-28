@@ -2,7 +2,7 @@
 
 import { Routine } from "@/app/types";
 import { IconPlayerPlayFilled, IconBarbell } from "@tabler/icons-react";
-import { Button } from "@/app/ui/common/button";
+import { Button } from "@/app/components/common/button";
 import { useTranslations } from "next-intl";
 
 
@@ -46,6 +46,7 @@ export function WorkoutCard({ routine }: WorkoutCardProps) {
       </div> 
       <div className="p-4 pt-3">
         <Button
+          disabled
           className="w-full gap-2 bg-primary cursor-pointer text-primary-foreground hover:bg-primary/90"
           size="lg">
           <IconPlayerPlayFilled className="h-5 w-5 fill-current" />

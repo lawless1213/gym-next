@@ -9,6 +9,7 @@ interface SkeletonSwitcherProps {
   children: ReactNode;
   contentKey?: string;
   animationProps?: MotionProps;
+  fluid?: boolean;
 }
 
 const defaultAnimation: MotionProps = {
@@ -18,15 +19,13 @@ const defaultAnimation: MotionProps = {
   transition: { duration: 0.2, ease: "easeInOut" },
 };
 
-
-
-
 export default function SkeletonSwitcher({
   isLoading,
   skeleton,
   children,
   contentKey = "content",
   animationProps = defaultAnimation,
+  fluid
 }: SkeletonSwitcherProps) {
   return (
     <AnimatePresence mode="wait">
@@ -34,7 +33,8 @@ export default function SkeletonSwitcher({
         <motion.div
           key="skeleton"
           {...animationProps}
-          className="w-full flex items-center justify-center" 
+          className={fluid ? "w-full" : ""}
+     
         >
           {skeleton}
         </motion.div>
@@ -42,7 +42,6 @@ export default function SkeletonSwitcher({
         <motion.div
           key={contentKey}
           {...animationProps}
-          className="w-full"
         >
           {children}
         </motion.div>

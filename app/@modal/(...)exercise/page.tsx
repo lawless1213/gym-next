@@ -4,7 +4,7 @@ import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import { getExercise } from "@/app/lib/services/exercises";
 import type { Exercise } from "@/app/types/exercise";
-import { Modal } from "@/app/ui/modal";
+import { Modal } from "@/app/components/modal";
 import { IconLoader2 } from "@tabler/icons-react";
 
 export default function ExercisePage() {

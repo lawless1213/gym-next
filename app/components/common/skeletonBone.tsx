@@ -7,7 +7,7 @@ export default function SkeletonBone({ width = "100%", height = 14, circle = fal
         width,
         height,
         borderRadius: circle ? "50%" : br,
-        background: "var(--sk-base)",
+        background: "var(--color-secondary)",
         overflow: "hidden",
         position: "relative",
       }}

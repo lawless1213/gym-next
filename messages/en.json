@@ -1,4 +1,8 @@
 {
+	"app": {
+		"title": "GYM",
+		"subtitle": "Training app"
+	},
 	"components": {
 		"languages": {
 			"uk": "Ukrainian",

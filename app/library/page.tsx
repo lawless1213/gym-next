@@ -3,13 +3,13 @@
 import { useState, useMemo, useEffect } from 'react';
 import { exercises, routines } from '@/app/data/mock-data';
 import { Exercise } from '@/app/types';
-import { ExerciseCategory } from '@/app/ui/exerciseList';
+import { ExerciseCategory } from '@/app/components/exerciseList';
 import { IconSearch, IconPlus, IconBarbell, IconFolderOpen } from '@tabler/icons-react';
 import { cn } from '@/app/lib/utils';
 import Exercises from './content/exercises';
 import Routines from './content/routines';
 import { useTranslations } from "next-intl";
-import { Header } from '../ui/Header';
+import { Header } from '../components/Header';
 
 
 type LibraryTab = 'exercises' | 'routines';

@@ -2,9 +2,9 @@
 import { FormEvent, useState } from "react";
 import { useRouter } from "next/navigation";
 import { z } from "zod";
-import { Button } from "@/app/ui/buttons/button";
+import { Button } from "@/app/components/buttons/button";
 import { useAuth } from "@/app/hooks/useAuth";
-import { Input } from "@/app/ui/form/input";
+import { Input } from "@/app/components/form/input";
 
 const signUpSchema = z.object({
   email: z.string().email("Введіть коректний email"),

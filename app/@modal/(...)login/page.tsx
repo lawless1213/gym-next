@@ -1,6 +1,6 @@
 "use client";
 import { useState } from "react";
-import { Modal } from "@/app/ui/modal";
+import { Modal } from "@/app/components/modal";
 import LoginForm from "./loginForm";
 import SignUpForm from "./signUpForm";
 

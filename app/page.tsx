@@ -2,17 +2,17 @@
 
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
-import QuickStat from "@/app/ui/common/quickStat";
-import { WeeklyCalendar } from "@/app/ui/weeklyCalendar";
-import { WorkoutCard } from "@/app/ui/cards/workoutCard";
-import { MotivationalBanner } from "@/app/ui/motivationalBanner";
-import { Header } from "@/app/ui/Header";
+import QuickStat from "@/app/components/common/quickStat";
+import { WeeklyCalendar } from "@/app/components/weeklyCalendar";
+import { WorkoutCard } from "@/app/components/cards/workoutCard";
+import { MotivationalBanner } from "@/app/components/motivationalBanner";
+import { Header } from "@/app/components/Header";
 import { useUser } from "@/app/hooks/useUser";
 import { getNextPendingRoutine } from "@/app/lib/services/schedule";
 import { Routine } from "@/app/types";
 import { useSchedule } from "@/app/hooks/useServices/useSchedule";
-import SkeletonBone from "./ui/common/skeletonBone";
-import SkeletonSwitcher from "./ui/common/SkeletonSwitcher";
+import SkeletonBone from "./components/common/skeletonBone";
+import SkeletonSwitcher from "./components/common/SkeletonSwitcher";
 
 export default function Home() {
   const t = useTranslations("HomePage");

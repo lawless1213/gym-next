@@ -1,11 +1,11 @@
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { BottomNav } from "./ui/bottomNav";
 import { AuthProvider } from "./hooks/useAuth";
 import { NextIntlClientProvider } from "next-intl";
 import { ThemeProvider } from "./providers/theme-provider";
 import { QueryProvider } from "./providers/QueryProvider";
+import AppShell from "./components/AppShell";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -25,22 +25,18 @@ export default function RootLayout({
   modal: React.ReactNode;
 }>) {
   return (
-    <html
-      lang="en"
-      suppressHydrationWarning>
-      <body className={`${inter.variable} antialiased flex min-h-screen flex-col bg-background`}>
-        <ThemeProvider>
-          <NextIntlClientProvider>
-            <AuthProvider>
-              <QueryProvider>
-                <BottomNav />
-                <main className="flex-1 overflow-hidden p-4 pb-24">{children}</main>
-                {modal}
-              </QueryProvider>
-            </AuthProvider>
-          </NextIntlClientProvider>
-        </ThemeProvider>
-      </body>
-    </html>
+    <html lang="en" suppressHydrationWarning>
+    <body className={`${inter.variable} antialiased flex min-h-screen flex-col bg-background`}>
+      <ThemeProvider>
+        <NextIntlClientProvider>
+          <AuthProvider>
+            <QueryProvider>
+              <AppShell modal={modal}>{children}</AppShell>
+            </QueryProvider>
+          </AuthProvider>
+        </NextIntlClientProvider>
+      </ThemeProvider>
+    </body>
+  </html>
   );
 }

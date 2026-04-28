@@ -4,7 +4,7 @@ import { useState } from 'react';
 import { IconTrophy, IconActivity } from '@tabler/icons-react';
 import { cn } from '@/app/lib/utils';
 
-import { Header } from '../ui/Header';
+import { Header } from '../components/Header';
 import { useTranslations } from 'next-intl';
 import Progress from './_components/progress';
 import Records from './_components/records';

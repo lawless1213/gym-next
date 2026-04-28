@@ -1,5 +1,8 @@
 {
-	
+	"app": {
+		"title": "GYM",
+		"subtitle": "Додаток для тренувань"
+	},
 	"components": {
 		"languages": {
 			"uk": "Українська",
