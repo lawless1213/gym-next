@@ -4,7 +4,7 @@ import { IconScale, IconTrendingDown, IconTrendingUp, IconActivity } from "@tabl
 import { cn } from "@/app/lib/utils";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { useTranslations } from "next-intl";
-import { useLastProgress } from "@/app/hooks/useServices/useStats";
+import { useLastProgress } from "@/app/hooks/useServices/useProgress";
 import { useAuth } from "@/app/hooks/useAuth";
 import { BodyProgress } from "@/app/types";
 import SkeletonBone from "@/app/components/common/skeletonBone";

@@ -1,11 +1,19 @@
 "use client";
 
 import { personalRecords } from "@/app/data/mock-data";
+import { useAuth } from "@/app/hooks/useAuth";
+import { useRecords } from "@/app/hooks/useServices/useRecords";
 import { IconTrophy } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
 
 export default function Records() {
   const t = useTranslations("stats");
+  const { user } = useAuth();
+  const userId = user?.uid;
+
+  const { data: records, isLoading: loading } = useRecords(userId);
+  console.log(records);
+  
 
   return (
     <>

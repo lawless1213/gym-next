@@ -28,22 +28,3 @@ export async function getUserLastProgress(
     weight:  mapMeasurements(raw.weight ?? [], amount),
   };
 }
-
-
-export async function getUserProgressForPeriod(
-  userId: string,
-  fromDate: Date,
-  toDate: Date
-): Promise<BodyProgress> {
-  
-  
-  const progress = {
-		arms: [],
-		chest: [],
-		thighs: [],
-		waist: [],
-		weight: [],
-	};
-
-	return progress;
-}

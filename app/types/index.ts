@@ -51,6 +51,15 @@ export interface BodyProgress {
   weight: Measurement[];
 }
 
+export interface PersonalRecord {
+  date: Date;
+  exerciseName: string;
+  reps: number;
+  weight: number;
+  workoutId: string;
+}
+
+export type RecordsMap = Record<string, PersonalRecord>;
 
 export interface ScheduleDay {
   name: weekDay;
