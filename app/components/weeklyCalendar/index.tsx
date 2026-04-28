@@ -40,7 +40,7 @@ export function WeeklyCalendar() {
   const CalendarSkeleton = (
     <div className="flex items-center justify-between gap-1 w-full">
       {Array.from({ length: 7 }).map((_, i) => (
-        <SkeletonBone key={i} br={12} height={72} />
+        <SkeletonBone key={i} br={12} height={74} />
       ))}
     </div>
   );

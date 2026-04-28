@@ -17,7 +17,7 @@ export default function SkeletonBone({ width = "100%", height = 14, circle = fal
           position: "absolute",
           inset: 0,
           background:
-            "linear-gradient(90deg, transparent, var(--sk-shimmer), transparent)",
+            "linear-gradient(90deg, transparent, var(--color-shimmer), transparent)",
        
         }}
         animate={{ x: ["-100%", "200%"] }}
