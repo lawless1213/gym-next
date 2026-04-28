@@ -45,7 +45,8 @@
 			"stats" : "Статистика"
 		},
 		"routineCard": {
-			"amount": "Кіл-сть вправ"
+			"amount": "Кіл-сть вправ",
+			"emptyExercises" : "Вправи відсутні"
 		}
 	},
   "HomePage": {

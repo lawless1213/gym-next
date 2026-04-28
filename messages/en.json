@@ -45,7 +45,8 @@
 			"stats": "Stats"
 		},
 		"routineCard": {
-			"amount": "Number of exercises"
+			"amount": "Number of exercises",
+			"emptyExercises" : "Exercises is empty"
 		}
 	},
 	"HomePage": {

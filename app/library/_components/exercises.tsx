@@ -8,6 +8,26 @@ import { useAuth } from "@/app/hooks/useAuth";
 import Loader from "../../components/common/loader";
 import { useTranslations } from "next-intl";
 import { useExercises } from "@/app/hooks/useServices/useExercises";
+import SkeletonBone from "@/app/components/common/skeletonBone";
+import SkeletonSwitcher from "@/app/components/common/SkeletonSwitcher";
+import ButtonCreate from "./buttonCreate";
+
+const ExercisesSkeleton = (
+  <div className="space-y-6 mt-6">
+    {Array.from({ length: 3 }).map((_, i) => (
+      <div key={i} className="space-y-2">
+        <SkeletonBone
+          br={12}
+          height={20}
+        />
+        <SkeletonBone
+          br={12}
+          height={72}
+        />
+      </div>
+    ))}
+  </div>
+);
 
 export default function Exercises() {
   const t = useTranslations("Library.exercises");
@@ -34,43 +54,34 @@ export default function Exercises() {
     return groups;
   }, [filteredExercises]);
 
-  return loading ? (
-    <div className="flex items-center justify-center min-h-[300px]">
-			<Loader />
-		</div>
-  ) : (
+  return (
     <>
-      {/* Search */}
       <div className="relative">
         <IconSearch className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
         <input
           type="text"
-          placeholder={t('searchPlaceholder')}
+          placeholder={t("searchPlaceholder")}
           value={searchQuery}
           onChange={(e) => setSearchQuery(e.target.value)}
           className="w-full rounded-xl bg-card py-3 pl-10 pr-4 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
         />
       </div>
-
-      {/* Exercise List */}
-      <div className="space-y-6">
-        {Object.entries(groupedExercises).map(([group, exs]) => (
-          <ExerciseCategory
-            key={group}
-            title={group}
-            exercises={exs}
-            onExerciseClick={() => {}}
-          />
-        ))}
-      </div>
-
-      {/* Create Exercise FAB */}
-      <button
-        // onClick={onCreateExercise}
-        className="fixed bottom-24 right-4 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg transition-transform hover:scale-105 active:scale-95"
-        aria-label="Create exercise">
-        <IconPlus className="h-6 w-6" />
-      </button>
+      <SkeletonSwitcher
+        isLoading={loading}
+        skeleton={ExercisesSkeleton}>
+        <div className="space-y-6 mt-6">
+          {Object.entries(groupedExercises).map(([group, exs]) => (
+            <ExerciseCategory
+              key={group}
+              title={group}
+              exercises={exs}
+              onExerciseClick={() => {}}
+            />
+          ))}
+        </div>
+        <ButtonCreate onClick={() => {console.log('create exercise')}
+        }/>
+      </SkeletonSwitcher>
     </>
   );
 }

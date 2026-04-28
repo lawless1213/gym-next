@@ -13,8 +13,6 @@ type HeaderProps = {
 };
 
 export function Header(props: HeaderProps) {
-  console.log(props);
-
   const locale = useLocale();
   const { user, logout, loading } = useAuth();
   const { mounted, isDark, toggleTheme } = useAppTheme();

@@ -5,7 +5,6 @@ import { navLinks } from "./data/navManu";
 
 const routes = navLinks.map((n) => n.link);
 
-// зовні компонента — зберігається між маунтами
 let prevPathname = "";
 let currentDir = 1;
 
