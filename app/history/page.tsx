@@ -1,7 +1,7 @@
 "use client";
 
 import { IconCalendarWeekFilled, IconTrendingUp } from "@tabler/icons-react";
-import { useUser } from "@/app/hooks/useUser";
+import { useAuth } from "@/app/hooks/useAuth";
 import { useTranslations } from "next-intl";
 import { getDateOfWeek } from "../lib/utils";
 import WorkoutSession from "./_components/workoutSession";
@@ -14,7 +14,7 @@ export default function History() {
   const t = useTranslations("History");
   const tMonth = useTranslations("components.month");
 
-  const { user, loading: isUserLoading } = useUser();
+  const { user, loading: isUserLoading } = useAuth();
   const userId = user?.uid;
   const startOfWeek = getDateOfWeek("start");
   const endOfWeek = getDateOfWeek("end");

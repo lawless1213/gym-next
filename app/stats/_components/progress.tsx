@@ -5,12 +5,12 @@ import { cn } from "@/app/lib/utils";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { useTranslations } from "next-intl";
 import { useLastProgress } from "@/app/hooks/useServices/useStats";
-import { useUser } from "@/app/hooks/useUser";
+import { useAuth } from "@/app/hooks/useAuth";
 import { BodyProgress } from "@/app/types";
 
 export default function Progress() {
   const t = useTranslations("stats");
-  const { user } = useUser();
+  const { user } = useAuth();
   const userId = user?.uid;
 
   const { data: progress, isLoading: loading } = useLastProgress(userId);

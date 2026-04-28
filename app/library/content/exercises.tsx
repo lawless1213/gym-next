@@ -4,14 +4,14 @@ import { useState, useMemo, useEffect } from "react";
 import { Exercise } from "@/app/types";
 import { ExerciseCategory } from "@/app/components/exerciseList";
 import { IconSearch, IconPlus, IconBarbell, IconFolderOpen } from "@tabler/icons-react";
-import { useUser } from "@/app/hooks/useUser";
+import { useAuth } from "@/app/hooks/useAuth";
 import Loader from "../../components/common/loader";
 import { useTranslations } from "next-intl";
 import { useExercises } from "@/app/hooks/useServices/useExercises";
 
 export default function Exercises() {
   const t = useTranslations("Library.exercises");
-  const { user } = useUser();
+  const { user } = useAuth();
   const userID = user?.uid;
   const [searchQuery, setSearchQuery] = useState("");
 

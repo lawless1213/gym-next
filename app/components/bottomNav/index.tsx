@@ -4,12 +4,12 @@ import { usePathname } from "next/navigation";
 import { navLinks } from "@/app/data/navManu";
 import Link from "next/link";
 import { useTranslations } from 'next-intl';
-import { useUser } from "@/app/hooks/useUser";
+import { useAuth } from "@/app/hooks/useAuth";
 
 
 export function BottomNav() {
   const t = useTranslations("components.bottomNav");
-  const { user } = useUser();
+  const { user } = useAuth();
 
   const pathname = usePathname();
   return (

@@ -7,7 +7,7 @@ import { WeeklyCalendar } from "@/app/components/weeklyCalendar";
 import { WorkoutCard } from "@/app/components/cards/workoutCard";
 import { MotivationalBanner } from "@/app/components/motivationalBanner";
 import { Header } from "@/app/components/Header";
-import { useUser } from "@/app/hooks/useUser";
+import { useAuth } from "@/app/hooks/useAuth";
 import { getNextPendingRoutine } from "@/app/lib/services/schedule";
 import { Routine } from "@/app/types";
 import { useSchedule } from "@/app/hooks/useServices/useSchedule";
@@ -16,7 +16,7 @@ import SkeletonSwitcher from "./components/common/SkeletonSwitcher";
 
 export default function Home() {
   const t = useTranslations("HomePage");
-  const { user, loading: isUserLoading } = useUser();
+  const { user, loading: isUserLoading } = useAuth();
   const [nextRoutine, setNextRoutine] = useState<Routine | null>(null);
 
   const userID = user?.uid;

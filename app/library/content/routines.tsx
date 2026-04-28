@@ -2,14 +2,14 @@
 
 import { useState, useMemo, useEffect } from "react";
 import { IconPlus } from "@tabler/icons-react";
-import { useUser } from "@/app/hooks/useUser";
+import { useAuth } from "@/app/hooks/useAuth";
 import Loader from "../../components/common/loader";
 import RoutineCard from "../../components/cards/routine";
 import { useRoutines } from "@/app/hooks/useServices/useRoutines";
 
 
 export default function Routines() {
-  const { user } = useUser();
+  const { user } = useAuth();
   const userID = user?.uid;
 
   const { data: routines = [], isLoading: loading } = useRoutines(userID);

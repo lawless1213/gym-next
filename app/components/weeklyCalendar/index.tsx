@@ -1,6 +1,6 @@
 "use client";
 
-import { useUser } from "@/app/hooks/useUser";
+import { useAuth } from "@/app/hooks/useAuth";
 import { useState } from "react";
 import { ScheduleMap, weekDays } from "@/app/types";
 import { useTranslations } from "next-intl";
@@ -12,7 +12,7 @@ import SkeletonSwitcher from "../common/SkeletonSwitcher";
 
 export function WeeklyCalendar() {
   const t = useTranslations("HomePage.weeklyCalendar");
-  const { user, loading: isUserLoading } = useUser();
+  const { user, loading: isUserLoading } = useAuth();
   const userID = user?.uid;
   const [openCardIndex, setopenCardIndex] = useState<null | number>(null);
 
