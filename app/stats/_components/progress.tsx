@@ -37,6 +37,7 @@ export default function Progress() {
           <div className="grid grid-cols-2 gap-3">
             {Array.from({ length: 2 }).map((_, i) => (
               <SkeletonBone
+                key={i}
                 br={12}
                 height={112}
               />
@@ -140,17 +141,18 @@ export default function Progress() {
         </div>
       </SkeletonSwitcher>
 
-      <SkeletonSwitcher
-        isLoading={loading}
-        skeleton={
-          <SkeletonBone
-            br={12}
-            height={108}
-          />
-        }>
-        <div className="rounded-xl bg-card p-4">
-          <h3 className="mb-3 text-sm font-semibold text-muted-foreground">{t("measurements.other")}</h3>
-          <div className="grid grid-cols-3 gap-3">
+      <div className="space-y-3 mt-5">
+        <h2 className="text-sm font-semibold text-muted-foreground">{t("measurements.other")}</h2>
+
+        <SkeletonSwitcher
+          isLoading={loading}
+          skeleton={
+            <SkeletonBone
+              br={12}
+              height={76}
+            />
+          }>
+          <div className="grid grid-cols-3 gap-3 rounded-xl bg-card p-4">
             <div className="text-center">
               <p className="text-lg font-bold text-foreground">{progress?.chest.at(-1)!.value}</p>
               <p className="text-xs text-muted-foreground">{t("measurements.chestCm")}</p>
@@ -164,8 +166,8 @@ export default function Progress() {
               <p className="text-xs text-muted-foreground">{t("measurements.thighsCm")}</p>
             </div>
           </div>
-        </div>
-      </SkeletonSwitcher>
+        </SkeletonSwitcher>
+      </div>
     </div>
   );
 }

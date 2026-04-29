@@ -8,6 +8,5 @@ export async function getUserRecords(
   const snap = await getDoc(doc(db, 'users', userId, 'stats', 'records'));
 	const records = snap.data() as RecordsMap;
 	
-
   return records;
 }

@@ -48,7 +48,7 @@ export default function WorkoutSession(workout: WorkoutSessionType) {
       <AnimatePresence initial={false}>
         {isOpen && (
           <motion.div
-            className="overflow-hidden px-4 border-t border-dashed border-muted-foreground flex flex-col"
+            className="overflow-hidden px-4 border-t border-dashed border-muted-foreground/20 flex flex-col"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}

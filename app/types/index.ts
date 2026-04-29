@@ -55,7 +55,9 @@ export interface PersonalRecord {
   date: Date;
   exerciseName: string;
   reps: number;
+  prevReps: number;
   weight: number;
+  prevWeight: number;
   workoutId: string;
 }
 

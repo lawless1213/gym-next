@@ -135,7 +135,9 @@
 		"records": {
 			"title": "Personal records",
 			"allTime": "All-time stats",
-			"heaviestLift": "Heaviest lift"
+			"heaviestLift": "Heaviest lift",
+			"empty": "Empty data",
+			"amount": "Number of records"
 		}
 	},
 	"workout": {
