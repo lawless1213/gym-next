@@ -38,6 +38,10 @@
 				"12": "Dec"
 			}
 		},
+		"measurement": {
+			"cm": "cm",
+			"kg": "kg"
+		},
 		"bottomNav": {
 			"home": "Home",
 			"library": "Library",
@@ -137,7 +141,13 @@
 			"allTime": "All-time stats",
 			"heaviestLift": "Heaviest lift",
 			"empty": "Empty data",
-			"amount": "Number of records"
+			"amount": "Number of records",
+			"card": {
+				"new": "NEW",
+				"current": "Current",
+				"previous": "Previous",
+				"growth": "Growth"
+			}
 		}
 	},
 	"workout": {

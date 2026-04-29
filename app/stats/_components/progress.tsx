@@ -3,7 +3,7 @@ import { bodyMeasurements } from "@/app/data/mock-data";
 import { IconScale, IconTrendingDown, IconTrendingUp, IconActivity } from "@tabler/icons-react";
 import { cn } from "@/app/lib/utils";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useLastProgress } from "@/app/hooks/useServices/useProgress";
 import { useAuth } from "@/app/hooks/useAuth";
 import { BodyProgress } from "@/app/types";
@@ -11,7 +11,9 @@ import SkeletonBone from "@/app/components/common/skeletonBone";
 import SkeletonSwitcher from "@/app/components/common/SkeletonSwitcher";
 
 export default function Progress() {
+	const locale = useLocale();
   const t = useTranslations("stats");
+  const tMeasurement = useTranslations("components.measurement");
   const { user } = useAuth();
   const userId = user?.uid;
 
@@ -22,7 +24,7 @@ export default function Progress() {
   const chartData =
     progress &&
     progress[selectedMetric].map((m) => ({
-      date: m.date.toLocaleDateString("en-US", { month: "short", day: "numeric" }),
+      date: m.date.toLocaleDateString(locale, { month: "short", day: "numeric" }),
       value: m.value,
     }));
 
@@ -52,11 +54,11 @@ export default function Progress() {
               <IconScale className="h-4 w-4 text-muted-foreground" />
               <span className="text-sm text-muted-foreground">{t("measurements.weight")}</span>
             </div>
-            <p className="mt-1 text-2xl font-bold text-foreground">{progress?.weight.at(-1)!.value} kg</p>
+            <p className="mt-1 text-2xl font-bold text-foreground">{progress?.weight.at(-1)!.value} {tMeasurement('kg')}</p>
             {weightChange !== 0 && (
               <div className={cn("mt-1 flex items-center gap-1 text-sm", weightChange < 0 ? "text-primary" : "text-destructive")}>
                 {weightChange < 0 ? <IconTrendingDown className="h-3.5 w-3.5" /> : <IconTrendingUp className="h-3.5 w-3.5" />}
-                <span>{Math.abs(weightChange).toFixed(1)} kg</span>
+                <span>{Math.abs(weightChange).toFixed(1)} {tMeasurement('kg')}</span>
               </div>
             )}
           </button>
@@ -68,11 +70,11 @@ export default function Progress() {
               <IconActivity className="h-4 w-4 text-muted-foreground" />
               <span className="text-sm text-muted-foreground">{t("measurements.waist")}</span>
             </div>
-            <p className="mt-1 text-2xl font-bold text-foreground">{progress?.waist.at(-1)!.value} cm</p>
+            <p className="mt-1 text-2xl font-bold text-foreground">{progress?.waist.at(-1)!.value} {tMeasurement('cm')}</p>
             {waistChange !== 0 && (
               <div className={cn("mt-1 flex items-center gap-1 text-sm", waistChange < 0 ? "text-primary" : "text-destructive")}>
                 {waistChange < 0 ? <IconTrendingDown className="h-3.5 w-3.5" /> : <IconTrendingUp className="h-3.5 w-3.5" />}
-                <span>{Math.abs(waistChange).toFixed(1)} cm</span>
+                <span>{Math.abs(waistChange).toFixed(1)}{tMeasurement('cm')}</span>
               </div>
             )}
           </button>
@@ -117,7 +119,7 @@ export default function Progress() {
                     return (
                       <div className="bg-card border border-border rounded-xl p-2">
                         <div className="font-semibold">
-                          {value} {selectedMetric === "weight" ? "kg" : "cm"}
+                          {value} {selectedMetric === "weight" ? tMeasurement('kg') : tMeasurement('cm')}
                         </div>
                         <div className="text-xs text-muted-foreground">{date}</div>
                       </div>

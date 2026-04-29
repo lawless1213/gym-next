@@ -11,6 +11,8 @@ import RecordCard from "./recordCard";
 
 export default function Records() {
   const t = useTranslations("stats.records");
+  const tMeasurement = useTranslations("components.measurement");
+
   const { user } = useAuth();
   const userId = user?.uid;
 
@@ -74,7 +76,7 @@ export default function Records() {
               <p className="text-sm text-muted-foreground">{t("amount")}</p>
             </div>
             <div>
-              <p className="text-2xl font-bold text-foreground">{Math.max(...records.map((pr) => pr.weight))}kg</p>
+              <p className="text-2xl font-bold text-foreground">{Math.max(...records.map((pr) => pr.weight))}{tMeasurement('kg')}</p>
               <p className="text-sm text-muted-foreground">{t("heaviestLift")}</p>
             </div>
           </div>

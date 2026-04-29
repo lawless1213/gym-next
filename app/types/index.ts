@@ -1,3 +1,5 @@
+import { Timestamp } from "firebase/firestore";
+
 export interface Exercise {
   id: string;
   name: string;
@@ -52,7 +54,7 @@ export interface BodyProgress {
 }
 
 export interface PersonalRecord {
-  date: Date;
+  date: Timestamp;
   exerciseName: string;
   reps: number;
   prevReps: number;
