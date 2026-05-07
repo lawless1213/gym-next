@@ -45,7 +45,7 @@ export default function Records() {
                 .sort((a, b) => b.date.toMillis() - a.date.toMillis())
                 .map((record: any) => (
                   <RecordCard
-                    key={record.workoutId}
+                    key={`${record.workoutId}-${record.date?.toMillis?.() ?? ''}`}
                     record={record}
                   />
                 ))}

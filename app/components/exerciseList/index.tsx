@@ -1,9 +1,10 @@
 'use client';
 
 import { Exercise } from '@/app//types';
-import { IconBarbell, IconCameraOff, IconChevronRight } from '@tabler/icons-react';
+import { IconBarbell, IconCameraOff, IconEdit } from '@tabler/icons-react';
 import { cn } from '@/app/lib/utils';
 import Image from "next/image";
+import Link from "next/link";
 
 interface ExerciseListItemProps {
   exercise: Exercise;
@@ -12,9 +13,8 @@ interface ExerciseListItemProps {
 
 export function ExerciseListItem({ exercise, onClick }: ExerciseListItemProps) {
   return (
-    <button
-      onClick={onClick}
-      className="flex w-full items-center gap-3 rounded-xl bg-card p-3 text-left transition-colors hover:bg-secondary"
+    <div
+      className="flex w-full items-center gap-3 rounded-xl bg-card p-3 text-left"
     >
       <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-secondary">
         {exercise.imageUrl ? (
@@ -44,8 +44,13 @@ export function ExerciseListItem({ exercise, onClick }: ExerciseListItemProps) {
         <p className="truncate text-sm text-muted-foreground">{exercise.muscleGroup}</p>
       </div>
 
-      <IconChevronRight className="h-5 w-5 shrink-0 text-muted-foreground" />
-    </button>
+      
+      <Link
+        href={`/exercise?id=${exercise.id}`}
+        className="group flex h-10 w-10 items-center justify-center rounded-full bg-secondary cursor-pointer border-2 border-transparent border-solid hover:border-primary transition-[0.2s]">
+        <IconEdit className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-[0.2s]" />
+      </Link>
+    </div>
   );
 }
 

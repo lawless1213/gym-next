@@ -2,7 +2,7 @@
 
 import { useState, useEffect } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
-import { getExercise } from "@/app/lib/services/exercises";
+// import { getExercise } from "@/app/lib/services/exercises";
 import type { Exercise } from "@/app/types/exercise";
 import { Modal } from "@/app/components/modal";
 import { IconLoader2 } from "@tabler/icons-react";
@@ -26,18 +26,18 @@ export default function ExercisePage() {
     router.replace("/exercise", { scroll: false });
   }, [searchParams, router]);
 
-  useEffect(() => {
-    if (!exerciseId) return;
+  // useEffect(() => {
+  //   if (!exerciseId) return;
 
-    const loadExercise = async () => {
-      setIsLoading(true);
-      const data = await getExercise(exerciseId);
-      setExercise(data);
-      setIsLoading(false);
-    };
+  //   const loadExercise = async () => {
+  //     setIsLoading(true);
+  //     const data = await getExercise(exerciseId);
+  //     setExercise(data);
+  //     setIsLoading(false);
+  //   };
 
-    void loadExercise();
-  }, [exerciseId]);
+  //   void loadExercise();
+  // }, [exerciseId]);
 
   return (
     <Modal
