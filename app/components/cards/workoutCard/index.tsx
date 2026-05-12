@@ -14,12 +14,14 @@ export function WorkoutCard({ routine }: WorkoutCardProps) {
   const t = useTranslations("HomePage.worcoutCard");
 
   return (
-    <div className="overflow-hidden rounded-2xl bg-card">
+    <div 
+      className="overflow-hidden rounded-2xl bg-card"
+      style={{borderLeft: `4px solid ${routine.color}`,}}
+    >
       <div
         className="relative p-4"
         style={{
-          background: `linear-gradient(135deg, ${routine.color}30, ${routine.color}10)`,
-          borderLeft: `4px solid ${routine.color}`,
+          background: `linear-gradient(135deg, ${routine.color}30, ${routine.color}10)`
         }}>
         <div className="flex h-full flex-col justify-between">
           <div>

@@ -40,33 +40,33 @@ export function WeeklyCalendar() {
   const CalendarSkeleton = (
     <div className="flex items-center justify-between gap-1 w-full">
       {Array.from({ length: 7 }).map((_, i) => (
-        <SkeletonBone key={i} br={12} height={74} />
+        <SkeletonBone key={i} br={10} height={74} />
       ))}
     </div>
   );
 
   return (
-    <div className="rounded-2xl bg-card p-4">
+    <div>
       <h3 className="mb-3 text-sm font-semibold text-muted-foreground">{t("title")}</h3>
 
       <SkeletonSwitcher
         isLoading={isLoading}
         skeleton={CalendarSkeleton}
       >
-        <div className="flex items-center justify-between gap-1">
+        <div className="flex items-center justify-between gap-1 mb-[-1px]">
           {weekDays.map((day, index) => {
             const isToday = index === todayIndex;
             const workout = scheduleDays[day];
             const hasWorkout = workout.length > 0;
             const isPast = index < todayIndex;
+            const isOpen = openCardIndex === index && scheduleDays[weekDays[openCardIndex]].length > 0;
 
             return (
               <button
                 key={day}
                 onClick={() => cardToggler(index)}
-                className={`flex flex-1 flex-col items-center gap-1.5 rounded-xl py-2 transition-all min-h-[72px] overflow-hidden cursor-pointer ${
-                  isToday ? "border-primary border" : hasWorkout && !isPast ? "bg-secondary hover:bg-secondary/80" : "hover:bg-secondary/50"
-                }`}
+                className={`flex flex-1 flex-col items-center gap-1.5 py-2 rounded-md transition-all min-h-[72px] overflow-hidden cursor-pointer hover:bg-secondary/80 ${
+                  isToday ? "border-primary border-t" : ""} ${isOpen ? "bg-secondary/80 rounded-b-none" : ""}`}
               >
                 <span className="text-[12px] font-medium uppercase text-muted-foreground">{t(`${day}`)}</span>
                 <span className="text-sm font-bold">{todayDate - todayIndex + index}</span>
@@ -81,15 +81,17 @@ export function WeeklyCalendar() {
         {openCardIndex !== null && scheduleDays[weekDays[openCardIndex]].length > 0 && (
           <motion.div
             key={weekDays[openCardIndex]}
-            className="overflow-hidden flex flex-col gap-2 mt-2" // Додав mt-2
-            initial={{ opacity: 0, height: 0 }}
+            className="overflow-hidden"
+            initial={{ opacity: 1, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
-            exit={{ opacity: 0, height: 0 }}
+            exit={{ opacity: 1, height: 0 }}
             transition={{ duration: 0.25, ease: "easeInOut" }}
           >
-            {scheduleDays[weekDays[openCardIndex]].map((routine) => (
-              <RoutineCard key={routine.id} {...routine} />
-            ))}
+            <div className="overflow-hidden flex flex-col gap-2 p-4 bg-secondary/80 rounded-xl">
+              {scheduleDays[weekDays[openCardIndex]].map((routine) => (
+                <RoutineCard key={routine.id} {...routine} />
+              ))}
+            </div>
           </motion.div>
         )}
       </AnimatePresence>

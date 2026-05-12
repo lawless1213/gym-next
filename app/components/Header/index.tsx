@@ -3,9 +3,9 @@
 import { useLocale } from "next-intl";
 import { setUserLocale } from "@/app/lib/i18n/i18n-action";
 import { IconUser, IconLogout, IconMoon, IconSun } from "@tabler/icons-react";
-import Link from "next/link";
 import { useAuth } from "@/app/hooks/useAuth";
 import { useAppTheme } from "@/app/hooks/useAppTheme";
+import { useModal } from "@/app/lib/modal/modal-store";
 
 type HeaderProps = {
   title: string;
@@ -13,6 +13,7 @@ type HeaderProps = {
 };
 
 export function Header(props: HeaderProps) {
+  const { open } = useModal();
   const locale = useLocale();
   const { user, logout, loading } = useAuth();
   const { mounted, isDark, toggleTheme } = useAppTheme();
@@ -49,11 +50,11 @@ export function Header(props: HeaderProps) {
             <IconLogout className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-[0.2s]" />
           </button>
         ) : (
-          <Link
-            href="/login"
+          <button
+            onClick={() => open('auth')}
             className="group flex h-10 w-10 items-center justify-center rounded-full bg-secondary cursor-pointer border-2 border-transparent border-solid hover:border-primary transition-[0.2s]">
             <IconUser className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-[0.2s]" />
-          </Link>
+          </button>
         )}
       </div>
     </header>

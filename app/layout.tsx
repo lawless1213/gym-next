@@ -6,6 +6,7 @@ import { NextIntlClientProvider } from "next-intl";
 import { ThemeProvider } from "./providers/theme-provider";
 import { QueryProvider } from "./providers/QueryProvider";
 import AppShell from "./components/AppShell";
+import { ModalProvider } from "./lib/modal/modal-store";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -30,9 +31,11 @@ export default function RootLayout({
       <ThemeProvider>
         <NextIntlClientProvider>
           <AuthProvider>
-            <QueryProvider>
-              <AppShell modal={modal}>{children}</AppShell>
-            </QueryProvider>
+            <ModalProvider>
+              <QueryProvider>
+                <AppShell modal={modal}>{children}</AppShell>
+              </QueryProvider>
+            </ModalProvider>
           </AuthProvider>
         </NextIntlClientProvider>
       </ThemeProvider>
