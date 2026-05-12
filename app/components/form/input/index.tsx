@@ -10,6 +10,7 @@ type InputType = {
   type?: string;
   id?: string;
   name?: string;
+  label?: string;
   error?: string;
 };
 
@@ -20,18 +21,20 @@ type InputProps = {
 export function Input({ input }: InputProps) {
   return (
     <>
-      <div className="flex items-center rounded-md bg-white/5 outline-1 -outline-offset-1 outline-gray-600 has-[input:focus-within]:primary-1 has-[input:focus-within]:-outline-offset-2 has-[input:focus-within]:outline-primary-1">
+      <div className="space-y-2">
+        {input.label && <label htmlFor={input.id || "input"} className="text-sm font-medium text-foreground">
+          {input.label}
+        </label>}
         <input
           id={input.id || "input"}
           type={input.type || "text"}
-          name={input.name || "input"}
-          placeholder={input.placeholder}
-          className={clsx("block min-w-0 grow py-1.5 pr-3 pl-3 text-base text-white placeholder:text-gray-500 focus:outline-none sm:text-sm/6", `${input.classes}`)}
           value={input.value}
           onChange={input.onChange}
+          placeholder={input.placeholder}
+          className="w-full rounded-xl bg-secondary px-4 py-3 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
         />
       </div>
-      {input.error && <p className="text-xs text-red-500 mt-1">{input.error}</p>}
+      <p className="text-xs text-red-500 mt-1 min-h-[20px]">{input.error}</p>
     </>
   );
 }

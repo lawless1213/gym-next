@@ -2,7 +2,6 @@
 
 import { useState } from "react";
 import { IconTrophy, IconActivity } from "@tabler/icons-react";
-import { cn } from "@/app/lib/utils";
 
 import { Header } from "../components/Header";
 import { useTranslations } from "next-intl";

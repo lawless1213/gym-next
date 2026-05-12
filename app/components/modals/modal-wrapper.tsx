@@ -41,24 +41,25 @@ export function ModalWrapper({ modalType, children, classes, size = "default", t
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.98, y: 16 }}
               transition={{
-								type: 'spring',
-								stiffness: 400,
-								damping: 30,
-							}}
-              className={clsx("pointer-events-auto max-w-screen bg-secondary rounded-t-xl flex flex-col overflow-hidden", classes, {
+                type: "spring",
+                stiffness: 400,
+                damping: 30,
+              }}
+              className={clsx("pointer-events-auto max-w-screen bg-card rounded-t-xl flex flex-col overflow-hidden", classes, {
                 "w-[600px]": size === "default",
                 "h-[90vh] w-[90vw]": size === "large",
               })}>
-              <div className="p-4 flex gap-5 justify-between items-center">
-                <h2 className="text-xl">{title}</h2>
-                <IconX
-                  size={26}
-                  stroke={2}
-                  className="cursor-pointer"
+
+              <div className="flex items-center justify-between border-b border-border p-6">
+                <h2 className="text-xl font-bold text-foreground">{title}</h2>
+                <button
                   onClick={close}
-                />
+                  className="flex h-10 w-10 items-center justify-center rounded-full bg-secondary text-muted-foreground cursor-pointer hover:text-foreground"
+                  aria-label="Close">
+                  <IconX className="h-5 w-5" />
+                </button>
               </div>
-              <div className={clsx("p-3 sm:p-8 m-4 mt-0 h-full")}>{children}</div>
+              <div className="p-6 h-full">{children}</div>
             </motion.div>
           </div>
         </>

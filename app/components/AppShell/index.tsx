@@ -2,11 +2,15 @@
 
 import { AnimatePresence } from "motion/react";
 import { useAuth } from "@/app/hooks/useAuth";
+import { useBodyScrollLock } from "@/app/hooks/useBodyScrollLock";
+import { useModal } from "@/app/lib/modal/modal-store";
 import LoadingScreen from "../LoadingScreen";
 import { BottomNav } from "../bottomNav";
 
 export default function AppShell({ children, modal }: { children: React.ReactNode; modal: React.ReactNode }) {
   const { loading } = useAuth();
+  const { type } = useModal();
+  useBodyScrollLock(type !== null || modal != null);
 
   return (
     <AnimatePresence mode="wait">

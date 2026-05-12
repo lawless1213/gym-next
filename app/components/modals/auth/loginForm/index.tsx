@@ -57,8 +57,8 @@ export default function LoginForm() {
   return (
     <form
       onSubmit={handleLogin}
-      className="flex flex-col items-center w-full gap-2">
-      <div className="flex flex-col items-center w-full">
+      className="flex flex-1 flex-col">
+      <div className="flex-1 space-y-4">
         <div className="w-full mb-2">
           <Input
             input={{
@@ -73,6 +73,7 @@ export default function LoginForm() {
               },
               id: "email",
               name: "email",
+              label: "Email",
               error: fieldErrors.email,
             }}
           />
@@ -91,6 +92,7 @@ export default function LoginForm() {
               },
               id: "password",
               name: "password",
+              label: "Password",
               error: fieldErrors.password,
             }}
           />
@@ -98,16 +100,15 @@ export default function LoginForm() {
       </div>
 
       {error && <p className="w-full text-sm text-red-500 mb-1">{error ?? "Не вдалось увійти. Спробуйте ще раз."}</p>}
-      
 
       <Button
-        button={{
-          label: isLoading ? "Logging in..." : "Login",
-          big: true,
-          type: "submit",
-          disabled: isLoading || !email || !password,
-        }}
-      />
+        type="submit"
+        disabled={error ? true : !email || !password}
+        className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
+        size="lg"
+      >
+        {isLoading ? "Logging in..." : "Login"}
+      </Button>
     </form>
   );
 }
