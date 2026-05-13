@@ -7,6 +7,7 @@ import Routines from "./_components/routines";
 import { useTranslations } from "next-intl";
 import { Header } from "../components/Header";
 import { Tabs } from "../components/common/tabs";
+import ButtonCreate from "./_components/buttonCreate";
 
 type LibraryTab = "exercises" | "routines";
 
@@ -28,18 +29,26 @@ export default function LibraryScreen() {
   ];
 
   return (
-    <div className="flex flex-col gap-4 pb-4">
-      <Header
-        title={t("title")}
-        subtitle={t("subtitle")}
-      />
+    <>
+      <div className="flex flex-col gap-4 pb-4">
+        <Header
+          title={t("title")}
+          subtitle={t("subtitle")}
+        />
 
-      <Tabs
-        items={tabItems}
-        activeTab={activeTab}
-        onChange={setActiveTab}>
-        {activeTab === "exercises" ? <Exercises /> : <Routines />}
-      </Tabs>
-    </div>
+        <Tabs
+          items={tabItems}
+          activeTab={activeTab}
+          onChange={setActiveTab}>
+          {activeTab === "exercises" ? <Exercises /> : <Routines />}
+        </Tabs>
+      </div>
+      <ButtonCreate
+        onClick={() => {
+          console.log("create exercise or routine");
+        }}
+      />
+    </>
   );
 }
+

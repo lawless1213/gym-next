@@ -29,20 +29,19 @@ export default function Routines() {
   const { data: routines = [], isLoading: loading } = useRoutines(userID);
 
   return (
-    <SkeletonSwitcher
-      isLoading={loading}
-      skeleton={RoutinesSkeleton}>
-      <div className="space-y-3">
-        {routines.map((routine) => (
-          <RoutineCard
-            key={routine.id}
-            {...routine}
-          />
-        ))}
-      </div>
-
-      <ButtonCreate onClick={() => {console.log('create routine');
-      }}/>
-    </SkeletonSwitcher>
+    <>
+      <SkeletonSwitcher
+        isLoading={loading}
+        skeleton={RoutinesSkeleton}>
+        <div className="space-y-3">
+          {routines.map((routine) => (
+            <RoutineCard
+              key={routine.id}
+              {...routine}
+            />
+          ))}
+        </div>
+      </SkeletonSwitcher>
+    </>
   );
 }

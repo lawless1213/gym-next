@@ -79,8 +79,6 @@ export default function Exercises() {
             />
           ))}
         </div>
-        <ButtonCreate onClick={() => {console.log('create exercise')}
-        }/>
       </SkeletonSwitcher>
     </>
   );
