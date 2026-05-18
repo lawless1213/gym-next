@@ -5,6 +5,7 @@ import { IconBarbell, IconCameraOff, IconEdit } from '@tabler/icons-react';
 import { cn } from '@/app/lib/utils';
 import Image from "next/image";
 import Link from "next/link";
+import { useTranslations } from 'next-intl';
 
 interface ExerciseListItemProps {
   exercise: Exercise;
@@ -12,6 +13,8 @@ interface ExerciseListItemProps {
 }
 
 export function ExerciseListItem({ exercise, onClick }: ExerciseListItemProps) {
+  const t = useTranslations("components.exerciseCard");
+
   return (
     <div
       className="flex w-full items-center gap-3 rounded-xl bg-card p-3 text-left"
@@ -37,7 +40,7 @@ export function ExerciseListItem({ exercise, onClick }: ExerciseListItemProps) {
           <h3 className="truncate font-medium text-foreground">{exercise.name}</h3>
           {exercise.isCustom && (
             <span className="shrink-0 rounded-md bg-primary/20 px-1.5 py-0.5 text-[10px] font-semibold uppercase text-primary">
-              Custom
+              {t('custom')}
             </span>
           )}
         </div>

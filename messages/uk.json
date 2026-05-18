@@ -51,6 +51,9 @@
 		"routineCard": {
 			"amount": "Кіл-сть вправ",
 			"emptyExercises" : "Вправи відсутні"
+		},
+		"exerciseCard": {
+			"custom": "Власна"
 		}
 	},
   "HomePage": {

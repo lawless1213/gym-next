@@ -51,6 +51,9 @@
 		"routineCard": {
 			"amount": "Number of exercises",
 			"emptyExercises" : "Exercises is empty"
+		},
+		"exerciseCard": {
+			"custom": "custom"
 		}
 	},
 	"HomePage": {

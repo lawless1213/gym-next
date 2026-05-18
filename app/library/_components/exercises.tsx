@@ -7,10 +7,9 @@ import { IconSearch, IconPlus, IconBarbell, IconFolderOpen } from "@tabler/icons
 import { useAuth } from "@/app/hooks/useAuth";
 import Loader from "../../components/common/loader";
 import { useTranslations } from "next-intl";
-import { useExercises } from "@/app/hooks/useServices/useExercises";
+import { useAllExercises } from "@/app/hooks/useServices/useExercises";
 import SkeletonBone from "@/app/components/common/skeletonBone";
 import SkeletonSwitcher from "@/app/components/common/SkeletonSwitcher";
-import ButtonCreate from "./buttonCreate";
 
 const ExercisesSkeleton = (
   <div className="space-y-6 mt-6">
@@ -35,7 +34,7 @@ export default function Exercises() {
   const userID = user?.uid;
   const [searchQuery, setSearchQuery] = useState("");
 
-  const { data: exercises = [], isLoading: loading } = useExercises(userID);
+  const { data: exercises = [], isLoading: loading } = useAllExercises(userID);
 
   const filteredExercises = useMemo(() => {
     if (!searchQuery) return exercises;
