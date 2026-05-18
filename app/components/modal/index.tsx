@@ -2,6 +2,7 @@
 import clsx from "clsx";
 import { useRouter } from "next/navigation";
 import { IconX } from "@tabler/icons-react";
+import { useBodyScrollLock } from "@/app/hooks/useBodyScrollLock";
 
 type ModalType = {
   title?: string;
@@ -17,6 +18,7 @@ type ModalProps = {
 
 export function Modal({ modal }: ModalProps) {
   const router = useRouter();
+  useBodyScrollLock(true);
 
   const handleClose = () => {
     router.back();

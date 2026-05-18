@@ -4,8 +4,6 @@ import { AnimatePresence, motion } from "motion/react";
 import { usePathname, useRouter } from "next/navigation";
 import { useSwipeable } from "react-swipeable";
 import { useAuth } from "@/app/hooks/useAuth";
-import { useBodyScrollLock } from "@/app/hooks/useBodyScrollLock";
-import { useModal } from "@/app/lib/modal/modal-store";
 import LoadingScreen from "../LoadingScreen";
 import { BottomNav } from "../bottomNav";
 import { navLinks } from "@/app/data/navManu";
@@ -24,10 +22,8 @@ function getDirection(from: string, to: string) {
 
 export default function AppShell({ children, modal }: { children: React.ReactNode; modal: React.ReactNode }) {
   const { loading } = useAuth();
-  const { type } = useModal();
   const pathname = usePathname();
   const router = useRouter();
-  useBodyScrollLock(type !== null || modal != null);
 
   if (prevPathname !== pathname) {
     currentDir = prevPathname ? getDirection(prevPathname, pathname) : 1;
@@ -54,7 +50,7 @@ export default function AppShell({ children, modal }: { children: React.ReactNod
       ) : (
         <div key="app" className="flex min-h-screen flex-col">
           <BottomNav />
-            <main {...handlers} style={{ touchAction: "pan-y" }} className="overflow-hidden flex-1 p-4 pb-24">
+            <main {...handlers} style={{ touchAction: "pan-y" }} className="min-h-0 flex-1 overflow-y-auto p-4 pb-24">
               <motion.div
                 key={pathname}
                 initial={{ x: `${30 * currentDir}%`, opacity: 0 }}

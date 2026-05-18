@@ -2,6 +2,7 @@
 "use client";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "motion/react";
+import { useBodyScrollLock } from "@/app/hooks/useBodyScrollLock";
 import { useModal } from "@/app/lib/modal/modal-store";
 import { ModalType } from "@/app/types/modal";
 import clsx from "clsx";
@@ -18,6 +19,7 @@ type Props = {
 export function ModalWrapper({ modalType, children, classes, size = "default", title }: Props) {
   const { type, close } = useModal();
   const isOpen = type === modalType;
+  useBodyScrollLock(isOpen);
 
   return createPortal(
     <AnimatePresence>
