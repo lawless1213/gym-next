@@ -11,3 +11,7 @@ export const navLinks = [
   { link: '/history', label: 'history', icon: IconHistory, loginRequired: true },
   { link: '/stats', label: 'stats', icon: IconChartBar, loginRequired: true },
 ];
+
+export function getNavLinks(isLoggedIn) {
+  return navLinks.filter((item) => !item.loginRequired || isLoggedIn);
+}

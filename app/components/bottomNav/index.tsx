@@ -1,7 +1,7 @@
 'use client';
 
 import { usePathname } from "next/navigation";
-import { navLinks } from "@/app/data/navManu";
+import { getNavLinks } from "@/app/data/navManu";
 import Link from "next/link";
 import { useTranslations } from 'next-intl';
 import { useAuth } from "@/app/hooks/useAuth";
@@ -15,11 +15,7 @@ export function BottomNav() {
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-card/95 backdrop-blur-lg">
       <div className="mx-auto flex h-16 max-w-lg items-center justify-around px-4">
-        {navLinks
-        .filter((navItem) => {
-          return !navItem.loginRequired || user;
-        })
-          .map((item) => {
+        {getNavLinks(!!user).map((item) => {
           const isActive = pathname === item.link;
           return (
             <Link

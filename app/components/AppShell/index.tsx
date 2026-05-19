@@ -1,19 +1,18 @@
 "use client";
 
+import { useEffect, useMemo } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { usePathname, useRouter } from "next/navigation";
 import { useSwipeable } from "react-swipeable";
 import { useAuth } from "@/app/hooks/useAuth";
 import LoadingScreen from "../LoadingScreen";
 import { BottomNav } from "../bottomNav";
-import { navLinks } from "@/app/data/navManu";
-
-const routes = navLinks.map((n) => n.link);
+import { getNavLinks, navLinks } from "@/app/data/navManu";
 
 let prevPathname = "";
 let currentDir = 1;
 
-function getDirection(from: string, to: string) {
+function getDirection(from: string, to: string, routes: string[]) {
   const fi = routes.indexOf(from);
   const ti = routes.indexOf(to);
   if (fi === -1 || ti === -1) return 1;
@@ -21,12 +20,27 @@ function getDirection(from: string, to: string) {
 }
 
 export default function AppShell({ children, modal }: { children: React.ReactNode; modal: React.ReactNode }) {
-  const { loading } = useAuth();
+  const { loading, user } = useAuth();
   const pathname = usePathname();
   const router = useRouter();
 
+  const routes = useMemo(
+    () => getNavLinks(!!user).map((n) => n.link),
+    [user],
+  );
+
+  const isProtectedRoute = navLinks.some(
+    (item) => item.link === pathname && item.loginRequired,
+  );
+
+  useEffect(() => {
+    if (!loading && !user && isProtectedRoute) {
+      router.replace("/");
+    }
+  }, [loading, user, isProtectedRoute, router]);
+
   if (prevPathname !== pathname) {
-    currentDir = prevPathname ? getDirection(prevPathname, pathname) : 1;
+    currentDir = prevPathname ? getDirection(prevPathname, pathname, routes) : 1;
     prevPathname = pathname;
   }
 
@@ -48,19 +62,23 @@ export default function AppShell({ children, modal }: { children: React.ReactNod
       {loading ? (
         <LoadingScreen key="loading" />
       ) : (
-        <div key="app" className="flex min-h-screen flex-col">
+        <div
+          key="app"
+          className="flex min-h-screen flex-col">
           <BottomNav />
-            <main {...handlers} style={{ touchAction: "pan-y" }} className="min-h-0 flex-1 overflow-y-auto p-4 pb-24">
-              <motion.div
-                key={pathname}
-                initial={{ x: `${30 * currentDir}%`, opacity: 0 }}
-                animate={{ x: 0, opacity: 1 }}
-                exit={{ x: `${-30 * currentDir}%`, opacity: 0 }}
-                transition={{ type: "spring", stiffness: 300, damping: 30 }}
-              >
-                {children}
-              </motion.div>
-            </main>
+          <main
+            {...handlers}
+            style={{ touchAction: "pan-y" }}
+            className="min-h-0 flex-1 overflow-y-auto p-4 pb-24">
+            <motion.div
+              key={pathname}
+              initial={{ x: `${30 * currentDir}%`, opacity: 0 }}
+              animate={{ x: 0, opacity: 1 }}
+              exit={{ x: `${-30 * currentDir}%`, opacity: 0 }}
+              transition={{ type: "spring", stiffness: 500, damping: 30 }}>
+              {children}
+            </motion.div>
+          </main>
           {modal}
         </div>
       )}
