@@ -1,23 +1,25 @@
 "use client";
 
 import { ModalWrapper } from "../modal-wrapper";
-import { useForm } from "react-hook-form";
+import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button } from "@/app/components/buttons/button";
 import { Input } from "@/app/components/form/input";
 import { AUTH_ERRORS } from "@/app/lib/errors/auth";
 import { useModal } from "@/app/lib/modal/modal-store";
-import { IconBarbell, IconUpload } from "@tabler/icons-react";
+import { IconBarbell, IconCheck, IconUpload } from "@tabler/icons-react";
 import { useState } from "react";
 
 const exerciseSchema = z.object({
   title: z.string().min(3, "Назва має бути мінімум 3 символа"),
-  groups: z.string(),
+  groups: z.array(z.string()).min(1, "Оберіть хоча б одну групу м'язів"),
   description: z.string(),
 });
 
 type ExerciseFormData = z.infer<typeof exerciseSchema>;
+
+const MUSCLE_GROUPS = ["Chest", "Back", "Shoulders", "Arms", "Legs", "Core", "Full Body"];
 
 export function ExerciseCreateModal() {
   const { close } = useModal();
@@ -25,15 +27,18 @@ export function ExerciseCreateModal() {
   const {
     register,
     handleSubmit,
+    control,
     setError,
     formState: { errors, isSubmitting, isValid, isDirty },
   } = useForm<ExerciseFormData>({
     resolver: zodResolver(exerciseSchema),
     mode: "onTouched",
+    defaultValues: {
+      groups: [],
+    },
   });
 
   const { ref: titleRef, ...titleRest } = register("title");
-  const { ref: groupsRef, ...groupsRest } = register("groups");
   const { ref: descriptionRef, ...descriptionRest } = register("description");
 
   const onSubmit = async (data: ExerciseFormData) => {
@@ -47,9 +52,6 @@ export function ExerciseCreateModal() {
       });
     }
   };
-
-  const muscleGroups = ['Chest', 'Back', 'Shoulders', 'Arms', 'Legs', 'Core', 'Full Body'];
-  const [muscleGroup, setMuscleGroup] = useState('');
 
   return (
     <ModalWrapper
@@ -82,21 +84,36 @@ export function ExerciseCreateModal() {
                 error: errors.title?.message,
               }}
             />
-            {/* Muscle Group */}
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-foreground">Muscle Group</label>
-              <div className="flex flex-wrap gap-2">
-                {muscleGroups.map((group) => (
-                  <button
-                    key={group}
-                    type="button"
-                    onClick={() => setMuscleGroup(group)}
-                    className={`rounded-full px-4 py-2 text-sm font-medium transition-all ${muscleGroup === group ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground hover:text-foreground"}`}>
-                    {group}
-                  </button>
-                ))}
-              </div>
-            </div>
+            {/* Muscle Groups — checkboxes */}
+            <Controller
+              name="groups"
+              control={control}
+              render={({ field }) => (
+                <div className="space-y-1.5">
+                  <div className="flex flex-wrap gap-2">
+                    {MUSCLE_GROUPS.map((group) => {
+                      const checked = field.value.includes(group);
+                      return (
+                        <button
+                          key={group}
+                          type="button"
+                          role="checkbox"
+                          aria-checked={checked}
+                          onClick={() => {
+                            const next = checked ? field.value.filter((g) => g !== group) : [...field.value, group];
+                            field.onChange(next);
+                          }}
+                          className={`cursor-pointer flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium transition-all ${checked ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground hover:text-foreground"}`}>
+                          {group}
+                        </button>
+                      );
+                    })}
+                  </div>
+                  {errors.groups && <p className="text-sm text-red-500">{errors.groups.message}</p>}
+                </div>
+              )}
+            />
+
             <Input
               ref={descriptionRef}
               input={{
