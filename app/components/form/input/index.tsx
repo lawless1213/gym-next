@@ -45,7 +45,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
               input.classes
             )}
           />
-          <p className="text-xs text-red-500 min-h-[20px] mt-1">{input.error}</p>
+          <p className="text-xs text-red-500 min-h-[20px]">{input.error}</p>
         </div>
       </>
     );
