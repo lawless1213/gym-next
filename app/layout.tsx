@@ -1,3 +1,4 @@
+import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
@@ -26,20 +27,23 @@ export default function RootLayout({
   modal: React.ReactNode;
 }>) {
   return (
-    <html lang="en" suppressHydrationWarning>
-    <body className={`${inter.variable} antialiased flex min-h-screen flex-col bg-background`}>
-      <ThemeProvider>
-        <NextIntlClientProvider>
-          <AuthProvider>
-            <ModalProvider>
-              <QueryProvider>
-                <AppShell modal={modal}>{children}</AppShell>
-              </QueryProvider>
-            </ModalProvider>
-          </AuthProvider>
-        </NextIntlClientProvider>
-      </ThemeProvider>
-    </body>
-  </html>
+    <>
+      <SpeedInsights />
+      <html lang="en" suppressHydrationWarning>
+        <body className={`${inter.variable} antialiased flex min-h-screen flex-col bg-background`}>
+          <ThemeProvider>
+            <NextIntlClientProvider>
+              <AuthProvider>
+                <ModalProvider>
+                  <QueryProvider>
+                    <AppShell modal={modal}>{children}</AppShell>
+                  </QueryProvider>
+                </ModalProvider>
+              </AuthProvider>
+            </NextIntlClientProvider>
+          </ThemeProvider>
+        </body>
+      </html>
+    </>
   );
 }
