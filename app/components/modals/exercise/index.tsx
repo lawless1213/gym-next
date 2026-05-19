@@ -12,6 +12,7 @@ import { IconBarbell, IconCheck, IconUpload } from "@tabler/icons-react";
 import { useState } from "react";
 
 const exerciseSchema = z.object({
+  photo: z.instanceof(File).optional(),
   title: z.string().min(3, "Назва має бути мінімум 3 символа"),
   groups: z.array(z.string()).min(1, "Оберіть хоча б одну групу м'язів"),
   description: z.string(),
@@ -62,17 +63,39 @@ export function ExerciseCreateModal() {
           onSubmit={handleSubmit(onSubmit)}
           className="flex flex-1 flex-col">
           <div className="flex-1 space-y-2 mb-10">
-            <div className="flex flex-col items-center gap-3">
-              <div className="flex h-24 w-24 items-center justify-center rounded-2xl bg-secondary">
-                <IconBarbell className="h-10 w-10 text-muted-foreground" />
-              </div>
-              <button
-                type="button"
-                className="flex items-center gap-2 text-sm font-medium text-primary">
-                <IconUpload className="h-4 w-4" />
-                Add Photo
-              </button>
-            </div>
+            <Controller
+              name="photo"
+              control={control}
+              render={({ field: { onChange, value } }) => {
+                const previewUrl = value ? URL.createObjectURL(value) : null;
+
+                return (
+                  <label className="group flex flex-col items-center cursor-pointer">
+                    <div className="flex h-24 w-24 items-center justify-center rounded-2xl bg-secondary overflow-hidden">
+                      {previewUrl ? (
+                        <img
+                          src={previewUrl}
+                          alt="Preview"
+                          className="h-full w-full object-cover"
+                        />
+                      ) : (
+                        <IconBarbell className="h-10 w-10 text-muted-foreground" />
+                      )}
+                    </div>
+                    <input
+                      type="file"
+                      accept="image/*"
+                      className="hidden"
+                      onChange={(e) => onChange(e.target.files?.[0])}
+                    />
+                    <span className="flex items-center gap-2 text-sm font-medium group-hover:text-primary mt-1 transition-[0.2s]">
+                      <IconUpload className="h-4 w-4" />
+                      {value ? "Change Photo" : "Add Photo"}
+                    </span>
+                  </label>
+                );
+              }}
+            />
 
             <Input
               ref={titleRef}
@@ -84,7 +107,7 @@ export function ExerciseCreateModal() {
                 error: errors.title?.message,
               }}
             />
-            {/* Muscle Groups — checkboxes */}
+
             <Controller
               name="groups"
               control={control}
