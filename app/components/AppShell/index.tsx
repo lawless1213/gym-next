@@ -19,7 +19,7 @@ function getDirection(from: string, to: string, routes: string[]) {
   return ti > fi ? 1 : -1;
 }
 
-export default function AppShell({ children, modal }: { children: React.ReactNode; modal: React.ReactNode }) {
+export default function AppShell({ children }: { children: React.ReactNode }) {
   const { loading, user } = useAuth();
   const pathname = usePathname();
   const router = useRouter();
@@ -79,7 +79,6 @@ export default function AppShell({ children, modal }: { children: React.ReactNod
               {children}
             </motion.div>
           </main>
-          {modal}
         </div>
       )}
     </AnimatePresence>

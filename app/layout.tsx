@@ -20,11 +20,9 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-  children,
-  modal,
+  children
 }: Readonly<{
   children: React.ReactNode;
-  modal: React.ReactNode;
 }>) {
   return (
     <>
@@ -36,7 +34,7 @@ export default function RootLayout({
               <AuthProvider>
                 <ModalProvider>
                   <QueryProvider>
-                    <AppShell modal={modal}>{children}</AppShell>
+                    <AppShell>{children}</AppShell>
                   </QueryProvider>
                 </ModalProvider>
               </AuthProvider>
