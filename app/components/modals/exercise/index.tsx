@@ -108,6 +108,17 @@ export function ExerciseCreateModal() {
               }}
             />
 
+            <Input
+              ref={descriptionRef}
+              input={{
+                ...descriptionRest,
+                id: "description",
+                placeholder: "Describe the exercise...",
+                // label: "description",
+                error: errors.description?.message,
+              }}
+            />
+
             <Controller
               name="groups"
               control={control}
@@ -135,17 +146,6 @@ export function ExerciseCreateModal() {
                   {errors.groups && <p className="text-sm text-red-500">{errors.groups.message}</p>}
                 </div>
               )}
-            />
-
-            <Input
-              ref={descriptionRef}
-              input={{
-                ...descriptionRest,
-                id: "description",
-                placeholder: "Describe the exercise...",
-                // label: "description",
-                error: errors.description?.message,
-              }}
             />
           </div>
 
