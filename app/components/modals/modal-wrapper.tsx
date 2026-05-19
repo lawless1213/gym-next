@@ -4,9 +4,9 @@ import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "motion/react";
 import { useBodyScrollLock } from "@/app/hooks/useBodyScrollLock";
 import { useModal } from "@/app/lib/modal/modal-store";
-import { ModalType } from "@/app/types/modal";
 import clsx from "clsx";
 import { IconX } from "@tabler/icons-react";
+import { ModalType } from "@/app/lib/modal/modal-renderer";
 
 type Props = {
   modalType: ModalType;

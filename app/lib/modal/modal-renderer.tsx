@@ -1,10 +1,15 @@
 'use client'
+import { RoutineCreateModal } from '@/app/components/modals/routine';
 import { useModal } from './modal-store'
-import { AuthModal } from '@/app/components/modals/auth/auth-modal'
+import { AuthModal } from '@/app/components/modals/auth'
+import { ExerciseCreateModal } from '@/app/components/modals/exercise';
 
 const MODAL_MAP = {
   auth: AuthModal,
-} satisfies Record<string, React.ComponentType>
+  exercise: ExerciseCreateModal,
+  routine: RoutineCreateModal,
+} as const;
+export type ModalType = keyof typeof MODAL_MAP;
 
 export function ModalRenderer() {
   const { type } = useModal()

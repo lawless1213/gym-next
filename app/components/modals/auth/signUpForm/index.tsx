@@ -5,6 +5,7 @@ import { z } from "zod";
 import { Button } from "@/app/components/buttons/button";
 import { useAuth } from "@/app/hooks/useAuth";
 import { Input } from "@/app/components/form/input";
+import { useModal } from "@/app/lib/modal/modal-store";
 
 const signUpSchema = z.object({
   email: z.string().email("Введіть коректний email"),
@@ -14,6 +15,7 @@ const signUpSchema = z.object({
 type SignUpFormData = z.infer<typeof signUpSchema>;
 
 export default function SignUpForm() {
+  const { close } = useModal();
   const router = useRouter();
   const { signup } = useAuth();
   const [email, setEmail] = useState("");
@@ -44,7 +46,7 @@ export default function SignUpForm() {
 
     try {
       await signup(email, password);
-      router.back();
+      close();
     } catch (err: any) {
       setError(err.message ?? "Не вдалось зареєструватись. Спробуйте ще раз.");
     } finally {

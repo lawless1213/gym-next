@@ -1,14 +1,14 @@
 "use client";
 
-import { useState, useMemo, useEffect } from "react";
-import { IconPlus } from "@tabler/icons-react";
+import { IconUser, IconPlus } from "@tabler/icons-react";
 import { useAuth } from "@/app/hooks/useAuth";
-import Loader from "../../components/common/loader";
 import RoutineCard from "../../components/cards/routine";
 import { useRoutines } from "@/app/hooks/useServices/useRoutines";
 import SkeletonBone from "@/app/components/common/skeletonBone";
 import SkeletonSwitcher from "@/app/components/common/SkeletonSwitcher";
-import ButtonCreate from "./buttonCreate";
+import { useModal } from "@/app/lib/modal/modal-store";
+import { useTranslations } from "next-intl";
+import ActionCard from "@/app/components/cards/action";
 
 const RoutinesSkeleton = (
   <div className="space-y-3">
@@ -23,6 +23,8 @@ const RoutinesSkeleton = (
 );
 
 export default function Routines() {
+  const t = useTranslations("Library.routines");
+  const { open } = useModal();
   const { user } = useAuth();
   const userID = user?.uid;
 
@@ -34,12 +36,30 @@ export default function Routines() {
         isLoading={loading}
         skeleton={RoutinesSkeleton}>
         <div className="space-y-3">
-          {routines.map((routine) => (
-            <RoutineCard
-              key={routine.id}
-              {...routine}
-            />
-          ))}
+          {
+            user ? (
+              routines.length === 0 ? (
+                routines.map((routine) => (
+                  <RoutineCard
+                    key={routine.id}
+                    {...routine}
+                  />
+                ))
+              ) : (
+                <ActionCard
+                  title={t('empty')}
+                  icon={IconPlus}
+                  onClick={() => open('exercise')}
+                />
+              )
+            ) : (
+              <ActionCard
+                title={t('not-auth')}
+                icon={IconUser}
+                onClick={() => open('auth')}
+              />
+            )
+          }
         </div>
       </SkeletonSwitcher>
     </>

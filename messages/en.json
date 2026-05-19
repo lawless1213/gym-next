@@ -105,6 +105,10 @@
 			"searchPlaceholder": "Search exercises...",
 			"createAriaLabel": "Create exercise",
 			"customBadge": "Custom"
+		},
+		"routines": {
+			"empty": "The list of routines is empty",
+			"not-auth": "Please sign in to create or edit routines"
 		}
 	},
 	"History": {

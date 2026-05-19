@@ -6,6 +6,7 @@ import { Button } from "@/app/components/buttons/button";
 import { useAuth } from "@/app/hooks/useAuth";
 import { Input } from "@/app/components/form/input";
 import { AUTH_ERRORS } from "@/app/lib/errors/auth";
+import { useModal } from "@/app/lib/modal/modal-store";
 
 const loginSchema = z.object({
   email: z.string().email("Введіть коректний email"),
@@ -15,6 +16,7 @@ const loginSchema = z.object({
 type LoginFormData = z.infer<typeof loginSchema>;
 
 export default function LoginForm() {
+  const { close } = useModal();
   const router = useRouter();
   const { login } = useAuth();
   const [email, setEmail] = useState("");
@@ -45,7 +47,7 @@ export default function LoginForm() {
 
     try {
       await login(email, password);
-      router.back();
+      close();
     } catch (err: any) {
       const message = AUTH_ERRORS[err.code] || AUTH_ERRORS["default"];
       setError(message);

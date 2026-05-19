@@ -8,21 +8,25 @@ import { useTranslations } from "next-intl";
 import { Header } from "../components/Header";
 import { Tabs } from "../components/common/tabs";
 import ButtonCreate from "./_components/buttonCreate";
+import { useModal } from "../lib/modal/modal-store";
+import { useAuth } from "../hooks/useAuth";
 
-type LibraryTab = "exercises" | "routines";
+type LibraryTab = "exercise" | "routine";
 
 export default function LibraryScreen() {
   const t = useTranslations("Library");
-  const [activeTab, setActiveTab] = useState<LibraryTab>("exercises");
+  const { user } = useAuth();
+  const { open } = useModal();
+  const [activeTab, setActiveTab] = useState<LibraryTab>("exercise");
 
   const tabItems = [
     {
-      id: "exercises",
+      id: "exercise",
       label: t("tabs.exercises"),
       icon: <IconBarbell className="h-4 w-4" />,
     },
     {
-      id: "routines",
+      id: "routine",
       label: t("tabs.routines"),
       icon: <IconFolderOpen className="h-4 w-4" />,
     },
@@ -40,15 +44,10 @@ export default function LibraryScreen() {
           items={tabItems}
           activeTab={activeTab}
           onChange={setActiveTab}>
-          {activeTab === "exercises" ? <Exercises /> : <Routines />}
+          {activeTab === "exercise" ? <Exercises /> : <Routines />}
         </Tabs>
       </div>
-      <ButtonCreate
-        onClick={() => {
-          console.log("create exercise or routine");
-        }}
-      />
+      {user && <ButtonCreate onClick={() => open(activeTab)} />}
     </>
   );
 }
-

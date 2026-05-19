@@ -1,5 +1,5 @@
-// components/modals/auth-modal.tsx
 'use client'
+
 import { useState } from 'react'
 import SignUpForm from './signUpForm'
 import LoginForm from './loginForm'
