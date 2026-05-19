@@ -39,18 +39,18 @@ export default function Routines() {
           {
             user ? (
               routines.length === 0 ? (
+                <ActionCard
+                  title={t('empty')}
+                  icon={IconPlus}
+                  onClick={() => open('routine')}
+                />
+              ) : (
                 routines.map((routine) => (
                   <RoutineCard
                     key={routine.id}
                     {...routine}
                   />
                 ))
-              ) : (
-                <ActionCard
-                  title={t('empty')}
-                  icon={IconPlus}
-                  onClick={() => open('exercise')}
-                />
               )
             ) : (
               <ActionCard
