@@ -20,23 +20,25 @@ export const metadata: Metadata = {
 };
 
 export default function RootLayout({
-  children
+  children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
   return (
     <>
       <SpeedInsights />
-      <html lang="en" suppressHydrationWarning>
+      <html
+        lang="en"
+        suppressHydrationWarning>
         <body className={`${inter.variable} antialiased flex min-h-screen flex-col bg-background`}>
           <ThemeProvider>
             <NextIntlClientProvider>
               <AuthProvider>
-                <ModalProvider>
-                  <QueryProvider>
+                <QueryProvider>
+                  <ModalProvider>
                     <AppShell>{children}</AppShell>
-                  </QueryProvider>
-                </ModalProvider>
+                  </ModalProvider>
+                </QueryProvider>
               </AuthProvider>
             </NextIntlClientProvider>
           </ThemeProvider>

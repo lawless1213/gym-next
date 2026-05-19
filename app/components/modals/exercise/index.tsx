@@ -5,7 +5,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button } from "@/app/components/buttons/button";
-import { useAuth } from "@/app/hooks/useAuth";
 import { Input } from "@/app/components/form/input";
 import { AUTH_ERRORS } from "@/app/lib/errors/auth";
 import { useModal } from "@/app/lib/modal/modal-store";
@@ -117,7 +116,7 @@ export function ExerciseCreateModal() {
             disabled={isSubmitting || !isDirty || !isValid}
             className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
             size="lg">
-            {isSubmitting ? "Logging in..." : "Login"}
+            Create
           </Button>
         </form>
       </div>

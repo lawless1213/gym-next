@@ -47,7 +47,7 @@ export function ModalWrapper({ modalType, children, classes, size = "default", t
                 stiffness: 400,
                 damping: 30,
               }}
-              className={clsx("pointer-events-auto max-w-screen bg-card rounded-t-xl flex flex-col overflow-hidden", classes, {
+              className={clsx("relative pointer-events-auto max-w-screen bg-card rounded-t-xl flex flex-col overflow-hidden", classes, {
                 "w-[600px]": size === "default",
                 "h-[90vh] w-[90vw]": size === "large",
               })}>
