@@ -1,6 +1,6 @@
 "use client";
-import { FormEvent, useState } from "react";
-import { useRouter } from "next/navigation";
+import { useForm } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button } from "@/app/components/buttons/button";
 import { useAuth } from "@/app/hooks/useAuth";
@@ -17,99 +17,68 @@ type LoginFormData = z.infer<typeof loginSchema>;
 
 export default function LoginForm() {
   const { close } = useModal();
-  const router = useRouter();
   const { login } = useAuth();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [fieldErrors, setFieldErrors] = useState<Partial<Record<keyof LoginFormData, string>>>({});
-  const [error, setError] = useState<string | null>(null);
-  const [isLoading, setIsLoading] = useState(false);
 
-  const handleLogin = async (e: FormEvent<HTMLFormElement>) => {
-    e.preventDefault();
-    setError(null);
-    setFieldErrors({});
+  const {
+    register,
+    handleSubmit,
+    setError,
+    formState: { errors, isSubmitting, isValid, isDirty },
+  } = useForm<LoginFormData>({
+    resolver: zodResolver(loginSchema),
+    mode: "onTouched",
+  });
 
-    const validationResult = loginSchema.safeParse({ email, password });
+  const { ref: emailRef, ...emailRest } = register("email");
+  const { ref: passwordRef, ...passwordRest } = register("password");
 
-    if (!validationResult.success) {
-      const errors: Partial<Record<keyof LoginFormData, string>> = {};
-      validationResult.error.issues.forEach((err) => {
-        if (err.path[0]) {
-          errors[err.path[0] as keyof LoginFormData] = err.message;
-        }
-      });
-      setFieldErrors(errors);
-      return;
-    }
-
-    setIsLoading(true);
-
+  const onSubmit = async (data: LoginFormData) => {
     try {
-      await login(email, password);
+      await login(data.email, data.password);
       close();
     } catch (err: any) {
-      const message = AUTH_ERRORS[err.code] || AUTH_ERRORS["default"];
-      setError(message);
-    } finally {
-      setIsLoading(false);
+      setError("root", {
+        message: AUTH_ERRORS[err.code] ?? AUTH_ERRORS["default"],
+      });
     }
   };
 
   return (
     <form
-      onSubmit={handleLogin}
+      onSubmit={handleSubmit(onSubmit)}
       className="flex flex-1 flex-col">
-      <div className="flex-1 space-y-4">
-        <div className="w-full mb-2">
-          <Input
-            input={{
-              placeholder: "Email",
-              value: email,
-              // type: "email",
-              onChange: (e) => {
-                setEmail(e.target.value);
-                if (fieldErrors.email) {
-                  setFieldErrors((prev) => ({ ...prev, email: undefined }));
-                }
-              },
-              id: "email",
-              name: "email",
-              label: "Email",
-              error: fieldErrors.email,
-            }}
-          />
-        </div>
-        <div className="w-full mb-2">
-          <Input
-            input={{
-              placeholder: "Password",
-              value: password,
-              type: "password",
-              onChange: (e) => {
-                setPassword(e.target.value);
-                if (fieldErrors.password) {
-                  setFieldErrors((prev) => ({ ...prev, password: undefined }));
-                }
-              },
-              id: "password",
-              name: "password",
-              label: "Password",
-              error: fieldErrors.password,
-            }}
-          />
-        </div>
+      <div className="flex-1 space-y-2 mb-10">
+        <Input
+          ref={emailRef}
+          input={{
+            ...emailRest,
+            id: "email",
+            placeholder: "Email",
+            // label: "Email",
+            error: errors.email?.message,
+          }}
+        />
+        <Input
+          ref={passwordRef}
+          input={{
+            ...passwordRest,
+            id: "password",
+            type: "password",
+            placeholder: "Password",
+            // label: "Password",
+            error: errors.password?.message,
+          }}
+        />
       </div>
 
-      {error && <p className="w-full text-sm text-red-500 mb-1">{error ?? "Не вдалось увійти. Спробуйте ще раз."}</p>}
+      {errors.root && <p className="text-sm text-red-500 mb-1">{errors.root.message}</p>}
 
       <Button
         type="submit"
-        disabled={error ? true : !email || !password}
+        disabled={isSubmitting || !isDirty || !isValid}
         className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
-        size="lg"
-      >
-        {isLoading ? "Logging in..." : "Login"}
+        size="lg">
+        {isSubmitting ? "Logging in..." : "Login"}
       </Button>
     </form>
   );
