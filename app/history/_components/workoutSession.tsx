@@ -26,7 +26,7 @@ export default function WorkoutSession(workout: WorkoutSessionType) {
 
         <div className="flex-1">
           <div className="flex items-center gap-2">
-            <h3 className="font-semibold text-foreground">{workout.routineName}</h3>
+            <h3 className="font-semibold text-foreground">{workout.name}</h3>
           </div>
           <div className="mt-1 flex items-center gap-4 text-sm text-muted-foreground">
             <span className="flex items-center gap-1">
@@ -56,14 +56,14 @@ export default function WorkoutSession(workout: WorkoutSessionType) {
           >
             {workout.exercises.map((exercise, exerciseIndex) => (
               <div
-                key={`${exercise.exerciseId}-${exerciseIndex}`}
+                key={`${exercise.id}-${exerciseIndex}`}
                 className="flex flex-wrap items-center justify-between gap-2 py-2"
               >
                 <p className="shrink-0 text-sm font-medium">{exercise.name}</p>
                 <div className="flex flex-wrap gap-2">
                   {exercise.sets.map((set, setIndex) => (
                     <div
-                      key={`${exercise.exerciseId}-${setIndex}`}
+                      key={`${exercise.id}-${setIndex}`}
                       className={`rounded-xl bg-secondary px-4 py-1 ${set.completed ? "border border-primary" : ""}`}
                     >
                       <span className="text-xs text-foreground">
