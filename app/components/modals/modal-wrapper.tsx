@@ -15,7 +15,7 @@ type Props = {
   header?: boolean;
   classes?: string;
   contentClasses?: string;
-  size?: "default" | "large";
+  size?: "default" | "large" | "high";
 };
 
 export function ModalWrapper({ modalType, children, classes, contentClasses, size = "default", title, header=true }: Props) {
@@ -49,9 +49,9 @@ export function ModalWrapper({ modalType, children, classes, contentClasses, siz
                 stiffness: 400,
                 damping: 30,
               }}
-              className={clsx("relative pointer-events-auto max-w-screen bg-card rounded-t-xl flex flex-col", classes, {
-                "w-[600px]": size === "default",
-                "h-[90vh] w-[90vw]": size === "large",
+              className={clsx("relative pointer-events-auto max-w-screen bg-card rounded-t-xl flex flex-col max-h-screen w-[600px]", classes, {
+                "sm:h-screen": size === "high",
+                "sm:h-[95vh] sm:w-[90vw]": size === "large",
               })}>
               {
 								header &&
@@ -66,7 +66,7 @@ export function ModalWrapper({ modalType, children, classes, contentClasses, siz
                 </div>
               }
               <div 
-								className={clsx("p-6 h-full overflow-y-auto", contentClasses)}>
+								className={clsx("p-2 h-full overflow-y-auto sm:p-6", contentClasses)}>
 								{children}</div>
             </motion.div>
           </div>

@@ -76,7 +76,7 @@ export function ExerciseCreateModal() {
                         <img
                           src={previewUrl}
                           alt="Preview"
-                          className="h-full w-full object-cover"
+                          className="h-full w-full object-contain"
                         />
                       ) : (
                         <IconBarbell className="h-10 w-10 text-muted-foreground" />

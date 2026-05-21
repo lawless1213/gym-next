@@ -20,7 +20,7 @@ export type WorkoutExercise = Exercise & { sets: WorkoutSet[] };
 export interface WorkoutSession {
   id?: string;
   routineId: string;
-  routineName: string
+  name: string;
   startedAt: string;
   finishedAt?: string;
   duration?: number;

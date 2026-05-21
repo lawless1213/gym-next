@@ -8,46 +8,42 @@ import { IconCheck, IconMinus, IconPlus } from '@tabler/icons-react';
 interface SetInputProps {
   set: WorkoutSet;
   setNumber: number;
-  onUpdate?: (updates: Partial<WorkoutSet>) => void;
-  onComplete?: () => void;
+  onUpdate: (updates: Partial<WorkoutSet>) => void;
+  onComplete: () => void;
 }
 
 export function SetInput({ set, setNumber, onUpdate, onComplete }: SetInputProps) {
-  // const [weight, setWeight] = useState(set.weight || set.lastWeight || 0);
+  const [weight, setWeight] = useState(set.weight || 0);
   const [reps, setReps] = useState(set.reps || 0);
 
   const handleWeightChange = (delta: number) => {
-    // const newWeight = Math.max(0, weight + delta);
-    // setWeight(newWeight);
-    // onUpdate({ weight: newWeight });
+    const newWeight = Math.max(0, weight + delta);
+    setWeight(newWeight);
+    onUpdate({ weight: newWeight });
   };
 
   const handleRepsChange = (delta: number) => {
     const newReps = Math.max(0, reps + delta);
     setReps(newReps);
-    // onUpdate({ reps: newReps });
+    onUpdate({ reps: newReps });
   };
 
   const handleComplete = () => {
-    // onUpdate({ weight, reps, completed: true });
-    // onComplete();
+    const newCompleted = !set.completed;
+    onUpdate({ weight, reps, completed: newCompleted });
+    if (newCompleted) onComplete();
   };
 
   return (
     <div className={cn(
-      "flex items-center gap-3 rounded-xl p-3 transition-all",
+      "flex items-center gap-2 rounded-xl p-3 transition-all",
       set.completed 
         ? "bg-primary/10 ring-1 ring-primary/30" 
         : "bg-secondary"
     )}>
       {/* Set Number */}
-      <div className={cn(
-        "flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-sm font-bold",
-        set.completed 
-          ? "bg-primary text-primary-foreground" 
-          : "bg-muted text-muted-foreground"
-      )}>
-        {set.completed ? <IconCheck className="h-4 w-4" /> : setNumber}
+      <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-sm font-bold text-muted-foreground">
+        {setNumber}
       </div>
 
       {/* Weight Input */}
@@ -71,14 +67,14 @@ export function SetInput({ set, setNumber, onUpdate, onComplete }: SetInputProps
           </button>
           <input
             type="number"
-            // value={weight || ''}
+            value={weight || ''}
             onChange={(e) => {
               const val = parseFloat(e.target.value) || 0;
-              // setWeight(val);
-              // onUpdate({ weight: val });
+              setWeight(val);
+              onUpdate({ weight: val });
             }}
             disabled={set.completed}
-            className="h-8 w-16 rounded-lg bg-background text-center text-sm font-semibold text-foreground outline-none ring-1 ring-border focus:ring-primary disabled:opacity-50"
+            className="h-8 w-10 sm:w16 rounded-lg bg-background text-center text-sm font-semibold text-foreground outline-none ring-1 ring-border focus:ring-primary disabled:opacity-50"
             placeholder="kg"
           />
           <button
@@ -117,10 +113,10 @@ export function SetInput({ set, setNumber, onUpdate, onComplete }: SetInputProps
             onChange={(e) => {
               const val = parseInt(e.target.value) || 0;
               setReps(val);
-              // onUpdate({ reps: val });
+              onUpdate({ reps: val });
             }}
             disabled={set.completed}
-            className="h-8 w-12 rounded-lg bg-background text-center text-sm font-semibold text-foreground outline-none ring-1 ring-border focus:ring-primary disabled:opacity-50"
+            className="h-8 w-10 sm:w16 rounded-lg bg-background text-center text-sm font-semibold text-foreground outline-none ring-1 ring-border focus:ring-primary disabled:opacity-50"
             placeholder="#"
           />
           <button
@@ -137,7 +133,7 @@ export function SetInput({ set, setNumber, onUpdate, onComplete }: SetInputProps
       {/* Complete Button */}
       <button
         onClick={handleComplete}
-        // disabled={set.completed || (weight === 0 && reps === 0)}
+        disabled={(weight === 0 && reps === 0)}
         className={cn(
           "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl transition-all",
           set.completed
