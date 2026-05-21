@@ -74,7 +74,7 @@ export function SetInput({ set, setNumber, onUpdate, onComplete }: SetInputProps
               onUpdate({ weight: val });
             }}
             disabled={set.completed}
-            className="h-8 w-10 sm:w16 rounded-lg bg-background text-center text-sm font-semibold text-foreground outline-none ring-1 ring-border focus:ring-primary disabled:opacity-50"
+            className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none h-8 w-10 sm:w16 rounded-lg bg-background text-center text-sm font-semibold text-foreground outline-none ring-1 ring-border focus:ring-primary disabled:opacity-50"
             placeholder="kg"
           />
           <button
@@ -116,7 +116,7 @@ export function SetInput({ set, setNumber, onUpdate, onComplete }: SetInputProps
               onUpdate({ reps: val });
             }}
             disabled={set.completed}
-            className="h-8 w-10 sm:w16 rounded-lg bg-background text-center text-sm font-semibold text-foreground outline-none ring-1 ring-border focus:ring-primary disabled:opacity-50"
+            className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none h-8 w-10 sm:w16 rounded-lg bg-background text-center text-sm font-semibold text-foreground outline-none ring-1 ring-border focus:ring-primary disabled:opacity-50"
             placeholder="#"
           />
           <button

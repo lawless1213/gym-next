@@ -104,10 +104,19 @@ export function WorkoutModal() {
   };
 
   const handleFinishWorkout = () => {
-    setWorkout(prev => ({
-      ...prev,
+    const finishedWorkout: WorkoutSession = {
+      ...workout,
       duration: elapsedTime,
-    }));
+      volume: workout.exercises.reduce((acc, ex) =>
+        acc + ex.sets
+          .filter(s => s.completed)
+          .reduce((setAcc, set) => setAcc + (set.weight * set.reps), 0), 0
+      ),
+    };
+  
+    setWorkout(finishedWorkout);
+    console.log(workout);
+    
   };
 
   const totalSets = workout.exercises.reduce((acc, ex) => acc + ex.sets.length, 0);
