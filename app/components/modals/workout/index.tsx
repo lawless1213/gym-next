@@ -116,6 +116,7 @@ export function WorkoutModal() {
   
     setWorkout(finishedWorkout);
     console.log(workout);
+    close();
     
   };
 
