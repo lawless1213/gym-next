@@ -12,11 +12,13 @@ type Props = {
   modalType: ModalType;
   children: React.ReactNode;
   title?: string;
+  header?: boolean;
   classes?: string;
+  contentClasses?: string;
   size?: "default" | "large";
 };
 
-export function ModalWrapper({ modalType, children, classes, size = "default", title }: Props) {
+export function ModalWrapper({ modalType, children, classes, contentClasses, size = "default", title, header=true }: Props) {
   const { type, close } = useModal();
   const isOpen = type === modalType;
   useBodyScrollLock(isOpen);
@@ -47,21 +49,25 @@ export function ModalWrapper({ modalType, children, classes, size = "default", t
                 stiffness: 400,
                 damping: 30,
               }}
-              className={clsx("relative pointer-events-auto max-w-screen bg-card rounded-t-xl flex flex-col overflow-hidden", classes, {
+              className={clsx("relative pointer-events-auto max-w-screen bg-card rounded-t-xl flex flex-col", classes, {
                 "w-[600px]": size === "default",
                 "h-[90vh] w-[90vw]": size === "large",
               })}>
-
-              <div className="flex items-center justify-between border-b border-border p-6">
-                <h2 className="text-xl font-bold text-foreground">{title}</h2>
-                <button
-                  onClick={close}
-                  className="flex h-10 w-10 items-center justify-center rounded-full bg-secondary text-muted-foreground cursor-pointer hover:text-foreground"
-                  aria-label="Close">
-                  <IconX className="h-5 w-5" />
-                </button>
-              </div>
-              <div className="p-6 h-full">{children}</div>
+              {
+								header &&
+                <div className="flex items-center justify-between border-b border-border p-6">
+                  <h2 className="text-xl font-bold text-foreground">{title}</h2>
+                  <button
+                    onClick={close}
+                    className="flex h-10 w-10 items-center justify-center rounded-full bg-secondary text-muted-foreground cursor-pointer hover:text-foreground"
+                    aria-label="Close">
+                    <IconX className="h-5 w-5" />
+                  </button>
+                </div>
+              }
+              <div 
+								className={clsx("p-6 h-full overflow-y-auto", contentClasses)}>
+								{children}</div>
             </motion.div>
           </div>
         </>

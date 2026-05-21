@@ -4,20 +4,25 @@ import { ModalRenderer, ModalType } from './modal-renderer'
 
 type ModalStore = {
   type: ModalType | null;
-  open: (type: ModalType) => void;
+  data: unknown;
+  open: (type: ModalType, data?: unknown) => void;
   close: () => void;
 };
 
 const ModalContext = createContext<ModalStore | null>(null)
 
 export function ModalProvider({ children }: { children: React.ReactNode }) {
-  const [type, setType] = useState<ModalType | null>(null);
+  const [modal, setModal] = useState<{ type: ModalType | null; data: unknown }>({
+    type: null,
+    data: null,
+  });
 
   return (
     <ModalContext.Provider value={{
-      type,
-      open: setType,
-      close: () => setType(null),
+      type: modal.type,
+      data: modal.data,
+      open: (type, data) => setModal({ type, data }),
+      close: () => setModal({ type: null, data: null }),
     }}>
       {children}
       <ModalRenderer />

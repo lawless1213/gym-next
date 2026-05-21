@@ -15,11 +15,7 @@ export interface WorkoutSet {
   completed: boolean;
 }
 
-export interface WorkoutExercise {
-  exerciseId: string;
-  name: string;
-  sets: WorkoutSet[];
-}
+export type WorkoutExercise = Exercise & { sets: WorkoutSet[] };
 
 export interface WorkoutSession {
   id?: string;
