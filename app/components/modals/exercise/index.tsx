@@ -45,8 +45,7 @@ export function ExerciseCreateModal() {
   const onSubmit = async (data: ExerciseFormData) => {
     try {
       console.log(data);
-
-      // close();
+      close();
     } catch (err: any) {
       setError("root", {
         message: AUTH_ERRORS[err.code] ?? AUTH_ERRORS["default"],

@@ -1,7 +1,7 @@
 "use client";
 
 import { ModalWrapper } from "../modal-wrapper";
-import { useForm } from "react-hook-form";
+import { Controller, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button } from "@/app/components/buttons/button";
@@ -18,6 +18,7 @@ const colors = ["#CCFF00", "#2563EB", "#F97316", "#EF4444", "#8B5CF6", "#10B981"
 
 const routineSchema = z.object({
   title: z.string().min(3, "Назва має бути мінімум 3 символа"),
+  color: z.string(),
 });
 
 type RoutineFormData = z.infer<typeof routineSchema>;
@@ -46,6 +47,7 @@ export function RoutineCreateModal() {
   const {
     register,
     handleSubmit,
+    control,
     setError,
     formState: { errors, isSubmitting, isValid, isDirty },
   } = useForm<RoutineFormData>({
@@ -70,12 +72,44 @@ export function RoutineCreateModal() {
   return (
     <ModalWrapper
       modalType="routine"
-      title={"routine"}>
+      title={"Create routine"}>
       <div className="flex flex-col gap-4">
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-1 flex-col">
-          <div className="flex-1 space-y-2 mb-10">
+          className="flex flex-1 space-y-2 mb-10 flex-col">
+          <div className="flex flex-col flex-1 space-y-2 mb-10">
+            <Controller
+              name="color"
+              control={control}
+              render={({ field }) => {
+                const currentValue = field.value || "";
+
+                return (
+                  <div className="space-y-2 py-2 mx-auto">
+                    <div className="flex gap-3">
+                      {colors.map((colorItem) => {
+                        const isSelected = currentValue === colorItem;
+
+                        return (
+                          <button
+                            key={colorItem}
+                            type="button"
+                            role="radio"
+                            aria-checked={isSelected}
+                            onClick={() => {
+                              field.onChange(colorItem);
+                            }}
+                            className={`h-10 w-10 cursor-pointer rounded-full transition-all duration-200 ${isSelected ? "scale-110 ring-2 ring-white ring-offset-2 ring-offset-background" : "opacity-70 hover:opacity-100"}`}
+                            style={{ backgroundColor: colorItem }}
+                          />
+                        );
+                      })}
+                    </div>
+                    {errors.color && <p className="text-sm text-red-500">{errors.color.message}</p>}
+                  </div>
+                );
+              }}
+            />
             <Input
               ref={titleRef}
               input={{
@@ -86,22 +120,7 @@ export function RoutineCreateModal() {
                 error: errors.title?.message,
               }}
             />
-            {/* Color */}
-            <div className="space-y-2">
-              <label className="text-sm font-medium text-foreground">Color</label>
-              <div className="flex gap-2">
-                {colors.map((color) => (
-                  <button
-                    key={color}
-                    type="button"
-                    onClick={() => setSelectedColor(color)}
-                    className={`h-10 w-10 rounded-full transition-all ${selectedColor === color ? "ring-2 ring-foreground ring-offset-2 ring-offset-card" : ""}`}
-                    style={{ backgroundColor: color }}
-                    aria-label={`Select color ${color}`}
-                  />
-                ))}
-              </div>
-            </div>
+
             {/* Selected Exercises */}
             <div className="space-y-2">
               <label className="text-sm font-medium text-foreground">Exercises ({selectedExercises.length})</label>
@@ -149,44 +168,36 @@ export function RoutineCreateModal() {
           </div>
 
           {/* Exercise Picker */}
-        {showExercisePicker && (
-          <div className="absolute inset-0 z-10 flex flex-col rounded-t-3xl bg-card">
-            <div className="flex items-center justify-between border-b border-border p-6">
-              <h3 className="text-lg font-bold text-foreground">Select Exercise</h3>
-              <button
-                onClick={() => setShowExercisePicker(false)}
-                className="flex h-10 w-10 items-center justify-center rounded-full bg-secondary text-muted-foreground hover:text-foreground"
-              >
-                <IconX className="h-5 w-5" />
-              </button>
+          {showExercisePicker && (
+            <div className="absolute inset-0 z-10 flex flex-col rounded-t-3xl bg-card">
+              <div className="flex items-center justify-between border-b border-border p-6">
+                <h3 className="text-lg font-bold text-foreground">Select Exercise</h3>
+                <button
+                  onClick={() => setShowExercisePicker(false)}
+                  className="flex h-10 w-10 items-center justify-center rounded-full bg-secondary text-muted-foreground hover:text-foreground">
+                  <IconX className="h-5 w-5" />
+                </button>
+              </div>
+              <div className="flex-1 space-y-2 overflow-y-auto p-6">
+                {exercises.map((exercise) => {
+                  const isSelected = selectedExercises.some((e) => e.id === exercise.id);
+                  return (
+                    <button
+                      key={exercise.id}
+                      onClick={() => !isSelected && handleAddExercise(exercise)}
+                      disabled={isSelected}
+                      className={`flex w-full items-center gap-3 rounded-xl p-3 text-left transition-colors ${isSelected ? "bg-primary/10 opacity-50" : "bg-secondary hover:bg-secondary/80"}`}>
+                      <div className="flex-1">
+                        <p className="font-medium text-foreground">{exercise.name}</p>
+                        <p className="text-sm text-muted-foreground">{exercise.muscleGroup}</p>
+                      </div>
+                      {isSelected && <span className="text-xs font-medium text-primary">Added</span>}
+                    </button>
+                  );
+                })}
+              </div>
             </div>
-            <div className="flex-1 space-y-2 overflow-y-auto p-6">
-              {exercises.map((exercise) => {
-                const isSelected = selectedExercises.some((e) => e.id === exercise.id);
-                return (
-                  <button
-                    key={exercise.id}
-                    onClick={() => !isSelected && handleAddExercise(exercise)}
-                    disabled={isSelected}
-                    className={`flex w-full items-center gap-3 rounded-xl p-3 text-left transition-colors ${
-                      isSelected
-                        ? 'bg-primary/10 opacity-50'
-                        : 'bg-secondary hover:bg-secondary/80'
-                    }`}
-                  >
-                    <div className="flex-1">
-                      <p className="font-medium text-foreground">{exercise.name}</p>
-                      <p className="text-sm text-muted-foreground">{exercise.muscleGroup}</p>
-                    </div>
-                    {isSelected && (
-                      <span className="text-xs font-medium text-primary">Added</span>
-                    )}
-                  </button>
-                );
-              })}
-            </div>
-          </div>
-        )}
+          )}
         </form>
       </div>
     </ModalWrapper>
