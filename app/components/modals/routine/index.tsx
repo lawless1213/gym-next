@@ -1,7 +1,7 @@
 "use client";
 
 import { ModalWrapper } from "../modal-wrapper";
-import { Controller, useForm } from "react-hook-form";
+import { Controller, useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button } from "@/app/components/buttons/button";
@@ -9,7 +9,7 @@ import { useAuth } from "@/app/hooks/useAuth";
 import { Input } from "@/app/components/form/input";
 import { AUTH_ERRORS } from "@/app/lib/errors/auth";
 import { useModal } from "@/app/lib/modal/modal-store";
-import { IconBarbell, IconGridDots, IconPlus, IconTrash, IconUpload, IconX } from "@tabler/icons-react";
+import { IconGridDots, IconPlus, IconTrash, IconX } from "@tabler/icons-react";
 import { useState } from "react";
 import { Exercise } from "@/app/types";
 import { useAllExercises } from "@/app/hooks/useServices/useExercises";
@@ -18,7 +18,17 @@ const colors = ["#CCFF00", "#2563EB", "#F97316", "#EF4444", "#8B5CF6", "#10B981"
 
 const routineSchema = z.object({
   title: z.string().min(3, "Назва має бути мінімум 3 символа"),
-  color: z.string(),
+  color: z.string().min(1, "Оберіть колір"),
+  exercises: z
+    .array(
+      z.object({
+        exerciseId: z.string(),
+        name: z.string(),
+        muscleGroup: z.string(),
+        isCustom: z.boolean(),
+      }),
+    )
+    .min(1, "Додайте хоча б одну вправу"),
 });
 
 type RoutineFormData = z.infer<typeof routineSchema>;
@@ -26,21 +36,8 @@ type RoutineFormData = z.infer<typeof routineSchema>;
 export function RoutineCreateModal() {
   const { user } = useAuth();
   const userID = user?.uid;
-  const [selectedColor, setSelectedColor] = useState(colors[0]);
-  const [selectedExercises, setSelectedExercises] = useState<Exercise[]>([]);
   const [showExercisePicker, setShowExercisePicker] = useState(false);
   const { close } = useModal();
-
-  const handleAddExercise = (exercise: Exercise) => {
-    if (!selectedExercises.find((e) => e.id === exercise.id)) {
-      setSelectedExercises([...selectedExercises, exercise]);
-    }
-    setShowExercisePicker(false);
-  };
-
-  const handleRemoveExercise = (exerciseId: string) => {
-    setSelectedExercises(selectedExercises.filter((e) => e.id !== exerciseId));
-  };
 
   const { data: exercises = [], isLoading: loading } = useAllExercises(userID);
 
@@ -53,15 +50,24 @@ export function RoutineCreateModal() {
   } = useForm<RoutineFormData>({
     resolver: zodResolver(routineSchema),
     mode: "onTouched",
+    defaultValues: {
+      title: "",
+      color: colors[0],
+      exercises: [],
+    },
+  });
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "exercises",
   });
 
   const { ref: titleRef, ...titleRest } = register("title");
 
   const onSubmit = async (data: RoutineFormData) => {
     try {
-      console.log(data);
-
-      // close();
+      console.log("Фінальні дані форми для відправки:", data);
+      close();
     } catch (err: any) {
       setError("root", {
         message: AUTH_ERRORS[err.code] ?? AUTH_ERRORS["default"],
@@ -105,47 +111,48 @@ export function RoutineCreateModal() {
                         );
                       })}
                     </div>
-                    {errors.color && <p className="text-sm text-red-500">{errors.color.message}</p>}
+                    {errors.color && <p className="text-sm text-red-500 text-center">{errors.color.message}</p>}
                   </div>
                 );
               }}
             />
+
             <Input
               ref={titleRef}
               input={{
                 ...titleRest,
                 id: "title",
                 placeholder: "e.g., Push Day",
-                // label: "title",
                 error: errors.title?.message,
               }}
             />
 
-            {/* Selected Exercises */}
             <div className="space-y-2">
-              <label className="text-sm font-medium text-foreground">Exercises ({selectedExercises.length})</label>
+              <label className="text-sm font-medium text-foreground">Exercises ({fields.length})</label>
+
               <div className="space-y-2">
-                {selectedExercises.map((exercise, index) => (
+                {fields.map((field, index) => (
                   <div
-                    key={exercise.id}
+                    key={field.id}
                     className="flex items-center gap-3 rounded-xl bg-secondary p-3">
                     <IconGridDots className="h-5 w-5 text-muted-foreground" />
                     <span className="flex h-6 w-6 items-center justify-center rounded-full bg-muted text-xs font-bold text-muted-foreground">{index + 1}</span>
                     <div className="flex-1">
-                      <p className="font-medium text-foreground">{exercise.name}</p>
-                      <p className="text-xs text-muted-foreground">{exercise.muscleGroup}</p>
+                      <p className="font-medium text-foreground">{field.name}</p>
+                      <p className="text-xs text-muted-foreground">{field.muscleGroup}</p>
                     </div>
                     <button
                       type="button"
-                      onClick={() => handleRemoveExercise(exercise.id)}
+                      onClick={() => remove(index)}
                       className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground hover:bg-destructive/10 hover:text-destructive"
-                      aria-label={`Remove ${exercise.name}`}>
+                      aria-label={`Remove ${field.name}`}>
                       <IconTrash className="h-4 w-4" />
                     </button>
                   </div>
                 ))}
 
-                {/* Add Exercise Button */}
+                {errors.exercises && <p className="text-sm text-red-500">{errors.exercises.message}</p>}
+
                 <button
                   type="button"
                   onClick={() => setShowExercisePicker(true)}
@@ -167,12 +174,12 @@ export function RoutineCreateModal() {
             </Button>
           </div>
 
-          {/* Exercise Picker */}
           {showExercisePicker && (
             <div className="absolute inset-0 z-10 flex flex-col rounded-t-3xl bg-card">
               <div className="flex items-center justify-between border-b border-border p-6">
                 <h3 className="text-lg font-bold text-foreground">Select Exercise</h3>
                 <button
+                  type="button"
                   onClick={() => setShowExercisePicker(false)}
                   className="flex h-10 w-10 items-center justify-center rounded-full bg-secondary text-muted-foreground hover:text-foreground">
                   <IconX className="h-5 w-5" />
@@ -180,15 +187,26 @@ export function RoutineCreateModal() {
               </div>
               <div className="flex-1 space-y-2 overflow-y-auto p-6">
                 {exercises.map((exercise) => {
-                  const isSelected = selectedExercises.some((e) => e.id === exercise.id);
+                  const isSelected = fields.some((e) => e.exerciseId == exercise.id);
+
                   return (
                     <button
                       key={exercise.id}
-                      onClick={() => !isSelected && handleAddExercise(exercise)}
+                      type="button"
+                      onClick={() => {
+                        if (isSelected) return;
+                        append({
+                          exerciseId: exercise.id,
+                          name: exercise.name,
+                          muscleGroup: exercise.muscleGroup,
+                          isCustom: exercise.isCustom,
+                        });
+                        setShowExercisePicker(false);
+                      }}
                       disabled={isSelected}
-                      className={`flex w-full items-center gap-3 rounded-xl p-3 text-left transition-colors ${isSelected ? "bg-primary/10 opacity-50" : "bg-secondary hover:bg-secondary/80"}`}>
+                      className={`flex w-full items-center gap-3 rounded-xl p-3 text-left transition-colors ${isSelected ? "bg-muted/40 opacity-40 cursor-not-allowed select-none" : "bg-secondary hover:bg-secondary/80 cursor-pointer"}`}>
                       <div className="flex-1">
-                        <p className="font-medium text-foreground">{exercise.name}</p>
+                        <p className={`font-medium ${isSelected ? "text-muted-foreground" : "text-foreground"}`}>{exercise.name}</p>
                         <p className="text-sm text-muted-foreground">{exercise.muscleGroup}</p>
                       </div>
                       {isSelected && <span className="text-xs font-medium text-primary">Added</span>}

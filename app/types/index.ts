@@ -6,7 +6,7 @@ export interface Exercise {
   description: string;
   muscleGroup: string;
   imageUrl: string;
-  isCustom?: boolean;
+  isCustom: boolean;
 }
 
 export interface WorkoutSet {
