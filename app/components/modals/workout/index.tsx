@@ -9,7 +9,7 @@ import { WorkoutSession, WorkoutSet } from "@/app/types";
 import { Button } from "../../common/button";
 
 export function WorkoutModal() {
-  const { close, routine } = useWorkoutModal();
+  const { confirm, close, routine } = useWorkoutModal();
 
   const workoutRoutine: WorkoutSession = {
     routineId: routine.id,
@@ -103,7 +103,7 @@ export function WorkoutModal() {
     }));
   };
 
-  const handleFinishWorkout = () => {
+  const handleFinishWorkout = async () => {
     const finishedWorkout: WorkoutSession = {
       ...workout,
       duration: elapsedTime,
@@ -113,11 +113,20 @@ export function WorkoutModal() {
           .reduce((setAcc, set) => setAcc + (set.weight * set.reps), 0), 0
       ),
     };
-  
+
     setWorkout(finishedWorkout);
-    console.log(workout);
-    close();
-    
+
+    const ok = await confirm({
+      title: '', 
+      description: 'Завершити тренування?',
+      cancelLabel: ' Ні',
+      confirmLabel: 'Так',
+    });
+
+    if (ok) {
+      console.log(workout);
+      close();
+    }
   };
 
   const totalSets = workout.exercises.reduce((acc, ex) => acc + ex.sets.length, 0);
