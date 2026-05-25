@@ -2,7 +2,7 @@
 
 import { Routine } from "@/app/types";
 import { IconPlayerPlayFilled, IconBarbell } from "@tabler/icons-react";
-import { Button } from "@/app/components/common/button";
+import { Button } from "@/app/__components/common/button";
 import { useTranslations } from "next-intl";
 import { useModal } from "@/app/lib/modal/modal-store";
 

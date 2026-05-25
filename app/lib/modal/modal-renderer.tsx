@@ -1,9 +1,9 @@
 'use client'
-import { RoutineCreateModal } from '@/app/components/modals/routine';
+import { RoutineCreateModal } from '@/app/__components/modals/routine';
 import { useModal } from './modal-store'
-import { AuthModal } from '@/app/components/modals/auth'
-import { ExerciseCreateModal } from '@/app/components/modals/exercise';
-import { WorkoutModal } from '@/app/components/modals/workout';
+import { AuthModal } from '@/app/__components/modals/auth'
+import { ExerciseCreateModal } from '@/app/__components/modals/exercise';
+import { WorkoutModal } from '@/app/__components/modals/workout';
 
 const MODAL_MAP = {
   auth: AuthModal,

@@ -2,13 +2,13 @@
 
 import { IconUser, IconPlus } from "@tabler/icons-react";
 import { useAuth } from "@/app/hooks/useAuth";
-import RoutineCard from "../../components/cards/routine";
+import RoutineCard from "../../__components/cards/routine";
 import { useRoutines } from "@/app/hooks/useServices/useRoutines";
-import SkeletonBone from "@/app/components/common/skeletonBone";
-import SkeletonSwitcher from "@/app/components/common/SkeletonSwitcher";
+import SkeletonBone from "@/app/__components/common/skeletonBone";
+import SkeletonSwitcher from "@/app/__components/common/SkeletonSwitcher";
 import { useModal } from "@/app/lib/modal/modal-store";
 import { useTranslations } from "next-intl";
-import ActionCard from "@/app/components/cards/action";
+import ActionCard from "@/app/__components/cards/action";
 
 const RoutinesSkeleton = (
   <div className="space-y-3">

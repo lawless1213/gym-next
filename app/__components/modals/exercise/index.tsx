@@ -4,12 +4,13 @@ import { ModalWrapper } from "../modal-wrapper";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Button } from "@/app/components/buttons/button";
-import { Input } from "@/app/components/form/input";
+import { Button } from "@/app/__components/buttons/button";
+import { Input } from "@/app/__components/form/input";
 import { AUTH_ERRORS } from "@/app/lib/errors/auth";
 import { useModal } from "@/app/lib/modal/modal-store";
 import { IconBarbell, IconCheck, IconUpload } from "@tabler/icons-react";
 import { useState } from "react";
+import { toast } from "sonner";
 
 const exerciseSchema = z.object({
   photo: z.instanceof(File).optional(),
@@ -45,6 +46,7 @@ export function ExerciseCreateModal() {
   const onSubmit = async (data: ExerciseFormData) => {
     try {
       console.log(data);
+      toast.success('Вправу успішно створено!');
       close();
     } catch (err: any) {
       setError("root", {
@@ -60,7 +62,7 @@ export function ExerciseCreateModal() {
       <div className="flex flex-col gap-4">
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-1 flex-col">
+          className="flex flex-1 flex-col static">
           <div className="flex-1 space-y-2 mb-10">
             <Controller
               name="photo"

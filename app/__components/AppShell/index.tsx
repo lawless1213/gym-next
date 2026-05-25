@@ -8,6 +8,8 @@ import { useAuth } from "@/app/hooks/useAuth";
 import LoadingScreen from "../LoadingScreen";
 import { BottomNav } from "../bottomNav";
 import { getNavLinks, navLinks } from "@/app/data/navManu";
+import { Toaster } from "../toaster/Toaster";
+
 
 let prevPathname = "";
 let currentDir = 1;
@@ -65,6 +67,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         <div
           key="app"
           className="flex min-h-screen flex-col">
+          <Toaster/>
           <BottomNav />
           <main
             {...handlers}

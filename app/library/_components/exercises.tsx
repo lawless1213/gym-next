@@ -2,14 +2,14 @@
 
 import { useState, useMemo, useEffect } from "react";
 import { Exercise } from "@/app/types";
-import { ExerciseCategory } from "@/app/components/exerciseList";
+import { ExerciseCategory } from "@/app/__components/exerciseList";
 import { IconSearch, IconPlus, IconBarbell, IconFolderOpen } from "@tabler/icons-react";
 import { useAuth } from "@/app/hooks/useAuth";
-import Loader from "../../components/common/loader";
+import Loader from "../../__components/common/loader";
 import { useTranslations } from "next-intl";
 import { useAllExercises } from "@/app/hooks/useServices/useExercises";
-import SkeletonBone from "@/app/components/common/skeletonBone";
-import SkeletonSwitcher from "@/app/components/common/SkeletonSwitcher";
+import SkeletonBone from "@/app/__components/common/skeletonBone";
+import SkeletonSwitcher from "@/app/__components/common/SkeletonSwitcher";
 
 const ExercisesSkeleton = (
   <div className="space-y-6 mt-6">

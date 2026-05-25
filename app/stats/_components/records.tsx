@@ -1,7 +1,7 @@
 "use client";
 
-import SkeletonBone from "@/app/components/common/skeletonBone";
-import SkeletonSwitcher from "@/app/components/common/SkeletonSwitcher";
+import SkeletonBone from "@/app/__components/common/skeletonBone";
+import SkeletonSwitcher from "@/app/__components/common/SkeletonSwitcher";
 import { personalRecords } from "@/app/data/mock-data";
 import { useAuth } from "@/app/hooks/useAuth";
 import { useRecords } from "@/app/hooks/useServices/useRecords";

@@ -4,15 +4,16 @@ import { ModalWrapper } from "../modal-wrapper";
 import { Controller, useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Button } from "@/app/components/buttons/button";
+import { Button } from "@/app/__components/buttons/button";
 import { useAuth } from "@/app/hooks/useAuth";
-import { Input } from "@/app/components/form/input";
+import { Input } from "@/app/__components/form/input";
 import { AUTH_ERRORS } from "@/app/lib/errors/auth";
 import { useModal } from "@/app/lib/modal/modal-store";
 import { IconGridDots, IconPlus, IconTrash, IconX } from "@tabler/icons-react";
 import { useState } from "react";
 import { Exercise } from "@/app/types";
 import { useAllExercises } from "@/app/hooks/useServices/useExercises";
+import { toast } from "sonner";
 
 const colors = ["#CCFF00", "#2563EB", "#F97316", "#EF4444", "#8B5CF6", "#10B981"];
 
@@ -67,6 +68,7 @@ export function RoutineCreateModal() {
   const onSubmit = async (data: RoutineFormData) => {
     try {
       console.log("Фінальні дані форми для відправки:", data);
+      toast.success('Програму успішно створено!');
       close();
     } catch (err: any) {
       setError("root", {

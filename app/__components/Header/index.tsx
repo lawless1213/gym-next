@@ -6,6 +6,7 @@ import { IconUser, IconLogout, IconMoon, IconSun } from "@tabler/icons-react";
 import { useAuth } from "@/app/hooks/useAuth";
 import { useAppTheme } from "@/app/hooks/useAppTheme";
 import { useModal } from "@/app/lib/modal/modal-store";
+import { toast } from "sonner";
 
 type HeaderProps = {
   title: string;
@@ -20,7 +21,9 @@ export function Header(props: HeaderProps) {
 
   const langButtonHandler = (): React.MouseEventHandler<HTMLButtonElement> => {
     return (event) => {
-      setUserLocale(locale === "uk" ? "en" : "uk");
+      const newLocale = locale === "uk" ? "en" : "uk";
+      setUserLocale(newLocale);
+      toast.info('Мову змінено на ' + newLocale);
     };
   };
 

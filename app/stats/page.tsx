@@ -3,11 +3,11 @@
 import { useState } from "react";
 import { IconTrophy, IconActivity } from "@tabler/icons-react";
 
-import { Header } from "../components/Header";
+import { Header } from "../__components/Header";
 import { useTranslations } from "next-intl";
 import Progress from "./_components/progress";
 import Records from "./_components/records";
-import { Tabs } from "../components/common/tabs";
+import { Tabs } from "../__components/common/tabs";
 
 type StatsTab = "progress" | "records";
 

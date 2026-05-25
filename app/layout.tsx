@@ -6,7 +6,7 @@ import { AuthProvider } from "./hooks/useAuth";
 import { NextIntlClientProvider } from "next-intl";
 import { ThemeProvider } from "./providers/theme-provider";
 import { QueryProvider } from "./providers/QueryProvider";
-import AppShell from "./components/AppShell";
+import AppShell from "./__components/AppShell";
 import { ModalProvider } from "./lib/modal/modal-store";
 
 const inter = Inter({

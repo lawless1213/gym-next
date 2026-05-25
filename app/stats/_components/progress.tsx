@@ -7,8 +7,8 @@ import { useLocale, useTranslations } from "next-intl";
 import { useLastProgress } from "@/app/hooks/useServices/useProgress";
 import { useAuth } from "@/app/hooks/useAuth";
 import { BodyProgress } from "@/app/types";
-import SkeletonBone from "@/app/components/common/skeletonBone";
-import SkeletonSwitcher from "@/app/components/common/SkeletonSwitcher";
+import SkeletonBone from "@/app/__components/common/skeletonBone";
+import SkeletonSwitcher from "@/app/__components/common/SkeletonSwitcher";
 
 export default function Progress() {
 	const locale = useLocale();

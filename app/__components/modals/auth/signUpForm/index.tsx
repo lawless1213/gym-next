@@ -2,9 +2,9 @@
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Button } from "@/app/components/buttons/button";
+import { Button } from "@/app/__components/buttons/button";
 import { useAuth } from "@/app/hooks/useAuth";
-import { Input } from "@/app/components/form/input";
+import { Input } from "@/app/__components/form/input";
 import { AUTH_ERRORS } from "@/app/lib/errors/auth";
 import { useModal } from "@/app/lib/modal/modal-store";
 

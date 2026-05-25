@@ -2,20 +2,24 @@
 
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
-import QuickStat from "@/app/components/common/quickStat";
-import { WeeklyCalendar } from "@/app/components/weeklyCalendar";
-import { WorkoutCard } from "@/app/components/cards/workoutCard";
-import { MotivationalBanner } from "@/app/components/motivationalBanner";
-import { Header } from "@/app/components/Header";
+import QuickStat from "@/app/__components/common/quickStat";
+import { WeeklyCalendar } from "@/app/__components/weeklyCalendar";
+import { WorkoutCard } from "@/app/__components/cards/workoutCard";
+import { MotivationalBanner } from "@/app/__components/motivationalBanner";
+import { Header } from "@/app/__components/Header";
 import { useAuth } from "@/app/hooks/useAuth";
 import { getNextPendingRoutine } from "@/app/lib/services/schedule";
 import { Routine } from "@/app/types";
 import { useSchedule } from "@/app/hooks/useServices/useSchedule";
-import SkeletonBone from "./components/common/skeletonBone";
-import SkeletonSwitcher from "./components/common/SkeletonSwitcher";
+import SkeletonBone from "./__components/common/skeletonBone";
+import SkeletonSwitcher from "./__components/common/SkeletonSwitcher";
+import ActionCard from "./__components/cards/action";
+import { IconUser } from "@tabler/icons-react";
+import { useModal } from "./lib/modal/modal-store";
 
 export default function Home() {
   const t = useTranslations("HomePage");
+  const { open } = useModal();
   const { user, loading: isUserLoading } = useAuth();
   const [nextRoutine, setNextRoutine] = useState<Routine | null>(null);
 
@@ -46,12 +50,24 @@ export default function Home() {
         skeleton={
           <SkeletonBone
             br={16}
-            height={180}
+            height={72}
           />
         }>
-        {nextRoutine ? <WorkoutCard routine={nextRoutine} /> : <div className="rounded-2xl bg-card p-4 text-sm text-muted-foreground text-center min-h-[180px] flex items-center justify-center">No upcoming workouts for this week.</div>}
+        {user ? (
+          nextRoutine ? (
+            <WorkoutCard routine={nextRoutine} />
+          ) : (
+            <ActionCard title="No upcoming workouts for this week." />
+          )
+        ) : (
+          <ActionCard
+            title={t("workout.next.not-auth")}
+            icon={IconUser}
+            onClick={() => open("auth")}
+          />
+        )}
       </SkeletonSwitcher>
-      
+
       <MotivationalBanner />
 
       <div className="grid grid-cols-3 gap-3">
