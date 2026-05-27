@@ -11,6 +11,10 @@ import { useModal } from "@/app/lib/modal/modal-store";
 import { IconBarbell, IconCheck, IconUpload } from "@tabler/icons-react";
 import { useState } from "react";
 import { toast } from "sonner";
+import { createUserExercise } from "@/app/lib/actions/exercise";
+import { useAuth } from "@/app/hooks/useAuth";
+import { useQueryClient } from "@tanstack/react-query";
+
 
 const exerciseSchema = z.object({
   photo: z.instanceof(File).optional(),
@@ -25,6 +29,8 @@ const MUSCLE_GROUPS = ["Chest", "Back", "Shoulders", "Arms", "Legs", "Core", "Fu
 
 export function ExerciseCreateModal() {
   const { close } = useModal();
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
 
   const {
     register,
@@ -45,8 +51,11 @@ export function ExerciseCreateModal() {
 
   const onSubmit = async (data: ExerciseFormData) => {
     try {
-      console.log(data);
-      toast.success('Вправу успішно створено!');
+      if (!user) throw new Error("Not authenticated");
+
+      await createUserExercise(user.uid, data);
+      queryClient.invalidateQueries({ queryKey: ["exercises", user.uid] }); 
+      toast.success("Вправу успішно створено!");
       close();
     } catch (err: any) {
       setError("root", {

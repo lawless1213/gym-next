@@ -1,52 +1,95 @@
 "use client";
 
 import { Exercise } from "@/app//types";
-import { IconBarbell, IconCameraOff, IconEdit } from "@tabler/icons-react";
+import { IconBarbell, IconMenu2, IconEdit, IconTrash } from "@tabler/icons-react";
 import { cn } from "@/app/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
+import { useState } from "react";
+import { motion } from "motion/react";
+import { useSwipeable } from "react-swipeable";
 
 interface ExerciseListItemProps {
   exercise: Exercise;
-  onClick: () => void;
+  onEdit: () => void;
+  onRemove: () => void;
 }
 
-export function ExerciseListItem({ exercise, onClick }: ExerciseListItemProps) {
+export function ExerciseListItem({ exercise, onEdit, onRemove }: ExerciseListItemProps) {
   const t = useTranslations("components.exerciseCard");
+  const [isEditable, setIsEditable] = useState(false);
+
+  const handlers = exercise.isCustom ? useSwipeable({
+    onSwipedLeft: (e) => {
+      e.event.stopPropagation();
+      setIsEditable(true);
+    },
+    onSwipedRight: (e) => {
+      e.event.stopPropagation();
+      setIsEditable(false);
+    },
+    preventScrollOnSwipe: true,
+    trackMouse: true,
+  }) : {};
 
   return (
-    <div className="flex w-full items-center gap-3 rounded-xl bg-card p-3 text-left">
-      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-secondary">
-        {exercise.imageUrl ? (
-          <Image
-            width={100}
-            height={100}
-            src={exercise.imageUrl}
-            alt={exercise.name}
-            className="w-full h-full object-contain"
-          />
-        ) : (
-          <div className="flex items-center justify-center w-full h-full">
-            <IconBarbell className="h-5 w-5 text-muted-foreground" />
+    <div
+      className="relative flex overflow-hidden md:rounded-xl"
+      {...handlers}>
+      <motion.div
+        className="flex w-full items-center gap-3 bg-card p-3 text-left"
+        animate={{ x: isEditable ? -80 : 0 }}
+        transition={{ type: "spring", stiffness: 300, damping: 30 }}>
+        <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-secondary">
+          {exercise.imageUrl ? (
+            <Image
+              width={100}
+              height={100}
+              src={exercise.imageUrl}
+              alt={exercise.name}
+              className="w-full h-full object-contain"
+            />
+          ) : (
+            <div className="flex items-center justify-center w-full h-full">
+              <IconBarbell className="h-5 w-5 text-muted-foreground" />
+            </div>
+          )}
+        </div>
+
+        <div className="flex-1 min-w-0">
+          <div className="flex items-center gap-2">
+            <h3 className="truncate font-medium text-foreground">{exercise.name}</h3>
+            {exercise.isCustom && <span className="shrink-0 rounded-md bg-primary/20 px-1.5 py-0.5 text-[10px] font-semibold uppercase text-primary">{t("custom")}</span>}
+          </div>
+          <p className="truncate text-sm text-muted-foreground">{exercise.muscleGroup}</p>
+        </div>
+
+        {exercise.isCustom && (
+          <div
+            onClick={() => setIsEditable(!isEditable)}
+            className="group flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-secondary cursor-pointer border-2 border-transparent border-solid hover:border-primary transition-[0.2s]">
+            <IconMenu2 className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-[0.2s]" />
           </div>
         )}
-      </div>
-
-      <div className="flex-1 min-w-0">
-        <div className="flex items-center gap-2">
-          <h3 className="truncate font-medium text-foreground">{exercise.name}</h3>
-          {exercise.isCustom && <span className="shrink-0 rounded-md bg-primary/20 px-1.5 py-0.5 text-[10px] font-semibold uppercase text-primary">{t("custom")}</span>}
-        </div>
-        <p className="truncate text-sm text-muted-foreground">{exercise.muscleGroup}</p>
-      </div>
-
+      </motion.div>
       {exercise.isCustom && (
-        <Link
-          href={`/exercise?id=${exercise.id}`}
-          className="group flex h-10 w-10 items-center justify-center rounded-full bg-secondary cursor-pointer border-2 border-transparent border-solid hover:border-primary transition-[0.2s]">
-          <IconEdit className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-[0.2s]" />
-        </Link>
+        <motion.div
+          className="absolute top-0 right-0 h-full flex text-white"
+          initial={{ x: 80 }}
+          animate={{ x: isEditable ? 0 : 80 }}
+          transition={{ type: "spring", stiffness: 300, damping: 30 }}>
+          <div
+            onClick={onEdit}
+            className="flex items-center justify-center w-10 h-full bg-primary cursor-pointer hover:brightness-110">
+            <IconEdit className="h-5 w-5" />
+          </div>
+          <div
+            onClick={onRemove}
+            className="flex items-center justify-center w-10 h-full bg-red-500 cursor-pointer hover:brightness-110">
+            <IconTrash className="h-5 w-5" />
+          </div>
+        </motion.div>
       )}
     </div>
   );
@@ -55,10 +98,11 @@ export function ExerciseListItem({ exercise, onClick }: ExerciseListItemProps) {
 interface ExerciseCategoryProps {
   title: string;
   exercises: Exercise[];
-  onExerciseClick: (exercise: Exercise) => void;
+  onExerciseEdit: (exercise: Exercise) => void;
+  onExerciseRemove: (exercise: Exercise) => void;
 }
 
-export function ExerciseCategory({ title, exercises, onExerciseClick }: ExerciseCategoryProps) {
+export function ExerciseCategory({ title, exercises, onExerciseEdit, onExerciseRemove }: ExerciseCategoryProps) {
   return (
     <div className="space-y-2">
       <h3 className="px-1 text-sm font-semibold text-muted-foreground">{title}</h3>
@@ -67,7 +111,8 @@ export function ExerciseCategory({ title, exercises, onExerciseClick }: Exercise
           <ExerciseListItem
             key={exercise.id}
             exercise={exercise}
-            onClick={() => onExerciseClick(exercise)}
+            onEdit={() => onExerciseEdit(exercise)}
+            onRemove={() => onExerciseRemove(exercise)}
           />
         ))}
       </div>

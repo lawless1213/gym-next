@@ -7,7 +7,7 @@ import Routines from "./_components/routines";
 import { useTranslations } from "next-intl";
 import { Header } from "../__components/Header";
 import { Tabs } from "../__components/common/tabs";
-import ButtonCreate from "./_components/buttonCreate";
+import ButtonAdd from "../__components/buttons/ButtonAdd";
 import { useModal } from "../lib/modal/modal-store";
 import { useAuth } from "../hooks/useAuth";
 
@@ -47,7 +47,7 @@ export default function LibraryScreen() {
           {activeTab === "exercise" ? <Exercises /> : <Routines />}
         </Tabs>
       </div>
-      {user && <ButtonCreate onClick={() => open(activeTab)} />}
+      {user && <ButtonAdd onClick={() => open(activeTab)} />}
     </>
   );
 }

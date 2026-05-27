@@ -68,14 +68,15 @@ export default function Exercises() {
       <SkeletonSwitcher
         isLoading={loading}
         skeleton={ExercisesSkeleton}>
-        <div className="space-y-6 mt-6">
+        <div className="space-y-6 mt-6 max-md:-mx-4">
           {Object.entries(groupedExercises).map(([group, exs]) => (
             <ExerciseCategory
               key={group}
               title={group}
               exercises={exs}
-              onExerciseClick={() => {}}
-            />
+              onExerciseEdit={() => {}}
+              onExerciseRemove={() => {}}
+              />
           ))}
         </div>
       </SkeletonSwitcher>

@@ -9,6 +9,7 @@ import { useAuth } from "@/app/hooks/useAuth";
 import { BodyProgress } from "@/app/types";
 import SkeletonBone from "@/app/__components/common/skeletonBone";
 import SkeletonSwitcher from "@/app/__components/common/SkeletonSwitcher";
+import ButtonAdd from "@/app/__components/buttons/ButtonAdd";
 
 export default function Progress() {
 	const locale = useLocale();
@@ -170,6 +171,7 @@ export default function Progress() {
           </div>
         </SkeletonSwitcher>
       </div>
+      <ButtonAdd onClick={() => console.log('add stats')} />
     </div>
   );
 }

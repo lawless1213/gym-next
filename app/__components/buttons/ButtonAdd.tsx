@@ -5,7 +5,7 @@ import { createPortal } from "react-dom";
 import type { MouseEvent } from "react";
 import { IconPlus } from "@tabler/icons-react";
 
-export default function ButtonCreate({ onClick }: { onClick: (e: MouseEvent<HTMLButtonElement>) => void }) {
+export default function buttonAdd({ onClick }: { onClick: (e: MouseEvent<HTMLButtonElement>) => void }) {
   const [mounted, setMounted] = useState(false);
 
   useEffect(() => {
