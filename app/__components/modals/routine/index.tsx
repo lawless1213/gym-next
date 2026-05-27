@@ -11,25 +11,18 @@ import { AUTH_ERRORS } from "@/app/lib/errors/auth";
 import { useModal } from "@/app/lib/modal/modal-store";
 import { IconGridDots, IconPlus, IconTrash, IconX } from "@tabler/icons-react";
 import { useState } from "react";
-import { Exercise } from "@/app/types";
+import { RoutinesExercise } from "@/app/types";
 import { useAllExercises } from "@/app/hooks/useServices/useExercises";
 import { toast } from "sonner";
+import { createUserRoutine } from "@/app/lib/actions/routine";
+import { useQueryClient } from "@tanstack/react-query";
 
 const colors = ["#CCFF00", "#2563EB", "#F97316", "#EF4444", "#8B5CF6", "#10B981"];
 
 const routineSchema = z.object({
   title: z.string().min(3, "Назва має бути мінімум 3 символа"),
   color: z.string().min(1, "Оберіть колір"),
-  exercises: z
-    .array(
-      z.object({
-        exerciseId: z.string(),
-        name: z.string(),
-        muscleGroup: z.string(),
-        isCustom: z.boolean(),
-      }),
-    )
-    .min(1, "Додайте хоча б одну вправу"),
+  exercises: z.array(z.custom<RoutinesExercise>()).min(1, "Додайте хоча б одну вправу"),
 });
 
 type RoutineFormData = z.infer<typeof routineSchema>;
@@ -39,6 +32,7 @@ export function RoutineCreateModal() {
   const userID = user?.uid;
   const [showExercisePicker, setShowExercisePicker] = useState(false);
   const { close } = useModal();
+  const queryClient = useQueryClient();
 
   const { data: exercises = [], isLoading: loading } = useAllExercises(userID);
 
@@ -67,7 +61,10 @@ export function RoutineCreateModal() {
 
   const onSubmit = async (data: RoutineFormData) => {
     try {
-      console.log("Фінальні дані форми для відправки:", data);
+      if (!user) throw new Error("Not authenticated");
+
+      await createUserRoutine(user.uid, data);
+      queryClient.invalidateQueries({ queryKey: ["routines", user.uid] });
       toast.success('Програму успішно створено!');
       close();
     } catch (err: any) {

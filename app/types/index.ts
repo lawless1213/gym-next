@@ -9,6 +9,13 @@ export interface Exercise {
   isCustom: boolean;
 }
 
+export interface RoutinesExercise {
+  exerciseId: string;
+  name: string;
+  muscleGroup: string;
+  isCustom: boolean;
+}
+
 export interface WorkoutSet {
   reps: number;
   weight: number;
