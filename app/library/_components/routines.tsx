@@ -35,32 +35,31 @@ export default function Routines() {
       <SkeletonSwitcher
         isLoading={loading}
         skeleton={RoutinesSkeleton}>
-        <div className="space-y-3">
-          {
-            user ? (
-              routines.length === 0 ? (
-                <ActionCard
-                  title={t('empty')}
-                  icon={IconPlus}
-                  onClick={() => open('routine')}
+        {user ? (
+          routines.length === 0 ? (
+            <ActionCard
+              title={t("empty")}
+              icon={IconPlus}
+              onClick={() => open("routine")}
+            />
+          ) : (
+            <div className="space-y-3 max-md:-mx-4">
+              {routines.map((routine) => (
+                <RoutineCard
+                  key={routine.id}
+                  editable={true}
+                  {...routine}
                 />
-              ) : (
-                routines.map((routine) => (
-                  <RoutineCard
-                    key={routine.id}
-                    {...routine}
-                  />
-                ))
-              )
-            ) : (
-              <ActionCard
-                title={t('not-auth')}
-                icon={IconUser}
-                onClick={() => open('auth')}
-              />
-            )
-          }
-        </div>
+              ))}
+            </div>
+          )
+        ) : (
+          <ActionCard
+            title={t("not-auth")}
+            icon={IconUser}
+            onClick={() => open("auth")}
+          />
+        )}
       </SkeletonSwitcher>
     </>
   );

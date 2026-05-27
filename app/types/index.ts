@@ -40,6 +40,7 @@ export interface Routine {
   exercises: Exercise[];
   color: string;
   completed?: boolean;
+  editable?: boolean;
 }
 
 export interface Measurement {

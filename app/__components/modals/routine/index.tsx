@@ -68,9 +68,7 @@ export function RoutineCreateModal() {
       toast.success('Програму успішно створено!');
       close();
     } catch (err: any) {
-      setError("root", {
-        message: AUTH_ERRORS[err.code] ?? AUTH_ERRORS["default"],
-      });
+      console.log(err);
     }
   };
 
