@@ -58,9 +58,7 @@ export function ExerciseCreateModal() {
       toast.success("Вправу успішно створено!");
       close();
     } catch (err: any) {
-      setError("root", {
-        message: AUTH_ERRORS[err.code] ?? AUTH_ERRORS["default"],
-      });
+      console.log(err);
     }
   };
 

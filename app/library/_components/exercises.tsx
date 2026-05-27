@@ -74,8 +74,6 @@ export default function Exercises() {
               key={group}
               title={group}
               exercises={exs}
-              onExerciseEdit={() => {}}
-              onExerciseRemove={() => {}}
               />
           ))}
         </div>

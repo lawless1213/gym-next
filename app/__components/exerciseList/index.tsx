@@ -1,7 +1,7 @@
 "use client";
 
 import { Exercise } from "@/app//types";
-import { IconBarbell, IconMenu2, IconEdit, IconTrash } from "@tabler/icons-react";
+import { IconBarbell, IconMenu2, IconEdit, IconTrash, IconX } from "@tabler/icons-react";
 import { cn } from "@/app/lib/utils";
 import Image from "next/image";
 import Link from "next/link";
@@ -9,29 +9,72 @@ import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { motion } from "motion/react";
 import { useSwipeable } from "react-swipeable";
+import { deleteUserExercise } from "@/app/lib/actions/exercise";
+import { useAuth } from "@/app/hooks/useAuth";
+import { useQueryClient } from "@tanstack/react-query";
+import { toast } from "sonner";
+import { useModal } from "@/app/lib/modal/modal-store";
 
 interface ExerciseListItemProps {
   exercise: Exercise;
-  onEdit: () => void;
-  onRemove: () => void;
 }
 
-export function ExerciseListItem({ exercise, onEdit, onRemove }: ExerciseListItemProps) {
+export function ExerciseListItem({ exercise }: ExerciseListItemProps) {
+  const { confirm } = useModal();
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
   const t = useTranslations("components.exerciseCard");
   const [isEditable, setIsEditable] = useState(false);
 
-  const handlers = exercise.isCustom ? useSwipeable({
-    onSwipedLeft: (e) => {
-      e.event.stopPropagation();
-      setIsEditable(true);
-    },
-    onSwipedRight: (e) => {
-      e.event.stopPropagation();
+  const handlers = exercise.isCustom
+    ? useSwipeable({
+        onSwipedLeft: (e) => {
+          e.event.stopPropagation();
+          setIsEditable(true);
+        },
+        onSwipedRight: (e) => {
+          e.event.stopPropagation();
+          setIsEditable(false);
+        },
+        preventScrollOnSwipe: true,
+        trackMouse: true,
+      })
+    : {};
+
+  const deleteHandler = async () => {
+    try {
+      if (!user) throw new Error("Not authenticated");
       setIsEditable(false);
-    },
-    preventScrollOnSwipe: true,
-    trackMouse: true,
-  }) : {};
+      
+      const ok = await confirm({
+        title: "",
+        description: `Впевнені у видаленні ${exercise.name}?`,
+        cancelLabel: " Ні",
+        confirmLabel: "Так",
+      });
+
+      if (ok) {
+        await deleteUserExercise(user.uid, exercise.id, exercise.imageUrl);
+
+        queryClient.invalidateQueries({ queryKey: ["exercises", user.uid] });
+        queryClient.invalidateQueries({ queryKey: ["routines", user.uid] });
+        toast.success("Вправу успішно видалено!");
+      }
+    } catch (err: any) {
+      console.log(err);
+    }
+  };
+
+  const editHandler = async () => {
+    try {
+      if (!user) throw new Error("Not authenticated");
+      setIsEditable(false);
+
+
+    } catch (err: any) {
+      console.log(err);
+    }
+  };
 
   return (
     <div
@@ -69,7 +112,13 @@ export function ExerciseListItem({ exercise, onEdit, onRemove }: ExerciseListIte
           <div
             onClick={() => setIsEditable(!isEditable)}
             className="group flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-secondary cursor-pointer border-2 border-transparent border-solid hover:border-primary transition-[0.2s]">
-            <IconMenu2 className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-[0.2s]" />
+            
+            {
+              isEditable ?
+              <IconX className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-[0.2s]" />
+              :
+              <IconMenu2 className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-[0.2s]" />
+            }
           </div>
         )}
       </motion.div>
@@ -80,12 +129,12 @@ export function ExerciseListItem({ exercise, onEdit, onRemove }: ExerciseListIte
           animate={{ x: isEditable ? 0 : 80 }}
           transition={{ type: "spring", stiffness: 300, damping: 30 }}>
           <div
-            onClick={onEdit}
+            onClick={editHandler}
             className="flex items-center justify-center w-10 h-full bg-primary cursor-pointer hover:brightness-110">
             <IconEdit className="h-5 w-5" />
           </div>
           <div
-            onClick={onRemove}
+            onClick={deleteHandler}
             className="flex items-center justify-center w-10 h-full bg-red-500 cursor-pointer hover:brightness-110">
             <IconTrash className="h-5 w-5" />
           </div>
@@ -98,11 +147,9 @@ export function ExerciseListItem({ exercise, onEdit, onRemove }: ExerciseListIte
 interface ExerciseCategoryProps {
   title: string;
   exercises: Exercise[];
-  onExerciseEdit: (exercise: Exercise) => void;
-  onExerciseRemove: (exercise: Exercise) => void;
 }
 
-export function ExerciseCategory({ title, exercises, onExerciseEdit, onExerciseRemove }: ExerciseCategoryProps) {
+export function ExerciseCategory({ title, exercises }: ExerciseCategoryProps) {
   return (
     <div className="space-y-2">
       <h3 className="px-1 text-sm font-semibold text-muted-foreground">{title}</h3>
@@ -111,8 +158,6 @@ export function ExerciseCategory({ title, exercises, onExerciseEdit, onExerciseR
           <ExerciseListItem
             key={exercise.id}
             exercise={exercise}
-            onEdit={() => onExerciseEdit(exercise)}
-            onRemove={() => onExerciseRemove(exercise)}
           />
         ))}
       </div>
