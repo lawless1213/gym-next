@@ -66,7 +66,8 @@ export default function RoutineCard(routine: Routine) {
   return (
     <div
       key={routine.id}
-      className="relative flex overflow-hidden md:rounded-xl">
+      className="relative flex overflow-hidden md:rounded-xl"
+      {...handlers}>
       <motion.div
         className="bg-card p-4 flex gap-2 w-full items-center justify-between"
         style={{ borderLeft: `4px solid ${routine.color}` }}
