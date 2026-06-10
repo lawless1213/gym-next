@@ -16,6 +16,7 @@ import SkeletonSwitcher from "./__components/common/SkeletonSwitcher";
 import ActionCard from "./__components/cards/action";
 import { IconUser } from "@tabler/icons-react";
 import { useModal } from "./lib/modal/modal-store";
+import { useRecordsThisWeek } from "./hooks/useServices/useRecords";
 
 export default function Home() {
   const t = useTranslations("HomePage");
@@ -25,6 +26,10 @@ export default function Home() {
 
   const userID = user?.uid;
   const { data: scheduleMap, isLoading: isLoadingDataPendingRoutine } = useSchedule(userID);
+
+  const { data, isLoading: loading } = useRecordsThisWeek(userID);
+  const records = data ? Object.values(data) : [];
+  
 
   const isLoadingPendingRoutine = isUserLoading || isLoadingDataPendingRoutine || (!!userID && !scheduleMap);
   useEffect(() => {
@@ -68,7 +73,8 @@ export default function Home() {
         )}
       </SkeletonSwitcher>
 
-      <MotivationalBanner />
+      <MotivationalBanner records={records} />
+ 
 
       <div className="grid grid-cols-3 gap-3">
         <QuickStat
