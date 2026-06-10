@@ -1,14 +1,14 @@
 import { useModal } from "@/app/lib/modal/modal-store";
 import { Routine } from "@/app/types";
 
-type CalendarModalData = {
+type ScheduleModalData = {
   dayIndex: number;
   routines: Routine[];
 };
 
-export function useCalendarModal() {
+export function useScheduleModal() {
   const modal = useModal();
-  const data = modal.data as CalendarModalData;
+  const data = modal.data as ScheduleModalData;
 	
   return {
     ...modal,

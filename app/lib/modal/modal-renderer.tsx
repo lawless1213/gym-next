@@ -4,14 +4,14 @@ import { useModal } from './modal-store'
 import { AuthModal } from '@/app/__components/modals/auth'
 import { ExerciseCreateModal } from '@/app/__components/modals/exercise';
 import { WorkoutModal } from '@/app/__components/modals/workout';
-import { CalendarEditModal } from '@/app/__components/modals/calendar';
+import { ScheduleEditModal } from '@/app/__components/modals/schedule';
 
 const MODAL_MAP = {
   auth: AuthModal,
   exercise: ExerciseCreateModal,
   routine: RoutineCreateModal,
   workout: WorkoutModal,
-  calendar: CalendarEditModal,
+  schedule: ScheduleEditModal,
 } as const;
 export type ModalType = keyof typeof MODAL_MAP;
 

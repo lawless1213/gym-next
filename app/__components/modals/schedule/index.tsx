@@ -17,24 +17,24 @@ import { createUserRoutine } from "@/app/lib/actions/routine";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRoutines } from "@/app/hooks/useServices/useRoutines";
 import RoutineCard from "../../cards/routine";
-import { useCalendarModal } from "@/app/hooks/useModals/useCalendarModal";
+import { useScheduleModal } from "@/app/hooks/useModals/useScheduleModal";
 import { useTranslations } from "next-intl";
 import { weekDays } from "@/app/types";
 
-const calendarSchema = z.object({
+const scheduleSchema = z.object({
   routines: z.array(z.object({ routineId: z.string() })).min(1, "Додай хоча б одну програму"),
 });
 
-type CalendarFormData = z.infer<typeof calendarSchema>;
+type ScheduleFormData = z.infer<typeof scheduleSchema>;
 
-export function CalendarEditModal() {
+export function ScheduleEditModal() {
   const tDays = useTranslations("components.day");
   const { user } = useAuth();
   const userID = user?.uid;
   const queryClient = useQueryClient();
 
   const { data: routines = [], isLoading: loading } = useRoutines(userID);
-  const { confirm, close, dayIndex, routineList } = useCalendarModal();
+  const { confirm, close, dayIndex, routineList } = useScheduleModal();
 
   const {
     register,
@@ -43,8 +43,8 @@ export function CalendarEditModal() {
     control,
     setError,
     formState: { errors, isSubmitting, isValid, isDirty },
-  } = useForm<CalendarFormData>({
-    resolver: zodResolver(calendarSchema),
+  } = useForm<ScheduleFormData>({
+    resolver: zodResolver(scheduleSchema),
     mode: "onTouched",
     defaultValues: {
       routines: [],
@@ -76,7 +76,7 @@ export function CalendarEditModal() {
     }
   };
 
-  const onSubmit = async (data: CalendarFormData) => {
+  const onSubmit = async (data: ScheduleFormData) => {
     try {
       if (!user) throw new Error("Not authenticated");
 
@@ -102,7 +102,7 @@ export function CalendarEditModal() {
 
   return (
     <ModalWrapper
-      modalType="calendar"
+      modalType="schedule"
       title={`${tDays(`default.${weekDays[dayIndex]}`)} - editing routines`}>
       <form
         className="flex flex-col gap-4 overflow-y-auto"

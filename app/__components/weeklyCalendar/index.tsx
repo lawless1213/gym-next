@@ -108,7 +108,7 @@ export function WeeklyCalendar() {
                 />
               ))}
               <button
-                onClick={() => open('calendar', {dayIndex: openCardIndex, routines: scheduleDays[weekDays[openCardIndex]]})}
+                onClick={() => open('schedule', {dayIndex: openCardIndex, routines: scheduleDays[weekDays[openCardIndex]]})}
                 className="group m-auto flex h-10 w-10 items-center justify-center rounded-full bg-card cursor-pointer border-2 border-transparent border-solid hover:border-primary transition-[0.2s]">
                 <IconPlus className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-[0.2s]" />
               </button>
