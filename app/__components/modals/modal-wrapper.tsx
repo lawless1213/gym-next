@@ -11,7 +11,7 @@ import { ModalType } from "@/app/lib/modal/modal-renderer";
 type Props = {
   modalType: ModalType;
   children: React.ReactNode;
-  title?: string;
+  title?: string | React.ReactNode;
   header?: boolean;
   classes?: string;
   contentClasses?: string;

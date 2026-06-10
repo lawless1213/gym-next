@@ -198,7 +198,6 @@ export function RoutineCreateModal() {
                           muscleGroup: exercise.muscleGroup,
                           isCustom: exercise.isCustom,
                         });
-                        setShowExercisePicker(false);
                       }}
                       disabled={isSelected}
                       className={`flex w-full items-center gap-3 rounded-xl p-3 text-left transition-colors ${isSelected ? "bg-muted/40 opacity-40 cursor-not-allowed select-none" : "bg-secondary hover:bg-secondary/80 cursor-pointer"}`}>

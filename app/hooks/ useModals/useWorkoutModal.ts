@@ -1,4 +1,3 @@
-// hooks/useWorkoutModal.ts
 import { useModal } from "@/app/lib/modal/modal-store";
 import { Routine } from "@/app/types";
 

@@ -8,6 +8,26 @@
 			"uk": "Ukrainian",
 			"en": "English"
 		},
+		"day": {
+			"default": {
+				"mon": "Monday",
+				"tue": "Tuesday",
+				"wed": "Wednesday",
+				"thu": "Thursday",
+				"fri": "Friday",
+				"sat": "Saturday",
+				"sun": "Sunday"
+			},
+			"short": {
+				"mon": "Mon",
+				"tue": "Tue",
+				"wed": "Wed",
+				"thu": "Thu",
+				"fri": "Fri",
+				"sat": "Sat",
+				"sun": "Sun"
+			}
+		},
 		"month": {
 			"default": {
 				"1": "January",
@@ -66,14 +86,7 @@
 			"guest": "Guest"
 		},
 		"weeklyCalendar": {
-			"title": "Workout schedule",
-			"mon": "Mon",
-			"tue": "Tue",
-			"wed": "Wed",
-			"thu": "Thu",
-			"fri": "Fri",
-			"sat": "Sat",
-			"sun": "Sun"
+			"title": "Workout schedule"
 		},
 		"worcoutCard": {
 			"title": "Next workout",

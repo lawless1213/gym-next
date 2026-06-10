@@ -11,11 +11,14 @@ import SkeletonBone from "../common/skeletonBone";
 import SkeletonSwitcher from "../common/SkeletonSwitcher";
 import ActionCard from "../cards/action";
 import { IconPlus } from "@tabler/icons-react";
+import { useModal } from "@/app/lib/modal/modal-store";
 
 export function WeeklyCalendar() {
   const t = useTranslations("HomePage.weeklyCalendar");
+  const tDays = useTranslations("components.day.short");
   const { user, loading: isUserLoading } = useAuth();
   const userID = user?.uid;
+  const { open } = useModal();
   const [openCardIndex, setopenCardIndex] = useState<null | number>(null);
 
   const d = new Date();
@@ -58,7 +61,7 @@ export function WeeklyCalendar() {
       <SkeletonSwitcher
         isLoading={isLoading}
         skeleton={CalendarSkeleton}>
-        <div className="flex items-center justify-between gap-1 mb-[-1px]">
+        <div className="flex items-center justify-between gap-1 -mb-px">
           {weekDays.map((day, index) => {
             const isToday = index === todayIndex;
             const workout = scheduleDays[day];
@@ -71,7 +74,7 @@ export function WeeklyCalendar() {
                 key={day}
                 onClick={() => cardToggler(index)}
                 className={`flex flex-1 flex-col items-center gap-1.5 py-2 rounded-md transition-all min-h-[72px] overflow-hidden cursor-pointer hover:bg-secondary/80 ${isToday ? "border-primary border-t" : ""} ${isOpen ? "bg-secondary/80 rounded-b-none" : ""}`}>
-                <span className="text-[12px] font-medium uppercase text-muted-foreground">{t(`${day}`)}</span>
+                <span className="text-[12px] font-medium uppercase text-muted-foreground">{tDays(`${day}`)}</span>
                 <span className="text-sm font-bold">{todayDate - todayIndex + index}</span>
                 {hasWorkout && <div className={`h-1.5 w-1.5 rounded-full ${isPast ? "bg-muted-foreground" : "bg-primary"}`} />}
               </button>
@@ -105,7 +108,7 @@ export function WeeklyCalendar() {
                 />
               ))}
               <button
-                onClick={() => console.log("Add new")}
+                onClick={() => open('calendar', {dayIndex: openCardIndex, routines: scheduleDays[weekDays[openCardIndex]]})}
                 className="group m-auto flex h-10 w-10 items-center justify-center rounded-full bg-card cursor-pointer border-2 border-transparent border-solid hover:border-primary transition-[0.2s]">
                 <IconPlus className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-[0.2s]" />
               </button>
