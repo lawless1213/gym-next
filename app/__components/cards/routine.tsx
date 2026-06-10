@@ -17,18 +17,22 @@ export default function RoutineCard(routine: Routine) {
   const queryClient = useQueryClient();
   const [isEditable, setIsEditable] = useState(false);
 
-  const handlers = useSwipeable({
-    onSwipedLeft: (e) => {
-      e.event.stopPropagation();
-      setIsEditable(true);
-    },
-    onSwipedRight: (e) => {
-      e.event.stopPropagation();
-      setIsEditable(false);
-    },
-    preventScrollOnSwipe: true,
-    trackMouse: true,
-  });
+  const handlers = useSwipeable(
+    routine.editable
+      ? {
+          onSwipedLeft: (e) => {
+            e.event.stopPropagation();
+            setIsEditable(true);
+          },
+          onSwipedRight: (e) => {
+            e.event.stopPropagation();
+            setIsEditable(false);
+          },
+          preventScrollOnSwipe: true,
+          trackMouse: true,
+        }
+      : {},
+  );
 
   const deleteHandler = async () => {
     try {
@@ -71,7 +75,7 @@ export default function RoutineCard(routine: Routine) {
       <motion.div
         className="bg-card p-4 flex gap-2 w-full items-center justify-between"
         style={{ borderLeft: `4px solid ${routine.color}` }}
-        animate={{ x: isEditable ? -80 : 0 }}
+        animate={{ x: routine.editable && isEditable ? -80 : 0 }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}>
         <div>
           <h3 className="font-semibold text-foreground">{routine.name}</h3>
@@ -100,7 +104,7 @@ export default function RoutineCard(routine: Routine) {
         )}
 
         {routine.completed && <IconChecks className="h-5 w-5 text-primary" />}
-        
+
         {routine.editable && (
           <div
             onClick={() => setIsEditable(!isEditable)}
@@ -109,22 +113,24 @@ export default function RoutineCard(routine: Routine) {
           </div>
         )}
       </motion.div>
-      <motion.div
-        className="absolute top-0 right-0 h-full flex text-white"
-        initial={{ x: 80 }}
-        animate={{ x: isEditable ? 0 : 80 }}
-        transition={{ type: "spring", stiffness: 300, damping: 30 }}>
-        <div
-          onClick={editHandler}
-          className="flex items-center justify-center w-10 h-full bg-primary cursor-pointer hover:brightness-110">
-          <IconEdit className="h-5 w-5" />
-        </div>
-        <div
-          onClick={deleteHandler}
-          className="flex items-center justify-center w-10 h-full bg-red-500 cursor-pointer hover:brightness-110">
-          <IconTrash className="h-5 w-5" />
-        </div>
-      </motion.div>
+      {routine.editable && (
+        <motion.div
+          className="absolute top-0 right-0 h-full flex text-white"
+          initial={{ x: 80 }}
+          animate={{ x: isEditable ? 0 : 80 }}
+          transition={{ type: "spring", stiffness: 300, damping: 30 }}>
+          <div
+            onClick={editHandler}
+            className="flex items-center justify-center w-10 h-full bg-primary cursor-pointer hover:brightness-110">
+            <IconEdit className="h-5 w-5" />
+          </div>
+          <div
+            onClick={deleteHandler}
+            className="flex items-center justify-center w-10 h-full bg-red-500 cursor-pointer hover:brightness-110">
+            <IconTrash className="h-5 w-5" />
+          </div>
+        </motion.div>
+      )}
     </div>
   );
 }

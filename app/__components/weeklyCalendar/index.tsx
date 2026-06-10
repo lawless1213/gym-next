@@ -95,7 +95,7 @@ export function WeeklyCalendar() {
             exit={{ opacity: 1, height: 0 }}
             transition={{ duration: 0.25, ease: "easeInOut" }}>
             <div
-              className={`overflow-hidden flex flex-col gap-2 p-2 bg-secondary/80 rounded-xl
+              className={`overflow-hidden flex flex-col gap-3 py-3 bg-secondary/80 rounded-xl
                 ${openCardIndex === 0 ? "rounded-tl-none" : ""}
                 ${openCardIndex === weekDays.length - 1 ? "rounded-tr-none" : ""}`}
             >
