@@ -95,11 +95,9 @@ export function WeeklyCalendar() {
             exit={{ opacity: 1, height: 0 }}
             transition={{ duration: 0.25, ease: "easeInOut" }}>
             <div
-              className={`overflow-hidden flex flex-col gap-3 py-3 bg-secondary/80 rounded-xl
+              className={`overflow-hidden flex flex-col gap-3 py-3 bg-secondary/80 rounded-xl md:p-3
                 ${openCardIndex === 0 ? "rounded-tl-none" : ""}
-                ${openCardIndex === weekDays.length - 1 ? "rounded-tr-none" : ""}`}
-            >
-       
+                ${openCardIndex === weekDays.length - 1 ? "rounded-tr-none" : ""}`}>
               {scheduleDays[weekDays[openCardIndex]].map((routine) => (
                 <RoutineCard
                   key={routine.id}
@@ -108,8 +106,8 @@ export function WeeklyCalendar() {
                 />
               ))}
               <button
-                onClick={() => open('schedule', {dayIndex: openCardIndex, routines: scheduleDays[weekDays[openCardIndex]]})}
-                className="group m-auto flex h-10 w-10 items-center justify-center rounded-full bg-card cursor-pointer border-2 border-transparent border-solid hover:border-primary transition-[0.2s]">
+                className="group flex mx-3 rounded-2xl items-center justify-center bg-card cursor-pointer p-4 border-2 border-dashed hover:border-primary transition-[0.2s] md:mx-0"
+                onClick={() => open("schedule", { dayIndex: openCardIndex, routines: scheduleDays[weekDays[openCardIndex]] })}>
                 <IconPlus className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-[0.2s]" />
               </button>
             </div>
