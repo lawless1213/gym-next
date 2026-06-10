@@ -3,7 +3,7 @@
 import { ModalWrapper } from "../modal-wrapper";
 import { IconArrowLeft, IconBarbell, IconCheck, IconClock, IconPlayerPauseFilled, IconPlayerPlay, IconUpload, IconX, IconChecks } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
-import { useWorkoutModal } from "@/app/hooks/ useModals/useWorkoutModal";
+import { useWorkoutModal } from "@/app/hooks/useModals/useWorkoutModal";
 import { ExerciseCard } from "./_components/exerciseCard";
 import { WorkoutSession, WorkoutSet } from "@/app/types";
 import { Button } from "../../common/button";

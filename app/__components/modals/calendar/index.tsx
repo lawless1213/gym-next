@@ -17,7 +17,7 @@ import { createUserRoutine } from "@/app/lib/actions/routine";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRoutines } from "@/app/hooks/useServices/useRoutines";
 import RoutineCard from "../../cards/routine";
-import { useCalendarModal } from "@/app/hooks/ useModals/useCalendarModal";
+import { useCalendarModal } from "@/app/hooks/useModals/useCalendarModal";
 import { useTranslations } from "next-intl";
 import { weekDays } from "@/app/types";
 
