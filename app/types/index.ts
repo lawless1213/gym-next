@@ -39,6 +39,7 @@ export interface Routine {
   name: string;
   exercises: Exercise[];
   color: string;
+  available?: boolean;
   completed?: boolean;
   editable?: boolean;
 }

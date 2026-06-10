@@ -100,6 +100,7 @@ export function WeeklyCalendar() {
               {scheduleDays[weekDays[openCardIndex]].map((routine) => (
                 <RoutineCard
                   key={routine.id}
+                  available={openCardIndex === todayIndex}
                   {...routine}
                 />
               ))}
