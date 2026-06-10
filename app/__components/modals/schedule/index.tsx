@@ -20,6 +20,7 @@ import RoutineCard from "../../cards/routine";
 import { useScheduleModal } from "@/app/hooks/useModals/useScheduleModal";
 import { useTranslations } from "next-intl";
 import { weekDays } from "@/app/types";
+import { editUserSchedule } from "@/app/lib/actions/shedule";
 
 const scheduleSchema = z.object({
   routines: z.array(z.object({ routineId: z.string() })).min(1, "Додай хоча б одну програму"),
@@ -80,18 +81,19 @@ export function ScheduleEditModal() {
     try {
       if (!user) throw new Error("Not authenticated");
 
-      console.log("Selected routines:", data.routines);
-
       const ok = await confirm({
         title: "",
-        description: `Впевнені у зміні програм на ...?`,
+        description: `Впевнені у зміні програм?`,
         cancelLabel: " Ні",
         confirmLabel: "Так",
       });
 
       if (ok) {
-        // await createUserRoutine(user.uid, data);
-        // queryClient.invalidateQueries({ queryKey: ["schedule", user.uid] });
+        await editUserSchedule(user.uid, {
+          dayIndex,
+          routineIds: data.routines.map((r) => r.routineId),
+        });
+        queryClient.invalidateQueries({ queryKey: ["schedule", user.uid] });
         toast.success(`${tDays(`default.${weekDays[dayIndex]}`)} - програми оновлено!`);
         close();
       }
