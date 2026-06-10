@@ -92,7 +92,7 @@ export function CalendarEditModal() {
       if (ok) {
         // await createUserRoutine(user.uid, data);
         // queryClient.invalidateQueries({ queryKey: ["schedule", user.uid] });
-        toast.success(<>Програми на <span className="lowercase">{tDays(`default.${weekDays[dayIndex]}`)}</span> оновлено!</>);
+        toast.success(`${tDays(`default.${weekDays[dayIndex]}`)} - програми оновлено!`);
         close();
       }
     } catch (err: any) {
@@ -103,9 +103,7 @@ export function CalendarEditModal() {
   return (
     <ModalWrapper
       modalType="calendar"
-      title={
-        <>Edit routines on <span className="lowercase">{tDays(`default.${weekDays[dayIndex]}`)}</span></>
-      }>
+      title={`${tDays(`default.${weekDays[dayIndex]}`)} - editing routines`}>
       <form
         className="flex flex-col gap-4 overflow-y-auto"
         onSubmit={handleSubmit(onSubmit)}>
