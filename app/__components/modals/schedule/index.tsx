@@ -23,7 +23,7 @@ import { weekDays } from "@/app/types";
 import { editUserSchedule } from "@/app/lib/actions/shedule";
 
 const scheduleSchema = z.object({
-  routines: z.array(z.object({ routineId: z.string() })).min(1, "Додай хоча б одну програму"),
+  routines: z.array(z.object({ routineId: z.string() })),
 });
 
 type ScheduleFormData = z.infer<typeof scheduleSchema>;

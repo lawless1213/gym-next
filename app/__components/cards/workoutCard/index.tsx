@@ -6,7 +6,6 @@ import { Button } from "@/app/__components/common/button";
 import { useTranslations } from "next-intl";
 import { useModal } from "@/app/lib/modal/modal-store";
 
-
 interface WorkoutCardProps {
   routine: Routine;
 }
@@ -16,14 +15,13 @@ export function WorkoutCard({ routine }: WorkoutCardProps) {
   const { open } = useModal();
 
   return (
-    <div 
+    <div
       className="overflow-hidden rounded-2xl bg-card"
-      style={{borderLeft: `4px solid ${routine.color}`,}}
-    >
+      style={{ borderLeft: `4px solid ${routine.color}` }}>
       <div
         className="relative p-4"
         style={{
-          background: `linear-gradient(135deg, ${routine.color}30, ${routine.color}10)`
+          background: `linear-gradient(135deg, ${routine.color}30, ${routine.color}10)`,
         }}>
         <div className="flex h-full flex-col justify-between">
           <div>
@@ -47,17 +45,18 @@ export function WorkoutCard({ routine }: WorkoutCardProps) {
             {routine.exercises.length > 3 && <span className="rounded-md bg-secondary px-2 py-0.5 text-xs text-muted-foreground">+{routine.exercises.length - 3} more</span>}
           </div>
         </div>
-      </div> 
-      <div className="p-4 pt-3">
-        <Button
-          // disabled
-          onClick={() => open("workout", routine)}
-          className="w-full gap-2 bg-primary cursor-pointer text-primary-foreground hover:bg-primary/90"
-          size="lg">
-          <IconPlayerPlayFilled className="h-5 w-5 fill-current" />
-          {t("startButton")}
-        </Button>
       </div>
+      {routine.available && (
+        <div className="p-4 pt-3">
+          <Button
+            onClick={() => open("workout", routine)}
+            className="w-full gap-2 bg-primary cursor-pointer text-primary-foreground hover:bg-primary/90"
+            size="lg">
+            <IconPlayerPlayFilled className="h-5 w-5 fill-current" />
+            {t("startButton")}
+          </Button>
+        </div>
+      )}
     </div>
   );
 }

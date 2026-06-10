@@ -10,7 +10,7 @@ import { useSchedule } from "@/app/hooks/useServices/useSchedule";
 import SkeletonBone from "../common/skeletonBone";
 import SkeletonSwitcher from "../common/SkeletonSwitcher";
 import ActionCard from "../cards/action";
-import { IconPlus } from "@tabler/icons-react";
+import { IconEdit, IconPlus } from "@tabler/icons-react";
 import { useModal } from "@/app/lib/modal/modal-store";
 
 export function WeeklyCalendar() {
@@ -35,7 +35,6 @@ export function WeeklyCalendar() {
   const emptySchedule = createEmptySchedule();
   const { data, isLoading: isDataLoading } = useSchedule(userID);
   const scheduleDays: ScheduleMap = userID ? (data ?? emptySchedule) : emptySchedule;
-
   const isLoading = isUserLoading || isDataLoading || (!!userID && !data);
 
   const cardToggler = (index: number) => {
@@ -108,7 +107,7 @@ export function WeeklyCalendar() {
               <button
                 className="group flex mx-3 rounded-2xl items-center justify-center bg-card cursor-pointer p-4 border-2 border-dashed hover:border-primary transition-[0.2s] md:mx-0"
                 onClick={() => open("schedule", { dayIndex: openCardIndex, routines: scheduleDays[weekDays[openCardIndex]] })}>
-                <IconPlus className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-[0.2s]" />
+                {scheduleDays[weekDays[openCardIndex]].length > 0 ? <IconEdit className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-[0.2s]" /> : <IconPlus className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-[0.2s]" />}
               </button>
             </div>
           </motion.div>

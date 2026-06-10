@@ -25,11 +25,14 @@ export function getNextPendingRoutine(
   const jsDay = todayDate.getDay();
   const todayIndex = jsDay === 0 ? 6 : jsDay - 1;
 
-  for (let dayIndex = todayIndex; dayIndex < weekDays.length; dayIndex += 1) {
+  for (let offset = 0; offset < weekDays.length; offset += 1) {
+    const dayIndex = (todayIndex + offset) % weekDays.length;
     const day = weekDays[dayIndex];
+
     const nextRoutine = scheduleMap[day].find((routine) => !routine.completed);
 
     if (nextRoutine) {
+      nextRoutine.available = dayIndex === todayIndex;
       return nextRoutine;
     }
   }
