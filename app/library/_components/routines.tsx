@@ -26,9 +26,9 @@ export default function Routines() {
   const t = useTranslations("Library.routines");
   const { open } = useModal();
   const { user } = useAuth();
-  const userID = user?.uid;
+  const userId = user?.uid;
 
-  const { data: routines = [], isLoading: loading } = useRoutines(userID);
+  const { data: routines = [], isLoading: loading } = useRoutines(userId);
 
   return (
     <>

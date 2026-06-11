@@ -29,12 +29,12 @@ type RoutineFormData = z.infer<typeof routineSchema>;
 
 export function RoutineCreateModal() {
   const { user } = useAuth();
-  const userID = user?.uid;
+  const userId = user?.uid;
   const [showExercisePicker, setShowExercisePicker] = useState(false);
   const { close } = useModal();
   const queryClient = useQueryClient();
 
-  const { data: exercises = [], isLoading: loading } = useAllExercises(userID);
+  const { data: exercises = [], isLoading: loading } = useAllExercises(userId);
 
   const {
     register,

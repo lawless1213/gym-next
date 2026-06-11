@@ -1,18 +1,11 @@
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/app/lib/firebaseConfig";
 import { RecordsMap } from "@/app/types";
+import { Period } from "@/app/types";
 
 export async function getUserRecords(
-  userId: string
-): Promise<RecordsMap> {
-  const snap = await getDoc(doc(db, 'users', userId, 'stats', 'records'));
-	const records = snap.data() as RecordsMap;
-	
-  return records;
-}
-
-export async function getUserRecordsThisWeek(
-  userId: string
+  userId: string,
+  period: Period = "all"
 ): Promise<RecordsMap> {
   const snap = await getDoc(doc(db, "users", userId, "stats", "records"));
 
@@ -20,26 +13,27 @@ export async function getUserRecordsThisWeek(
 
   const records = snap.data() as RecordsMap;
 
+  if (period === "all") return records;
+
   const now = new Date();
-  const dayOfWeek = now.getDay();
-  const daysFromMonday = dayOfWeek === 0 ? 6 : dayOfWeek - 1;
+  let startDate: Date;
 
-  const startOfWeek = new Date(now);
-  startOfWeek.setDate(now.getDate() - daysFromMonday);
-  startOfWeek.setHours(0, 0, 0, 0);
+  if (period === "week") {
+    const daysFromMonday = now.getDay() === 0 ? 6 : now.getDay() - 1;
+    startDate = new Date(now);
+    startDate.setDate(now.getDate() - daysFromMonday);
+    startDate.setHours(0, 0, 0, 0);
+  } else {
+    startDate = new Date(now.getFullYear(), now.getMonth(), 1);
+  }
 
-  const endOfWeek = new Date(startOfWeek);
-  endOfWeek.setDate(startOfWeek.getDate() + 7);
-
-  const weeklyRecords: RecordsMap = {};
+  const filteredRecords: RecordsMap = {};
 
   for (const [exerciseId, record] of Object.entries(records)) {
-    const recordDate: Date = record.date.toDate();
-
-    if (recordDate >= startOfWeek && recordDate < endOfWeek) {
-      weeklyRecords[exerciseId] = record;
+    if (record.date.toDate() >= startDate) {
+      filteredRecords[exerciseId] = record;
     }
   }
 
-  return weeklyRecords;
+  return filteredRecords;
 }

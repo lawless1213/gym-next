@@ -16,7 +16,9 @@ import SkeletonSwitcher from "./__components/common/SkeletonSwitcher";
 import ActionCard from "./__components/cards/action";
 import { IconUser } from "@tabler/icons-react";
 import { useModal } from "./lib/modal/modal-store";
-import { useRecordsThisWeek } from "./hooks/useServices/useRecords";
+import { useRecords } from "./hooks/useServices/useRecords";
+import { useHistory } from "./hooks/useServices/useHistory";
+import { totalHistoryVolume } from "./lib/utils";
 
 export default function Home() {
   const t = useTranslations("HomePage");
@@ -24,22 +26,25 @@ export default function Home() {
   const { user, loading: isUserLoading } = useAuth();
   const [nextRoutine, setNextRoutine] = useState<Routine | null>(null);
 
-  const userID = user?.uid;
-  const { data: scheduleMap, isLoading: isLoadingDataPendingRoutine } = useSchedule(userID);
+  const userId = user?.uid;
+  const { data: scheduleMap, isLoading: isLoadingDataPendingRoutine } = useSchedule(userId);
 
-  const { data, isLoading: loading } = useRecordsThisWeek(userID);
+  const { data: lastWeekHistory = [], isLoading: isLoadingLastWeekHistory } = useHistory(userId, { period: "week" });
+  const { data: prevWeekHistory = [], isLoading: isLoadingPrevWeekHistory} = useHistory(userId, { period: "prev-week" });
+  
+  const { data, isLoading: isLoadingRecords } = useRecords(userId, 'month');
   const records = data ? Object.values(data) : [];
   
 
-  const isLoadingPendingRoutine = isUserLoading || isLoadingDataPendingRoutine || (!!userID && !scheduleMap);
+  const isLoadingPendingRoutine = isUserLoading || isLoadingDataPendingRoutine || (!!userId && !scheduleMap);
   useEffect(() => {
-    if (!userID || !scheduleMap) {
+    if (!userId || !scheduleMap) {
       setNextRoutine(null);
       return;
     }
     const routine = getNextPendingRoutine(scheduleMap);
     setNextRoutine(routine);
-  }, [userID, scheduleMap]);
+  }, [userId, scheduleMap]);
 
   return (
     <div className="flex flex-col gap-4 pb-4">
@@ -73,23 +78,23 @@ export default function Home() {
         )}
       </SkeletonSwitcher>
 
-      <MotivationalBanner records={records} />
+      <MotivationalBanner records={records} lastWeekHistory={lastWeekHistory} prevWeekHistory={prevWeekHistory}/>
  
 
       <div className="grid grid-cols-3 gap-3">
         <QuickStat
           label="Workouts"
-          value="47"
+          value={history.length}
           sublabel="This month"
         />
         <QuickStat
           label="Volume"
-          value="52K"
+          value={totalHistoryVolume(lastWeekHistory)}
           sublabel="kg lifted"
         />
         <QuickStat
           label="PRs"
-          value="8"
+          value={records.length}
           sublabel="This month"
         />
       </div>

@@ -1,20 +1,15 @@
 import { useQuery } from "@tanstack/react-query";
-import { getUserHistoryForPeriod, getUserLastHistory } from "@/app/lib/services/history";
+import { getUserHistory } from "@/app/lib/services/history";
+import { HistoryOptions } from "@/app/types";
 
-export const useHistoryForPeriod= (userId: string | undefined, start: Date, end: Date) => {
+export const useHistory = (
+  userId: string | undefined,
+  options: HistoryOptions
+) => {
   return useQuery({
-    queryKey: ["historyForPeriod", { userId, start: start.toISOString(), end: end.toISOString() }],
-    queryFn: () => getUserHistoryForPeriod(userId!, start, end),
-    staleTime: 1000 * 60 * 60 * 6, // 6 hour
-    enabled: !!userId,
-  });
-};
-
-export const useLastHistory= (userId: string | undefined, amount: number) => {
-  return useQuery({
-    queryKey: ["lastHistory", { userId, amount }],
-    queryFn: () => getUserLastHistory(userId!, amount),
-    staleTime: 1000 * 60 * 60 * 6, // 6 hour
+    queryKey: ["history", { userId, ...options }],
+    queryFn: () => getUserHistory(userId!, options),
+    staleTime: 1000 * 60 * 60 * 6,
     enabled: !!userId,
   });
 };

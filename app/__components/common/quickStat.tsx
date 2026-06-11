@@ -1,4 +1,4 @@
-export  default function QuickStat({ label, value, sublabel }: { label: string; value: string; sublabel: string }) {
+export  default function QuickStat({ label, value, sublabel }: { label: string; value: string | number; sublabel: string }) {
   return (
     <div className="rounded-xl bg-card p-3 text-center">
       <p className="text-xs font-medium text-muted-foreground">{label}</p>

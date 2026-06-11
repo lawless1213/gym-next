@@ -31,10 +31,10 @@ const ExercisesSkeleton = (
 export default function Exercises() {
   const t = useTranslations("Library.exercises");
   const { user } = useAuth();
-  const userID = user?.uid;
+  const userId = user?.uid;
   const [searchQuery, setSearchQuery] = useState("");
 
-  const { data: exercises = [], isLoading: loading } = useAllExercises(userID);
+  const { data: exercises = [], isLoading: loading } = useAllExercises(userId);
 
   const filteredExercises = useMemo(() => {
     if (!searchQuery) return exercises;

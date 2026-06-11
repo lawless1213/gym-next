@@ -17,7 +17,7 @@ export function WeeklyCalendar() {
   const t = useTranslations("HomePage.weeklyCalendar");
   const tDays = useTranslations("components.day.short");
   const { user, loading: isUserLoading } = useAuth();
-  const userID = user?.uid;
+  const userId = user?.uid;
   const { open } = useModal();
   const [openCardIndex, setopenCardIndex] = useState<null | number>(null);
 
@@ -33,9 +33,9 @@ export function WeeklyCalendar() {
     }, {} as ScheduleMap);
 
   const emptySchedule = createEmptySchedule();
-  const { data, isLoading: isDataLoading } = useSchedule(userID);
-  const scheduleDays: ScheduleMap = userID ? (data ?? emptySchedule) : emptySchedule;
-  const isLoading = isUserLoading || isDataLoading || (!!userID && !data);
+  const { data, isLoading: isDataLoading } = useSchedule(userId);
+  const scheduleDays: ScheduleMap = userId ? (data ?? emptySchedule) : emptySchedule;
+  const isLoading = isUserLoading || isDataLoading || (!!userId && !data);
 
   const cardToggler = (index: number) => {
     setopenCardIndex((prev) => (prev === index ? null : index));

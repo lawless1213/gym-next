@@ -31,10 +31,10 @@ type ScheduleFormData = z.infer<typeof scheduleSchema>;
 export function ScheduleEditModal() {
   const tDays = useTranslations("components.day");
   const { user } = useAuth();
-  const userID = user?.uid;
+  const userId = user?.uid;
   const queryClient = useQueryClient();
 
-  const { data: routines = [], isLoading: loading } = useRoutines(userID);
+  const { data: routines = [], isLoading: loading } = useRoutines(userId);
   const { confirm, close, dayIndex, routineList } = useScheduleModal();
 
   const {

@@ -3,10 +3,9 @@
 import { IconCalendarWeekFilled, IconTrendingUp } from "@tabler/icons-react";
 import { useAuth } from "@/app/hooks/useAuth";
 import { useTranslations } from "next-intl";
-import { getDateOfWeek } from "../lib/utils";
 import WorkoutSession from "./_components/workoutSession";
 import { Header } from "../__components/Header";
-import { useHistoryForPeriod } from "../hooks/useServices/useHistory";
+import { useHistory } from "../hooks/useServices/useHistory";
 import SkeletonSwitcher from "../__components/common/SkeletonSwitcher";
 import SkeletonBone from "../__components/common/skeletonBone";
 
@@ -16,10 +15,8 @@ export default function History() {
 
   const { user, loading: isUserLoading } = useAuth();
   const userId = user?.uid;
-  const startOfWeek = getDateOfWeek("start");
-  const endOfWeek = getDateOfWeek("end");
 
-  const { data: history = [], isLoading: isDataLoading } = useHistoryForPeriod(userId, startOfWeek, endOfWeek);
+  const { data: history = [], isLoading: isDataLoading } = useHistory(userId, { period: "week" });
   const isLoading = isUserLoading || isDataLoading || (!!userId && !history);
 
   const weeklyVolume = history.reduce((total, workout) => total + (workout.volume ?? 0), 0);
