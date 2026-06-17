@@ -1,16 +1,17 @@
 import { useState } from "react";
 import { bodyMeasurements } from "@/app/data/mock-data";
-import { IconScale, IconTrendingDown, IconTrendingUp, IconActivity } from "@tabler/icons-react";
+import { IconScale, IconTrendingDown, IconTrendingUp, IconActivity, IconTrophy } from "@tabler/icons-react";
 import { cn } from "@/app/lib/utils";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { useLocale, useTranslations } from "next-intl";
 import { useLastProgress } from "@/app/hooks/useServices/useProgress";
 import { useAuth } from "@/app/hooks/useAuth";
-import { BodyProgress } from "@/app/types";
+import { BodyProgress, Measurement } from "@/app/types";
 import SkeletonBone from "@/app/__components/common/skeletonBone";
 import SkeletonSwitcher from "@/app/__components/common/SkeletonSwitcher";
 import ButtonAdd from "@/app/__components/buttons/ButtonAdd";
 import { useModal } from "@/app/lib/modal/modal-store";
+
 
 export default function Progress() {
   const locale = useLocale();
@@ -55,32 +56,70 @@ export default function Progress() {
               <SkeletonBone
                 key={i}
                 br={12}
-                height={112}
+                height={104}
               />
             ))}
           </div>
         }>
-        <div className="grid grid-cols-3 gap-3">
-          {metrics.map(({ key, label, unit, icon: Icon, change }) => (
+        <div className="grid grid-cols-2 gap-3">
+          {metrics.slice(0, 2).map(({ key, label, unit, icon: Icon, change }) => (
             <button
               key={key}
               onClick={() => setSelectedMetric(key)}
-              className={cn("rounded-xl p-4 text-left transition-all cursor-pointer", selectedMetric === key ? "bg-primary/10 ring-2 ring-primary" : "bg-card")}>
-              <div className="flex items-center gap-2">
+              className={cn("rounded-xl p-4 text-center transition-all cursor-pointer", selectedMetric === key ? "bg-primary/10 ring-2 ring-primary" : "bg-card")}>
+              <div className="flex items-center justify-center gap-2">
                 <Icon className="h-4 w-4 text-muted-foreground" />
                 <span className="text-sm text-muted-foreground">{label}</span>
               </div>
-              <p className="mt-1 text-2xl font-bold text-foreground">
+              <p className="text-2xl font-bold text-foreground">
                 {progress?.[key].at(-1)!.value} {unit}
               </p>
               {change !== 0 && (
-                <div className={cn("mt-1 flex items-center gap-1 text-sm", change < 0 ? "text-primary" : "text-destructive")}>
+                <span className={cn("flex items-center justify-center gap-1 text-sm", change < 0 ? "text-primary" : "text-destructive")}>
                   {change < 0 ? <IconTrendingDown className="h-3.5 w-3.5" /> : <IconTrendingUp className="h-3.5 w-3.5" />}
                   <span>
-                    {Math.abs(change).toFixed(1)} {unit}
+                    {Math.abs(change)} {unit}
                   </span>
-                </div>
+                </span>
               )}
+            </button>
+          ))}
+        </div>
+      </SkeletonSwitcher>
+      <SkeletonSwitcher
+        isLoading={loading}
+        skeleton={
+          <div className="grid grid-cols-3 gap-3 mt-3">
+            {Array.from({ length: 3 }).map((_, i) => (
+              <SkeletonBone
+                key={i}
+                br={12}
+                height={96}
+              />
+            ))}
+          </div>
+        }>
+        <div className="grid grid-cols-3 gap-3 mt-3">
+          {metrics.slice(2).map(({ key, label, unit, icon: Icon, change }) => (
+            <button
+              key={key}
+              onClick={() => setSelectedMetric(key)}
+              className={cn("text-center rounded-xl p-4 transition-all cursor-pointer", selectedMetric === key ? "bg-primary/10 ring-2 ring-primary" : "bg-card")}>
+              <div className="flex items-center justify-center gap-2">
+                <Icon className="h-4 w-4 text-muted-foreground" />
+                <span className="text-sm text-muted-foreground">{label}</span>
+              </div>
+              <p className="text-md font-bold text-foreground">
+                {progress?.[key].at(-1)!.value} {unit}
+                {change !== 0 && (
+                  <div className={cn("flex items-center justify-center gap-1 text-sm", change > 0 ? "text-primary" : "text-destructive")}>
+                    {change < 0 ? <IconTrendingDown className="h-3.5 w-3.5" /> : <IconTrendingUp className="h-3.5 w-3.5" />}
+                    <span>
+                      {Math.abs(change)} {unit}
+                    </span>
+                  </div>
+                )}
+              </p>
             </button>
           ))}
         </div>
@@ -94,8 +133,8 @@ export default function Progress() {
             height={260}
           />
         }>
-        <div className="rounded-xl bg-card py-4">
-          <h3 className="mb-4 text-sm font-semibold text-muted-foreground">{t(`measurements.${selectedMetric}`)}</h3>
+        <div className="rounded-xl bg-card py-4 pr-4">
+          <h3 className="pl-4 mb-4 text-sm font-semibold text-muted-foreground">{t(`measurements.${selectedMetric}`)}</h3>
           <div className="h-48">
             <ResponsiveContainer
               width="100%"
@@ -148,6 +187,37 @@ export default function Progress() {
             </ResponsiveContainer>
           </div>
         </div>
+      </SkeletonSwitcher>
+      <SkeletonSwitcher
+        isLoading={loading}
+        skeleton={
+          <div className="space-y-3">
+            {Array.from({ length: 3 }).map((_, i) => (
+              <SkeletonBone
+                key={i}
+                br={12}
+                height={64}
+              />
+            ))}
+          </div>
+        }>
+        {progress ? (
+          <div className="space-y-3">
+            {progress[selectedMetric].toReversed().map((measurement: Measurement) => (
+              <div className="flex items-center gap-3 p-3">
+                <div className="w-10 h-10 rounded-xl bg-secondary flex items-center justify-center shrink-0">
+                  <IconTrophy className="w-5 h-5 text-primary" />
+                </div>
+                <div className="flex-1 min-w-0">
+                  <span className="text-xs text-muted-foreground">{measurement.date.toLocaleDateString(locale, { month: "short", day: "numeric", year: "numeric" })}</span>
+                </div>
+                <span className="text-xl font-bold text-primary shrink-0">{measurement.value + (metrics?.find(item => item.key === selectedMetric)?.unit || "")}</span>
+              </div>
+            ))}
+          </div>
+        ) : (
+          <div>df</div>
+        )}
       </SkeletonSwitcher>
       <ButtonAdd onClick={() => open("progress")} />
     </div>

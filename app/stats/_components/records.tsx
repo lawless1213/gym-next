@@ -34,7 +34,7 @@ export default function Records() {
                 <SkeletonBone
                   key={i}
                   br={12}
-                  height={140}
+                  height={68}
                 />
               ))}
             </div>
