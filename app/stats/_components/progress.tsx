@@ -10,6 +10,7 @@ import { BodyProgress } from "@/app/types";
 import SkeletonBone from "@/app/__components/common/skeletonBone";
 import SkeletonSwitcher from "@/app/__components/common/SkeletonSwitcher";
 import ButtonAdd from "@/app/__components/buttons/ButtonAdd";
+import { useModal } from "@/app/lib/modal/modal-store";
 
 export default function Progress() {
 	const locale = useLocale();
@@ -17,6 +18,7 @@ export default function Progress() {
   const tMeasurement = useTranslations("components.measurement");
   const { user } = useAuth();
   const userId = user?.uid;
+  const { open } = useModal();
 
   const { data: progress, isLoading: loading } = useLastProgress(userId);
 
@@ -90,7 +92,7 @@ export default function Progress() {
             height={260}
           />
         }>
-        <div className="rounded-xl bg-card p-4">
+        <div className="rounded-xl bg-card py-4">
           <h3 className="mb-4 text-sm font-semibold text-muted-foreground">{t(`measurements.${selectedMetric}`)}</h3>
           <div className="h-48">
             <ResponsiveContainer
@@ -171,7 +173,7 @@ export default function Progress() {
           </div>
         </SkeletonSwitcher>
       </div>
-      <ButtonAdd onClick={() => console.log('add stats')} />
+      <ButtonAdd onClick={() => open('progress')} />
     </div>
   );
 }

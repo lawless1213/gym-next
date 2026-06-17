@@ -5,6 +5,7 @@ import { AuthModal } from '@/app/__components/modals/auth'
 import { ExerciseCreateModal } from '@/app/__components/modals/exercise';
 import { WorkoutModal } from '@/app/__components/modals/workout';
 import { ScheduleEditModal } from '@/app/__components/modals/schedule';
+import { ProgressModal } from '@/app/__components/modals/progress';
 
 const MODAL_MAP = {
   auth: AuthModal,
@@ -12,6 +13,7 @@ const MODAL_MAP = {
   routine: RoutineCreateModal,
   workout: WorkoutModal,
   schedule: ScheduleEditModal,
+  progress: ProgressModal,
 } as const;
 export type ModalType = keyof typeof MODAL_MAP;
 
