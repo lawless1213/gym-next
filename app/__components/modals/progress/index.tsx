@@ -10,6 +10,7 @@ import { useModal } from "@/app/lib/modal/modal-store";
 import { toast } from "sonner";
 import { useAuth } from "@/app/hooks/useAuth";
 import { useQueryClient } from "@tanstack/react-query";
+import { addUserProgress } from "@/app/lib/actions/progress";
 
 const progressSchema = z.object({
   date: z.date(),
@@ -18,7 +19,6 @@ const progressSchema = z.object({
   chest: z.number('Введіть будь ласка число.').positive('Показник не може бути відʼємним.').max(200).optional(),
   arms: z.number('Введіть будь ласка число.').positive('Показник не може бути відʼємним.').max(100).optional(),
   thighs: z.number('Введіть будь ласка число.').positive('Показник не може бути відʼємним.').max(150).optional(),
-  notes: z.string().max(500).optional(),
 }).refine(
   (data) => [data.weight, data.waist, data.chest, data.arms, data.thighs].some((v) => v !== undefined),
   { message: "Введіть хоча б один показник" }
@@ -54,9 +54,8 @@ export function ProgressModal() {
   const onSubmit = async (data: ProgressFormData) => {
     try {
       if (!user) throw new Error("Not authenticated");
-
-      console.log(data);
-      queryClient.invalidateQueries({ queryKey: ["progress", user.uid] });
+      await addUserProgress(user.uid, data);
+      queryClient.invalidateQueries({ queryKey: ["lastProgress"] });
       toast.success("Показники збережено!");
       close();
     } catch (err: any) {
@@ -88,16 +87,6 @@ export function ProgressModal() {
                 />
               );
             })}
-
-            <Input
-              input={{
-                ...register("notes"),
-                type: "text",
-                id: "notes",
-                placeholder: "Нотатки (необов'язково)",
-                error: errors.notes?.message,
-              }}
-            />
           </div>
 
           {errors.root?.message && (

@@ -31,8 +31,8 @@ export default function Progress() {
       value: m.value,
     }));
 
-  const weightChange = progress?.weight && progress.weight.length >= 2 ? progress.weight.at(-1)!.value - progress.weight[0]!.value : 0;
-  const waistChange = progress?.weight && progress.waist.length >= 2 ? progress.waist.at(-1)!.value - progress.waist[0]!.value : 0;
+  const weightChange = progress?.weight && progress.weight.length >= 2 ? progress.weight.at(-1)!.value - progress.weight.at(-2)!.value : 0;
+  const waistChange = progress?.waist && progress.waist.length >= 2 ? progress.waist.at(-1)!.value - progress.waist.at(-2)!.value : 0;
 
   return (
     <div className="space-y-2">
