@@ -13,7 +13,7 @@ import ButtonAdd from "@/app/__components/buttons/ButtonAdd";
 import { useModal } from "@/app/lib/modal/modal-store";
 
 export default function Progress() {
-	const locale = useLocale();
+  const locale = useLocale();
   const t = useTranslations("stats");
   const tMeasurement = useTranslations("components.measurement");
   const { user } = useAuth();
@@ -33,6 +33,17 @@ export default function Progress() {
 
   const weightChange = progress?.weight && progress.weight.length >= 2 ? progress.weight.at(-1)!.value - progress.weight.at(-2)!.value : 0;
   const waistChange = progress?.waist && progress.waist.length >= 2 ? progress.waist.at(-1)!.value - progress.waist.at(-2)!.value : 0;
+  const chestChange = progress?.chest && progress.chest.length >= 2 ? progress.chest.at(-1)!.value - progress.chest.at(-2)!.value : 0;
+  const thighsChange = progress?.thighs && progress.thighs.length >= 2 ? progress.thighs.at(-1)!.value - progress.thighs.at(-2)!.value : 0;
+  const armsChange = progress?.arms && progress.arms.length >= 2 ? progress.arms.at(-1)!.value - progress.arms.at(-2)!.value : 0;
+
+  const metrics = [
+    { key: "weight" as keyof BodyProgress, label: t("measurements.weight"), unit: tMeasurement("kg"), icon: IconScale, change: weightChange },
+    { key: "waist" as keyof BodyProgress, label: t("measurements.waist"), unit: tMeasurement("cm"), icon: IconActivity, change: waistChange },
+    { key: "chest" as keyof BodyProgress, label: t("measurements.chest"), unit: tMeasurement("cm"), icon: IconActivity, change: chestChange },
+    { key: "arms" as keyof BodyProgress, label: t("measurements.arms"), unit: tMeasurement("cm"), icon: IconActivity, change: armsChange },
+    { key: "thighs" as keyof BodyProgress, label: t("measurements.thighs"), unit: tMeasurement("cm"), icon: IconActivity, change: thighsChange },
+  ];
 
   return (
     <div className="space-y-2">
@@ -49,38 +60,29 @@ export default function Progress() {
             ))}
           </div>
         }>
-        <div className="grid grid-cols-2 gap-3">
-          <button
-            onClick={() => setSelectedMetric("weight")}
-            className={cn("rounded-xl p-4 text-left transition-all", selectedMetric === "weight" ? "bg-primary/10 ring-2 ring-primary" : "bg-card")}>
-            <div className="flex items-center gap-2">
-              <IconScale className="h-4 w-4 text-muted-foreground" />
-              <span className="text-sm text-muted-foreground">{t("measurements.weight")}</span>
-            </div>
-            <p className="mt-1 text-2xl font-bold text-foreground">{progress?.weight.at(-1)!.value} {tMeasurement('kg')}</p>
-            {weightChange !== 0 && (
-              <div className={cn("mt-1 flex items-center gap-1 text-sm", weightChange < 0 ? "text-primary" : "text-destructive")}>
-                {weightChange < 0 ? <IconTrendingDown className="h-3.5 w-3.5" /> : <IconTrendingUp className="h-3.5 w-3.5" />}
-                <span>{Math.abs(weightChange).toFixed(1)} {tMeasurement('kg')}</span>
+        <div className="grid grid-cols-3 gap-3">
+          {metrics.map(({ key, label, unit, icon: Icon, change }) => (
+            <button
+              key={key}
+              onClick={() => setSelectedMetric(key)}
+              className={cn("rounded-xl p-4 text-left transition-all cursor-pointer", selectedMetric === key ? "bg-primary/10 ring-2 ring-primary" : "bg-card")}>
+              <div className="flex items-center gap-2">
+                <Icon className="h-4 w-4 text-muted-foreground" />
+                <span className="text-sm text-muted-foreground">{label}</span>
               </div>
-            )}
-          </button>
-
-          <button
-            onClick={() => setSelectedMetric("waist")}
-            className={cn("rounded-xl p-4 text-left transition-all", selectedMetric === "waist" ? "bg-primary/10 ring-2 ring-primary" : "bg-card")}>
-            <div className="flex items-center gap-2">
-              <IconActivity className="h-4 w-4 text-muted-foreground" />
-              <span className="text-sm text-muted-foreground">{t("measurements.waist")}</span>
-            </div>
-            <p className="mt-1 text-2xl font-bold text-foreground">{progress?.waist.at(-1)!.value} {tMeasurement('cm')}</p>
-            {waistChange !== 0 && (
-              <div className={cn("mt-1 flex items-center gap-1 text-sm", waistChange < 0 ? "text-primary" : "text-destructive")}>
-                {waistChange < 0 ? <IconTrendingDown className="h-3.5 w-3.5" /> : <IconTrendingUp className="h-3.5 w-3.5" />}
-                <span>{Math.abs(waistChange).toFixed(1)}{tMeasurement('cm')}</span>
-              </div>
-            )}
-          </button>
+              <p className="mt-1 text-2xl font-bold text-foreground">
+                {progress?.[key].at(-1)!.value} {unit}
+              </p>
+              {change !== 0 && (
+                <div className={cn("mt-1 flex items-center gap-1 text-sm", change < 0 ? "text-primary" : "text-destructive")}>
+                  {change < 0 ? <IconTrendingDown className="h-3.5 w-3.5" /> : <IconTrendingUp className="h-3.5 w-3.5" />}
+                  <span>
+                    {Math.abs(change).toFixed(1)} {unit}
+                  </span>
+                </div>
+              )}
+            </button>
+          ))}
         </div>
       </SkeletonSwitcher>
 
@@ -99,6 +101,7 @@ export default function Progress() {
               width="100%"
               height="100%">
               <LineChart
+                key={selectedMetric}
                 data={chartData}
                 accessibilityLayer={false}>
                 <XAxis
@@ -122,7 +125,7 @@ export default function Progress() {
                     return (
                       <div className="bg-card border border-border rounded-xl p-2">
                         <div className="font-semibold">
-                          {value} {selectedMetric === "weight" ? tMeasurement('kg') : tMeasurement('cm')}
+                          {value} {selectedMetric === "weight" ? tMeasurement("kg") : tMeasurement("cm")}
                         </div>
                         <div className="text-xs text-muted-foreground">{date}</div>
                       </div>
@@ -139,41 +142,14 @@ export default function Progress() {
                     r: 10,
                     strokeWidth: 0,
                   }}
+                  // isAnimationActive={false}
                 />
               </LineChart>
             </ResponsiveContainer>
           </div>
         </div>
       </SkeletonSwitcher>
-
-      <div className="space-y-3 mt-5">
-        <h2 className="text-sm font-semibold text-muted-foreground">{t("measurements.other")}</h2>
-
-        <SkeletonSwitcher
-          isLoading={loading}
-          skeleton={
-            <SkeletonBone
-              br={12}
-              height={76}
-            />
-          }>
-          <div className="grid grid-cols-3 gap-3 rounded-xl bg-card p-4">
-            <div className="text-center">
-              <p className="text-lg font-bold text-foreground">{progress?.chest.at(-1)!.value}</p>
-              <p className="text-xs text-muted-foreground">{t("measurements.chestCm")}</p>
-            </div>
-            <div className="text-center">
-              <p className="text-lg font-bold text-foreground">{progress?.arms.at(-1)!.value}</p>
-              <p className="text-xs text-muted-foreground">{t("measurements.armsCm")}</p>
-            </div>
-            <div className="text-center">
-              <p className="text-lg font-bold text-foreground">{progress?.thighs.at(-1)!.value}</p>
-              <p className="text-xs text-muted-foreground">{t("measurements.thighsCm")}</p>
-            </div>
-          </div>
-        </SkeletonSwitcher>
-      </div>
-      <ButtonAdd onClick={() => open('progress')} />
+      <ButtonAdd onClick={() => open("progress")} />
     </div>
   );
 }

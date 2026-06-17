@@ -151,10 +151,9 @@
 		"measurements": {
 			"weight": "Weight",
 			"waist": "Waist",
-			"other": "Other measurements",
-			"chestCm": "Chest (cm)",
-			"armsCm": "Arms (cm)",
-			"thighsCm": "Thighs (cm)"
+			"chest": "Chest",
+			"arms": "Arms",
+			"thighs": "Thighs"
 		},
 		"records": {
 			"title": "Personal records",

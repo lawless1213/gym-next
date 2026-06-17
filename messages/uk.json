@@ -158,10 +158,9 @@
 		"measurements": {
 			"weight": "Вага",
 			"waist": "Талія",
-			"other": "Інші вимірювання",
-			"chestCm": "Груди (см)",
-			"armsCm": "Руки (см)",
-			"thighsCm": "Стегна (см)"
+			"chest": "Груди",
+			"arms": "Руки",
+			"thighs": "Стегна"
 		},
 		"records": {
 			"title": "Особисті рекорди",
