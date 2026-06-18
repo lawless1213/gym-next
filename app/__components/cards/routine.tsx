@@ -95,7 +95,7 @@ export default function RoutineCard(routine: Routine) {
           </div>
         </div>
 
-        {routine.available && (
+        {routine.available && !routine.completed && (
           <button
             onClick={() => open("workout", routine)}
             className="group flex h-10 w-10 items-center justify-center rounded-full bg-secondary cursor-pointer border-2 border-transparent border-solid hover:border-primary transition-[0.2s]">
@@ -103,7 +103,7 @@ export default function RoutineCard(routine: Routine) {
           </button>
         )}
 
-        {routine.completed && <IconChecks className="h-5 w-5 text-primary" />}
+        {routine.completed && <div className="px-2"><IconChecks className="h-5 w-5 text-primary" /></div>}
 
         {routine.editable && (
           <div

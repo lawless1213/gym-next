@@ -28,7 +28,7 @@ export interface WorkoutSession {
   id?: string;
   routineId: string;
   name: string;
-  startedAt: string;
+  startedAt: Timestamp;
   duration?: number;
   volume?: number;
   exercises: WorkoutExercise[];

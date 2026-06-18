@@ -9,15 +9,20 @@ import { WorkoutSession, WorkoutSet } from "@/app/types";
 import { Button } from "../../common/button";
 import { useRecords } from "@/app/hooks/useServices/useRecords";
 import { useAuth } from "@/app/hooks/useAuth";
+import { writeWorkoutSwssion } from "@/app/lib/actions/workout";
+import { Timestamp } from "firebase/firestore";
+import { useQueryClient } from "@tanstack/react-query";
 
 export function WorkoutModal() {
   const { user } = useAuth();
   const { confirm, close, routine } = useWorkoutModal();
+  const queryClient = useQueryClient();
+
 
   const workoutRoutine: WorkoutSession = {
     routineId: routine.id,
     name: routine.name,
-    startedAt: new Date().toISOString(),
+    startedAt: Timestamp.fromDate(new Date()),
     duration: 0,
     exercises: routine.exercises.map((exercise) => ({
       ...exercise,
@@ -31,8 +36,6 @@ export function WorkoutModal() {
 
   const [workout, setWorkout] = useState<WorkoutSession>(workoutRoutine);
   const exerciseIds = routine.exercises.map(ex => ex.id);
-
-  console.log(workout);
   
   const { data: records = {}, isLoading: loading } = useRecords({userId: user?.uid, exerciseIds});
 
@@ -129,7 +132,11 @@ export function WorkoutModal() {
     });
 
     if (ok) {
-      console.log(finishedWorkout);
+      if (!user) throw new Error("Not authenticated");
+
+      writeWorkoutSwssion(user?.uid, finishedWorkout);
+      queryClient.invalidateQueries({ queryKey: ["history"] });
+      queryClient.invalidateQueries({ queryKey: ["schedule"] });
       close();
     }
   };
