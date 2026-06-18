@@ -9,7 +9,7 @@ import { WorkoutSession, WorkoutSet } from "@/app/types";
 import { Button } from "../../common/button";
 import { useRecords } from "@/app/hooks/useServices/useRecords";
 import { useAuth } from "@/app/hooks/useAuth";
-import { writeWorkoutSwssion } from "@/app/lib/actions/workout";
+import { writeWorkoutSession } from "@/app/lib/actions/workout";
 import { Timestamp } from "firebase/firestore";
 import { useQueryClient } from "@tanstack/react-query";
 
@@ -134,7 +134,7 @@ export function WorkoutModal() {
     if (ok) {
       if (!user) throw new Error("Not authenticated");
 
-      writeWorkoutSwssion(user?.uid, finishedWorkout);
+      writeWorkoutSession(user?.uid, finishedWorkout);
       queryClient.invalidateQueries({ queryKey: ["history"] });
       queryClient.invalidateQueries({ queryKey: ["schedule"] });
       close();
