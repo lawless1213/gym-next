@@ -32,7 +32,7 @@ export default function Home() {
   const { data: lastWeekHistory = [], isLoading: isLoadingLastWeekHistory } = useHistory(userId, { period: "week" });
   const { data: prevWeekHistory = [], isLoading: isLoadingPrevWeekHistory} = useHistory(userId, { period: "prev-week" });
   
-  const { data, isLoading: isLoadingRecords } = useRecords(userId, 'month');
+  const { data, isLoading: isLoadingRecords } = useRecords({userId, period: 'month'});
   const records = data ? Object.values(data) : [];
   
 

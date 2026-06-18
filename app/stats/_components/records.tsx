@@ -16,7 +16,7 @@ export default function Records() {
   const { user } = useAuth();
   const userId = user?.uid;
 
-  const { data, isLoading: loading } = useRecords(userId);
+  const { data, isLoading: loading } = useRecords({userId});
 
   const records = data ? Object.values(data) : [];
 

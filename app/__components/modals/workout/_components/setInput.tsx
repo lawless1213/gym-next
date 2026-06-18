@@ -41,20 +41,13 @@ export function SetInput({ set, setNumber, onUpdate, onComplete }: SetInputProps
         ? "bg-primary/10 ring-1 ring-primary/30" 
         : "bg-secondary"
     )}>
-      {/* Set Number */}
       <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-sm font-bold text-muted-foreground">
         {setNumber}
       </div>
 
-      {/* Weight Input */}
       <div className="flex flex-1 flex-col gap-1">
         <div className="flex items-center justify-between">
           <span className="text-[10px] font-medium uppercase text-muted-foreground">Weight</span>
-          {/* {set.lastWeight !== undefined && (
-            <span className="text-[10px] text-muted-foreground">
-              Last: {set.lastWeight}kg
-            </span>
-          )} */}
         </div>
         <div className="flex items-center gap-1">
           <button
@@ -133,7 +126,7 @@ export function SetInput({ set, setNumber, onUpdate, onComplete }: SetInputProps
       {/* Complete Button */}
       <button
         onClick={handleComplete}
-        disabled={(weight === 0 && reps === 0)}
+        disabled={(weight === 0 || reps === 0)}
         className={cn(
           "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl transition-all",
           set.completed

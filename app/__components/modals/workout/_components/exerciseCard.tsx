@@ -1,19 +1,20 @@
 "use client";
 
 import { useState } from "react";
-import { WorkoutExercise, WorkoutSet } from "@/app/types";
+import { WorkoutExercise, WorkoutSet, PersonalRecord } from "@/app/types";
 import { cn } from "@/app/lib/utils";
-import { IconBarbell, IconChevronDown, IconChevronUp, IconMinus, IconPlus } from "@tabler/icons-react";
+import { IconBarbell, IconCheck, IconChevronDown, IconChevronUp, IconMinus, IconPlus, IconTrophy } from "@tabler/icons-react";
 import { SetInput } from "./setInput";
 
 interface ExerciseCardProps {
   workoutExercise: WorkoutExercise;
+  record?: PersonalRecord;
   onUpdateSet: (id: number, updates: Partial<WorkoutSet>) => void;
   onAddSet: () => void;
   onRemoveSet: () => void;
 }
 
-export function ExerciseCard({ workoutExercise, onUpdateSet, onAddSet, onRemoveSet }: ExerciseCardProps) {
+export function ExerciseCard({ workoutExercise, record, onUpdateSet, onAddSet, onRemoveSet }: ExerciseCardProps) {
   const [expanded, setExpanded] = useState(true);
   const { name, muscleGroup, sets } = workoutExercise;
 
@@ -58,6 +59,33 @@ export function ExerciseCard({ workoutExercise, onUpdateSet, onAddSet, onRemoveS
 
       {expanded && (
         <div className="flex flex-col gap-2 mt-3">
+          {record && (
+            <>
+              <div className="flex items-center gap-2 rounded-xl p-3 bg-secondary">
+                <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-sm font-bold text-muted-foreground">
+                  <IconTrophy className="w-5 h-5 text-primary" />
+                </div>
+                <div className="flex flex-1 flex-col gap-1">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-medium uppercase text-muted-foreground">Record Weight</span>
+                  </div>
+                  <div className="flex items-center justify-center h-8 w-10 sm:w16 rounded-lg bg-background text-center text-sm font-semibold text-foreground ring-1 ring-border">{record?.weight}</div>
+                </div>
+                <div className="flex flex-1 flex-col gap-1">
+                  <div className="flex items-center justify-between">
+                    <span className="text-[10px] font-medium uppercase text-muted-foreground">Record Reps</span>
+                  </div>
+                  <div className="flex items-center justify-center h-8 w-10 sm:w16 rounded-lg bg-background text-center text-sm font-semibold text-foreground ring-1 ring-border">{record?.reps}</div>
+                </div>
+                <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl">
+                  <IconCheck className="h-5 w-5 text-primary" />
+                </div>
+              </div>
+
+              <div className="border-b border border-dashed border-muted-foreground/40 my-2"></div>
+            </>
+          )}
+
           {sets.map((set, index) => (
             <SetInput
               key={index}

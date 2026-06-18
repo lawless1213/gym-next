@@ -7,8 +7,11 @@ import { useWorkoutModal } from "@/app/hooks/useModals/useWorkoutModal";
 import { ExerciseCard } from "./_components/exerciseCard";
 import { WorkoutSession, WorkoutSet } from "@/app/types";
 import { Button } from "../../common/button";
+import { useRecords } from "@/app/hooks/useServices/useRecords";
+import { useAuth } from "@/app/hooks/useAuth";
 
 export function WorkoutModal() {
+  const { user } = useAuth();
   const { confirm, close, routine } = useWorkoutModal();
 
   const workoutRoutine: WorkoutSession = {
@@ -27,6 +30,11 @@ export function WorkoutModal() {
   };
 
   const [workout, setWorkout] = useState<WorkoutSession>(workoutRoutine);
+  const exerciseIds = routine.exercises.map(ex => ex.id);
+
+  console.log(workout);
+  
+  const { data: records = {}, isLoading: loading } = useRecords({userId: user?.uid, exerciseIds});
 
   const [elapsedTime, setElapsedTime] = useState(0);
   const [isPaused, setIsPaused] = useState(false);
@@ -63,9 +71,6 @@ export function WorkoutModal() {
           : ex,
       ),
     }));
-
-    console.log(workout);
-    
   };
 
   const handleAddSet = (exerciseId: string) => {
@@ -124,7 +129,7 @@ export function WorkoutModal() {
     });
 
     if (ok) {
-      console.log(workout);
+      console.log(finishedWorkout);
       close();
     }
   };
@@ -178,13 +183,13 @@ export function WorkoutModal() {
           <ExerciseCard
             key={workoutExercise.id}
             workoutExercise={workoutExercise}
+            record={records[workoutExercise.id]}
             onUpdateSet={(index, updates) => handleUpdateSet(workoutExercise.id, index, updates)}
             onAddSet={() => handleAddSet(workoutExercise.id)}
             onRemoveSet={() => handleRemoveSet(workoutExercise.id)}
           />
         ))}
       </main>
-      {/* Finish Workout Button */}
       <div className="fixed bottom-0 left-0 right-0 border-t border-border bg-background/95 p-4 backdrop-blur">
         <Button
           onClick={handleFinishWorkout}

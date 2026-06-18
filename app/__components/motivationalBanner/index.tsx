@@ -9,8 +9,6 @@ export function MotivationalBanner({ records, lastWeekHistory, prevWeekHistory }
   const prevVolume = totalHistoryVolume(prevWeekHistory ?? []);
 
   const diff = thisVolume - prevVolume;
-  console.log(diff);
-  
   const percent = prevVolume > 0 ? ((diff / prevVolume) * 100).toFixed(1) : 0;
 
   return (

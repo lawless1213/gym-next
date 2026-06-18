@@ -215,7 +215,7 @@ export default function Progress() {
                   const difference = previousMeasurement ? measurement.value - previousMeasurement.value : null;
 
                   let textColorClass = "text-muted-foreground";
-                  
+
                   if (difference !== null && difference !== 0) {
                     const isGoodProgress = (difference > 0 && increaseProfit) || (difference < 0 && !increaseProfit);
                     textColorClass = isGoodProgress ? "text-emerald-500" : "text-rose-500";
@@ -247,7 +247,7 @@ export default function Progress() {
                         )}
                       </div>
 
-                      <span className="text-xl font-bold text-muted-foreground shrink-0">{measurement.value + unit}</span>
+                      <span className="text-xl font-bold text-foreground shrink-0">{measurement.value + unit}</span>
                     </div>
                   );
                 })}
