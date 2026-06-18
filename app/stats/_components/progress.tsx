@@ -12,7 +12,6 @@ import SkeletonSwitcher from "@/app/__components/common/SkeletonSwitcher";
 import ButtonAdd from "@/app/__components/buttons/ButtonAdd";
 import { useModal } from "@/app/lib/modal/modal-store";
 
-
 export default function Progress() {
   const locale = useLocale();
   const t = useTranslations("stats");
@@ -39,11 +38,11 @@ export default function Progress() {
   const armsChange = progress?.arms && progress.arms.length >= 2 ? progress.arms.at(-1)!.value - progress.arms.at(-2)!.value : 0;
 
   const metrics = [
-    { key: "weight" as keyof BodyProgress, label: t("measurements.weight"), unit: tMeasurement("kg"), icon: IconScale, change: weightChange },
-    { key: "waist" as keyof BodyProgress, label: t("measurements.waist"), unit: tMeasurement("cm"), icon: IconActivity, change: waistChange },
-    { key: "chest" as keyof BodyProgress, label: t("measurements.chest"), unit: tMeasurement("cm"), icon: IconActivity, change: chestChange },
-    { key: "arms" as keyof BodyProgress, label: t("measurements.arms"), unit: tMeasurement("cm"), icon: IconActivity, change: armsChange },
-    { key: "thighs" as keyof BodyProgress, label: t("measurements.thighs"), unit: tMeasurement("cm"), icon: IconActivity, change: thighsChange },
+    { key: "weight" as keyof BodyProgress, label: t("measurements.weight"), unit: tMeasurement("kg"), icon: IconScale, change: weightChange, increaseProfit: false },
+    { key: "waist" as keyof BodyProgress, label: t("measurements.waist"), unit: tMeasurement("cm"), icon: IconActivity, change: waistChange, increaseProfit: false },
+    { key: "chest" as keyof BodyProgress, label: t("measurements.chest"), unit: tMeasurement("cm"), icon: IconActivity, change: chestChange, increaseProfit: true },
+    { key: "arms" as keyof BodyProgress, label: t("measurements.arms"), unit: tMeasurement("cm"), icon: IconActivity, change: armsChange, increaseProfit: true },
+    { key: "thighs" as keyof BodyProgress, label: t("measurements.thighs"), unit: tMeasurement("cm"), icon: IconActivity, change: thighsChange, increaseProfit: true },
   ];
 
   return (
@@ -202,21 +201,61 @@ export default function Progress() {
           </div>
         }>
         {progress ? (
-          <div className="space-y-3">
-            {progress[selectedMetric].toReversed().map((measurement: Measurement) => (
-              <div className="flex items-center gap-3 p-3">
-                <div className="w-10 h-10 rounded-xl bg-secondary flex items-center justify-center shrink-0">
-                  <IconTrophy className="w-5 h-5 text-primary" />
-                </div>
-                <div className="flex-1 min-w-0">
-                  <span className="text-xs text-muted-foreground">{measurement.date.toLocaleDateString(locale, { month: "short", day: "numeric", year: "numeric" })}</span>
-                </div>
-                <span className="text-xl font-bold text-primary shrink-0">{measurement.value + (metrics?.find(item => item.key === selectedMetric)?.unit || "")}</span>
+          (() => {
+            const reversedProgress = progress[selectedMetric].toReversed();
+            // Знаходимо поточний об'єкт метрики, щоб дізнатися і unit, і increaseProfit
+            const currentMetricConfig = metrics?.find((item) => item.key === selectedMetric);
+            const unit = currentMetricConfig?.unit || "";
+            const increaseProfit = currentMetricConfig?.increaseProfit ?? true; // за замовчуванням true, якщо не знайдено
+
+            return (
+              <div className="space-y-3">
+                {reversedProgress.map((measurement: Measurement, index: number) => {
+                  const previousMeasurement = reversedProgress[index + 1];
+                  const difference = previousMeasurement ? measurement.value - previousMeasurement.value : null;
+
+                  let textColorClass = "text-muted-foreground";
+                  
+                  if (difference !== null && difference !== 0) {
+                    const isGoodProgress = (difference > 0 && increaseProfit) || (difference < 0 && !increaseProfit);
+                    textColorClass = isGoodProgress ? "text-emerald-500" : "text-rose-500";
+                  }
+
+                  return (
+                    <div
+                      key={index}
+                      className="flex items-center gap-3 p-3 border-b border-border/50">
+                      <div className="w-10 h-10 rounded-xl bg-secondary flex items-center justify-center shrink-0 text-muted-foreground">
+                        {difference !== null && difference !== 0 ? (
+                          difference > 0 ? (
+                            <IconTrendingUp className="h-4 w-4" />
+                          ) : (
+                            <IconTrendingDown className="h-4 w-4" />
+                          )
+                        ) : (
+                          <IconActivity className="h-4 w-4" />
+                        )}
+                      </div>
+
+                      <div className="flex-1 min-w-0">
+                        <div className="text-xs text-muted-foreground">{measurement.date.toLocaleDateString(locale, { month: "short", day: "numeric", year: "numeric" })}</div>
+
+                        {difference !== null && (
+                          <div className={`text-xs font-medium ${textColorClass}`}>
+                            {difference > 0 ? `+${difference.toFixed(1)}` : difference.toFixed(1)} {unit}
+                          </div>
+                        )}
+                      </div>
+
+                      <span className="text-xl font-bold text-muted-foreground shrink-0">{measurement.value + unit}</span>
+                    </div>
+                  );
+                })}
               </div>
-            ))}
-          </div>
+            );
+          })()
         ) : (
-          <div>df</div>
+          <div>empty</div>
         )}
       </SkeletonSwitcher>
       <ButtonAdd onClick={() => open("progress")} />
