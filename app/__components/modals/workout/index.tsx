@@ -136,6 +136,7 @@ export function WorkoutModal() {
 
       writeWorkoutSession(user?.uid, finishedWorkout);
       queryClient.invalidateQueries({ queryKey: ["history"] });
+      queryClient.invalidateQueries({ queryKey: ["records"] });
       queryClient.invalidateQueries({ queryKey: ["schedule"] });
       close();
     }

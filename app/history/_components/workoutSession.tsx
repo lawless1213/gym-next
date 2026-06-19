@@ -9,7 +9,8 @@ export default function WorkoutSession(workout: WorkoutSessionType) {
   const tMonth = useTranslations("components.month");
   const [isOpen, setIsOpen] = useState(false);
 
-  const date = new Date(workout.startedAt);
+  const seconds = (workout.startedAt as any)?.seconds;
+  const date = seconds ? new Date(seconds * 1000) : new Date(workout.startedAt as any);
   const volume = workout.volume ?? 0;
 
   return (
@@ -31,7 +32,8 @@ export default function WorkoutSession(workout: WorkoutSessionType) {
           <div className="mt-1 flex items-center gap-4 text-sm text-muted-foreground">
             <span className="flex items-center gap-1">
               <IconClock className="h-3.5 w-3.5" />
-              {workout.duration}m
+              {Math.round((workout.duration ?? 0) / 60)}m
+         
             </span>
             <span className="flex items-center gap-1">
               <IconBarbell className="h-3.5 w-3.5" />

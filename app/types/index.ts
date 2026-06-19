@@ -64,7 +64,7 @@ export interface PersonalRecord {
   prevReps?: number;
   weight: number;
   prevWeight?: number;
-  workoutId: string;
+  exerciseId: string;
 }
 
 export type RecordsMap = Record<string, PersonalRecord>;

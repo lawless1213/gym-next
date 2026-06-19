@@ -108,7 +108,7 @@ export default function Progress() {
                 <Icon className="h-4 w-4 text-muted-foreground" />
                 <span className="text-sm text-muted-foreground">{label}</span>
               </div>
-              <p className="text-md font-bold text-foreground">
+              <div className="text-md font-bold text-foreground">
                 {progress?.[key].at(-1)!.value} {unit}
                 {change !== 0 && (
                   <div className={cn("flex items-center justify-center gap-1 text-sm", change > 0 ? "text-primary" : "text-destructive")}>
@@ -118,7 +118,7 @@ export default function Progress() {
                     </span>
                   </div>
                 )}
-              </p>
+              </div>
             </button>
           ))}
         </div>
