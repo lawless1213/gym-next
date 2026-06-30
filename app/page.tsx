@@ -32,8 +32,8 @@ export default function Home() {
   const { data: lastWeekHistory = [], isLoading: isLoadingLastWeekHistory } = useHistory(userId, { period: "week" });
   const { data: prevWeekHistory = [], isLoading: isLoadingPrevWeekHistory} = useHistory(userId, { period: "prev-week" });
   
-  const { data, isLoading: isLoadingRecords } = useRecords({userId, period: 'month'});
-  const records = data ? Object.values(data) : [];
+  const { data: dataRecords, isLoading: isLoadingRecords } = useRecords({userId, period: 'week'});
+  const lastWeekRecords = dataRecords ? Object.values(dataRecords) : [];
   
 
   const isLoadingPendingRoutine = isUserLoading || isLoadingDataPendingRoutine || (!!userId && !scheduleMap);
@@ -45,6 +45,9 @@ export default function Home() {
     const routine = getNextPendingRoutine(scheduleMap);
     setNextRoutine(routine);
   }, [userId, scheduleMap]);
+
+  console.log(history);
+  
 
   return (
     <div className="flex flex-col gap-4 pb-4">
@@ -78,14 +81,14 @@ export default function Home() {
         )}
       </SkeletonSwitcher>
 
-      <MotivationalBanner records={records} lastWeekHistory={lastWeekHistory} prevWeekHistory={prevWeekHistory}/>
+      <MotivationalBanner records={lastWeekRecords} lastWeekHistory={lastWeekHistory} prevWeekHistory={prevWeekHistory}/>
  
 
       <div className="grid grid-cols-3 gap-3">
         <QuickStat
           label="Workouts"
-          value={history.length}
-          sublabel="This month"
+          value={lastWeekHistory.length}
+          sublabel="This week"
         />
         <QuickStat
           label="Volume"
@@ -94,8 +97,8 @@ export default function Home() {
         />
         <QuickStat
           label="PRs"
-          value={records.length}
-          sublabel="This month"
+          value={lastWeekRecords.length}
+          sublabel="This week"
         />
       </div>
     </div>

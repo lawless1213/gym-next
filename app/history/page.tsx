@@ -82,12 +82,14 @@ export default function History() {
         <SkeletonSwitcher
           isLoading={isLoading}
           skeleton={HistorySkeleton}>
-          {history.map((workout) => (
-            <WorkoutSession
-              key={workout.id}
-              {...workout}
-            />
-          ))}
+          <div className="space-y-3 w-full">
+            {history.map((workout) => (
+              <WorkoutSession
+                key={workout.id}
+                {...workout}
+              />
+            ))}
+          </div>
         </SkeletonSwitcher>
       </div>
     </div>
