@@ -6,14 +6,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button } from "@/app/__components/buttons/button";
 import { Input } from "@/app/__components/form/input";
-import { AUTH_ERRORS } from "@/app/lib/errors/auth";
-import { useModal } from "@/app/lib/modal/modal-store";
-import { IconBarbell, IconCheck, IconUpload } from "@tabler/icons-react";
+import { IconBarbell, IconUpload } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { createUserExercise } from "@/app/lib/actions/exercise";
 import { useAuth } from "@/app/hooks/useAuth";
-import { useQueryClient } from "@tanstack/react-query";
 import { useExerciseEditModal } from "@/app/hooks/useModals/useExerciseEditModal";
 
 const exerciseSchema = z.object({
@@ -28,11 +25,8 @@ type ExerciseFormData = z.infer<typeof exerciseSchema>;
 const MUSCLE_GROUPS = ["Chest", "Back", "Shoulders", "Arms", "Legs", "Core", "Full Body"];
 
 export function ExerciseEditModal() {
-  const { confirm, close, exercise } = useExerciseEditModal();
+  const { close, exercise } = useExerciseEditModal();
   const { user } = useAuth();
-  const queryClient = useQueryClient();
-
-  console.log(exercise);
 
   const {
     register,
