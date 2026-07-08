@@ -55,7 +55,7 @@ export async function getUserSchedule(userId: string): Promise<ScheduleMap> {
 
     const scheduleMap = createEmptyScheduleMap();
 
-    const history = await getUserHistory(userId, { period: "week" });
+    const history = await getUserHistory(userId, { period: "current-week" });
     const completedRoutineByDay = new Set(
       history.map((session) => {
         const day = getWeekDayFromDate(new Date(session.startedAt as unknown as string));

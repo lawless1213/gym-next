@@ -45,8 +45,6 @@ export default function Home() {
     const routine = getNextPendingRoutine(scheduleMap);
     setNextRoutine(routine);
   }, [userId, scheduleMap]);
-
-  console.log(history);
   
 
   return (

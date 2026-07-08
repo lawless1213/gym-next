@@ -82,5 +82,5 @@ export type weekDay = typeof weekDays[number];
 export type Period = "week" | "month" | "all";
 
 export type HistoryOptions =
-  | { period: "week" | "prev-week" | "month" | "year"; limit?: number }
+  | { period: "week" | "prev-week" | "current-week" | "month" | "year"; limit?: number }
   | { amount: number };

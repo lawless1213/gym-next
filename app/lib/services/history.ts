@@ -12,39 +12,31 @@ function calculateWorkoutVolume(workout: WorkoutSession): number {
   }, 0);
 }
 
-export async function getUserHistory(
-  userId: string,
-  options: HistoryOptions
-): Promise<WorkoutSession[]> {
+export async function getUserHistory(userId: string, options: HistoryOptions): Promise<WorkoutSession[]> {
   let q;
 
   if ("amount" in options) {
-    q = query(
-      collection(db, `users/${userId}/workoutHistory`),
-      orderBy("startedAt", "desc"),
-      limit(options.amount)
-    );
+    q = query(collection(db, `users/${userId}/workoutHistory`), orderBy("startedAt", "desc"), limit(options.amount));
   } else {
     const now = new Date();
+
+    const mondayOfCurrentWeek = (() => {
+      const jsDay = now.getDay(); // 0 = неділя
+      const offsetFromMonday = jsDay === 0 ? 6 : jsDay - 1;
+      return new Date(now.getFullYear(), now.getMonth(), now.getDate() - offsetFromMonday);
+    })();
 
     const fromDate = {
       week: new Date(now.getFullYear(), now.getMonth(), now.getDate() - 7),
       "prev-week": new Date(now.getFullYear(), now.getMonth(), now.getDate() - 14),
+      "current-week": mondayOfCurrentWeek,
       month: new Date(now.getFullYear(), now.getMonth(), 1),
       year: new Date(now.getFullYear(), 0, 1),
     }[options.period];
 
-    const toDate = options.period === "prev-week"
-      ? new Date(now.getFullYear(), now.getMonth(), now.getDate() - 7)
-      : now;
+    const toDate = options.period === "prev-week" ? new Date(now.getFullYear(), now.getMonth(), now.getDate() - 7) : now;
 
-    q = query(
-      collection(db, `users/${userId}/workoutHistory`),
-      where("startedAt", ">=", Timestamp.fromDate(fromDate)),
-      where("startedAt", "<=", Timestamp.fromDate(toDate)),
-      orderBy("startedAt", "desc"),
-      ...(options.limit ? [limit(options.limit)] : [])
-    );
+    q = query(collection(db, `users/${userId}/workoutHistory`), where("startedAt", ">=", Timestamp.fromDate(fromDate)), where("startedAt", "<=", Timestamp.fromDate(toDate)), orderBy("startedAt", "desc"), ...(options.limit ? [limit(options.limit)] : []));
   }
 
   const snapshot = await getDocs(q);

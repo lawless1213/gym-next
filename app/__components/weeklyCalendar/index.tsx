@@ -9,7 +9,6 @@ import RoutineCard from "../cards/routine";
 import { useSchedule } from "@/app/hooks/useServices/useSchedule";
 import SkeletonBone from "../common/skeletonBone";
 import SkeletonSwitcher from "../common/SkeletonSwitcher";
-import ActionCard from "../cards/action";
 import { IconEdit, IconPlus } from "@tabler/icons-react";
 import { useModal } from "@/app/lib/modal/modal-store";
 
@@ -23,8 +22,16 @@ export function WeeklyCalendar() {
 
   const d = new Date();
   const today = d.getDay();
-  const todayDate = d.getDate();
   const todayIndex = today === 0 ? 6 : today - 1;
+
+  const monday = new Date(d);
+  monday.setDate(d.getDate() - todayIndex);
+
+  const weekDates = weekDays.map((_, i) => {
+    const date = new Date(monday);
+    date.setDate(monday.getDate() + i);
+    return date.getDate();
+  });
 
   const createEmptySchedule = (): ScheduleMap =>
     weekDays.reduce((acc, day) => {
@@ -74,7 +81,7 @@ export function WeeklyCalendar() {
                 onClick={() => cardToggler(index)}
                 className={`flex flex-1 flex-col items-center gap-1.5 py-2 rounded-md transition-all min-h-[72px] overflow-hidden cursor-pointer hover:bg-secondary/80 ${isToday ? "border-primary border-t" : ""} ${isOpen ? "bg-secondary/80 rounded-b-none" : ""}`}>
                 <span className="text-[12px] font-medium uppercase text-muted-foreground">{tDays(`${day}`)}</span>
-                <span className="text-sm font-bold">{todayDate - todayIndex + index}</span>
+                <span className="text-sm font-bold">{weekDates[index]}</span>
                 {hasWorkout && <div className={`h-1.5 w-1.5 rounded-full ${isPast ? "bg-muted-foreground" : "bg-primary"}`} />}
               </button>
             );
