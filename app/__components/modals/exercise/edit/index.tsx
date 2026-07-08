@@ -1,6 +1,6 @@
 "use client";
 
-import { ModalWrapper } from "../modal-wrapper";
+import { ModalWrapper } from "../../modal-wrapper";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -9,12 +9,12 @@ import { Input } from "@/app/__components/form/input";
 import { AUTH_ERRORS } from "@/app/lib/errors/auth";
 import { useModal } from "@/app/lib/modal/modal-store";
 import { IconBarbell, IconCheck, IconUpload } from "@tabler/icons-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { toast } from "sonner";
 import { createUserExercise } from "@/app/lib/actions/exercise";
 import { useAuth } from "@/app/hooks/useAuth";
 import { useQueryClient } from "@tanstack/react-query";
-
+import { useExerciseEditModal } from "@/app/hooks/useModals/useExerciseEditModal";
 
 const exerciseSchema = z.object({
   photo: z.instanceof(File).optional(),
@@ -27,24 +27,40 @@ type ExerciseFormData = z.infer<typeof exerciseSchema>;
 
 const MUSCLE_GROUPS = ["Chest", "Back", "Shoulders", "Arms", "Legs", "Core", "Full Body"];
 
-export function ExerciseCreateModal() {
-  const { close } = useModal();
+export function ExerciseEditModal() {
+  const { confirm, close, exercise } = useExerciseEditModal();
   const { user } = useAuth();
   const queryClient = useQueryClient();
+
+  console.log(exercise);
 
   const {
     register,
     handleSubmit,
     control,
+    reset,
     setError,
     formState: { errors, isSubmitting, isValid, isDirty },
   } = useForm<ExerciseFormData>({
     resolver: zodResolver(exerciseSchema),
     mode: "onTouched",
     defaultValues: {
+      photo: undefined,
+      title: "",
+      description: "",
       groups: [],
     },
   });
+
+  useEffect(() => {
+    if (!exercise) return;
+    reset({
+      photo: undefined,
+      title: exercise.name,
+      description: exercise.description,
+      groups: exercise.muscleGroup ? exercise.muscleGroup.split(", ").filter(Boolean) : [],
+    });
+  }, [exercise, reset]);
 
   const { ref: titleRef, ...titleRest } = register("title");
   const { ref: descriptionRef, ...descriptionRest } = register("description");
@@ -53,9 +69,9 @@ export function ExerciseCreateModal() {
     try {
       if (!user) throw new Error("Not authenticated");
 
-      await createUserExercise(user.uid, data);
-      queryClient.invalidateQueries({ queryKey: ["exercises", user.uid] }); 
-      toast.success("Вправу успішно створено!");
+      // await createUserExercise(user.uid, data); // TODO: create mutation for exercise's editing 
+      // queryClient.invalidateQueries({ queryKey: ["exercises", user.uid] });
+      toast.success("Вправу успішно відредаговано!");
       close();
     } catch (err: any) {
       console.log(err);
@@ -64,8 +80,8 @@ export function ExerciseCreateModal() {
 
   return (
     <ModalWrapper
-      modalType="exercise"
-      title={"New exercise"}>
+      modalType="exerciseEdit"
+      title={"Edit exercise"}>
       <div className="flex flex-col gap-4">
         <form
           onSubmit={handleSubmit(onSubmit)}
@@ -75,8 +91,9 @@ export function ExerciseCreateModal() {
               name="photo"
               control={control}
               render={({ field: { onChange, value } }) => {
-                const previewUrl = value ? URL.createObjectURL(value) : null;
-
+                const previewUrl = value
+                  ? URL.createObjectURL(value) 
+                  : exercise?.imageUrl || null;
                 return (
                   <label className="group flex flex-col items-center cursor-pointer">
                     <div className="flex h-24 w-24 items-center justify-center rounded-2xl bg-secondary overflow-hidden">

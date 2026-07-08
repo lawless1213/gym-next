@@ -2,14 +2,16 @@
 import { RoutineCreateModal } from '@/app/__components/modals/routine';
 import { useModal } from './modal-store'
 import { AuthModal } from '@/app/__components/modals/auth'
-import { ExerciseCreateModal } from '@/app/__components/modals/exercise';
+import { ExerciseCreateModal } from '@/app/__components/modals/exercise/create';
 import { WorkoutModal } from '@/app/__components/modals/workout';
 import { ScheduleEditModal } from '@/app/__components/modals/schedule';
 import { ProgressModal } from '@/app/__components/modals/progress';
+import { ExerciseEditModal } from '@/app/__components/modals/exercise/edit';
 
 const MODAL_MAP = {
   auth: AuthModal,
   exercise: ExerciseCreateModal,
+  exerciseEdit: ExerciseEditModal,
   routine: RoutineCreateModal,
   workout: WorkoutModal,
   schedule: ScheduleEditModal,

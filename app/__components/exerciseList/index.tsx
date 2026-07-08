@@ -20,7 +20,7 @@ interface ExerciseListItemProps {
 }
 
 export function ExerciseListItem({ exercise }: ExerciseListItemProps) {
-  const { confirm } = useModal();
+  const { confirm, open } = useModal();
   const { user } = useAuth();
   const queryClient = useQueryClient();
   const t = useTranslations("components.exerciseCard");
@@ -68,6 +68,7 @@ export function ExerciseListItem({ exercise }: ExerciseListItemProps) {
   const editHandler = async () => {
     try {
       if (!user) throw new Error("Not authenticated");
+      open('exerciseEdit', {exercise: exercise});
       setIsEditable(false);
 
 

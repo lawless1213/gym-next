@@ -23,12 +23,12 @@ export default function LibraryScreen() {
     {
       id: "exercise",
       label: t("tabs.exercises"),
-      icon: <IconBarbell className="h-4 w-4" />,
+      icon: <IconBarbell className="size-4" />,
     },
     {
       id: "routine",
       label: t("tabs.routines"),
-      icon: <IconFolderOpen className="h-4 w-4" />,
+      icon: <IconFolderOpen className="size-4" />,
     },
   ];
 
