@@ -1,6 +1,6 @@
 import { db } from "@/app/lib/firebaseConfig";
 import { RoutinesExercise } from "@/app/types";
-import { collection, addDoc, serverTimestamp, doc, writeBatch, DocumentReference, getDoc} from "firebase/firestore";
+import { collection, addDoc, serverTimestamp, doc, writeBatch, DocumentReference, getDoc, updateDoc} from "firebase/firestore";
 
 export async function createUserRoutine(
   userId: string,
@@ -26,6 +26,35 @@ export async function createUserRoutine(
   });
 
   return { id: docRef.id };
+}
+
+export async function editUserRoutine(
+  userId: string,
+  routineId: string,
+  data: {
+    title: string;
+    color: string;
+    exercises: RoutinesExercise[];
+  }
+) {
+	const exerciseRefs = await Promise.all(
+    data.exercises.map(async (exercise) => {
+      const customRef = doc(db, "users", userId, "exercises", exercise.exerciseId);
+      const customSnap = await getDoc(customRef);
+      if (customSnap.exists()) return customRef;
+      return doc(db, "exercises", exercise.exerciseId);
+    })
+  );
+
+  const exerciseRef = doc(db, "users", userId, "routines", routineId);
+
+  await updateDoc(exerciseRef, {
+    name: data.title,
+    color: data.color,
+		exercises: exerciseRefs,
+  });
+
+  return { id: routineId };
 }
 
 export async function deleteUserRoutine(userId: string, routineId: string) {

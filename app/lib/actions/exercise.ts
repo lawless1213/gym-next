@@ -1,5 +1,5 @@
 import { db, storage } from "@/app/lib/firebaseConfig";
-import { collection, addDoc, serverTimestamp, doc, deleteDoc, getDocs, arrayRemove, writeBatch } from "firebase/firestore";
+import { collection, addDoc, serverTimestamp, doc, deleteDoc, getDocs, arrayRemove, writeBatch, updateDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
 
 export async function createUserExercise(
@@ -31,6 +31,39 @@ export async function createUserExercise(
   });
 
   return { id: docRef.id, imageUrl };
+}
+
+export async function editUserExecise(
+  userId: string,
+  exerciseId: string,
+  data: {
+    photo?: File | string;
+    title: string;
+    groups: string[];
+    description: string;
+  }
+) {
+  let imageUrl: string | null = null;
+
+  if (data.photo instanceof File) {
+    const ext = data.photo.name.split(".").pop();
+    const storageRef = ref(storage, `users/${userId}/exercises/${Date.now()}.${ext}`);
+    const snapshot = await uploadBytes(storageRef, data.photo);
+    imageUrl = await getDownloadURL(snapshot.ref);
+  } else if (typeof data.photo === "string") {
+    imageUrl = data.photo;
+  }
+
+  const exerciseRef = doc(db, "users", userId, "exercises", exerciseId);
+
+  await updateDoc(exerciseRef, {
+    name: data.title,
+    muscleGroup: data.groups.join(", "),
+    description: data.description,
+    imageUrl,
+  });
+
+  return { id: exerciseId, imageUrl };
 }
 
 export async function deleteUserExercise(

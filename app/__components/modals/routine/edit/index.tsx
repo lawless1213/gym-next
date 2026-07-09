@@ -14,7 +14,7 @@ import { useEffect, useState } from "react";
 import { RoutinesExercise } from "@/app/types";
 import { useAllExercises } from "@/app/hooks/useServices/useExercises";
 import { toast } from "sonner";
-import { createUserRoutine } from "@/app/lib/actions/routine";
+import { editUserRoutine } from "@/app/lib/actions/routine";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRoutineEditModal } from "@/app/hooks/useModals/useRoutineEditModal";
 
@@ -56,16 +56,23 @@ export function RoutineEditModal() {
 
   useEffect(() => {
     if (!routine) return;
+
     reset({
       title: routine.name,
       color: routine.color,
-      exercises: routine.exercises || [],
+      exercises: (routine.exercises || []).map((ex) => ({
+        exerciseId: ex.id,
+        name: ex.name,
+        muscleGroup: ex.muscleGroup,
+        isCustom: ex.isCustom,
+      })),
     });
   }, [routine, reset]);
 
   const { fields, append, remove } = useFieldArray({
     control,
     name: "exercises",
+    keyName: "fieldKey", // щоб не конфліктувало з exerciseId
   });
 
   const { ref: titleRef, ...titleRest } = register("title");
@@ -74,9 +81,9 @@ export function RoutineEditModal() {
     try {
       if (!user) throw new Error("Not authenticated");
 
-      await createUserRoutine(user.uid, data);
+      await editUserRoutine(user.uid, routine.id, data);
       queryClient.invalidateQueries({ queryKey: ["routines", user.uid] });
-      toast.success('Програму успішно створено!');
+      toast.success("Програму успішно створено!");
       close();
     } catch (err: any) {
       console.log(err);
@@ -141,7 +148,7 @@ export function RoutineEditModal() {
               <div className="space-y-2">
                 {fields.map((field, index) => (
                   <div
-                    key={field.id}
+                    key={field.fieldKey}
                     className="flex items-center gap-3 rounded-xl bg-secondary p-3">
                     <IconGridDots className="h-5 w-5 text-muted-foreground" />
                     <span className="flex h-6 w-6 items-center justify-center rounded-full bg-muted text-xs font-bold text-muted-foreground">{index + 1}</span>

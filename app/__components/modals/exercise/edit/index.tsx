@@ -9,9 +9,10 @@ import { Input } from "@/app/__components/form/input";
 import { IconBarbell, IconUpload } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
-import { createUserExercise } from "@/app/lib/actions/exercise";
+import { createUserExercise, editUserExecise } from "@/app/lib/actions/exercise";
 import { useAuth } from "@/app/hooks/useAuth";
 import { useExerciseEditModal } from "@/app/hooks/useModals/useExerciseEditModal";
+import { useQueryClient } from "@tanstack/react-query";
 
 const exerciseSchema = z.object({
   photo: z.instanceof(File).optional(),
@@ -27,6 +28,8 @@ const MUSCLE_GROUPS = ["Chest", "Back", "Shoulders", "Arms", "Legs", "Core", "Fu
 export function ExerciseEditModal() {
   const { close, exercise } = useExerciseEditModal();
   const { user } = useAuth();
+  const queryClient = useQueryClient();
+
 
   const {
     register,
@@ -62,9 +65,10 @@ export function ExerciseEditModal() {
   const onSubmit = async (data: ExerciseFormData) => {
     try {
       if (!user) throw new Error("Not authenticated");
-
-      // await createUserExercise(user.uid, data); // TODO: create mutation for exercise's editing 
-      // queryClient.invalidateQueries({ queryKey: ["exercises", user.uid] });
+			console.log(data);
+			
+      await editUserExecise(user.uid, exercise.id, data);
+      queryClient.invalidateQueries({ queryKey: ["exercises", user.uid] });
       toast.success("Вправу успішно відредаговано!");
       close();
     } catch (err: any) {
@@ -175,7 +179,7 @@ export function ExerciseEditModal() {
             disabled={isSubmitting || !isDirty || !isValid}
             className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
             size="lg">
-            Create
+            Edit
           </Button>
         </form>
       </div>
