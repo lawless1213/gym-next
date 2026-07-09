@@ -61,6 +61,7 @@ export default function RoutineCard(routine: Routine) {
   const editHandler = async () => {
     try {
       if (!user) throw new Error("Not authenticated");
+      open('routineEdit', {routine: routine});
       setIsEditable(false);
     } catch (err: any) {
       console.log(err);

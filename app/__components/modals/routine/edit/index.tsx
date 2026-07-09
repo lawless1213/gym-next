@@ -1,6 +1,6 @@
 "use client";
 
-import { ModalWrapper } from "../modal-wrapper";
+import { ModalWrapper } from "../../modal-wrapper";
 import { Controller, useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
@@ -10,12 +10,13 @@ import { Input } from "@/app/__components/form/input";
 import { AUTH_ERRORS } from "@/app/lib/errors/auth";
 import { useModal } from "@/app/lib/modal/modal-store";
 import { IconGridDots, IconPlus, IconTrash, IconX } from "@tabler/icons-react";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { RoutinesExercise } from "@/app/types";
 import { useAllExercises } from "@/app/hooks/useServices/useExercises";
 import { toast } from "sonner";
 import { createUserRoutine } from "@/app/lib/actions/routine";
 import { useQueryClient } from "@tanstack/react-query";
+import { useRoutineEditModal } from "@/app/hooks/useModals/useRoutineEditModal";
 
 const colors = ["#CCFF00", "#2563EB", "#F97316", "#EF4444", "#8B5CF6", "#10B981"];
 
@@ -27,11 +28,11 @@ const routineSchema = z.object({
 
 type RoutineFormData = z.infer<typeof routineSchema>;
 
-export function RoutineCreateModal() {
+export function RoutineEditModal() {
   const { user } = useAuth();
   const userId = user?.uid;
   const [showExercisePicker, setShowExercisePicker] = useState(false);
-  const { close } = useModal();
+  const { close, routine } = useRoutineEditModal();
   const queryClient = useQueryClient();
 
   const { data: exercises = [], isLoading: loading } = useAllExercises(userId);
@@ -39,6 +40,7 @@ export function RoutineCreateModal() {
   const {
     register,
     handleSubmit,
+    reset,
     control,
     setError,
     formState: { errors, isSubmitting, isValid, isDirty },
@@ -51,6 +53,15 @@ export function RoutineCreateModal() {
       exercises: [],
     },
   });
+
+  useEffect(() => {
+    if (!routine) return;
+    reset({
+      title: routine.name,
+      color: routine.color,
+      exercises: routine.exercises || [],
+    });
+  }, [routine, reset]);
 
   const { fields, append, remove } = useFieldArray({
     control,
@@ -74,8 +85,8 @@ export function RoutineCreateModal() {
 
   return (
     <ModalWrapper
-      modalType="routine"
-      title={"Create routine"}>
+      modalType="routineEdit"
+      title={"Edit routine"}>
       <div className="flex flex-col gap-4">
         <form
           onSubmit={handleSubmit(onSubmit)}
@@ -167,7 +178,7 @@ export function RoutineCreateModal() {
               disabled={isSubmitting || !isDirty || !isValid}
               className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
               size="lg">
-              Create
+              Edit
             </Button>
           </div>
 
