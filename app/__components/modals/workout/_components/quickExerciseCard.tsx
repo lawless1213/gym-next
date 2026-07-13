@@ -10,14 +10,12 @@ interface QuickExerciseCardProps {
   workoutExercise: QuickWorkoutExercise;
   record?: PersonalRecord;
   onUpdateSet: (id: number, updates: Partial<WorkoutSet>) => void;
-  onRename: (newName: string) => void;
   onAddSet: () => void;
   onRemoveSet: () => void;
 }
 
-export function QuickExerciseCard({ workoutExercise, record, onUpdateSet, onAddSet, onRemoveSet, onRename }: QuickExerciseCardProps) {
+export function QuickExerciseCard({ workoutExercise, record, onUpdateSet, onAddSet, onRemoveSet }: QuickExerciseCardProps) {
   const [expanded, setExpanded] = useState(true);
-  const [titleEdit, setTitleEdit] = useState(false);
   const { name, muscleGroup, sets } = workoutExercise;
 
   const completedSets = sets.filter((s) => s.completed).length;
@@ -29,7 +27,7 @@ export function QuickExerciseCard({ workoutExercise, record, onUpdateSet, onAddS
       <div
         role="button"
         onKeyDown={(e) => {
-          if ((e.key === "Enter" || e.key === " ") && !titleEdit) {
+          if ((e.key === "Enter" || e.key === " ")) {
             e.preventDefault();
             setExpanded(!expanded);
           }
@@ -50,28 +48,7 @@ export function QuickExerciseCard({ workoutExercise, record, onUpdateSet, onAddS
 
         <div className="flex-1">
           <div className="flex gap-2 items-center">
-            <button
-              onClick={(e) => {
-                e.stopPropagation();
-                setTitleEdit(!titleEdit);
-              }}
-              className="flex size-8 items-center justify-center rounded-full bg-secondary text-muted-foreground cursor-pointer hover:text-foreground"
-              aria-label="Close">
-              <IconEdit className="size-4" />
-            </button>
-            {titleEdit ? (
-              <input
-                onClick={(e) => e.stopPropagation()}
-                onFocus={(e) => e.stopPropagation()}
-                type="text"
-                value={name}
-                onChange={(e) => onRename(e.target.value)}
-                className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none flex-1  rounded-lg bg-background text-center text-md font-semibold text-foreground outline-none ring-1 ring-border focus:ring-primary disabled:opacity-50"
-                placeholder="Exercise name"
-              />
-            ) : (
               <h3 className="flex-1 text-center font-semibold text-foreground">{name}</h3>
-            )}
           </div>
           <p className="text-sm text-muted-foreground">{muscleGroup}</p>
           <div className="mt-2 h-1 w-full overflow-hidden rounded-full bg-secondary">

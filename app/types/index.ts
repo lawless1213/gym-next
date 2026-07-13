@@ -50,7 +50,7 @@ export interface QuickWorkoutSession {
   startedAt: Timestamp;
   duration?: number;
   volume?: number;
-  exercises: QuickWorkoutExercise[];
+  exercises: QuickWorkoutExercise[] | WorkoutExercise[];
 }
 
 export interface Routine {
