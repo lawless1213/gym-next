@@ -1,7 +1,7 @@
 "use client";
 
 import { ModalWrapper } from "../../modal-wrapper";
-import { IconArrowLeft, IconBarbell, IconCheck, IconClock, IconPlayerPauseFilled, IconPlayerPlay, IconUpload, IconX, IconChecks } from "@tabler/icons-react";
+import { IconArrowLeft, IconBarbell, IconCheck, IconClock, IconPlayerPauseFilled, IconPlayerPlay, IconUpload, IconX, IconChecks, IconPlus } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { useWorkoutModal } from "@/app/hooks/useModals/useWorkoutModal";
 import { QuickExerciseCard } from "./../_components/quickExerciseCard";
@@ -19,12 +19,23 @@ export function QuickWorkoutModal() {
   const { confirm, close } = useModal();
   const queryClient = useQueryClient();
 
-
   const workoutRoutine: QuickWorkoutSession = {
     name: "Quick workout",
     startedAt: Timestamp.fromDate(new Date()),
     duration: 0,
-    exercises: [],
+    exercises: [
+			{
+				id: crypto.randomUUID(),
+				name: `Quick Exercise 1`,
+				sets: [
+					{
+						weight: 0,
+						reps: 0,
+						completed: false,
+					}
+				],
+			}
+		],
   };
 
   const [workout, setWorkout] = useState<QuickWorkoutSession>(workoutRoutine);
@@ -50,6 +61,20 @@ export function QuickWorkoutModal() {
       return `${hrs}:${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`;
     }
     return `${mins}:${secs.toString().padStart(2, "0")}`;
+  };
+
+	const handleRenameExercise = (exerciseId: string, newName: string) => {
+    setWorkout((prev) => ({
+      ...prev,
+      exercises: prev.exercises.map((ex) =>
+        ex.id === exerciseId
+          ? {
+              ...ex,
+              name: newName
+            }
+          : ex,
+      ),
+    }));
   };
 
   const handleUpdateSet = (exerciseId: string, num: number, updates: Partial<WorkoutSet>) => {
@@ -101,29 +126,46 @@ export function QuickWorkoutModal() {
     }));
   };
 
+	const handleAddExercise = () => {
+		setWorkout((prev) => ({
+      ...prev,
+      exercises: [
+				...prev.exercises,
+				{
+					id: crypto.randomUUID(),
+					name: `Quick Exercise ${prev.exercises.length + 1}`,
+					sets: [
+						{
+							weight: 0,
+							reps: 0,
+							completed: false,
+						}
+					],
+				}
+			]
+    }));
+	}
+
   const handleFinishWorkout = async () => {
     const finishedWorkout: QuickWorkoutSession = {
       ...workout,
       duration: elapsedTime,
-      volume: workout.exercises.reduce((acc, ex) =>
-        acc + ex.sets
-          .filter(s => s.completed)
-          .reduce((setAcc, set) => setAcc + (set.weight * set.reps), 0), 0
-      ),
+      volume: workout.exercises.reduce((acc, ex) => acc + ex.sets.filter((s) => s.completed).reduce((setAcc, set) => setAcc + set.weight * set.reps, 0), 0),
     };
 
     setWorkout(finishedWorkout);
 
     const ok = await confirm({
-      title: '', 
-      description: 'Завершити тренування?',
-      cancelLabel: ' Ні',
-      confirmLabel: 'Так',
+      title: "",
+      description: "Завершити тренування?",
+      cancelLabel: " Ні",
+      confirmLabel: "Так",
     });
 
     if (ok) {
       if (!user) throw new Error("Not authenticated");
-
+			console.log(finishedWorkout);
+			
       // writeWorkoutSession(user?.uid, finishedWorkout);
       // queryClient.invalidateQueries({ queryKey: ["history"] });
       // queryClient.invalidateQueries({ queryKey: ["records"] });
@@ -181,11 +223,18 @@ export function QuickWorkoutModal() {
           <QuickExerciseCard
             key={workoutExercise.id}
             workoutExercise={workoutExercise}
+						onRename={(newName) => handleRenameExercise(workoutExercise.id, newName)}
             onUpdateSet={(index, updates) => handleUpdateSet(workoutExercise.id, index, updates)}
             onAddSet={() => handleAddSet(workoutExercise.id)}
             onRemoveSet={() => handleRemoveSet(workoutExercise.id)}
           />
         ))}
+        <button
+          onClick={handleAddExercise}
+          className="flex flex-1 items-center justify-center gap-2 w-full rounded-xl border-2 border-dashed border-border py-3 text-sm font-medium text-muted-foreground transition-colors hover:border-primary hover:text-primary">
+          <IconPlus className="h-4 w-4" />
+          Add exercise
+        </button>
       </main>
       <div className="fixed bottom-0 left-0 right-0 border-t border-border bg-background/95 p-4 backdrop-blur">
         <Button
