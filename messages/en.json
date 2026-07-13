@@ -121,7 +121,8 @@
 		},
 		"routines": {
 			"empty": "The list of routines is empty",
-			"not-auth": "Please sign in to create or edit routines"
+			"not-auth": "Please sign in to create or edit routines",
+			"createAriaLabel": "Create routine"
 		}
 	},
 	"History": {
@@ -147,6 +148,9 @@
 		"tabs": {
 			"progress": "Progress",
 			"records": "Records"
+		},
+		"progress": {
+			"createAriaLabel": "Add progress"
 		},
 		"measurements": {
 			"weight": "Weight",

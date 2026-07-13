@@ -1,43 +1,33 @@
 "use client";
 
-import { ModalWrapper } from "../modal-wrapper";
+import { ModalWrapper } from "../../modal-wrapper";
 import { IconArrowLeft, IconBarbell, IconCheck, IconClock, IconPlayerPauseFilled, IconPlayerPlay, IconUpload, IconX, IconChecks } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { useWorkoutModal } from "@/app/hooks/useModals/useWorkoutModal";
-import { ExerciseCard } from "./_components/exerciseCard";
-import { WorkoutSession, WorkoutSet } from "@/app/types";
-import { Button } from "../../common/button";
+import { QuickExerciseCard } from "./../_components/quickExerciseCard";
+import { QuickWorkoutSession, WorkoutSet } from "@/app/types";
+import { Button } from "@/app/__components/common/button";
 import { useRecords } from "@/app/hooks/useServices/useRecords";
 import { useAuth } from "@/app/hooks/useAuth";
 import { writeWorkoutSession } from "@/app/lib/actions/workout";
 import { Timestamp } from "firebase/firestore";
 import { useQueryClient } from "@tanstack/react-query";
+import { useModal } from "@/app/lib/modal/modal-store";
 
-export function WorkoutModal() {
+export function QuickWorkoutModal() {
   const { user } = useAuth();
-  const { confirm, close, routine } = useWorkoutModal();
+  const { confirm, close } = useModal();
   const queryClient = useQueryClient();
 
 
-  const workoutRoutine: WorkoutSession = {
-    routineId: routine.id,
-    name: routine.name,
+  const workoutRoutine: QuickWorkoutSession = {
+    name: "Quick workout",
     startedAt: Timestamp.fromDate(new Date()),
     duration: 0,
-    exercises: routine.exercises.map((exercise) => ({
-      ...exercise,
-      sets: Array.from({ length: 3 }, () => ({
-        completed: false,
-        reps: 0,
-        weight: 0,
-      })),
-    })),
+    exercises: [],
   };
 
-  const [workout, setWorkout] = useState<WorkoutSession>(workoutRoutine);
-  const exerciseIds = routine.exercises.map(ex => ex.id);
-  
-  const { data: records = {}, isLoading: loading } = useRecords({userId: user?.uid, exerciseIds});
+  const [workout, setWorkout] = useState<QuickWorkoutSession>(workoutRoutine);
 
   const [elapsedTime, setElapsedTime] = useState(0);
   const [isPaused, setIsPaused] = useState(true);
@@ -112,7 +102,7 @@ export function WorkoutModal() {
   };
 
   const handleFinishWorkout = async () => {
-    const finishedWorkout: WorkoutSession = {
+    const finishedWorkout: QuickWorkoutSession = {
       ...workout,
       duration: elapsedTime,
       volume: workout.exercises.reduce((acc, ex) =>
@@ -134,10 +124,10 @@ export function WorkoutModal() {
     if (ok) {
       if (!user) throw new Error("Not authenticated");
 
-      writeWorkoutSession(user?.uid, finishedWorkout);
-      queryClient.invalidateQueries({ queryKey: ["history"] });
-      queryClient.invalidateQueries({ queryKey: ["records"] });
-      queryClient.invalidateQueries({ queryKey: ["schedule"] });
+      // writeWorkoutSession(user?.uid, finishedWorkout);
+      // queryClient.invalidateQueries({ queryKey: ["history"] });
+      // queryClient.invalidateQueries({ queryKey: ["records"] });
+      // queryClient.invalidateQueries({ queryKey: ["schedule"] });
       close();
     }
   };
@@ -148,7 +138,7 @@ export function WorkoutModal() {
 
   return (
     <ModalWrapper
-      modalType="workout"
+      modalType="quickWorkout"
       size="high"
       header={false}
       title={workout.name}
@@ -188,10 +178,9 @@ export function WorkoutModal() {
 
       <main className="flex-1 space-y-4 pt-4 pb-20">
         {workout.exercises.map((workoutExercise, index) => (
-          <ExerciseCard
+          <QuickExerciseCard
             key={workoutExercise.id}
             workoutExercise={workoutExercise}
-            record={records[workoutExercise.id]}
             onUpdateSet={(index, updates) => handleUpdateSet(workoutExercise.id, index, updates)}
             onAddSet={() => handleAddSet(workoutExercise.id)}
             onRemoveSet={() => handleRemoveSet(workoutExercise.id)}

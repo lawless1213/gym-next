@@ -8,6 +8,7 @@ import { ScheduleEditModal } from '@/app/__components/modals/schedule';
 import { ProgressModal } from '@/app/__components/modals/progress';
 import { ExerciseEditModal } from '@/app/__components/modals/exercise/edit';
 import { RoutineEditModal } from '@/app/__components/modals/routine/edit';
+import { QuickWorkoutModal } from '@/app/__components/modals/workout/quickWorkout';
 
 const MODAL_MAP = {
   auth: AuthModal,
@@ -16,6 +17,7 @@ const MODAL_MAP = {
   routine: RoutineCreateModal,
   routineEdit: RoutineEditModal,
   workout: WorkoutModal,
+  quickWorkout: QuickWorkoutModal,
   schedule: ScheduleEditModal,
   progress: ProgressModal,
 } as const;

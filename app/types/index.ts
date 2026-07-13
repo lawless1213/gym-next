@@ -34,6 +34,25 @@ export interface WorkoutSession {
   exercises: WorkoutExercise[];
 }
 
+export interface QuickWorkoutExercise {
+  id: string;
+  name: string;
+  description?: string;
+  muscleGroup?: string;
+  imageUrl?: string;
+  isCustom?: boolean;
+  sets: WorkoutSet[]
+}
+
+export interface QuickWorkoutSession {
+  id?: string;
+  name: string;
+  startedAt: Timestamp;
+  duration?: number;
+  volume?: number;
+  exercises: QuickWorkoutExercise[];
+}
+
 export interface Routine {
   id: string;
   name: string;

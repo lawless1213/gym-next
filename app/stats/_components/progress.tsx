@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { bodyMeasurements } from "@/app/data/mock-data";
-import { IconScale, IconTrendingDown, IconTrendingUp, IconActivity, IconTrophy } from "@tabler/icons-react";
+import { IconScale, IconTrendingDown, IconTrendingUp, IconActivity, IconTrophy, IconEdit } from "@tabler/icons-react";
 import { cn } from "@/app/lib/utils";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { useLocale, useTranslations } from "next-intl";
@@ -258,7 +258,11 @@ export default function Progress() {
           <div>empty</div>
         )}
       </SkeletonSwitcher>
-      <ButtonAdd onClick={() => open("progress")} />
+      <ButtonAdd
+        onClick={() => open('progress')}
+        ariaLabel="Create"
+        icon= { <IconEdit className="h-6 w-6" /> }
+      />
     </div>
   );
 }
