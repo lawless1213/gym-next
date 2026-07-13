@@ -34,8 +34,7 @@ export function ConfirmModal({
   onCancel,
 }: Props) {
   return (
-    // ← НЕ ModalWrapper, бо це overlay поверх усього
-    <div className="fixed inset-0 z-[200] backdrop-blur-xs flex items-center justify-center">
+    <div className="fixed inset-0 z-200 backdrop-blur-xs flex items-center justify-center">
       <div 
         className="absolute inset-0 bg-black/60" 
         onClick={onCancel} 
