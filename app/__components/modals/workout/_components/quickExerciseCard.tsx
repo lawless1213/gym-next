@@ -3,7 +3,7 @@
 import { useState } from "react";
 import { WorkoutExercise, WorkoutSet, PersonalRecord, QuickWorkoutExercise } from "@/app/types";
 import { cn } from "@/app/lib/utils";
-import { IconBarbell, IconCheck, IconChevronDown, IconChevronUp, IconMinus, IconPlus, IconTrophy, IconEdit } from "@tabler/icons-react";
+import { IconBarbell, IconCheck, IconChevronDown, IconChevronUp, IconMinus, IconPlus, IconTrophy, IconX } from "@tabler/icons-react";
 import { SetInput } from "./setInput";
 
 interface QuickExerciseCardProps {
@@ -12,9 +12,10 @@ interface QuickExerciseCardProps {
   onUpdateSet: (id: number, updates: Partial<WorkoutSet>) => void;
   onAddSet: () => void;
   onRemoveSet: () => void;
+  onRemoveExercise: () => void;
 }
 
-export function QuickExerciseCard({ workoutExercise, record, onUpdateSet, onAddSet, onRemoveSet }: QuickExerciseCardProps) {
+export function QuickExerciseCard({ workoutExercise, record, onUpdateSet, onAddSet, onRemoveSet, onRemoveExercise }: QuickExerciseCardProps) {
   const [expanded, setExpanded] = useState(true);
   const { name, muscleGroup, sets } = workoutExercise;
 
@@ -27,7 +28,7 @@ export function QuickExerciseCard({ workoutExercise, record, onUpdateSet, onAddS
       <div
         role="button"
         onKeyDown={(e) => {
-          if ((e.key === "Enter" || e.key === " ")) {
+          if (e.key === "Enter" || e.key === " ") {
             e.preventDefault();
             setExpanded(!expanded);
           }
@@ -48,7 +49,7 @@ export function QuickExerciseCard({ workoutExercise, record, onUpdateSet, onAddS
 
         <div className="flex-1">
           <div className="flex gap-2 items-center">
-              <h3 className="flex-1 text-center font-semibold text-foreground">{name}</h3>
+            <h3 className="flex-1 text-center font-semibold text-foreground">{name}</h3>
           </div>
           <p className="text-sm text-muted-foreground">{muscleGroup}</p>
           <div className="mt-2 h-1 w-full overflow-hidden rounded-full bg-secondary">
@@ -108,15 +109,21 @@ export function QuickExerciseCard({ workoutExercise, record, onUpdateSet, onAddS
           <div className="flex gap-2">
             <button
               onClick={onRemoveSet}
-              className="flex flex-1 items-center justify-center gap-2 rounded-xl border-2 border-dashed border-border py-3 text-sm font-medium text-muted-foreground transition-colors hover:border-red-500 hover:text-red-500">
+              className="flex flex-1 items-center justify-center gap-2 rounded-xl border-2 border-dashed border-border py-3 text-xs font-medium text-muted-foreground transition-colors hover:border-red-500 hover:text-red-500">
               <IconMinus className="h-4 w-4" />
               Add Set
             </button>
             <button
               onClick={onAddSet}
-              className="flex flex-1 items-center justify-center gap-2 rounded-xl border-2 border-dashed border-border py-3 text-sm font-medium text-muted-foreground transition-colors hover:border-primary hover:text-primary">
+              className="flex flex-1 items-center justify-center gap-2 rounded-xl border-2 border-dashed border-border py-3 text-xs font-medium text-muted-foreground transition-colors hover:border-primary hover:text-primary">
               <IconPlus className="h-4 w-4" />
               Add Set
+            </button>
+            <button
+              onClick={onRemoveExercise}
+              className="flex flex-1 items-center justify-center gap-2 rounded-xl border-2 border-dashed border-border py-3 text-xs font-medium text-muted-foreground transition-colors hover:border-red-500 hover:text-red-500">
+              <IconX className="h-4 w-4" />
+              Remove
             </button>
           </div>
         </div>

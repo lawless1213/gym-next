@@ -149,7 +149,6 @@ export function WorkoutModal() {
   return (
     <ModalWrapper
       modalType="workout"
-      size="high"
       header={false}
       title={workout.name}
       contentClasses="pt-0">

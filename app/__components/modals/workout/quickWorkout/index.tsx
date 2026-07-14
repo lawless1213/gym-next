@@ -119,23 +119,20 @@ export function QuickWorkoutModal() {
 
   const handleAddExercise = (exerciseIdOrName: string, isQuick = false) => {
     if (isQuick) {
-			const name =
-				exerciseIdOrName.trim().length === 0
-					? `Quick Exercise ${workout.exercises.length + 1}`
-					: exerciseIdOrName.trim();
-			setWorkout((prev) => ({
-				...prev,
-				exercises: [
-					...prev.exercises,
-					{
-						id: crypto.randomUUID(),
-						name,
-						sets: [{ weight: 0, reps: 0, completed: false }],
-					},
-				],
-			}));
-			return;
-		}
+      const name = exerciseIdOrName.trim().length === 0 ? `Quick Exercise ${workout.exercises.length + 1}` : exerciseIdOrName.trim();
+      setWorkout((prev) => ({
+        ...prev,
+        exercises: [
+          ...prev.exercises,
+          {
+            id: crypto.randomUUID(),
+            name,
+            sets: [{ weight: 0, reps: 0, completed: false }],
+          },
+        ],
+      }));
+      return;
+    }
 
     const found = exercises.find((ex) => ex.id === exerciseIdOrName);
     if (!found) return;
@@ -158,6 +155,13 @@ export function QuickWorkoutModal() {
           })),
         },
       ],
+    }));
+  };
+
+  const handleRemoveExercise = (exerciseId: string) => {
+    setWorkout((prev) => ({
+      ...prev,
+      exercises: prev.exercises.filter((exercise) => exercise.id !== exerciseId),
     }));
   };
 
@@ -196,7 +200,6 @@ export function QuickWorkoutModal() {
   return (
     <ModalWrapper
       modalType="quickWorkout"
-      size="high"
       header={false}
       title={workout.name}
       contentClasses="pt-0">
@@ -241,15 +244,18 @@ export function QuickWorkoutModal() {
             onUpdateSet={(index, updates) => handleUpdateSet(workoutExercise.id, index, updates)}
             onAddSet={() => handleAddSet(workoutExercise.id)}
             onRemoveSet={() => handleRemoveSet(workoutExercise.id)}
+            onRemoveExercise={() => handleRemoveExercise(workoutExercise.id)}
           />
         ))}
         <Select
           input={{
-            options: exercises.map((exercise) => ({
-              value: exercise.id,
-              label: exercise.name,
-            })),
-						placeholder: "Виберіть вправу чи введіть назву",
+            options: exercises
+              .filter((exercise) => !workout.exercises.some((w) => w.id === exercise.id))
+              .map((exercise) => ({
+                value: exercise.id,
+                label: exercise.name,
+              })),
+            placeholder: "Виберіть чи введіть назву",
             menuPosition: "top",
             allowCustom: true,
             onChange: handleAddExercise,

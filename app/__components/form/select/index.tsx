@@ -99,7 +99,7 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>(({ input }, _ref) 
           name={name}
           onClick={() => setIsOpen((prev) => !prev)}
           className={clsx("w-full flex items-center justify-between rounded-xl bg-secondary px-4 py-3 text-left text-foreground focus:outline-none focus:ring-2 focus:ring-primary", !selectedOption && "text-muted-foreground", error && "ring-2 ring-red-500", classes)}>
-          <span className="truncate">{isLoading ? "Завантаження..." : displayLabel || placeholder}</span>
+          <span className="truncate text-sm">{isLoading ? "Завантаження..." : displayLabel || placeholder}</span>
           <IconChevronUp
             stroke={2}
             className={clsx("size-6 shrink-0 text-muted-foreground transition-transform", isOpen && "rotate-180")}
