@@ -1,7 +1,7 @@
 "use client";
 import clsx from "clsx";
 import { forwardRef, useEffect, useRef, useState } from "react";
-import { IconChevronUp, IconPlus } from '@tabler/icons-react';
+import { IconChevronUp, IconPlus } from "@tabler/icons-react";
 
 export type SelectOption = {
   value: string;
@@ -31,7 +31,7 @@ export type SelectProps = {
 };
 
 export const Select = forwardRef<HTMLDivElement, SelectProps>(({ input }, _ref) => {
-  const { options, isLoading, placeholder = "Оберіть вправу", searchPlaceholder = "Пошук...", emptyText = "Нічого не знайдено", classes, value, onChange, id, name, label, error, allowCustom = false, customOptionLabel = "Використати «{value}»", menuPosition = "bottom" } = input;
+  const { options, isLoading, placeholder = "Input..", searchPlaceholder = "Пошук...", emptyText = "Нічого не знайдено", classes, value, onChange, id, name, label, error, allowCustom = false, customOptionLabel = "Використати «{value}»", menuPosition = "bottom" } = input;
 
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState("");
@@ -48,11 +48,10 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>(({ input }, _ref) 
   const showCustomOption = allowCustom && trimmedSearch.length > 0 && filteredOptions.length === 0;
 
   const handleAcceptCustom = () => {
-    if (!trimmedSearch) return;
-    onChange?.(trimmedSearch, true);
-    setIsOpen(false);
-    setSearch("");
-  };
+		onChange?.(trimmedSearch || "", true);
+		setIsOpen(false);
+		setSearch("");
+	};
 
   useEffect(() => {
     const handleClickOutside = (e: MouseEvent) => {
@@ -71,11 +70,11 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>(({ input }, _ref) 
     }
   }, [isOpen]);
 
-	const handleSelect = (option: SelectOption) => {
-		onChange?.(option.value, false);
-		setIsOpen(false);
-		setSearch("");
-	};
+  const handleSelect = (option: SelectOption) => {
+    onChange?.(option.value, false);
+    setIsOpen(false);
+    setSearch("");
+  };
 
   return (
     <div
@@ -93,21 +92,35 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>(({ input }, _ref) 
         </label>
       )}
 
-      <button
-        type="button"
-        id={id || "select"}
-        name={name}
-        onClick={() => setIsOpen((prev) => !prev)}
-        className={clsx("w-full flex items-center justify-between rounded-xl bg-secondary px-4 py-3 text-left text-foreground focus:outline-none focus:ring-2 focus:ring-primary", !selectedOption && "text-muted-foreground", error && "ring-2 ring-red-500", classes)}>
-        <span className="truncate">{isLoading ? "Завантаження..." : displayLabel || placeholder}</span>
-				<IconChevronUp stroke={2} className={clsx("size-6 shrink-0 text-muted-foreground transition-transform", isOpen && "rotate-180")} />
-      </button>
+      <div className="flex gap-2 items-center">
+        <button
+          type="button"
+          id={id || "select"}
+          name={name}
+          onClick={() => setIsOpen((prev) => !prev)}
+          className={clsx("w-full flex items-center justify-between rounded-xl bg-secondary px-4 py-3 text-left text-foreground focus:outline-none focus:ring-2 focus:ring-primary", !selectedOption && "text-muted-foreground", error && "ring-2 ring-red-500", classes)}>
+          <span className="truncate">{isLoading ? "Завантаження..." : displayLabel || placeholder}</span>
+          <IconChevronUp
+            stroke={2}
+            className={clsx("size-6 shrink-0 text-muted-foreground transition-transform", isOpen && "rotate-180")}
+          />
+        </button>
+
+        <button
+          onClick={(e) => {
+            handleAcceptCustom();
+          }}
+          className="flex size-10 shrink-0 items-center justify-center rounded-full bg-secondary text-muted-foreground cursor-pointer hover:text-foreground"
+          aria-label="Close">
+          <IconPlus className="size-6" />
+        </button>
+      </div>
 
       <p className="text-xs text-red-500 min-h-[20px]">{error}</p>
 
       {isOpen && (
         <div className={clsx("absolute z-20 w-full overflow-hidden rounded-xl border border-border bg-secondary shadow-lg", menuPosition === "top" ? "bottom-full mb-1" : "top-full mt-1")}>
-          <div className="p-2 relative">
+          <div className="p-2">
             <input
               ref={searchInputRef}
               type="text"
@@ -122,15 +135,6 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>(({ input }, _ref) 
               placeholder={searchPlaceholder}
               className="w-full rounded-lg bg-background px-3 py-2 pr-8 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
             />
-						<button
-              onClick={(e) => {
-                e.stopPropagation();
-								handleAcceptCustom();
-              }}
-              className="absolute top-[50%] -translate-y-[50%] right-4 flex size-6 items-center justify-center rounded-full bg-secondary text-muted-foreground cursor-pointer hover:text-foreground"
-              aria-label="Close">
-              <IconPlus className="size-4" />
-            </button>
           </div>
 
           <div className="max-h-60 overflow-y-auto px-1 pb-1">

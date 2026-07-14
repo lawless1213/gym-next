@@ -119,21 +119,27 @@ export function QuickWorkoutModal() {
 
   const handleAddExercise = (exerciseIdOrName: string, isQuick = false) => {
     if (isQuick) {
-      setWorkout((prev) => ({
-        ...prev,
-        exercises: [
-          ...prev.exercises,
-          {
-            id: crypto.randomUUID(),
-            name: exerciseIdOrName.length === 0 ? `Quick Exercise ${prev.exercises.length + 1}` : exerciseIdOrName,
-            sets: [{ weight: 0, reps: 0, completed: false }],
-          },
-        ],
-      }));
-      return;
-    }
+			const name =
+				exerciseIdOrName.trim().length === 0
+					? `Quick Exercise ${workout.exercises.length + 1}`
+					: exerciseIdOrName.trim();
+			setWorkout((prev) => ({
+				...prev,
+				exercises: [
+					...prev.exercises,
+					{
+						id: crypto.randomUUID(),
+						name,
+						sets: [{ weight: 0, reps: 0, completed: false }],
+					},
+				],
+			}));
+			return;
+		}
+
     const found = exercises.find((ex) => ex.id === exerciseIdOrName);
     if (!found) return;
+
     setWorkout((prev) => ({
       ...prev,
       exercises: [
@@ -243,6 +249,7 @@ export function QuickWorkoutModal() {
               value: exercise.id,
               label: exercise.name,
             })),
+						placeholder: "Виберіть вправу чи введіть назву",
             menuPosition: "top",
             allowCustom: true,
             onChange: handleAddExercise,
