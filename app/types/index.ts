@@ -41,6 +41,7 @@ export interface QuickWorkoutExercise {
   muscleGroup?: string;
   imageUrl?: string;
   isCustom?: boolean;
+  isQuick?: boolean;
   sets: WorkoutSet[]
 }
 
