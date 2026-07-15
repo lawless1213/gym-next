@@ -2,23 +2,26 @@
 
 import { ModalWrapper } from "../modal-wrapper";
 import { ExerciseCard } from "./_components/exerciseCard";
-import { WorkoutSession } from "@/app/types";
+import { RegularWorkoutSession } from "@/app/types";
 import { useRecords } from "@/app/hooks/useServices/useRecords";
 import { useAuth } from "@/app/hooks/useAuth";
 import { useWorkoutModal } from "@/app/hooks/useModals/useWorkoutModal";
-import { useWorkoutSession } from "@/app/hooks/useWorkoutSession";
+import { useWorkoutSession } from "@/app/hooks/workout/useWorkoutSession";
 import { writeWorkoutSession } from "@/app/lib/actions/workout";
 import { Timestamp } from "firebase/firestore";
 import { useQueryClient } from "@tanstack/react-query";
 import { WorkoutHeader } from "./_components/workoutHeader";
 import { WorkoutFooter } from "./_components/workoutFooter";
+import { useWorkoutSessionPersistence } from "@/app/hooks/workout/useWorkoutSessionPersistence";
 
 export function WorkoutModal() {
   const { user } = useAuth();
   const { confirm, close, routine } = useWorkoutModal();
   const queryClient = useQueryClient();
 
-  const initialWorkout: WorkoutSession = {
+  const initialWorkout: RegularWorkoutSession = {
+    id: crypto.randomUUID(),
+    isQuick: false,
     routineId: routine.id,
     name: routine.name,
     startedAt: Timestamp.fromDate(new Date()),
@@ -32,8 +35,10 @@ export function WorkoutModal() {
   const {
     workout, isPaused, setIsPaused, elapsedTime, formatTime,
     handleUpdateSet, handleAddSet, handleRemoveSet,
-    totalSets, completedSets, progress, getFinishedWorkout,
+    totalSets, completedSets, progress, getFinishedWorkout, persistWorkoutDraft
   } = useWorkoutSession(initialWorkout);
+
+  useWorkoutSessionPersistence({ persist: persistWorkoutDraft, isPaused });
 
   const exerciseIds = routine.exercises.map((ex) => ex.id);
   const { data: records = {} } = useRecords({ userId: user?.uid, exerciseIds });
@@ -65,7 +70,10 @@ export function WorkoutModal() {
         elapsedTime={formatTime(elapsedTime)}
         isPaused={isPaused}
         onTogglePause={() => setIsPaused(!isPaused)}
-        onClose={close}
+        onClose={() => {
+					close(); 
+					persistWorkoutDraft("modal-close");
+				}}
         progress={progress}
       />
 

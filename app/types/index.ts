@@ -24,16 +24,6 @@ export interface WorkoutSet {
 
 export type WorkoutExercise = Exercise & { sets: WorkoutSet[] };
 
-export interface WorkoutSession {
-  id?: string;
-  routineId: string;
-  name: string;
-  startedAt: Timestamp;
-  duration?: number;
-  volume?: number;
-  exercises: WorkoutExercise[];
-}
-
 export interface QuickWorkoutExercise {
   id: string;
   name: string;
@@ -45,14 +35,44 @@ export interface QuickWorkoutExercise {
   sets: WorkoutSet[]
 }
 
-export interface QuickWorkoutSession {
-  id?: string;
+interface WorkoutSessionBase {
+  id: string;
   name: string;
   startedAt: Timestamp;
   duration?: number;
   volume?: number;
-  exercises: QuickWorkoutExercise[] | WorkoutExercise[];
 }
+export interface RegularWorkoutSession extends WorkoutSessionBase {
+  isQuick: false;
+  routineId: string;
+  exercises: WorkoutExercise[];
+}
+export interface QuickWorkoutSession extends WorkoutSessionBase {
+  isQuick: true;
+  exercises: QuickWorkoutExercise[];
+}
+export type WorkoutSession = RegularWorkoutSession | QuickWorkoutSession;
+
+
+// export interface WorkoutSession {
+//   id: string;
+//   routineId?: string;
+//   name: string;
+//   startedAt: Timestamp;
+//   duration?: number;
+//   volume?: number;
+//   isQuick: boolean;
+//   exercises: QuickWorkoutExercise[] | WorkoutExercise[];
+// }
+
+// export interface QuickWorkoutSession {
+//   id: string;
+//   name: string;
+//   startedAt: Timestamp;
+//   duration?: number;
+//   volume?: number;
+//   exercises: QuickWorkoutExercise[] | WorkoutExercise[];
+// }
 
 export interface Routine {
   id: string;
@@ -104,3 +124,13 @@ export type Period = "week" | "month" | "all";
 export type HistoryOptions =
   | { period: "week" | "prev-week" | "current-week" | "month" | "year"; limit?: number }
   | { amount: number };
+
+export type PersistReason =
+  | "modal-close"
+  | "before-unload"
+  | "page-hide"
+  | "visibility-hidden"
+  | "network-offline"
+  | "component-unmount"
+  | "periodic-autosave"
+  | "sync-failed";

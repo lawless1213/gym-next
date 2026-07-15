@@ -5,7 +5,7 @@ import { QuickExerciseCard } from "./../_components/quickExerciseCard";
 import { QuickWorkoutSession } from "@/app/types";
 import { useAuth } from "@/app/hooks/useAuth";
 import { useAllExercises } from "@/app/hooks/useServices/useExercises";
-import { useWorkoutSession } from "@/app/hooks/useWorkoutSession";
+import { useWorkoutSession } from "@/app/hooks/workout/useWorkoutSession";
 import { useModal } from "@/app/lib/modal/modal-store";
 import { Select } from "@/app/__components/form/select";
 import { writeWorkoutSession } from "@/app/lib/actions/workout";
@@ -13,6 +13,8 @@ import { Timestamp } from "firebase/firestore";
 import { useQueryClient } from "@tanstack/react-query";
 import { WorkoutHeader } from "../_components/workoutHeader";
 import { WorkoutFooter } from "../_components/workoutFooter";
+import { useWorkoutSessionPersistence } from "@/app/hooks/workout/useWorkoutSessionPersistence";
+import { cn } from "@/app/lib/utils";
 
 export function QuickWorkoutModal() {
   const { user } = useAuth();
@@ -20,9 +22,11 @@ export function QuickWorkoutModal() {
   const queryClient = useQueryClient();
 
   const initialWorkout: QuickWorkoutSession = {
+    id: crypto.randomUUID(),
     name: "Quick workout",
     startedAt: Timestamp.fromDate(new Date()),
     duration: 0,
+    isQuick: true,
     exercises: [
       {
         id: crypto.randomUUID(),
@@ -33,11 +37,9 @@ export function QuickWorkoutModal() {
     ],
   };
 
-	const {
-		workout, setWorkout, isPaused, setIsPaused, elapsedTime, formatTime,
-		handleUpdateSet, handleAddSet, handleRemoveSet,
-		totalSets, completedSets, progress, getFinishedWorkout,
-	} = useWorkoutSession(initialWorkout);
+  const { workout, setWorkout, isPaused, setIsPaused, elapsedTime, formatTime, handleUpdateSet, handleAddSet, handleRemoveSet, totalSets, completedSets, progress, getFinishedWorkout, persistWorkoutDraft } = useWorkoutSession(initialWorkout);
+
+  useWorkoutSessionPersistence({ persist: persistWorkoutDraft, isPaused });
 
   const { data: exercises = [], isLoading: loading } = useAllExercises(user?.uid);
 
@@ -99,17 +101,24 @@ export function QuickWorkoutModal() {
   };
 
   return (
-    <ModalWrapper modalType="quickWorkout" header={false} title={workout.name} contentClasses="pt-0">
+    <ModalWrapper
+      modalType="quickWorkout"
+      header={false}
+      title={workout.name}
+      contentClasses="pt-0">
       <WorkoutHeader
         title={workout.name}
         elapsedTime={formatTime(elapsedTime)}
         isPaused={isPaused}
         onTogglePause={() => setIsPaused(!isPaused)}
-        onClose={close}
+        onClose={() => {
+          close();
+          persistWorkoutDraft("modal-close");
+        }}
         progress={progress}
       />
 
-      <main className="flex-1 space-y-4 pt-4 pb-20">
+      <main className={cn("flex-1 space-y-4 pt-4 pb-20", isPaused && "pointer-events-none brightness-80 blur-xs")}>
         {workout.exercises.map((workoutExercise) => (
           <QuickExerciseCard
             key={workoutExercise.id}
@@ -122,9 +131,7 @@ export function QuickWorkoutModal() {
         ))}
         <Select
           input={{
-            options: exercises
-              .filter((exercise) => !workout.exercises.some((w) => w.id === exercise.id))
-              .map((exercise) => ({ value: exercise.id, label: exercise.name })),
+            options: exercises.filter((exercise) => !workout.exercises.some((w) => w.id === exercise.id)).map((exercise) => ({ value: exercise.id, label: exercise.name })),
             placeholder: "Виберіть чи введіть назву",
             menuPosition: "top",
             allowCustom: true,
@@ -134,7 +141,11 @@ export function QuickWorkoutModal() {
         />
       </main>
 
-      <WorkoutFooter completedSets={completedSets} totalSets={totalSets} onFinish={handleFinishWorkout} />
+      <WorkoutFooter
+        completedSets={completedSets}
+        totalSets={totalSets}
+        onFinish={handleFinishWorkout}
+      />
     </ModalWrapper>
   );
 }

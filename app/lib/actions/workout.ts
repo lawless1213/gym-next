@@ -1,10 +1,10 @@
 import { db } from "@/app/lib/firebaseConfig";
-import { PersonalRecord, QuickWorkoutSession, WorkoutSession } from "@/app/types";
+import { PersonalRecord, WorkoutSession } from "@/app/types";
 import { collection, addDoc } from "firebase/firestore";
 import { writeExerciseRecord } from "./record";
 export async function writeWorkoutSession(
   userId: string,
-  data: WorkoutSession | QuickWorkoutSession,
+  data: WorkoutSession,
 ) {
   for (const exercise of data.exercises) {
     if ("isQuick" in exercise && exercise.isQuick) continue;
