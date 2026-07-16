@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { bodyMeasurements } from "@/app/data/mock-data";
+import { bodyMeasurements } from "@/app/data/exercise";
 import { IconScale, IconTrendingDown, IconTrendingUp, IconActivity, IconTrophy, IconEdit } from "@tabler/icons-react";
 import { cn } from "@/app/lib/utils";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";

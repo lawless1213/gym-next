@@ -13,6 +13,7 @@ import { createUserExercise, editUserExecise } from "@/app/lib/actions/exercise"
 import { useAuth } from "@/app/hooks/useAuth";
 import { useExerciseEditModal } from "@/app/hooks/useModals/useExerciseEditModal";
 import { useQueryClient } from "@tanstack/react-query";
+import { MUSCLE_GROUPS } from "@/app/data/exercise";
 
 const exerciseSchema = z.object({
   photo: z.instanceof(File).optional(),
@@ -22,8 +23,6 @@ const exerciseSchema = z.object({
 });
 
 type ExerciseFormData = z.infer<typeof exerciseSchema>;
-
-const MUSCLE_GROUPS = ["Chest", "Back", "Shoulders", "Arms", "Legs", "Core", "Full Body"];
 
 export function ExerciseEditModal() {
   const { close, exercise } = useExerciseEditModal();

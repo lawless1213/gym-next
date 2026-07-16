@@ -14,6 +14,7 @@ import { toast } from "sonner";
 import { createUserExercise } from "@/app/lib/actions/exercise";
 import { useAuth } from "@/app/hooks/useAuth";
 import { useQueryClient } from "@tanstack/react-query";
+import { MUSCLE_GROUPS } from "@/app/data/exercise";
 
 
 const exerciseSchema = z.object({
@@ -24,8 +25,6 @@ const exerciseSchema = z.object({
 });
 
 type ExerciseFormData = z.infer<typeof exerciseSchema>;
-
-const MUSCLE_GROUPS = ["Chest", "Back", "Shoulders", "Arms", "Legs", "Core", "Full Body"];
 
 export function ExerciseCreateModal() {
   const { close } = useModal();

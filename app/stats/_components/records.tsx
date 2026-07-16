@@ -2,7 +2,7 @@
 
 import SkeletonBone from "@/app/__components/common/skeletonBone";
 import SkeletonSwitcher from "@/app/__components/common/SkeletonSwitcher";
-import { personalRecords } from "@/app/data/mock-data";
+import { personalRecords } from "@/app/data/exercise";
 import { useAuth } from "@/app/hooks/useAuth";
 import { useRecords } from "@/app/hooks/useServices/useRecords";
 import { IconTrophy } from "@tabler/icons-react";
