@@ -1,6 +1,7 @@
 "use client";
 import clsx from "clsx";
 import { forwardRef } from "react";
+import { Label } from "../label";
 
 type InputType = {
   placeholder?: string;
@@ -25,11 +26,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
     return (
       <>
         <div>
-          {input.label && (
-            <label htmlFor={input.id || "input"} className="text-sm font-medium text-foreground mb-1 block">
-              {input.label}
-            </label>
-          )}
+          {input.label && (<Label label={{ text: input.label, for: input.id || "input" }} />)}
           <input
             ref={_ref}
             id={input.id || "input"}

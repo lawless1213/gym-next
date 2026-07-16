@@ -13,7 +13,7 @@ type LabelProps = {
 export const Label = ({ label }: LabelProps) => {
   return (
     <label htmlFor={label.for} className="text-sm font-medium text-muted-foreground mb-2 block items-center gap-1.5">
-      {label.icon && <span>{input.icon}</span>}
+      {label.icon && <span>{label.icon}</span>}
       <span>{label.text}</span>
     </label>
   );
