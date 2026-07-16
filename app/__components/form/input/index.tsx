@@ -25,7 +25,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(
   ({ input }, _ref) => {
     return (
       <>
-        <div>
+        <div className="w-full">
           {input.label && (<Label label={{ text: input.label, for: input.id || "input" }} />)}
           <input
             ref={_ref}

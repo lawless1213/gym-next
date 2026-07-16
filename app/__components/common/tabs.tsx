@@ -18,6 +18,8 @@ interface TabsProps {
 }
 
 export function Tabs({ items, activeTab, onChange, children }: TabsProps) {
+  const layoutId = React.useId();
+
   return (
     <div className="flex flex-col gap-4">
       <div className="flex gap-2 rounded-xl bg-secondary p-1 relative">
@@ -34,7 +36,7 @@ export function Tabs({ items, activeTab, onChange, children }: TabsProps) {
             >
               {isActive && (
                 <motion.div
-                  layoutId="activeTabBackground"
+                  layoutId={layoutId}
                   className="absolute inset-0 bg-card rounded-lg shadow-sm"
                   transition={{ type: "spring", bounce: 0.2, duration: 0.4 }}
                 />

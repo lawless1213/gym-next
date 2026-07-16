@@ -32,7 +32,7 @@ const exerciseSchema = z.object({
   }),
 });
 
-type ExerciseFormData = z.infer<typeof exerciseSchema>;
+type ExerciseAIFormData = z.infer<typeof exerciseSchema>;
 
 export function AiExerciseContent() {
   const { close } = useModal();
@@ -45,7 +45,7 @@ export function AiExerciseContent() {
     control,
     setError,
     formState: { errors, isSubmitting, isValid, isDirty },
-  } = useForm<ExerciseFormData>({
+  } = useForm<ExerciseAIFormData>({
     resolver: zodResolver(exerciseSchema),
     mode: "onTouched",
     defaultValues: {
@@ -58,13 +58,15 @@ export function AiExerciseContent() {
 
   const { ref: commentRef, ...commentRest } = register("comment");
 
-  const onSubmit = async (data: ExerciseFormData) => {
+  const onSubmit = async (data: ExerciseAIFormData) => {
     try {
       if (!user) throw new Error("Not authenticated");
 
+			console.log(data);
+			
       // await createUserExercise(user.uid, data);
-      queryClient.invalidateQueries({ queryKey: ["exercises", user.uid] });
-      toast.success("Вправу успішно створено!");
+      // queryClient.invalidateQueries({ queryKey: ["exercises", user.uid] });
+      // toast.success("Вправу успішно створено!");
       close();
     } catch (err: any) {
       console.log(err);
