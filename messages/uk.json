@@ -222,5 +222,15 @@
 			"instruction": "Інструкція:",
 			"notFound": "Вправу не знайдено"
 		}
+	},
+	"ai": {
+		"modal": {
+			"tabs": {
+				"exercise": "Вправа",
+				"routine": "Програма",
+				"schedule": "Графік"
+			}
+		}
 	}
+
 }

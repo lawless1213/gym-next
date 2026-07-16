@@ -212,5 +212,14 @@
 			"instruction": "Instruction:",
 			"notFound": "Exercise not found"
 		}
+	},
+	"ai": {
+		"modal": {
+			"tabs": {
+				"exercise": "Exercise",
+				"routine": "Routine",
+				"schedule": "Schedule"
+			}
+		}
 	}
 }
