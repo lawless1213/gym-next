@@ -1,5 +1,6 @@
 allowBuilds:
   '@firebase/util': false
+  '@google/genai': set this to true or false
   '@parcel/watcher': false
   '@swc/core': false
   protobufjs: false

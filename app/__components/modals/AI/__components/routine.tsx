@@ -17,7 +17,7 @@ import { Label } from "@/app/__components/form/label";
 import { TextArea } from "@/app/__components/form/textarea";
 import { Input } from "@/app/__components/form/input";
 
-const exerciseSchema = z.object({
+const routineSchema = z.object({
   comment: z.string().optional(),
   groups: z.array(z.string()).min(1, "Оберіть хоча б одну групу м'язів"),
   equipment: z.enum(EQUIPMENT_GROUPS, {
@@ -33,7 +33,7 @@ const exerciseSchema = z.object({
   count: z.string().optional(),
 });
 
-type RoutineAIFormData = z.infer<typeof exerciseSchema>;
+type RoutineAIFormData = z.infer<typeof routineSchema>;
 
 export function AiRoutineContent() {
   const { close } = useModal();
@@ -47,7 +47,7 @@ export function AiRoutineContent() {
     setError,
     formState: { errors, isSubmitting, isValid, isDirty },
   } = useForm<RoutineAIFormData>({
-    resolver: zodResolver(exerciseSchema),
+    resolver: zodResolver(routineSchema),
     mode: "onTouched",
     defaultValues: {
       groups: [],
