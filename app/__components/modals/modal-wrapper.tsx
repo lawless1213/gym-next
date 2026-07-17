@@ -49,9 +49,9 @@ export function ModalWrapper({ modalType, children, classes, contentClasses, siz
                 stiffness: 400,
                 damping: 30,
               }}
-              className={clsx("relative pointer-events-auto max-w-screen bg-card rounded-t-xl flex flex-col max-h-screen w-[600px]", classes, {
-                "h-screen": size === "high",
-                "sm:h-[95vh] sm:w-[90vw]": size === "large",
+              className={clsx("relative pointer-events-auto max-w-screen bg-card rounded-t-xl flex flex-col max-h-dvh w-[600px]", classes, {
+                "h-dvh": size === "high",
+                "sm:h-[95dvh] sm:w-[90vw]": size === "large",
               })}>
               {
 								header &&
@@ -66,7 +66,7 @@ export function ModalWrapper({ modalType, children, classes, contentClasses, siz
                 </div>
               }
               <div 
-								className={clsx("p-2 h-full overflow-y-auto sm:p-6", contentClasses)}>
+								className={clsx("p-2 flex-1 min-h-0 overflow-y-auto sm:p-6", contentClasses)}>
 								{children}</div>
             </motion.div>
           </div>
