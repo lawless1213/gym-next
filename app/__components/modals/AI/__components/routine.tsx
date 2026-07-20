@@ -18,6 +18,7 @@ import { TextArea } from "@/app/__components/form/textarea";
 import { Input } from "@/app/__components/form/input";
 import { ChipGroup } from "@/app/__components/form/chipGroup";
 import { Select } from "@/app/__components/form/select";
+import { generateAiRoutine } from "@/app/lib/actions/gemini/routine";
 
 const routineSchema = z.object({
   comment: z.string().optional(),
@@ -72,7 +73,9 @@ export function AiRoutineContent() {
   const onSubmit = async (data: RoutineAIFormData) => {
     try {
       if (!user) throw new Error("Not authenticated");
-      console.log(data);
+      const result = await generateAiRoutine(data);
+
+      console.log(result);
 
       // await createUserExercise(user.uid, data);
       // queryClient.invalidateQueries({ queryKey: ["exercises", user.uid] });

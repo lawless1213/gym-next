@@ -16,6 +16,7 @@ import { useAllExercises } from "@/app/hooks/useServices/useExercises";
 import { toast } from "sonner";
 import { createUserRoutine } from "@/app/lib/actions/routine";
 import { useQueryClient } from "@tanstack/react-query";
+import { ExerciseCard } from "@/app/__components/exerciseList";
 
 const colors = ["#CCFF00", "#2563EB", "#F97316", "#EF4444", "#8B5CF6", "#10B981"];
 
@@ -65,7 +66,7 @@ export function RoutineCreateModal() {
 
       await createUserRoutine(user.uid, data);
       queryClient.invalidateQueries({ queryKey: ["routines", user.uid] });
-      toast.success('Програму успішно створено!');
+      toast.success("Програму успішно створено!");
       close();
     } catch (err: any) {
       console.log(err);
@@ -187,9 +188,8 @@ export function RoutineCreateModal() {
                   const isSelected = fields.some((e) => e.exerciseId == exercise.id);
 
                   return (
-                    <button
-                      key={exercise.id}
-                      type="button"
+                    <ExerciseCard
+                      exercise={exercise}
                       onClick={() => {
                         if (isSelected) return;
                         append({
@@ -200,13 +200,9 @@ export function RoutineCreateModal() {
                         });
                       }}
                       disabled={isSelected}
-                      className={`flex w-full items-center gap-3 rounded-xl p-3 text-left transition-colors ${isSelected ? "bg-muted/40 opacity-40 cursor-not-allowed select-none" : "bg-secondary hover:bg-secondary/80 cursor-pointer"}`}>
-                      <div className="flex-1">
-                        <p className={`font-medium ${isSelected ? "text-muted-foreground" : "text-foreground"}`}>{exercise.name}</p>
-                        <p className="text-sm text-muted-foreground">{exercise.muscleGroup}</p>
-                      </div>
-                      {isSelected && <span className="text-xs font-medium text-primary">Added</span>}
-                    </button>
+                      className="rounded-xl bg-secondary hover:bg-secondary/80"
+                      trailing={isSelected && <span className="text-xs text-primary">Added</span>}
+                    />
                   );
                 })}
               </div>

@@ -17,12 +17,11 @@ import { Label } from "@/app/__components/form/label";
 import { DIFFICULTY, EQUIPMENT_GROUPS, GOALS, MUSCLE_GROUPS } from "@/app/data/exercise";
 import { Select } from "@/app/__components/form/select";
 import { ChipGroup } from "@/app/__components/form/chipGroup";
+import { generateAiExercise } from "@/app/lib/actions/gemini/exercise";
 
 const exerciseSchema = z.object({
   comment: z.string(),
-  groups: z.enum(MUSCLE_GROUPS, {
-    message: "Оберіть  групу м'язів",
-  }),
+  groups: z.array(z.string()).min(1, "Оберіть хоча б одну групу м'язів"),
   equipment: z.enum(EQUIPMENT_GROUPS, {
     message: "Оберіть обладнання",
   }),
@@ -51,7 +50,7 @@ export function AiExerciseContent() {
     resolver: zodResolver(exerciseSchema),
     mode: "onTouched",
     defaultValues: {
-      groups: "",
+      groups: [],
       difficulty: "",
       equipment: "",
       goal: "",
@@ -64,14 +63,15 @@ export function AiExerciseContent() {
     { name: "goal", placeholder: "Оберіть ціль", options: GOALS },
     { name: "difficulty", placeholder: "Оберіть рівень", options: DIFFICULTY },
     { name: "equipment", placeholder: "Оберіть Equipment", options: EQUIPMENT_GROUPS },
-    { name: "groups", placeholder: "Оберіть групу м'язів", options: MUSCLE_GROUPS },
   ] as const;
 
   const onSubmit = async (data: ExerciseAIFormData) => {
     try {
       if (!user) throw new Error("Not authenticated");
 
-      console.log(data);
+      const result = await generateAiExercise(data);
+
+      console.log(result);
 
       // await createUserExercise(user.uid, data);
       // queryClient.invalidateQueries({ queryKey: ["exercises", user.uid] });
@@ -107,6 +107,21 @@ export function AiExerciseContent() {
             )}
           />
         ))}
+
+        <Controller
+          name={"groups"}
+          control={control}
+          render={({ field }) => (
+            <ChipGroup
+              items={MUSCLE_GROUPS}
+              value={field.value ?? []}
+              onChange={field.onChange}
+              id="groups"
+              label="Muscle groups"
+              error={errors.groups?.message}
+            />
+          )}
+        />
 
         <TextArea
           ref={commentRef}

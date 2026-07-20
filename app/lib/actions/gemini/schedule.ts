@@ -1,11 +1,9 @@
 "use server";
 
-import { GoogleGenAI } from "@google/genai";
 import { weekDays } from "@/app/types";
 import type { ScheduleMap, Routine, Exercise, weekDay } from "@/app/types";
 import { randomUUID } from "crypto";
-
-const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
+import { generateStructured } from "./client";
 
 const aiExerciseSchema = {
   type: "object",
@@ -81,28 +79,20 @@ export async function generateAiSchedule(
 Кожен день має мати назву рутини (routineName), колір у HEX та список вправ.
 `.trim();
 
-console.log(prompt);
+  const result = await generateStructured<AiRawResponse>({
+    prompt,
+    schema: scheduleResponseSchema,
+  });
 
-
-  try {
-    const response = await ai.models.generateContent({
-      model: "gemini-3.1-flash-lite",
-      contents: prompt,
-      config: {
-        responseMimeType: "application/json",
-        responseSchema: scheduleResponseSchema,
-      },
-    });
-
-    const parsed: AiRawResponse = JSON.parse(response.text ?? "");
-
-    const scheduleMap = toScheduleMap(parsed);
-
-    return { success: true, data: scheduleMap, summary: parsed.summary };
-  } catch (err) {
-    console.error("Gemini generation error:", err);
-    return { success: false, error: "Не вдалося згенерувати графік" };
+  if (!result.success) {
+    return result;
   }
+
+  return {
+    success: true,
+    data: toScheduleMap(result.data),
+    summary: result.data.summary,
+  };
 }
 
 function toScheduleMap(raw: AiRawResponse): ScheduleMap {
