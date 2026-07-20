@@ -23,7 +23,7 @@ interface WorkoutGenerationParams {
 
 export function AiModal() {
   const t = useTranslations("ai.modal");
-	const [activeTab, setActiveTab] = useState<AiTab>("schedule");
+	const [activeTab, setActiveTab] = useState<AiTab>("exercise");
 
 	const tabItems = [
     {

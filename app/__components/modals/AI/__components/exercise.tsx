@@ -18,6 +18,7 @@ import { DIFFICULTY, EQUIPMENT_GROUPS, GOALS, MUSCLE_GROUPS } from "@/app/data/e
 import { Select } from "@/app/__components/form/select";
 import { ChipGroup } from "@/app/__components/form/chipGroup";
 import { generateAiExercise } from "@/app/lib/actions/gemini/exercise";
+import { ExerciseCard } from "@/app/__components/exerciseList";
 
 const exerciseSchema = z.object({
   comment: z.string(),
@@ -36,7 +37,7 @@ const exerciseSchema = z.object({
 type ExerciseAIFormData = z.infer<typeof exerciseSchema>;
 
 export function AiExerciseContent() {
-  const { close } = useModal();
+  const { close, confirm } = useModal();
   const { user } = useAuth();
   const queryClient = useQueryClient();
 
@@ -71,11 +72,27 @@ export function AiExerciseContent() {
 
       const result = await generateAiExercise(data);
 
-      console.log(result);
+      if (result.success) {
+        const ok = await confirm({
+          title: result.data.name,
+          description: result.summary,
+          children: <ExerciseCard exercise={result.data} />,
+          cancelLabel: "Редагувати запит",
+          confirmLabel: "Додати до бібліотеки",
+        });
 
-      // await createUserExercise(user.uid, data);
-      // queryClient.invalidateQueries({ queryKey: ["exercises", user.uid] });
-      // toast.success("Вправу успішно створено!");
+        if (ok) {
+          await createUserExercise(user.uid, {
+            title: result.data.name,
+            groups: [result.data.muscleGroup], // або split, якщо там кілька через кому
+            description: result.data.description,
+          });
+          queryClient.invalidateQueries({ queryKey: ["exercises", user.uid] });
+          toast.success("Вправу успішно додано до бази!");
+          close();
+        }
+      }
+
       close();
     } catch (err: any) {
       console.log(err);
