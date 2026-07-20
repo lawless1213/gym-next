@@ -15,6 +15,8 @@ import { useAuth } from "@/app/hooks/useAuth";
 import { useQueryClient } from "@tanstack/react-query";
 import { Label } from "@/app/__components/form/label";
 import { DIFFICULTY, EQUIPMENT_GROUPS, GOALS, MUSCLE_GROUPS } from "@/app/data/exercise";
+import { Select } from "@/app/__components/form/select";
+import { ChipGroup } from "@/app/__components/form/chipGroup";
 
 const exerciseSchema = z.object({
   comment: z.string(),
@@ -52,18 +54,25 @@ export function AiExerciseContent() {
       groups: "",
       difficulty: "",
       equipment: "",
-			goal: "",
+      goal: "",
     },
   });
 
   const { ref: commentRef, ...commentRest } = register("comment");
 
+  const selectFields = [
+    { name: "goal", placeholder: "Оберіть ціль", options: GOALS },
+    { name: "difficulty", placeholder: "Оберіть рівень", options: DIFFICULTY },
+    { name: "equipment", placeholder: "Оберіть Equipment", options: EQUIPMENT_GROUPS },
+    { name: "groups", placeholder: "Оберіть групу м'язів", options: MUSCLE_GROUPS },
+  ] as const;
+
   const onSubmit = async (data: ExerciseAIFormData) => {
     try {
       if (!user) throw new Error("Not authenticated");
 
-			console.log(data);
-			
+      console.log(data);
+
       // await createUserExercise(user.uid, data);
       // queryClient.invalidateQueries({ queryKey: ["exercises", user.uid] });
       // toast.success("Вправу успішно створено!");
@@ -78,125 +87,26 @@ export function AiExerciseContent() {
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-1 flex-col static">
       <div className="flex-1 space-y-6 mb-10">
-        <Label label={{ text: "Ціль", for: "goal" }} />
-        <Controller
-          name="goal"
-          control={control}
-          render={({ field }) => (
-            <div className="space-y-1.5">
-              <div
-                className="flex flex-wrap gap-2"
-                role="radiogroup"
-                aria-label="Goal">
-                {GOALS.map((goal) => {
-                  const selected = field.value === goal;
-                  return (
-                    <button
-                      key={goal}
-                      type="button"
-                      role="radio"
-                      aria-checked={selected}
-                      onClick={() => field.onChange(goal)}
-                      className={`cursor-pointer flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium transition-all ${selected ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground hover:text-foreground"}`}>
-                      {goal}
-                    </button>
-                  );
-                })}
-              </div>
-              {errors.goal && <p className="text-sm text-red-500">{errors.goal.message}</p>}
-            </div>
-          )}
-        />
-
-        <Label label={{ text: "Level", for: "difficulty" }} />
-        <Controller
-          name="difficulty"
-          control={control}
-          render={({ field }) => (
-            <div className="space-y-1.5">
-              <div
-                className="flex flex-wrap gap-2"
-                role="radiogroup"
-                aria-label="Level">
-                {DIFFICULTY.map((level) => {
-                  const selected = field.value === level;
-                  return (
-                    <button
-                      key={level}
-                      type="button"
-                      role="radio"
-                      aria-checked={selected}
-                      onClick={() => field.onChange(level)}
-                      className={`cursor-pointer flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium transition-all ${selected ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground hover:text-foreground"}`}>
-                      {level}
-                    </button>
-                  );
-                })}
-              </div>
-              {errors.difficulty && <p className="text-sm text-red-500">{errors.difficulty.message}</p>}
-            </div>
-          )}
-        />
-
-        <Label label={{ text: "Muscle groups", for: "groups" }} />
-        <Controller
-          name="groups"
-          control={control}
-          render={({ field }) => (
-            <div className="space-y-1.5">
-              <div
-                className="flex flex-wrap gap-2"
-                role="radiogroup"
-                aria-label="groups">
-                {MUSCLE_GROUPS.map((group) => {
-                  const selected = field.value === group;
-                  return (
-                    <button
-                      key={group}
-                      type="button"
-                      role="radio"
-                      aria-checked={selected}
-                      onClick={() => field.onChange(group)}
-                      className={`cursor-pointer flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium transition-all ${selected ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground hover:text-foreground"}`}>
-                      {group}
-                    </button>
-                  );
-                })}
-              </div>
-              {errors.equipment && <p className="text-sm text-red-500">{errors.equipment.message}</p>}
-            </div>
-          )}
-        />
-
-        <Label label={{ text: "Equipment", for: "equipment" }} />
-        <Controller
-          name="equipment"
-          control={control}
-          render={({ field }) => (
-            <div className="space-y-1.5">
-              <div
-                className="flex flex-wrap gap-2"
-                role="radiogroup"
-                aria-label="Level">
-                {EQUIPMENT_GROUPS.map((equipment) => {
-                  const selected = field.value === equipment;
-                  return (
-                    <button
-                      key={equipment}
-                      type="button"
-                      role="radio"
-                      aria-checked={selected}
-                      onClick={() => field.onChange(equipment)}
-                      className={`cursor-pointer flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium transition-all ${selected ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground hover:text-foreground"}`}>
-                      {equipment}
-                    </button>
-                  );
-                })}
-              </div>
-              {errors.equipment && <p className="text-sm text-red-500">{errors.equipment.message}</p>}
-            </div>
-          )}
-        />
+        {selectFields.map(({ name, placeholder, options }) => (
+          <Controller
+            key={name}
+            name={name}
+            control={control}
+            render={({ field }) => (
+              <Select
+                input={{
+                  id: name,
+                  placeholder,
+                  searchable: false,
+                  value: field.value,
+                  onChange: (value) => field.onChange(value),
+                  error: errors[name]?.message,
+                  options: options.map((opt) => ({ value: opt, label: opt })),
+                }}
+              />
+            )}
+          />
+        ))}
 
         <TextArea
           ref={commentRef}

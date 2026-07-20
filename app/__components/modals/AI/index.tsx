@@ -23,7 +23,7 @@ interface WorkoutGenerationParams {
 
 export function AiModal() {
   const t = useTranslations("ai.modal");
-	const [activeTab, setActiveTab] = useState<AiTab>("exercise");
+	const [activeTab, setActiveTab] = useState<AiTab>("schedule");
 
 	const tabItems = [
     {
@@ -52,7 +52,7 @@ export function AiModal() {
   return (
     <ModalWrapper
       modalType="ai"
-			size="large"
+			// size="large"
       title={"AI генерація"}>
       <div className="flex flex-col gap-4">
 				<Tabs

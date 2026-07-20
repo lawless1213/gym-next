@@ -133,7 +133,6 @@ export function QuickWorkoutModal() {
           input={{
             options: exercises.filter((exercise) => !workout.exercises.some((w) => w.id === exercise.id)).map((exercise) => ({ value: exercise.id, label: exercise.name })),
             placeholder: "Виберіть чи введіть назву",
-            menuPosition: "top",
             allowCustom: true,
             onChange: handleAddExercise,
             isLoading: loading,

@@ -18,6 +18,8 @@ import { Label } from "@/app/__components/form/label";
 import { TextArea } from "@/app/__components/form/textarea";
 import { weekDays } from "@/app/types";
 import { generateAiSchedule } from "@/app/lib/actions/gemini/schedule";
+import { Select } from "@/app/__components/form/select";
+import { ChipGroup } from "@/app/__components/form/chipGroup";
 
 const scheduleSchema = z.object({
   comment: z.string().optional(),
@@ -31,7 +33,7 @@ const scheduleSchema = z.object({
   goal: z.enum(GOALS, {
     message: "Оберіть ціль",
   }),
-  dayPerWeek: z.string( "Введіть кіл-кість днів тренувань"),
+  dayPerWeek: z.string("Введіть кіл-кість днів тренувань"),
   splitType: z.enum(SPLIT_TYPES, {
     message: "Оберіть тип тренування",
   }),
@@ -62,6 +64,18 @@ export function AiScheduleContent() {
   const { ref: commentRef, ...commentRest } = register("comment");
   const { ref: dayPerWeekRef, ...dayPerWeekRest } = register("dayPerWeek");
 
+  const selectFields = [
+    { name: "goal", placeholder: "Оберіть ціль", options: GOALS },
+    { name: "difficulty", placeholder: "Оберіть рівень", options: DIFFICULTY },
+    { name: "equipment", placeholder: "Оберіть Equipment", options: EQUIPMENT_GROUPS },
+    { name: "splitType", placeholder: "Оберіть тип тренування", options: SPLIT_TYPES },
+  ] as const;
+
+  const chipFields = [
+    { id: "groups", name: "groups", label: "Muscle groups", items: MUSCLE_GROUPS },
+    { id: "preferredRestDays", name: "preferredRestDays", label: "Дні відпочинку", items: weekDays },
+  ] as const;
+
   const onSubmit = async (data: ScheduleFormData) => {
     try {
       if (!user) throw new Error("Not authenticated");
@@ -89,155 +103,44 @@ export function AiScheduleContent() {
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-1 flex-col static">
       <div className="flex-1 space-y-6 mb-10">
-        <Label label={{ text: "Ціль", for: "goal" }} />
-        <Controller
-          name="goal"
-          control={control}
-          render={({ field }) => (
-            <div className="space-y-1.5">
-              <div
-                className="flex flex-wrap gap-2"
-                role="radiogroup"
-                aria-label="Goal">
-                {GOALS.map((goal) => {
-                  const selected = field.value === goal;
-                  return (
-                    <button
-                      key={goal}
-                      type="button"
-                      role="radio"
-                      aria-checked={selected}
-                      onClick={() => field.onChange(goal)}
-                      className={`cursor-pointer flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium transition-all ${selected ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground hover:text-foreground"}`}>
-                      {goal}
-                    </button>
-                  );
-                })}
-              </div>
-              {errors.goal && <p className="text-sm text-red-500">{errors.goal.message}</p>}
-            </div>
-          )}
-        />
+        {selectFields.map(({ name, placeholder, options }) => (
+          <Controller
+            key={name}
+            name={name}
+            control={control}
+            render={({ field }) => (
+              <Select
+                input={{
+                  id: name,
+                  placeholder,
+                  searchable: false,
+                  value: field.value,
+                  onChange: (value) => field.onChange(value),
+                  error: errors[name]?.message,
+                  options: options.map((opt) => ({ value: opt, label: opt })),
+                }}
+              />
+            )}
+          />
+        ))}
 
-        <Label label={{ text: "Level", for: "difficulty" }} />
-        <Controller
-          name="difficulty"
-          control={control}
-          render={({ field }) => (
-            <div className="space-y-1.5">
-              <div
-                className="flex flex-wrap gap-2"
-                role="radiogroup"
-                aria-label="Level">
-                {DIFFICULTY.map((level) => {
-                  const selected = field.value === level;
-                  return (
-                    <button
-                      key={level}
-                      type="button"
-                      role="radio"
-                      aria-checked={selected}
-                      onClick={() => field.onChange(level)}
-                      className={`cursor-pointer flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium transition-all ${selected ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground hover:text-foreground"}`}>
-                      {level}
-                    </button>
-                  );
-                })}
-              </div>
-              {errors.difficulty && <p className="text-sm text-red-500">{errors.difficulty.message}</p>}
-            </div>
-          )}
-        />
-
-        <Label label={{ text: "Muscle groups", for: "groups" }} />
-        <Controller
-          name="groups"
-          control={control}
-          render={({ field }) => (
-            <div className="space-y-1.5">
-              <div className="flex flex-wrap gap-2">
-                {MUSCLE_GROUPS.map((group) => {
-                  const checked = field.value.includes(group);
-                  return (
-                    <button
-                      key={group}
-                      type="button"
-                      role="checkbox"
-                      aria-checked={checked}
-                      onClick={() => {
-                        const next = checked ? field.value.filter((g) => g !== group) : [...field.value, group];
-                        field.onChange(next);
-                      }}
-                      className={`cursor-pointer flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium transition-all ${checked ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground hover:text-foreground"}`}>
-                      {group}
-                    </button>
-                  );
-                })}
-              </div>
-              {errors.groups && <p className="text-sm text-red-500">{errors.groups.message}</p>}
-            </div>
-          )}
-        />
-
-        <Label label={{ text: "Equipment", for: "equipment" }} />
-        <Controller
-          name="equipment"
-          control={control}
-          render={({ field }) => (
-            <div className="space-y-1.5">
-              <div
-                className="flex flex-wrap gap-2"
-                role="radiogroup"
-                aria-label="Level">
-                {EQUIPMENT_GROUPS.map((equipment) => {
-                  const selected = field.value === equipment;
-                  return (
-                    <button
-                      key={equipment}
-                      type="button"
-                      role="radio"
-                      aria-checked={selected}
-                      onClick={() => field.onChange(equipment)}
-                      className={`cursor-pointer flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium transition-all ${selected ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground hover:text-foreground"}`}>
-                      {equipment}
-                    </button>
-                  );
-                })}
-              </div>
-              {errors.equipment && <p className="text-sm text-red-500">{errors.equipment.message}</p>}
-            </div>
-          )}
-        />
-
-        <Label label={{ text: "Тип тренування", for: "splitType" }} />
-        <Controller
-          name="splitType"
-          control={control}
-          render={({ field }) => (
-            <div className="space-y-1.5">
-              <div
-                className="flex flex-wrap gap-2"
-                role="radiogroup"
-                aria-label="Level">
-                {SPLIT_TYPES.map((type) => {
-                  const selected = field.value === type;
-                  return (
-                    <button
-                      key={type}
-                      type="button"
-                      role="radio"
-                      aria-checked={selected}
-                      onClick={() => field.onChange(type)}
-                      className={`cursor-pointer flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium transition-all ${selected ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground hover:text-foreground"}`}>
-                      {type}
-                    </button>
-                  );
-                })}
-              </div>
-              {errors.equipment && <p className="text-sm text-red-500">{errors.equipment.message}</p>}
-            </div>
-          )}
-        />
+        {chipFields.map(({ name, label, items }) => (
+          <div key={name}>
+            <Label label={{ text: label, for: name }} />
+            <Controller
+              name={name}
+              control={control}
+              render={({ field }) => (
+                <ChipGroup
+                  items={items}
+                  value={field.value ?? []}
+                  onChange={field.onChange}
+                  error={errors[name]?.message}
+                />
+              )}
+            />
+          </div>
+        ))}
 
         <Input
           ref={dayPerWeekRef}
@@ -250,45 +153,6 @@ export function AiScheduleContent() {
             classes: "flex-1 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
           }}
         />
-
-        <Label label={{ text: "Дні відпочинку", for: "preferredRestDays" }} />
-        <Controller
-          name="preferredRestDays"
-          control={control}
-          render={({ field }) => {
-            const valueArray: string[] = Array.isArray(field.value) ? field.value : [];
-            return (
-              <div className="space-y-1.5">
-                <div className="flex flex-wrap gap-2">
-                  {weekDays.map((day) => {
-                    const checked = valueArray.includes(day);
-                    return (
-                      <button
-                        key={day}
-                        type="button"
-                        role="checkbox"
-                        aria-checked={checked}
-                        onClick={() => {
-                          let next: string[];
-                          if (checked) {
-                            next = valueArray.filter((g) => g !== day);
-                          } else {
-                            next = [...valueArray, day];
-                          }
-                          field.onChange(next);
-                        }}
-                        className={`cursor-pointer flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium transition-all ${checked ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground hover:text-foreground"}`}>
-                        {day}
-                      </button>
-                    );
-                  })}
-                </div>
-                {errors.preferredRestDays && <p className="text-sm text-red-500">{errors.preferredRestDays.message}</p>}
-              </div>
-            );
-          }}
-        />
-
         <TextArea
           ref={commentRef}
           textarea={{
