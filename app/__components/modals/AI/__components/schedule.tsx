@@ -20,6 +20,9 @@ import { weekDays } from "@/app/types";
 import { generateAiSchedule } from "@/app/lib/actions/gemini/schedule";
 import { Select } from "@/app/__components/form/select";
 import { ChipGroup } from "@/app/__components/form/chipGroup";
+import { WeeklyCalendar } from "@/app/__components/weeklyCalendar";
+import { useTypewriter } from "@/app/hooks/useTypewriter";
+import { TypewriterText } from "@/app/__components/common/TypewritterText";
 
 const scheduleSchema = z.object({
   comment: z.string().optional(),
@@ -43,7 +46,7 @@ const scheduleSchema = z.object({
 type ScheduleFormData = z.infer<typeof scheduleSchema>;
 
 export function AiScheduleContent() {
-  const { close } = useModal();
+  const { close, confirm } = useModal();
   const { user } = useAuth();
   const queryClient = useQueryClient();
 
@@ -83,6 +86,27 @@ export function AiScheduleContent() {
       const result = await generateAiSchedule(data);
 
       console.log(result);
+
+      if (result.success) {
+        const ok = await confirm({
+          title: "Запровадити наступний графік занять?",
+          description: <TypewriterText text={result.summary} />,
+          children: <WeeklyCalendar schedule={result.data} />,
+          cancelLabel: "Редагувати запит",
+          confirmLabel: "Додати до бібліотеки",
+        });
+
+        if (ok) {
+          // await createUserExercise(user.uid, {
+          //   title: result.data.name,
+          //   groups: [result.data.muscleGroup], // або split, якщо там кілька через кому
+          //   description: result.data.description,
+          // });
+          // queryClient.invalidateQueries({ queryKey: ["exercises", user.uid] });
+          // toast.success("Вправу успішно додано до бази!");
+          close();
+        }
+      }
 
       if (!result.success) {
         setError("root", { message: result.error });

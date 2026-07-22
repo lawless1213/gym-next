@@ -19,6 +19,7 @@ import { Input } from "@/app/__components/form/input";
 import { ChipGroup } from "@/app/__components/form/chipGroup";
 import { Select } from "@/app/__components/form/select";
 import { generateAiRoutine } from "@/app/lib/actions/gemini/routine";
+import RoutineCard from "@/app/__components/cards/routine";
 
 const routineSchema = z.object({
   comment: z.string().optional(),
@@ -39,7 +40,7 @@ const routineSchema = z.object({
 type RoutineAIFormData = z.infer<typeof routineSchema>;
 
 export function AiRoutineContent() {
-  const { close } = useModal();
+  const { close, confirm } = useModal();
   const { user } = useAuth();
   const queryClient = useQueryClient();
 
@@ -76,6 +77,27 @@ export function AiRoutineContent() {
       const result = await generateAiRoutine(data);
 
       console.log(result);
+
+      if (result.success) {
+        const ok = await confirm({
+          title: result.data.name,
+          description: result.summary,
+          children: <RoutineCard {...result.data} />,
+          cancelLabel: "Редагувати запит",
+          confirmLabel: "Додати до бібліотеки",
+        });
+
+        if (ok) {
+          // await createUserExercise(user.uid, {
+          //   title: result.data.name,
+          //   groups: [result.data.muscleGroup], // або split, якщо там кілька через кому
+          //   description: result.data.description,
+          // });
+          // queryClient.invalidateQueries({ queryKey: ["exercises", user.uid] });
+          // toast.success("Вправу успішно додано до бази!");
+          close();
+        }
+      }
 
       // await createUserExercise(user.uid, data);
       // queryClient.invalidateQueries({ queryKey: ["exercises", user.uid] });

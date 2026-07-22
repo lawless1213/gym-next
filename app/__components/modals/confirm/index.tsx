@@ -4,7 +4,7 @@ import { Button } from "@/app/__components/buttons/button";
 
 export type ConfirmOptions = {
   title: string;
-  description?: string;
+  description?: string | React.ReactNode;
   confirmLabel?: string;
   cancelLabel?: string;
   variant?: "danger" | "default";

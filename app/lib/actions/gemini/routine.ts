@@ -102,8 +102,8 @@ function toRoutine(raw: AiRawResponse["routine"]): Routine {
     name: raw.routineName,
     exercises,
     color: raw.color,
-    available: true,
+    available: false,
     completed: false,
-    editable: true,
+    editable: false,
   };
 }
