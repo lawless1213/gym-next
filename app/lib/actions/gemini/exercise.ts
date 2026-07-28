@@ -3,6 +3,7 @@
 import type { Exercise } from "@/app/types";
 import { randomUUID } from "crypto";
 import { generateStructured } from "./client";
+import { getCommonExercises, getUserExercises } from "@/app/lib/services/exercises";
 
 const exerciseResponseSchema = {
   type: "object",
@@ -30,6 +31,7 @@ type ExerciseInput = {
   equipment: string;
   groups: string[];
   comment?: string;
+  userId: string;
 };
 
 type AiRawResponse = {
@@ -41,10 +43,80 @@ type AiRawResponse = {
   summary: string;
 };
 
+const MAX_RETRIES = 2;
+
 export async function generateAiExercise(
   input: ExerciseInput
 ): Promise<{ success: true; data: Exercise; summary: string } | { success: false; error: string }> {
-  const prompt = `
+  const allExercises = await getAllExercises(input.userId);
+  const relevantExercises = filterRelevantExercises(allExercises, input.groups);
+  const existingNames = relevantExercises.map((ex) => ex.name);
+
+  for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
+    const prompt = buildPrompt(input, existingNames, attempt > 0);
+
+    const result = await generateStructured<AiRawResponse>({
+      prompt,
+      schema: exerciseResponseSchema,
+    });
+
+    if (!result.success) {
+      return result;
+    }
+
+    if (!isDuplicate(result.data.exercise.name, existingNames)) {
+      return {
+        success: true,
+        data: toExercise(result.data.exercise),
+        summary: result.data.summary,
+      };
+    }
+  }
+
+  return { success: false, error: "Не вдалося згенерувати унікальну вправу. Спробуйте ще раз." };
+}
+
+async function getAllExercises(userId: string): Promise<Exercise[]> {
+  const [common, user] = await Promise.all([
+    getCommonExercises(),
+    getUserExercises(userId),
+  ]);
+  return [...common, ...user];
+}
+
+function filterRelevantExercises(exercises: Exercise[], groups: string[]): Exercise[] {
+  if (groups.length === 0) return exercises;
+
+  return exercises.filter((ex) =>
+    groups.some((g) => ex.muscleGroup.toLowerCase().includes(g.toLowerCase()))
+  );
+}
+
+function normalize(name: string): string {
+  return name.toLowerCase().trim().replace(/\s+/g, " ");
+}
+
+function isDuplicate(name: string, existing: string[]): boolean {
+  const n = normalize(name);
+  return existing.some((ex) => {
+    const e = normalize(ex);
+    return n === e || n.includes(e) || e.includes(n);
+  });
+}
+
+function buildPrompt(input: ExerciseInput, existingNames: string[], isRetry: boolean): string {
+  const exclusionBlock =
+    existingNames.length > 0
+      ? `
+Вправи, які вже є в бібліотеці (НЕ пропонуй їх і не пропонуй функціонально схожі варіанти):
+${existingNames.map((n) => `- ${n}`).join("\n")}`
+      : "";
+
+  const retryNote = isRetry
+    ? "\n\nПопередня відповідь збіглася з існуючою вправою. Запропонуй іншу, унікальну вправу."
+    : "";
+
+  return `
 Ти — досвідчений фітнес-тренер. Створи одну конкретну вправу.
 
 Параметри:
@@ -53,24 +125,10 @@ export async function generateAiExercise(
 - Обладнання: ${input.equipment}
 - Група м'язів: ${input.groups.join(", ")}
 - Коментар користувача: ${input.comment ?? "немає"}
+${exclusionBlock}
 
-Запропонуй одну вправу, що найкраще відповідає цим параметрам, з чіткою назвою та коротким описом техніки виконання.
+Запропонуй одну НОВУ вправу, якої немає в списку вище, з чіткою назвою та коротким описом техніки виконання.${retryNote}
 `.trim();
-
-  const result = await generateStructured<AiRawResponse>({
-    prompt,
-    schema: exerciseResponseSchema,
-  });
-
-  if (!result.success) {
-    return result;
-  }
-
-  return {
-    success: true,
-    data: toExercise(result.data.exercise),
-    summary: result.data.summary,
-  };
 }
 
 function toExercise(raw: AiRawResponse["exercise"]): Exercise {
