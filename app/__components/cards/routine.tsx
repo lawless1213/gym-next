@@ -122,7 +122,7 @@ export default function RoutineCard(routine: Routine) {
           {routine.editable && (
             <button
               onClick={(e) => {e.stopPropagation(); setIsEditable(!isEditable)}}
-              className="group shrink-0 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-secondary cursor-pointer border-2 border-transparent border-solid hover:border-primary transition-[0.2s]">
+              className="group shrink-0 flex h-10 w-10 items-center justify-center rounded-full bg-secondary cursor-pointer border-2 border-transparent border-solid hover:border-primary transition-[0.2s]">
               {isEditable ? <IconX className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-[0.2s]" /> : <IconMenu2 className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-[0.2s]" />}
             </button>
           )}

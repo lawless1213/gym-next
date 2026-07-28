@@ -1,225 +1,234 @@
 {
-	"app": {
-		"title": "GYM",
-		"subtitle": "Training app"
-	},
-	"components": {
-		"languages": {
-			"uk": "Ukrainian",
-			"en": "English"
-		},
-		"day": {
-			"default": {
-				"mon": "Monday",
-				"tue": "Tuesday",
-				"wed": "Wednesday",
-				"thu": "Thursday",
-				"fri": "Friday",
-				"sat": "Saturday",
-				"sun": "Sunday"
-			},
-			"short": {
-				"mon": "Mon",
-				"tue": "Tue",
-				"wed": "Wed",
-				"thu": "Thu",
-				"fri": "Fri",
-				"sat": "Sat",
-				"sun": "Sun"
-			}
-		},
-		"month": {
-			"default": {
-				"1": "January",
-				"2": "February",
-				"3": "March",
-				"4": "April",
-				"5": "May",
-				"6": "June",
-				"7": "July",
-				"8": "August",
-				"9": "September",
-				"10": "October",
-				"11": "November",
-				"12": "December"
-			},
-			"short": {
-				"1": "Jan",
-				"2": "Feb",
-				"3": "Mar",
-				"4": "Apr",
-				"5": "May",
-				"6": "Jun",
-				"7": "Jul",
-				"8": "Aug",
-				"9": "Sep",
-				"10": "Oct",
-				"11": "Nov",
-				"12": "Dec"
-			}
-		},
-		"measurement": {
-			"cm": "cm",
-			"kg": "kg"
-		},
-		"bottomNav": {
-			"home": "Home",
-			"library": "Library",
-			"history": "History",
-			"stats": "Stats"
-		},
-		"routineCard": {
-			"amount": "Number of exercises",
-			"emptyExercises" : "Exercises is empty"
-		},
-		"exerciseCard": {
-			"custom": "custom"
-		}
-	},
-	"HomePage": {
-		"header": {
-			"welcome": {
-				"auth": "welcome back",
-				"unauth": "welcome"
-			},
-			"user": "{user},",
-			"guest": "Guest"
-		},
-		"weeklyCalendar": {
-			"title": "Workout schedule"
-		},
-		"worcoutCard": {
-			"title": "Next workout",
-			"exercisesValue": "Number of exercises",
-			"startButton": "Start workout"
-		},
-		"banner": {
-			"dayStreak": "12-day streak",
-			"title": "Keep pushing your limits!",
-			"subtitle": "You're on track to beat your weekly goal.",
-			"volumeChange": "+15% volume compared to last week"
-		},
-		"quickStats": {
-			"workoutsLabel": "Workouts",
-			"thisMonth": "This month",
-			"volumeLabel": "Volume",
-			"kgLifted": "kg lifted",
-			"prsLabel": "PRs"
-		}
-	},
-	"Library": {
-		"title": "Knowledge base",
-		"subtitle": "Your exercises and routines",
-		"tabs": {
-			"exercises": "Exercises",
-			"routines": "Routines"
-		},
-		"exercises": {
-			"searchPlaceholder": "Search exercises...",
-			"createAriaLabel": "Create exercise",
-			"customBadge": "Custom"
-		},
-		"routines": {
-			"empty": "The list of routines is empty",
-			"not-auth": "Please sign in to create or edit routines",
-			"createAriaLabel": "Create routine"
-		}
-	},
-	"History": {
-		"title": "History",
-		"subtitle": "Your workout journey",
-		"summary": {
-			"exercises": "Number of exercises",
-			"textExercises": "this week",
-			"volume": "Volume",
-			"textVolume": "kg this week"
-		},
-		"list": {
-			"recentTitle": "Recent workouts",
-			"exercises": "exercises",
-			"kg": "kg",
-			"prSingle": "PR",
-			"prPlural": "PRs"
-		}
-	},
-	"stats": {
-		"title": "Stats",
-		"subtitle": "Track your progress",
-		"tabs": {
-			"progress": "Progress",
-			"records": "Records"
-		},
-		"progress": {
-			"createAriaLabel": "Add progress"
-		},
-		"measurements": {
-			"weight": "Weight",
-			"waist": "Waist",
-			"chest": "Chest",
-			"arms": "Arms",
-			"thighs": "Thighs"
-		},
-		"records": {
-			"title": "Personal records",
-			"allTime": "All-time stats",
-			"heaviestLift": "Heaviest lift",
-			"empty": "Empty data",
-			"amount": "Number of records",
-			"card": {
-				"new": "NEW",
-				"current": "Current",
-				"previous": "Previous",
-				"growth": "Growth"
-			}
-		}
-	},
-	"workout": {
-		"title": "Workout page"
-	},
-	"common": {
-		"notFound": "Not found"
-	},
-	"auth": {
-		"modal": {
-			"title": "Welcome to GYM",
-			"registerTab": "register",
-			"loginTab": "login",
-			"alreadyHaveAccount": "Already have an account? Log in",
-			"dontHaveAccount": "Don't have an account yet? Sign up"
-		},
-		"fields": {
-			"email": "Email",
-			"password": "Password"
-		},
-		"login": {
-			"submit": "Log in",
-			"submitting": "Logging in..."
-		},
-		"signup": {
-			"submit": "Sign up",
-			"submitting": "Signing up..."
-		},
-		"errors": {
-			"loginFailed": "Failed to log in. Please try again.",
-			"signupFailed": "Failed to sign up. Please try again."
-		}
-	},
-	"exercise": {
-		"modal": {
-			"videoUnsupported": "Your browser does not support the video tag.",
-			"title": "Exercise {name}",
-			"authorPrefix": "by",
-			"instruction": "Instruction:",
-			"notFound": "Exercise not found"
-		}
-	},
-	"ai": {
-		"modal": {
-			"tabs": {
-				"exercise": "Exercise",
-				"routine": "Routine",
-				"schedule": "Schedule"
-			}
-		}
-	}
+  "app": {
+    "title": "GYM",
+    "subtitle": "Training app"
+  },
+  "components": {
+    "languages": {
+      "uk": "Ukrainian",
+      "en": "English"
+    },
+    "day": {
+      "default": {
+        "mon": "Monday",
+        "tue": "Tuesday",
+        "wed": "Wednesday",
+        "thu": "Thursday",
+        "fri": "Friday",
+        "sat": "Saturday",
+        "sun": "Sunday"
+      },
+      "short": {
+        "mon": "Mon",
+        "tue": "Tue",
+        "wed": "Wed",
+        "thu": "Thu",
+        "fri": "Fri",
+        "sat": "Sat",
+        "sun": "Sun"
+      }
+    },
+    "month": {
+      "default": {
+        "1": "January",
+        "2": "February",
+        "3": "March",
+        "4": "April",
+        "5": "May",
+        "6": "June",
+        "7": "July",
+        "8": "August",
+        "9": "September",
+        "10": "October",
+        "11": "November",
+        "12": "December"
+      },
+      "short": {
+        "1": "Jan",
+        "2": "Feb",
+        "3": "Mar",
+        "4": "Apr",
+        "5": "May",
+        "6": "Jun",
+        "7": "Jul",
+        "8": "Aug",
+        "9": "Sep",
+        "10": "Oct",
+        "11": "Nov",
+        "12": "Dec"
+      }
+    },
+    "muscleGroups": {
+      "chest": "Chest",
+      "back": "Back",
+      "shoulders": "Shoulders",
+      "arms": "Arms",
+      "legs": "Legs",
+      "core": "Core",
+      "full-body": "Full body"
+    },
+    "measurement": {
+      "cm": "cm",
+      "kg": "kg"
+    },
+    "bottomNav": {
+      "home": "Home",
+      "library": "Library",
+      "history": "History",
+      "stats": "Stats"
+    },
+    "routineCard": {
+      "amount": "Number of exercises",
+      "emptyExercises": "Exercises is empty"
+    },
+    "exerciseCard": {
+      "custom": "custom"
+    }
+  },
+  "HomePage": {
+    "header": {
+      "welcome": {
+        "auth": "welcome back",
+        "unauth": "welcome"
+      },
+      "user": "{user},",
+      "guest": "Guest"
+    },
+    "weeklyCalendar": {
+      "title": "Workout schedule"
+    },
+    "worcoutCard": {
+      "title": "Next workout",
+      "exercisesValue": "Number of exercises",
+      "startButton": "Start workout"
+    },
+    "banner": {
+      "dayStreak": "12-day streak",
+      "title": "Keep pushing your limits!",
+      "subtitle": "You're on track to beat your weekly goal.",
+      "volumeChange": "+15% volume compared to last week"
+    },
+    "quickStats": {
+      "workoutsLabel": "Workouts",
+      "thisMonth": "This month",
+      "volumeLabel": "Volume",
+      "kgLifted": "kg lifted",
+      "prsLabel": "PRs"
+    }
+  },
+  "Library": {
+    "title": "Knowledge base",
+    "subtitle": "Your exercises and routines",
+    "tabs": {
+      "exercises": "Exercises",
+      "routines": "Routines"
+    },
+    "exercises": {
+      "searchPlaceholder": "Search exercises...",
+      "createAriaLabel": "Create exercise",
+      "customBadge": "Custom"
+    },
+    "routines": {
+      "empty": "The list of routines is empty",
+      "not-auth": "Please sign in to create or edit routines",
+      "createAriaLabel": "Create routine"
+    }
+  },
+  "History": {
+    "title": "History",
+    "subtitle": "Your workout journey",
+    "summary": {
+      "exercises": "Number of exercises",
+      "textExercises": "this week",
+      "volume": "Volume",
+      "textVolume": "kg this week"
+    },
+    "list": {
+      "recentTitle": "Recent workouts",
+      "exercises": "exercises",
+      "kg": "kg",
+      "prSingle": "PR",
+      "prPlural": "PRs"
+    }
+  },
+  "stats": {
+    "title": "Stats",
+    "subtitle": "Track your progress",
+    "tabs": {
+      "progress": "Progress",
+      "records": "Records"
+    },
+    "progress": {
+      "createAriaLabel": "Add progress"
+    },
+    "measurements": {
+      "weight": "Weight",
+      "waist": "Waist",
+      "chest": "Chest",
+      "arms": "Arms",
+      "thighs": "Thighs"
+    },
+    "records": {
+      "title": "Personal records",
+      "allTime": "All-time stats",
+      "heaviestLift": "Heaviest lift",
+      "empty": "Empty data",
+      "amount": "Number of records",
+      "card": {
+        "new": "NEW",
+        "current": "Current",
+        "previous": "Previous",
+        "growth": "Growth"
+      }
+    }
+  },
+  "workout": {
+    "title": "Workout page"
+  },
+  "common": {
+    "notFound": "Not found"
+  },
+  "auth": {
+    "modal": {
+      "title": "Welcome to GYM",
+      "registerTab": "register",
+      "loginTab": "login",
+      "alreadyHaveAccount": "Already have an account? Log in",
+      "dontHaveAccount": "Don't have an account yet? Sign up"
+    },
+    "fields": {
+      "email": "Email",
+      "password": "Password"
+    },
+    "login": {
+      "submit": "Log in",
+      "submitting": "Logging in..."
+    },
+    "signup": {
+      "submit": "Sign up",
+      "submitting": "Signing up..."
+    },
+    "errors": {
+      "loginFailed": "Failed to log in. Please try again.",
+      "signupFailed": "Failed to sign up. Please try again."
+    }
+  },
+  "exercise": {
+    "modal": {
+      "videoUnsupported": "Your browser does not support the video tag.",
+      "title": "Exercise {name}",
+      "authorPrefix": "by",
+      "instruction": "Instruction:",
+      "notFound": "Exercise not found"
+    }
+  },
+  "ai": {
+    "modal": {
+      "tabs": {
+        "exercise": "Exercise",
+        "routine": "Routine",
+        "schedule": "Schedule"
+      }
+    }
+  }
 }

@@ -62,6 +62,15 @@
 			"cm": "см",
 			"kg": "кг"
 		},
+		"muscleGroups": {
+      "chest": "Груди",
+      "back": "Спина",
+      "shoulders": "Плечі",
+      "arms": "Руки",
+      "legs": "Ноги",
+      "core": "Прес",
+      "full-body": "Все тіло"
+    },
 		"bottomNav": {
 			"home" : "Головна",
 			"library" : "Бібліотека",
