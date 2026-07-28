@@ -83,11 +83,11 @@ export default function RoutineCard(routine: Routine) {
         className="relative "
         {...handlers}>
         <motion.div
-          className="bg-card p-4 flex gap-2 w-full items-center justify-between"
+          className="bg-card p-4 flex gap-2 w-full items-center"
           
           animate={{ x: routine.editable && isEditable ? -80 : 0 }}
           transition={{ type: "spring", stiffness: 300, damping: 30 }}>
-          <div>
+          <div className="mr-auto">
             <h3 className="font-semibold text-foreground">{routine.name}</h3>
             <p className="text-sm text-muted-foreground">
               {t("amount")}: {routine.exercises.length}
@@ -108,13 +108,13 @@ export default function RoutineCard(routine: Routine) {
           {routine.available && !routine.completed && (
             <button
               onClick={() => open("workout", routine)}
-              className="group flex h-10 w-10 items-center justify-center rounded-full bg-secondary cursor-pointer border-2 border-transparent border-solid hover:border-primary transition-[0.2s]">
+              className="group shrink-0 flex h-10 w-10 items-center justify-center rounded-full bg-secondary cursor-pointer border-2 border-transparent border-solid hover:border-primary transition-[0.2s]">
               <IconPlayerPlay className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-[0.2s]" />
             </button>
           )}
 
           {routine.completed && (
-            <div className="px-2">
+            <div className="px-2 shrink-0">
               <IconChecks className="h-5 w-5 text-primary" />
             </div>
           )}
@@ -122,7 +122,7 @@ export default function RoutineCard(routine: Routine) {
           {routine.editable && (
             <button
               onClick={(e) => {e.stopPropagation(); setIsEditable(!isEditable)}}
-              className="group flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-secondary cursor-pointer border-2 border-transparent border-solid hover:border-primary transition-[0.2s]">
+              className="group shrink-0 flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-secondary cursor-pointer border-2 border-transparent border-solid hover:border-primary transition-[0.2s]">
               {isEditable ? <IconX className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-[0.2s]" /> : <IconMenu2 className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-[0.2s]" />}
             </button>
           )}
