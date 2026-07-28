@@ -18,6 +18,7 @@ export interface ExerciseCardProps {
   disabled?: boolean;
   showCustomBadge?: boolean;
   as?: "div" | "button";
+  additionalBadge?: string;
 }
 
 export function ExerciseCard({
@@ -27,6 +28,7 @@ export function ExerciseCard({
   onClick,
   disabled = false,
   showCustomBadge = true,
+  additionalBadge,
   as,
 }: ExerciseCardProps) {
   const t = useTranslations("components.exerciseCard");
@@ -66,6 +68,11 @@ export function ExerciseCard({
           {showCustomBadge && exercise.isCustom && (
             <span className="shrink-0 rounded-md bg-primary/20 px-1.5 py-0.5 text-[10px] font-semibold uppercase text-primary">
               {t("custom")}
+            </span>
+          )}
+          {additionalBadge && (
+            <span className="shrink-0 rounded-md bg-foreground/20 px-1.5 py-0.5 text-[10px] font-semibold uppercase text-foreground">
+              {t("preview")}
             </span>
           )}
         </div>

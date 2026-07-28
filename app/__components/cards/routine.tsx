@@ -18,6 +18,7 @@ export default function RoutineCard(routine: Routine) {
   const { user } = useAuth();
   const queryClient = useQueryClient();
   const [isEditable, setIsEditable] = useState(false);
+  
 
   const handlers = useSwipeable(
     routine.editable
@@ -155,7 +156,7 @@ export default function RoutineCard(routine: Routine) {
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.25, ease: "easeInOut" }}>
             {routine.exercises.map((exercise, exerciseIndex) => (
-              <ExerciseCard exercise={exercise} />
+              <ExerciseCard key={exercise.id} exercise={exercise} additionalBadge={exercise.id?.startsWith("temp-") ? "PREVIEW" : undefined}/>
             ))}
           </motion.div>
         )}

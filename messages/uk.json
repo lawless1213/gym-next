@@ -82,7 +82,8 @@
 			"emptyExercises" : "Вправи відсутні"
 		},
 		"exerciseCard": {
-			"custom": "Власна"
+			"custom": "Власна",
+			"preview": "Превʼю"
 		}
 	},
   "HomePage": {

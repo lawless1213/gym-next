@@ -2,24 +2,20 @@
 
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { number, z } from "zod";
+import { z } from "zod";
 import { Button } from "@/app/__components/buttons/button";
-import { AUTH_ERRORS } from "@/app/lib/errors/auth";
 import { useModal } from "@/app/lib/modal/modal-store";
-import { IconBarbell, IconCheck, IconUpload } from "@tabler/icons-react";
-import { useState } from "react";
 import { toast } from "sonner";
-import { createUserExercise } from "@/app/lib/actions/exercise";
 import { useAuth } from "@/app/hooks/useAuth";
 import { useQueryClient } from "@tanstack/react-query";
 import { DIFFICULTY, EQUIPMENT_GROUPS, GOALS, MUSCLE_GROUPS } from "@/app/data/exercise";
-import { Label } from "@/app/__components/form/label";
 import { TextArea } from "@/app/__components/form/textarea";
 import { Input } from "@/app/__components/form/input";
 import { ChipGroup } from "@/app/__components/form/chipGroup";
 import { Select } from "@/app/__components/form/select";
 import { generateAiRoutine } from "@/app/lib/actions/gemini/routine";
 import RoutineCard from "@/app/__components/cards/routine";
+import { createAiUserRoutine, createUserRoutine } from "@/app/lib/actions/routine";
 
 const routineSchema = z.object({
   comment: z.string().optional(),
@@ -71,40 +67,49 @@ export function AiRoutineContent() {
     { name: "equipment", placeholder: "Оберіть Equipment", options: EQUIPMENT_GROUPS },
   ] as const;
 
-  const onSubmit = async (data: RoutineAIFormData) => {
+  const onSubmit = async (formData: any) => {
     try {
-      if (!user) throw new Error("Not authenticated");
-      const result = await generateAiRoutine(data);
+      if (!user) throw new Error("Користувач не авторизований");
 
-      console.log(result);
+      const result = await generateAiRoutine({
+        ...formData,
+        userId: user.uid,
+      });
 
-      if (result.success) {
-        const ok = await confirm({
-          title: result.data.name,
-          description: result.summary,
-          children: <RoutineCard {...result.data} />,
-          cancelLabel: "Редагувати запит",
-          confirmLabel: "Додати до бібліотеки",
-        });
-
-        if (ok) {
-          // await createUserExercise(user.uid, {
-          //   title: result.data.name,
-          //   groups: [result.data.muscleGroup], // або split, якщо там кілька через кому
-          //   description: result.data.description,
-          // });
-          // queryClient.invalidateQueries({ queryKey: ["exercises", user.uid] });
-          // toast.success("Вправу успішно додано до бази!");
-          close();
-        }
+      if (!result.success) {
+        toast.error(result.error);
+        return;
       }
 
-      // await createUserExercise(user.uid, data);
-      // queryClient.invalidateQueries({ queryKey: ["exercises", user.uid] });
-      // toast.success("Вправу успішно створено!");
-      close();
-    } catch (err: any) {
-      console.log(err);
+      const ok = await confirm({
+        title: result.data.name,
+        description: result.summary,
+        children: (
+          <RoutineCard
+            id="preview"
+            {...result.data}
+          />
+        ),
+        cancelLabel: "Редагувати запит",
+        confirmLabel: "Додати до бібліотеки",
+      });
+
+      if (ok) {
+        await createAiUserRoutine(user.uid, {
+          title: result.data.name,
+          color: result.data.color,
+          exercises: result.data.exercises,
+        });
+      
+        queryClient.invalidateQueries({ queryKey: ["routines", user.uid] });
+        queryClient.invalidateQueries({ queryKey: ["exercises", user.uid] });
+      
+        toast.success("Рутину та нові вправи успішно додано!");
+        close();
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Сталася помилка при створенні рутини.");
     }
   };
 
@@ -113,7 +118,6 @@ export function AiRoutineContent() {
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-1 flex-col static">
       <div className="flex-1 space-y-6 mb-10">
-
         {selectFields.map(({ name, placeholder, options }) => (
           <Controller
             key={name}

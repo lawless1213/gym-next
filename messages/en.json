@@ -82,7 +82,8 @@
       "emptyExercises": "Exercises is empty"
     },
     "exerciseCard": {
-      "custom": "custom"
+      "custom": "custom",
+			"preview": "preview"
     }
   },
   "HomePage": {

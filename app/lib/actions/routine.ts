@@ -1,6 +1,65 @@
 import { db } from "@/app/lib/firebaseConfig";
-import { RoutinesExercise } from "@/app/types";
+import { Exercise, RoutinesExercise } from "@/app/types";
 import { collection, addDoc, serverTimestamp, doc, writeBatch, DocumentReference, getDoc, updateDoc} from "firebase/firestore";
+
+export async function createAiUserRoutine(
+  userId: string,
+  data: {
+    title: string;
+    color: string;
+    exercises: Exercise[];
+  }
+) {
+  const batch = writeBatch(db);
+  const finalExercises: RoutinesExercise[] = [];
+
+  for (const ex of data.exercises) {
+    if (ex.id.startsWith("temp-")) {
+      const newExerciseRef = doc(collection(db, "users", userId, "exercises"));
+
+      batch.set(newExerciseRef, {
+        name: ex.name,
+        muscleGroup: ex.muscleGroup,
+        description: ex.description ?? "",
+        imageUrl: null,
+        createdAt: serverTimestamp(),
+      });
+
+      finalExercises.push({
+        exerciseId: newExerciseRef.id,
+        name: ex.name,
+        muscleGroup: ex.muscleGroup,
+        isCustom: true,
+      });
+    } else {
+      finalExercises.push({
+        exerciseId: ex.id,
+        name: ex.name,
+        muscleGroup: ex.muscleGroup,
+        isCustom: ex.isCustom,
+      });
+    }
+  }
+
+  const newRoutineRef = doc(collection(db, "users", userId, "routines"));
+
+  const exerciseRefs = finalExercises.map((exercise) =>
+    exercise.isCustom
+      ? doc(db, "users", userId, "exercises", exercise.exerciseId)
+      : doc(db, "exercises", exercise.exerciseId)
+  );
+
+  batch.set(newRoutineRef, {
+    name: data.title,
+    color: data.color,
+    exercises: exerciseRefs,
+    createdAt: serverTimestamp(),
+  });
+
+  await batch.commit();
+
+  return { id: newRoutineRef.id };
+}
 
 export async function createUserRoutine(
   userId: string,

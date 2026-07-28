@@ -70,7 +70,7 @@ export function AiExerciseContent() {
     try {
       if (!user) throw new Error("Not authenticated");
 
-      const result = await generateAiExercise(data);
+      const result = await generateAiExercise({ ...data, userId: user.uid });
 
       if (result.success) {
         const ok = await confirm({
@@ -93,7 +93,6 @@ export function AiExerciseContent() {
         }
       }
 
-      close();
     } catch (err: any) {
       console.log(err);
     }
