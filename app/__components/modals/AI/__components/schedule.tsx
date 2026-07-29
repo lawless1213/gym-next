@@ -24,6 +24,7 @@ import { WeeklyCalendar } from "@/app/__components/weeklyCalendar";
 import { useTypewriter } from "@/app/hooks/useTypewriter";
 import { TypewriterText } from "@/app/__components/common/TypewritterText";
 import { createAiUserSchedule } from "@/app/lib/actions/shedule";
+import { useTranslations } from "next-intl";
 
 const scheduleSchema = z.object({
   comment: z.string().optional(),
@@ -47,6 +48,8 @@ const scheduleSchema = z.object({
 type ScheduleFormData = z.infer<typeof scheduleSchema>;
 
 export function AiScheduleContent() {
+  const tComponents = useTranslations("components");
+
   const { close, confirm } = useModal();
   const { user } = useAuth();
   const queryClient = useQueryClient();
@@ -69,15 +72,15 @@ export function AiScheduleContent() {
   const { ref: dayPerWeekRef, ...dayPerWeekRest } = register("dayPerWeek");
 
   const selectFields = [
-    { name: "goal", placeholder: "Оберіть ціль", options: GOALS },
-    { name: "difficulty", placeholder: "Оберіть рівень", options: DIFFICULTY },
-    { name: "equipment", placeholder: "Оберіть Equipment", options: EQUIPMENT_GROUPS },
-    { name: "splitType", placeholder: "Оберіть тип тренування", options: SPLIT_TYPES },
+    { name: "goal", placeholder: "Оберіть ціль", options: GOALS, key: "goals" },
+    { name: "difficulty", placeholder: "Оберіть рівень", options: DIFFICULTY, key: "difficulty" },
+    { name: "equipment", placeholder: "Оберіть Equipment", options: EQUIPMENT_GROUPS, key: "equipmentGroups" },
+    { name: "splitType", placeholder: "Оберіть тип тренування", options: SPLIT_TYPES, key: "splitTypes" },
   ] as const;
 
   const chipFields = [
-    { id: "groups", name: "groups", label: "Muscle groups", items: MUSCLE_GROUPS },
-    { id: "preferredRestDays", name: "preferredRestDays", label: "Дні відпочинку", items: weekDays },
+    { id: "groups", name: "groups", label: "Muscle groups", items: MUSCLE_GROUPS, key: "muscleGroups"},
+    { id: "preferredRestDays", name: "preferredRestDays", label: "Дні відпочинку", items: weekDays, key: "day.default" },
   ] as const;
 
   const onSubmit = async (formData: ScheduleFormData) => {
@@ -125,7 +128,7 @@ export function AiScheduleContent() {
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-1 flex-col static">
       <div className="flex-1 space-y-6 mb-10">
-        {selectFields.map(({ name, placeholder, options }) => (
+        {selectFields.map(({ name, placeholder, options, key }) => (
           <Controller
             key={name}
             name={name}
@@ -139,14 +142,14 @@ export function AiScheduleContent() {
                   value: field.value,
                   onChange: (value) => field.onChange(value),
                   error: errors[name]?.message,
-                  options: options.map((opt) => ({ value: opt, label: opt })),
+                  options: options.map((opt) => ({ value: opt, label: tComponents(`${key}.${opt}`) })),
                 }}
               />
             )}
           />
         ))}
 
-        {chipFields.map(({ name, label, items }) => (
+        {chipFields.map(({ name, label, items, key }) => (
           <div key={name}>
             <Label label={{ text: label, for: name }} />
             <Controller
@@ -157,6 +160,7 @@ export function AiScheduleContent() {
                   items={items}
                   value={field.value ?? []}
                   onChange={field.onChange}
+                  formatLabel={(item) => tComponents(`${key}.${item}`)}
                   error={errors[name]?.message}
                 />
               )}

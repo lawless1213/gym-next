@@ -11,16 +11,6 @@ import { AiScheduleContent } from "./__components/schedule";
 
 type AiTab = "exercise" | "routine" | "schedule";
 
-
-interface WorkoutGenerationParams {
-  goal: "muscle-gain" | "fat-loss" | "strength" | "endurance";
-  level: "beginner" | "intermediate" | "advanced";
-  daysPerWeek: number;
-  equipment: "gym" | "home-dumbbells" | "bodyweight-only";
-  focusAreas?: string[];
-}
-
-
 export function AiModal() {
   const t = useTranslations("ai.modal");
 	const [activeTab, setActiveTab] = useState<AiTab>("exercise");
@@ -53,7 +43,7 @@ export function AiModal() {
     <ModalWrapper
       modalType="ai"
 			// size="large"
-      title={"AI генерація"}>
+      title={t("title")}>
       <div className="flex flex-col gap-4">
 				<Tabs
           items={tabItems}

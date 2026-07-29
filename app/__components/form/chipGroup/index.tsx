@@ -7,6 +7,7 @@ export function ChipGroup<T extends string>({
   onChange,
   error,
   id,
+  formatLabel,
 }: {
   items: readonly T[];
   value: T[];
@@ -14,6 +15,7 @@ export function ChipGroup<T extends string>({
   error?: string;
   label?: string;
   id?: string;
+  formatLabel?: (item: T) => string;
 }) {
   return (
     <div className="space-y-1.5">
@@ -33,7 +35,7 @@ export function ChipGroup<T extends string>({
               className={`cursor-pointer flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium transition-all ${
                 checked ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground hover:text-foreground"
               }`}>
-              {item}
+              {formatLabel ? formatLabel(item) : item}
             </button>
           );
         })}

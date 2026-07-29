@@ -1,246 +1,275 @@
 {
-	"app": {
-		"title": "GYM",
-		"subtitle": "Додаток для тренувань"
-	},
-	"components": {
-		"languages": {
-			"uk": "Українська",
-			"en": "Англійська"
-		},
-		"day": {
-			"default": {
-				"mon": "Понеділок",
-				"tue": "Вівторок",
-				"wed": "Середа",
-				"thu": "Четвер",
-				"fri": "Пʼятниця",
-				"sat": "Saturday",
-				"sun": "Sunday"
-			},
-			"short": {
-				"mon": "Пн",
-				"tue": "Вт",
-				"wed": "Ср",
-				"thu": "Чт",
-				"fri": "Пт",
-				"sat": "Сб",
-				"sun": "Нд"
-			}
-		},
-		"month": {
-			"default": {
-				"1": "Січень",
-				"2": "Лютий",
-				"3": "Березень",
-				"4": "Квітень",
-				"5": "Травень",
-				"6": "Червень",
-				"7": "Липень",
-				"8": "Серпень",
-				"9": "Вересень",
-				"10": "Жовтень",
-				"11": "Листопад",
-				"12": "Грудень"
-			},
-			"short": {
-				"1": "Січ",
-				"2": "Лют",
-				"3": "Бер",
-				"4": "Квіт",
-				"5": "Трав",
-				"6": "Чер",
-				"7": "Лип",
-				"8": "Сер",
-				"9": "Вер",
-				"10": "Жов",
-				"11": "Лис",
-				"12": "Гру"
-			}
-		},
-		"measurement": {
-			"cm": "см",
-			"kg": "кг"
-		},
-		"muscleGroups": {
+  "app": {
+    "title": "GYM",
+    "subtitle": "Додаток для тренувань"
+  },
+  "components": {
+    "languages": {
+      "uk": "Українська",
+      "en": "Англійська"
+    },
+    "day": {
+      "default": {
+        "mon": "Понеділок",
+        "tue": "Вівторок",
+        "wed": "Середа",
+        "thu": "Четвер",
+        "fri": "Пʼятниця",
+        "sat": "Saturday",
+        "sun": "Sunday"
+      },
+      "short": {
+        "mon": "Пн",
+        "tue": "Вт",
+        "wed": "Ср",
+        "thu": "Чт",
+        "fri": "Пт",
+        "sat": "Сб",
+        "sun": "Нд"
+      }
+    },
+    "month": {
+      "default": {
+        "1": "Січень",
+        "2": "Лютий",
+        "3": "Березень",
+        "4": "Квітень",
+        "5": "Травень",
+        "6": "Червень",
+        "7": "Липень",
+        "8": "Серпень",
+        "9": "Вересень",
+        "10": "Жовтень",
+        "11": "Листопад",
+        "12": "Грудень"
+      },
+      "short": {
+        "1": "Січ",
+        "2": "Лют",
+        "3": "Бер",
+        "4": "Квіт",
+        "5": "Трав",
+        "6": "Чер",
+        "7": "Лип",
+        "8": "Сер",
+        "9": "Вер",
+        "10": "Жов",
+        "11": "Лис",
+        "12": "Гру"
+      }
+    },
+    "measurement": {
+      "cm": "см",
+      "kg": "кг"
+    },
+    "difficulty": {
+      "beginner": "Початківець",
+      "intermediate": "Середній рівень",
+      "advanced": "Просунутий"
+    },
+    "equipmentGroups": {
+      "gym": "Тренажерний зал",
+      "home-dumbbells": "Гантелі вдома",
+      "bodyweight-only": "Тільки власна вага"
+    },
+    "muscleGroups": {
       "chest": "Груди",
       "back": "Спина",
       "shoulders": "Плечі",
       "arms": "Руки",
       "legs": "Ноги",
-      "core": "Прес",
+      "core": "Кор / Прес",
       "full-body": "Все тіло"
     },
-		"bottomNav": {
-			"home" : "Головна",
-			"library" : "Бібліотека",
-			"history" : "Історія",
-			"stats" : "Статистика"
-		},
-		"routineCard": {
-			"amount": "Кіл-сть вправ",
-			"emptyExercises" : "Вправи відсутні"
-		},
-		"exerciseCard": {
-			"custom": "Власна",
-			"preview": "Превʼю"
-		}
-	},
+    "goals": {
+      "strength": "Сила",
+      "hypertrophy": "Гіпертрофія (набір маси)",
+      "endurance": "Витривалість",
+      "mobility": "Мобільність"
+    },
+    "splitTypes": {
+      "full_body": "Фулбоді (все тіло)",
+      "upper_lower": "Верх / Ниж",
+      "ppl": "Push / Pull / Legs (Жим / Тяга / Ноги)",
+      "bro_split": "Бро-спліт",
+      "custom": "Свій варіант"
+    },
+    "bottomNav": {
+      "home": "Головна",
+      "library": "Бібліотека",
+      "history": "Історія",
+      "stats": "Статистика"
+    },
+    "routineCard": {
+      "amount": "Кіл-сть вправ",
+      "emptyExercises": "Вправи відсутні"
+    },
+    "exerciseCard": {
+      "custom": "Власна",
+      "preview": "Превʼю"
+    }
+  },
   "HomePage": {
     "header": {
-			"welcome": {
-				"auth": "з поверненням",
-				"unauth": "вітаємо"
-			},
-			"user": "{user},",
-			"guest": "Гість"
-		},
-		"weeklyCalendar": {
-			"title": "Графік тренувань"
-		},
-		"worcoutCard": {
-			"title": "Наступне тренування",
-			"exercisesValue": "Кіл-сть вправ",
-			"startButton": "Почати тренування"
-		},
+      "welcome": {
+        "auth": "з поверненням",
+        "unauth": "вітаємо"
+      },
+      "user": "{user},",
+      "guest": "Гість"
+    },
+    "weeklyCalendar": {
+      "title": "Графік тренувань"
+    },
+    "worcoutCard": {
+      "title": "Наступне тренування",
+      "exercisesValue": "Кіл-сть вправ",
+      "startButton": "Почати тренування"
+    },
 
+    "banner": {
+      "dayStreak": "12 днів поспіль",
+      "title": "Продовжуй рухатися до межі!",
+      "subtitle": "Ти на шляху до перевиконання тижневої цілі.",
+      "volumeChange": "+15% обʼєму порівняно з минулим тижнем"
+    },
+    "quickStats": {
+      "workoutsLabel": "Тренування",
+      "thisMonth": "Цього місяця",
+      "volumeLabel": "Обʼєм",
+      "kgLifted": "кг піднято",
+      "prsLabel": "PR"
+    }
+  },
 
-		"banner": {
-			"dayStreak": "12 днів поспіль",
-			"title": "Продовжуй рухатися до межі!",
-			"subtitle": "Ти на шляху до перевиконання тижневої цілі.",
-			"volumeChange": "+15% обʼєму порівняно з минулим тижнем"
-		},
-		"quickStats": {
-			"workoutsLabel": "Тренування",
-			"thisMonth": "Цього місяця",
-			"volumeLabel": "Обʼєм",
-			"kgLifted": "кг піднято",
-			"prsLabel": "PR"
-		}
-	},
+  "Library": {
+    "title": "База знань",
+    "subtitle": "Твої вправи та програми",
+    "tabs": {
+      "exercises": "Вправи",
+      "routines": "Програми"
+    },
+    "exercises": {
+      "searchPlaceholder": "Пошук вправ...",
+      "createAriaLabel": "Створити вправу",
+      "customBadge": "Власна"
+    },
+    "routines": {
+      "empty": "Список програм порожній",
+      "not-auth": "Для створення чи редагування програм авторизуйтесь",
+      "createAriaLabel": "Створити програму"
+    }
+  },
 
+  "History": {
+    "title": "Історія",
+    "subtitle": "Твій шлях тренувань",
+    "summary": {
+      "exercises": "Кіл-сть вправ",
+      "textExercises": "за цей тиждень",
+      "volume": "Обʼєм",
+      "textVolume": "кг цього тижня"
+    },
+    "list": {
+      "recentTitle": "Останні тренування",
+      "exercises": "вправ",
+      "kg": "кг"
+    }
+  },
 
-	"Library": {
-		"title": "База знань",
-		"subtitle": "Твої вправи та програми",
-		"tabs": {
-			"exercises": "Вправи",
-			"routines": "Програми"
-		},
-		"exercises": {
-			"searchPlaceholder": "Пошук вправ...",
-			"createAriaLabel": "Створити вправу",
-			"customBadge": "Власна"
-		},
-		"routines": {
-			"empty": "Список програм порожній",
-			"not-auth": "Для створення чи редагування програм авторизуйтесь",
-			"createAriaLabel": "Створити програму"
-		}
-	},
+  "stats": {
+    "title": "Статистика",
+    "subtitle": "Відстежуй свій прогрес",
+    "tabs": {
+      "progress": "Прогрес",
+      "records": "Рекорди"
+    },
+    "progress": {
+      "createAriaLabel": "Додати прогрес"
+    },
+    "measurements": {
+      "weight": "Вага",
+      "waist": "Талія",
+      "chest": "Груди",
+      "arms": "Руки",
+      "thighs": "Стегна"
+    },
+    "records": {
+      "title": "Особисті рекорди",
+      "empty": "Поки немає даних",
+      "allTime": "Статистика за весь час",
+      "amount": "Кіл-сть рекордів",
+      "heaviestLift": "Найважчий підхід",
+      "card": {
+        "new": "Новий",
+        "current": "Поточний",
+        "previous": "Попередній",
+        "growth": "Приріст"
+      }
+    }
+  },
 
+  "workout": {
+    "title": "Сторінка тренування"
+  },
 
+  "common": {
+    "notFound": "Не знайдено"
+  },
 
-	
-	"History": {
-		"title": "Історія",
-		"subtitle": "Твій шлях тренувань",
-		"summary": {
-			"exercises": "Кіл-сть вправ",
-			"textExercises": "за цей тиждень",
-			"volume": "Обʼєм",
-			"textVolume": "кг цього тижня"
-		},
-		"list": {
-			"recentTitle": "Останні тренування",
-			"exercises": "вправ",
-			"kg": "кг"
-		}
-	},
-
-	"stats": {
-		"title": "Статистика",
-		"subtitle": "Відстежуй свій прогрес",
-		"tabs": {
-			"progress": "Прогрес",
-			"records": "Рекорди"
-		},
-		"progress": {
-			"createAriaLabel": "Додати прогрес"
-		},
-		"measurements": {
-			"weight": "Вага",
-			"waist": "Талія",
-			"chest": "Груди",
-			"arms": "Руки",
-			"thighs": "Стегна"
-		},
-		"records": {
-			"title": "Особисті рекорди",
-			"empty": "Поки немає даних",
-			"allTime": "Статистика за весь час",
-			"amount": "Кіл-сть рекордів",
-			"heaviestLift": "Найважчий підхід",
-			"card": {
-				"new": "Новий",
-				"current": "Поточний",
-				"previous": "Попередній",
-				"growth": "Приріст"
-			}
-		}
-	},
-
-	"workout": {
-		"title": "Сторінка тренування"
-	},
-
-	"common": {
-		"notFound": "Не знайдено"
-	},
-
-	"auth": {
-		"modal": {
-			"title": "Ласкаво просимо до GYM",
-			"registerTab": "реєстрація",
-			"loginTab": "вхід",
-			"alreadyHaveAccount": "Вже маєш акаунт? Увійти",
-			"dontHaveAccount": "Ще не маєш акаунта? Зареєструватися"
-		},
-		"fields": {
-			"email": "Електронна пошта",
-			"password": "Пароль"
-		},
-		"login": {
-			"submit": "Увійти",
-			"submitting": "Вхід..."
-		},
-		"signup": {
-			"submit": "Зареєструватися",
-			"submitting": "Реєстрація..."
-		},
-		"errors": {
-			"loginFailed": "Не вдалось увійти. Спробуйте ще раз.",
-			"signupFailed": "Не вдалось зареєструватися. Спробуйте ще раз."
-		}
-	},
-	"exercise": {
-		"modal": {
-			"videoUnsupported": "Ваш браузер не підтримує тег відео.",
-			"title": "Вправа {name}",
-			"authorPrefix": "від",
-			"instruction": "Інструкція:",
-			"notFound": "Вправу не знайдено"
-		}
-	},
-	"ai": {
-		"modal": {
-			"tabs": {
-				"exercise": "Вправа",
-				"routine": "Програма",
-				"schedule": "Графік"
-			}
-		}
-	}
-
+  "auth": {
+    "modal": {
+      "title": "Ласкаво просимо до GYM",
+      "registerTab": "реєстрація",
+      "loginTab": "вхід",
+      "alreadyHaveAccount": "Вже маєш акаунт? Увійти",
+      "dontHaveAccount": "Ще не маєш акаунта? Зареєструватися"
+    },
+    "fields": {
+      "email": "Електронна пошта",
+      "password": "Пароль"
+    },
+    "login": {
+      "submit": "Увійти",
+      "submitting": "Вхід..."
+    },
+    "signup": {
+      "submit": "Зареєструватися",
+      "submitting": "Реєстрація..."
+    },
+    "errors": {
+      "loginFailed": "Не вдалось увійти. Спробуйте ще раз.",
+      "signupFailed": "Не вдалось зареєструватися. Спробуйте ще раз."
+    }
+  },
+  "exercise": {
+    "modal": {
+      "videoUnsupported": "Ваш браузер не підтримує тег відео.",
+      "title": "Вправа {name}",
+      "authorPrefix": "від",
+      "instruction": "Інструкція:",
+      "notFound": "Вправу не знайдено"
+    }
+  },
+  "ai": {
+    "modal": {
+      "title": "AI генерація",
+      "tabs": {
+        "exercise": "Вправа",
+        "routine": "Програма",
+        "schedule": "Графік"
+      },
+      "fields": {
+        "goal": "Ціль",
+        "difficulty": "Рівень складності",
+        "equipment": "Обладнання",
+        "muscleGroups": "Групи м'язів",
+        "additionalComment": "Додатковий коментар",
+        "duration": "Тривалість (хвилин)",
+        "exerciseCount": "Кількість вправ",
+        "daysCount": "Кількість днів на тиждень",
+        "restDays": "Дні відпочинку"
+      }
+    }
+  }
 }

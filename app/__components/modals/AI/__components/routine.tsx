@@ -16,6 +16,7 @@ import { Select } from "@/app/__components/form/select";
 import { generateAiRoutine } from "@/app/lib/actions/gemini/routine";
 import RoutineCard from "@/app/__components/cards/routine";
 import { createAiUserRoutine, createUserRoutine } from "@/app/lib/actions/routine";
+import { useTranslations } from "next-intl";
 
 const routineSchema = z.object({
   comment: z.string().optional(),
@@ -36,6 +37,7 @@ const routineSchema = z.object({
 type RoutineAIFormData = z.infer<typeof routineSchema>;
 
 export function AiRoutineContent() {
+  const tComponents = useTranslations("components");
   const { close, confirm } = useModal();
   const { user } = useAuth();
   const queryClient = useQueryClient();
@@ -62,9 +64,9 @@ export function AiRoutineContent() {
   const { ref: countRef, ...countRest } = register("count");
 
   const selectFields = [
-    { name: "goal", placeholder: "Оберіть ціль", options: GOALS },
-    { name: "difficulty", placeholder: "Оберіть рівень", options: DIFFICULTY },
-    { name: "equipment", placeholder: "Оберіть Equipment", options: EQUIPMENT_GROUPS },
+    { name: "goal", placeholder: "Оберіть ціль", options: GOALS, key: "goals" },
+    { name: "difficulty", placeholder: "Оберіть рівень", options: DIFFICULTY, key: "difficulty" },
+    { name: "equipment", placeholder: "Оберіть Equipment", options: EQUIPMENT_GROUPS, key: "equipmentGroups" },
   ] as const;
 
   const onSubmit = async (formData: any) => {
@@ -118,7 +120,7 @@ export function AiRoutineContent() {
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-1 flex-col static">
       <div className="flex-1 space-y-6 mb-10">
-        {selectFields.map(({ name, placeholder, options }) => (
+        {selectFields.map(({ name, placeholder, options, key }) => (
           <Controller
             key={name}
             name={name}
@@ -132,7 +134,7 @@ export function AiRoutineContent() {
                   value: field.value,
                   onChange: (value) => field.onChange(value),
                   error: errors[name]?.message,
-                  options: options.map((opt) => ({ value: opt, label: opt })),
+                  options: options.map((opt) => ({ value: opt, label: tComponents(`${key}.${opt}`) })),
                 }}
               />
             )}
@@ -149,6 +151,7 @@ export function AiRoutineContent() {
               onChange={field.onChange}
               id="groups"
               label="Muscle groups"
+              formatLabel={(item) => tComponents('muscleGroups.' + item)}
               error={errors.groups?.message}
             />
           )}

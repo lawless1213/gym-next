@@ -58,6 +58,16 @@
         "12": "Dec"
       }
     },
+    "difficulty": {
+      "beginner": "Beginner",
+      "intermediate": "Intermediate",
+      "advanced": "Advanced"
+    },
+    "equipmentGroups": {
+      "gym": "Gym",
+      "home-dumbbells": "Home dumbbells",
+      "bodyweight-only": "Bodyweight only"
+    },
     "muscleGroups": {
       "chest": "Chest",
       "back": "Back",
@@ -66,6 +76,19 @@
       "legs": "Legs",
       "core": "Core",
       "full-body": "Full body"
+    },
+    "goals": {
+      "strength": "Strength",
+      "hypertrophy": "Hypertrophy",
+      "endurance": "Endurance",
+      "mobility": "Mobility"
+    },
+    "splitTypes": {
+      "full_body": "Full body",
+      "upper_lower": "Upper / Lower",
+      "ppl": "Push / Pull / Legs",
+      "bro_split": "Bro split",
+      "custom": "Custom"
     },
     "measurement": {
       "cm": "cm",
@@ -83,7 +106,7 @@
     },
     "exerciseCard": {
       "custom": "custom",
-			"preview": "preview"
+      "preview": "preview"
     }
   },
   "HomePage": {
@@ -225,10 +248,22 @@
   },
   "ai": {
     "modal": {
+      "title": "AI Generation",
       "tabs": {
         "exercise": "Exercise",
         "routine": "Routine",
         "schedule": "Schedule"
+      },
+      "fields": {
+        "goal": "Goal",
+        "difficulty": "Difficulty level",
+        "equipment": "Equipment",
+        "muscleGroups": "Muscle groups",
+        "additionalComment": "Additional comment",
+        "duration": "Duration (minutes)",
+        "exerciseCount": "Exercise count",
+        "daysCount": "Days per week",
+        "restDays": "Rest days"
       }
     }
   }

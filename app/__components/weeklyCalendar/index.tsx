@@ -122,7 +122,7 @@ export function WeeklyCalendar({ schedule }: WeeklyCalendarProps = {}) {
                   key={routine.id}
                   {...routine}
                   available={!isPreview && openCardIndex === todayIndex}
-                  editable={!isPreview}
+                  editable={false}
                 />
               ))}
               {!isPreview && (

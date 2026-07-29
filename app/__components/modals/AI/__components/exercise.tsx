@@ -19,6 +19,7 @@ import { Select } from "@/app/__components/form/select";
 import { ChipGroup } from "@/app/__components/form/chipGroup";
 import { generateAiExercise } from "@/app/lib/actions/gemini/exercise";
 import { ExerciseCard } from "@/app/__components/exerciseList";
+import { useTranslations } from "next-intl";
 
 const exerciseSchema = z.object({
   comment: z.string(),
@@ -37,6 +38,7 @@ const exerciseSchema = z.object({
 type ExerciseAIFormData = z.infer<typeof exerciseSchema>;
 
 export function AiExerciseContent() {
+  const tComponents = useTranslations("components");
   const { close, confirm } = useModal();
   const { user } = useAuth();
   const queryClient = useQueryClient();
@@ -61,9 +63,9 @@ export function AiExerciseContent() {
   const { ref: commentRef, ...commentRest } = register("comment");
 
   const selectFields = [
-    { name: "goal", placeholder: "Оберіть ціль", options: GOALS },
-    { name: "difficulty", placeholder: "Оберіть рівень", options: DIFFICULTY },
-    { name: "equipment", placeholder: "Оберіть Equipment", options: EQUIPMENT_GROUPS },
+    { name: "goal", placeholder: "Оберіть ціль", options: GOALS, key: "goals" },
+    { name: "difficulty", placeholder: "Оберіть рівень", options: DIFFICULTY, key: "difficulty" },
+    { name: "equipment", placeholder: "Оберіть Equipment", options: EQUIPMENT_GROUPS, key: "equipmentGroups" },
   ] as const;
 
   const onSubmit = async (data: ExerciseAIFormData) => {
@@ -84,7 +86,7 @@ export function AiExerciseContent() {
         if (ok) {
           await createUserExercise(user.uid, {
             title: result.data.name,
-            groups: [result.data.muscleGroup], // або split, якщо там кілька через кому
+            groups: [result.data.muscleGroup],
             description: result.data.description,
           });
           queryClient.invalidateQueries({ queryKey: ["exercises", user.uid] });
@@ -103,7 +105,7 @@ export function AiExerciseContent() {
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-1 flex-col static">
       <div className="flex-1 space-y-6 mb-10">
-        {selectFields.map(({ name, placeholder, options }) => (
+        {selectFields.map(({ name, placeholder, options, key }) => (
           <Controller
             key={name}
             name={name}
@@ -117,7 +119,7 @@ export function AiExerciseContent() {
                   value: field.value,
                   onChange: (value) => field.onChange(value),
                   error: errors[name]?.message,
-                  options: options.map((opt) => ({ value: opt, label: opt })),
+                  options: options.map((opt) => ({ value: opt, label: tComponents(`${key}.${opt}`) })),
                 }}
               />
             )}
@@ -134,6 +136,7 @@ export function AiExerciseContent() {
               onChange={field.onChange}
               id="groups"
               label="Muscle groups"
+              formatLabel={(item) => tComponents('muscleGroups.' + item)}
               error={errors.groups?.message}
             />
           )}
