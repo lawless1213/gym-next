@@ -20,6 +20,7 @@ import { ChipGroup } from "@/app/__components/form/chipGroup";
 import { generateAiExercise } from "@/app/lib/actions/gemini/exercise";
 import { ExerciseCard } from "@/app/__components/exerciseList";
 import { useTranslations } from "next-intl";
+import { TypewriterText } from "@/app/__components/common/TypewritterText";
 
 const exerciseSchema = z.object({
   comment: z.string(),
@@ -65,7 +66,7 @@ export function AiExerciseContent() {
 
   const selectFields = [
     { name: "goal", placeholder: tFields("goals"), options: GOALS, key: "goals" },
-    { name: "difficulty", placeholder:  tFields("difficulty"), options: DIFFICULTY, key: "difficulty" },
+    { name: "difficulty", placeholder: tFields("difficulty"), options: DIFFICULTY, key: "difficulty" },
     { name: "equipment", placeholder: tFields("equipmentGroups"), options: EQUIPMENT_GROUPS, key: "equipmentGroups" },
   ] as const;
 
@@ -75,27 +76,46 @@ export function AiExerciseContent() {
 
       const result = await generateAiExercise({ ...data, userId: user.uid });
 
-      if (result.success) {
-        const ok = await confirm({
-          title: result.data.name,
-          description: result.summary,
-          children: <ExerciseCard exercise={result.data} />,
-          cancelLabel: "Редагувати запит",
-          confirmLabel: "Додати до бібліотеки",
-        });
-
-        if (ok) {
-          await createUserExercise(user.uid, {
-            title: result.data.name,
-            groups: [result.data.muscleGroup],
-            description: result.data.description,
-          });
-          queryClient.invalidateQueries({ queryKey: ["exercises", user.uid] });
-          toast.success("Вправу успішно додано до бази!");
-          close();
-        }
+      if (!result.success) {
+        toast.error(result.error);
+        return;
       }
 
+      const speed = 15;
+      const typingDuration = result.summary.length * speed;
+
+      const ok = await confirm({
+        title: result.data.name,
+        description: (
+          <TypewriterText
+            text={result.summary}
+            speed={speed}
+          />
+        ),
+        children: (
+          <div
+            className="animate-fade-in"
+            style={{
+              animationDelay: `${typingDuration}ms`,
+              animationFillMode: "forwards",
+            }}>
+            <ExerciseCard exercise={result.data} />
+          </div>
+        ),
+        cancelLabel: "Редагувати запит",
+        confirmLabel: "Додати до бібліотеки",
+      });
+
+      if (ok) {
+        await createUserExercise(user.uid, {
+          title: result.data.name,
+          groups: [result.data.muscleGroup],
+          description: result.data.description,
+        });
+        queryClient.invalidateQueries({ queryKey: ["exercises", user.uid] });
+        toast.success("Вправу успішно додано до бази!");
+        close();
+      }
     } catch (err: any) {
       console.log(err);
     }
@@ -137,7 +157,7 @@ export function AiExerciseContent() {
               onChange={field.onChange}
               id="groups"
               label={tFields("muscleGroups")}
-              formatLabel={(item) => tComponents('muscleGroups.' + item)}
+              formatLabel={(item) => tComponents("muscleGroups." + item)}
               error={errors.groups?.message}
             />
           )}

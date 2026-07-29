@@ -37,11 +37,14 @@ const scheduleSchema = z.object({
     message: "Оберіть тип тренування",
   }),
   preferredRestDays: z.array(z.enum(weekDays)).optional(),
-  dayPerWeek: z.string().refine((val) => {
-    if (!val) return true;
-    const num = Number(val);
-    return !isNaN(num) && num > 0 && num <= 7;
-  }, { message: "Максимальна кількість — 7" }),
+  dayPerWeek: z.string().refine(
+    (val) => {
+      if (!val) return true;
+      const num = Number(val);
+      return !isNaN(num) && num > 0 && num <= 7;
+    },
+    { message: "Максимальна кількість — 7" },
+  ),
 });
 
 type ScheduleFormData = z.infer<typeof scheduleSchema>;
@@ -75,46 +78,63 @@ export function AiScheduleContent() {
     { name: "goal", placeholder: tFields("goals"), options: GOALS, key: "goals" },
     { name: "difficulty", placeholder: tFields("difficulty"), options: DIFFICULTY, key: "difficulty" },
     { name: "equipment", placeholder: tFields("equipmentGroups"), options: EQUIPMENT_GROUPS, key: "equipmentGroups" },
-    { name: "splitType", placeholder: tFields("splitTypes"), options: SPLIT_TYPES, key: "splitTypes"},
+    { name: "splitType", placeholder: tFields("splitTypes"), options: SPLIT_TYPES, key: "splitTypes" },
   ] as const;
 
   const chipFields = [
-    { id: "groups", name: "groups", label: tFields("muscleGroups"), items: MUSCLE_GROUPS, key: "muscleGroups"},
-    { id: "preferredRestDays", name: "preferredRestDays", label: tFields("restDays"), items: weekDays, key: "day.default"},
+    { id: "groups", name: "groups", label: tFields("muscleGroups"), items: MUSCLE_GROUPS, key: "muscleGroups" },
+    { id: "preferredRestDays", name: "preferredRestDays", label: tFields("restDays"), items: weekDays, key: "day.default" },
   ] as const;
 
   const onSubmit = async (formData: ScheduleFormData) => {
     try {
       if (!user) throw new Error("Not authenticated");
-  
+
       const result = await generateAiSchedule({ ...formData, userId: user.uid });
-  
+
       if (!result.success) {
         setError("root", { message: result.error });
         return;
       }
-  
+
+      const speed = 15;
+      const typingDuration = result.summary.length * speed;
+
       const ok = await confirm({
         title: "Запровадити наступний графік занять?",
-        description: <TypewriterText text={result.summary} />,
-        children: <WeeklyCalendar schedule={result.data} />,
+        description: (
+          <TypewriterText
+            text={result.summary}
+            speed={speed}
+          />
+        ),
+        children: (
+          <div
+            className="animate-fade-in"
+            style={{
+              animationDelay: `${typingDuration}ms`,
+              animationFillMode: "forwards",
+            }}>
+            <WeeklyCalendar schedule={result.data} />
+          </div>
+        ),
         cancelLabel: "Редагувати запит",
         confirmLabel: "Додати до бібліотеки",
       });
-  
+
       if (!ok) return;
-  
+
       const saveResult = await createAiUserSchedule(user.uid, result.data);
-  
+
       if (!saveResult.success) {
         toast.error(saveResult.error);
         return;
       }
-  
+
       queryClient.invalidateQueries({ queryKey: ["schedule", user.uid] });
       queryClient.invalidateQueries({ queryKey: ["routines", user.uid] });
       queryClient.invalidateQueries({ queryKey: ["exercises", user.uid] });
-  
+
       toast.success("Графік та нові рутини успішно додано!");
       close();
     } catch (error) {

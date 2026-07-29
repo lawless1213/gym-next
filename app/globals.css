@@ -117,13 +117,14 @@
   }
 }
 
-@layer utilities {
-  .gutter-stable {
-    scrollbar-gutter: stable;
-  }
-  .gutter-both {
-    scrollbar-gutter: stable both-edges;
-  }
+@keyframes fadeIn {
+  from { opacity: 0; }
+  to { opacity: 1; }
+}
+
+.animate-fade-in {
+  opacity: 0; /* початковий стан — повністю прозорий */
+  animation: fadeIn 0.5s ease-in-out forwards;
 }
 
 /* Custom scrollbar for dark mode */

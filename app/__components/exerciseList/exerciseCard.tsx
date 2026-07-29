@@ -7,8 +7,7 @@ import Image from "next/image";
 import { useTranslations } from "next-intl";
 import type { ReactNode, MouseEventHandler } from "react";
 
-export type ExerciseCardData = Pick<Exercise, "name" | "muscleGroup"> &
-  Partial<Pick<Exercise, "imageUrl" | "isCustom">>;
+export type ExerciseCardData = Pick<Exercise, "name" | "muscleGroup"> & Partial<Pick<Exercise, "imageUrl" | "isCustom">>;
 
 export interface ExerciseCardProps {
   exercise: ExerciseCardData;
@@ -21,17 +20,9 @@ export interface ExerciseCardProps {
   additionalBadge?: string;
 }
 
-export function ExerciseCard({
-  exercise,
-  className,
-  trailing,
-  onClick,
-  disabled = false,
-  showCustomBadge = true,
-  additionalBadge,
-  as,
-}: ExerciseCardProps) {
+export function ExerciseCard({ exercise, className, trailing, onClick, disabled = false, showCustomBadge = true, additionalBadge, as }: ExerciseCardProps) {
   const t = useTranslations("components.exerciseCard");
+  const tGroups = useTranslations("components.muscleGroups");
   const Component = as ?? (onClick ? "button" : "div");
   const isButton = Component === "button";
 
@@ -40,12 +31,7 @@ export function ExerciseCard({
       type={isButton ? "button" : undefined}
       disabled={isButton ? disabled : undefined}
       onClick={onClick}
-      className={cn(
-        "flex w-full items-center gap-3 bg-card p-3 text-left",
-        disabled && "opacity-40 cursor-not-allowed select-none",
-        onClick && !disabled && "cursor-pointer",
-        className,
-      )}>
+      className={cn("flex w-full items-center gap-3 bg-card p-3 text-left", disabled && "opacity-40 cursor-not-allowed select-none", onClick && !disabled && "cursor-pointer", className)}>
       <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-secondary">
         {exercise.imageUrl ? (
           <Image
@@ -65,18 +51,14 @@ export function ExerciseCard({
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-2">
           <h3 className="truncate font-medium text-foreground">{exercise.name}</h3>
-          {showCustomBadge && exercise.isCustom && (
-            <span className="shrink-0 rounded-md bg-primary/20 px-1.5 py-0.5 text-[10px] font-semibold uppercase text-primary">
-              {t("custom")}
-            </span>
-          )}
-          {additionalBadge && (
-            <span className="shrink-0 rounded-md bg-foreground/20 px-1.5 py-0.5 text-[10px] font-semibold uppercase text-foreground">
-              {t("preview")}
-            </span>
-          )}
+          {showCustomBadge && exercise.isCustom && <span className="shrink-0 rounded-md bg-primary/20 px-1.5 py-0.5 text-[10px] font-semibold uppercase text-primary">{t("custom")}</span>}
+          {additionalBadge && <span className="shrink-0 rounded-md bg-foreground/20 px-1.5 py-0.5 text-[10px] font-semibold uppercase text-foreground">{t("preview")}</span>}
         </div>
-        <p className="truncate text-sm text-muted-foreground">{exercise.muscleGroup}</p>
+        <p className="truncate text-sm text-muted-foreground">
+          {exercise.muscleGroup.split(',').map(
+            group => tGroups(group)
+          )}
+        </p>
       </div>
 
       {trailing}

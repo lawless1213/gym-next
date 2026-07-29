@@ -17,6 +17,7 @@ import { generateAiRoutine } from "@/app/lib/actions/gemini/routine";
 import RoutineCard from "@/app/__components/cards/routine";
 import { createAiUserRoutine, createUserRoutine } from "@/app/lib/actions/routine";
 import { useTranslations } from "next-intl";
+import { TypewriterText } from "@/app/__components/common/TypewritterText";
 
 const routineSchema = z.object({
   comment: z.string().optional(),
@@ -30,16 +31,28 @@ const routineSchema = z.object({
   goal: z.enum(GOALS, {
     message: "Оберіть ціль",
   }),
-  duration: z.string().refine((val) => {
-    if (!val) return true;
-    const num = Number(val);
-    return !isNaN(num) && num > 0 && num <= 300;
-  }, { message: "Максимальна тривалість — 300 хвилин" }).optional(),
-  count: z.string().refine((val) => {
-    if (!val) return true;
-    const num = Number(val);
-    return !isNaN(num) && num > 0 && num <= 20;
-  }, { message: "Максимальна кількість — 20" }).optional(),
+  duration: z
+    .string()
+    .refine(
+      (val) => {
+        if (!val) return true;
+        const num = Number(val);
+        return !isNaN(num) && num > 0 && num <= 300;
+      },
+      { message: "Максимальна тривалість — 300 хвилин" },
+    )
+    .optional(),
+  count: z
+    .string()
+    .refine(
+      (val) => {
+        if (!val) return true;
+        const num = Number(val);
+        return !isNaN(num) && num > 0 && num <= 20;
+      },
+      { message: "Максимальна кількість — 20" },
+    )
+    .optional(),
 });
 
 type RoutineAIFormData = z.infer<typeof routineSchema>;
@@ -92,14 +105,29 @@ export function AiRoutineContent() {
         return;
       }
 
+      const speed = 15;
+      const typingDuration = result.summary.length * speed;
+
       const ok = await confirm({
         title: result.data.name,
-        description: result.summary,
-        children: (
-          <RoutineCard
-            id="preview"
-            {...result.data}
+        description: (
+          <TypewriterText
+            text={result.summary}
+            speed={speed}
           />
+        ),
+        children: (
+          <div
+            className="animate-fade-in"
+            style={{
+              animationDelay: `${typingDuration}ms`,
+              animationFillMode: "forwards",
+            }}>
+            <RoutineCard
+              id="preview"
+              {...result.data}
+            />
+          </div>
         ),
         cancelLabel: "Редагувати запит",
         confirmLabel: "Додати до бібліотеки",
@@ -111,10 +139,10 @@ export function AiRoutineContent() {
           color: result.data.color,
           exercises: result.data.exercises,
         });
-      
+
         queryClient.invalidateQueries({ queryKey: ["routines", user.uid] });
         queryClient.invalidateQueries({ queryKey: ["exercises", user.uid] });
-      
+
         toast.success("Рутину та нові вправи успішно додано!");
         close();
       }
@@ -160,7 +188,7 @@ export function AiRoutineContent() {
               onChange={field.onChange}
               id="groups"
               label={tFields("muscleGroups")}
-              formatLabel={(item) => tComponents('muscleGroups.' + item)}
+              formatLabel={(item) => tComponents("muscleGroups." + item)}
               error={errors.groups?.message}
             />
           )}
