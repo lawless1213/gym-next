@@ -1,20 +1,15 @@
 "use client";
+
 import clsx from "clsx";
 import { forwardRef } from "react";
 import { Label } from "../label";
 
-type InputType = {
-  placeholder?: string;
-  icon?: React.ReactNode;
-  classes?: string;
-  value?: string;
-  onChange?: (e: React.ChangeEvent<HTMLInputElement>) => void;
-  onBlur?: (e: React.FocusEvent<HTMLInputElement>) => void;
-  type?: string;
-  id?: string;
-  name?: string;
+// 1. Розширюємо стандартні атрибути HTML-інпута
+type InputType = React.InputHTMLAttributes<HTMLInputElement> & {
   label?: string;
   error?: string;
+  classes?: string;
+  icon?: React.ReactNode;
 };
 
 type InputProps = {
@@ -22,29 +17,28 @@ type InputProps = {
 };
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(
-  ({ input }, _ref) => {
+  ({ input }, ref) => {
+    const { label, error, classes, icon, className, ...rest } = input;
+
     return (
-      <>
-        <div className="w-full">
-          {input.label && (<Label label={{ text: input.label, for: input.id || "input" }} />)}
-          <input
-            ref={_ref}
-            id={input.id || "input"}
-            name={input.name}
-            type={input.type || "text"}
-            value={input.value}
-            onChange={input.onChange}
-            onBlur={input.onBlur}
-            placeholder={input.placeholder}
-            className={clsx(
-              "w-full rounded-xl bg-secondary px-4 py-3 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary",
-              input.error && "ring-2 ring-red-500",
-              input.classes
-            )}
-          />
-          <p className="text-xs text-red-500 min-h-[20px]">{input.error}</p>
-        </div>
-      </>
+      <div className="w-full">
+        {label && <Label label={{ text: label, for: rest.id || "input" }} />}
+        
+        <input
+          ref={ref}
+          id={rest.id || "input"}
+          type={rest.type || "text"}
+          className={clsx(
+            "w-full rounded-xl bg-secondary px-4 py-3 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary",
+            error && "ring-2 ring-red-500",
+            classes,
+            className
+          )}
+          {...rest}
+        />
+        
+        <p className="text-xs text-red-500 min-h-[20px]">{error}</p>
+      </div>
     );
   }
 );
