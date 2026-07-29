@@ -54,11 +54,11 @@ export function ExerciseCard({ exercise, className, trailing, onClick, disabled 
           {showCustomBadge && exercise.isCustom && <span className="shrink-0 rounded-md bg-primary/20 px-1.5 py-0.5 text-[10px] font-semibold uppercase text-primary">{t("custom")}</span>}
           {additionalBadge && <span className="shrink-0 rounded-md bg-foreground/20 px-1.5 py-0.5 text-[10px] font-semibold uppercase text-foreground">{t("preview")}</span>}
         </div>
-        <p className="truncate text-sm text-muted-foreground">
+        <div className="flex gap-2 truncate text-sm text-muted-foreground">
           {exercise.muscleGroup.split(',').map(
-            group => tGroups(group)
+            group => <span>{tGroups(group.trim().toLowerCase())}</span>
           )}
-        </p>
+        </div>
       </div>
 
       {trailing}
