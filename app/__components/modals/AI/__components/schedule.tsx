@@ -23,6 +23,7 @@ import { ChipGroup } from "@/app/__components/form/chipGroup";
 import { WeeklyCalendar } from "@/app/__components/weeklyCalendar";
 import { useTypewriter } from "@/app/hooks/useTypewriter";
 import { TypewriterText } from "@/app/__components/common/TypewritterText";
+import { createAiUserSchedule } from "@/app/lib/actions/shedule";
 
 const scheduleSchema = z.object({
   comment: z.string().optional(),
@@ -79,46 +80,43 @@ export function AiScheduleContent() {
     { id: "preferredRestDays", name: "preferredRestDays", label: "Дні відпочинку", items: weekDays },
   ] as const;
 
-  const onSubmit = async (data: ScheduleFormData) => {
+  const onSubmit = async (formData: ScheduleFormData) => {
     try {
       if (!user) throw new Error("Not authenticated");
-
-      const result = await generateAiSchedule(data);
-
-      console.log(result);
-
-      if (result.success) {
-        const ok = await confirm({
-          title: "Запровадити наступний графік занять?",
-          description: <TypewriterText text={result.summary} />,
-          children: <WeeklyCalendar schedule={result.data} />,
-          cancelLabel: "Редагувати запит",
-          confirmLabel: "Додати до бібліотеки",
-        });
-
-        if (ok) {
-          // await createUserExercise(user.uid, {
-          //   title: result.data.name,
-          //   groups: [result.data.muscleGroup], // або split, якщо там кілька через кому
-          //   description: result.data.description,
-          // });
-          // queryClient.invalidateQueries({ queryKey: ["exercises", user.uid] });
-          // toast.success("Вправу успішно додано до бази!");
-          close();
-        }
-      }
-
+  
+      const result = await generateAiSchedule({ ...formData, userId: user.uid });
+  
       if (!result.success) {
         setError("root", { message: result.error });
         return;
       }
-
-      // await createUserExercise(user.uid, data);
-      // queryClient.invalidateQueries({ queryKey: ["exercises", user.uid] });
-      toast.success("Графік успішно створено!");
+  
+      const ok = await confirm({
+        title: "Запровадити наступний графік занять?",
+        description: <TypewriterText text={result.summary} />,
+        children: <WeeklyCalendar schedule={result.data} />,
+        cancelLabel: "Редагувати запит",
+        confirmLabel: "Додати до бібліотеки",
+      });
+  
+      if (!ok) return;
+  
+      const saveResult = await createAiUserSchedule(user.uid, result.data);
+  
+      if (!saveResult.success) {
+        toast.error(saveResult.error);
+        return;
+      }
+  
+      queryClient.invalidateQueries({ queryKey: ["schedule", user.uid] });
+      queryClient.invalidateQueries({ queryKey: ["routines", user.uid] });
+      queryClient.invalidateQueries({ queryKey: ["exercises", user.uid] });
+  
+      toast.success("Графік та нові рутини успішно додано!");
       close();
-    } catch (err: any) {
-      console.log(err);
+    } catch (error) {
+      console.error(error);
+      toast.error("Сталася помилка при створенні графіку.");
     }
   };
 

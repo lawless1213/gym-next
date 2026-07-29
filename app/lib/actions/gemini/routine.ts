@@ -75,9 +75,6 @@ export type GeneratedRoutine = {
   exercises: Exercise[];
 };
 
-/**
- * Генерує превʼю рутини за допомогою ШІ. В базу нічого не пише.
- */
 export async function generateAiRoutine(
   input: RoutineInput
 ): Promise<{ success: true; data: GeneratedRoutine; summary: string } | { success: false; error: string }> {
@@ -98,12 +95,10 @@ export async function generateAiRoutine(
   const exercises = result.data.routine.exercises.map((aiEx) => {
     const match = !aiEx.isNew ? findExistingMatch(aiEx.name, relevantExercises) : undefined;
 
-    // Якщо знайшли існуючу вправу — повертаємо її як є з її реальним id
     if (match) {
       return match;
     }
 
-    // Для нової вправи генеруємо тимчасовий id із префіксом 'temp-' для React key
     return {
       id: `temp-${randomUUID()}`,
       name: aiEx.name,
@@ -118,13 +113,17 @@ export async function generateAiRoutine(
     return { success: false, error: "Не вдалося сформувати список вправ для рутини." };
   }
 
+  const rawData: GeneratedRoutine = {
+    name: result.data.routine.routineName,
+    color: result.data.routine.color,
+    exercises,
+  };
+
+  const cleanData: GeneratedRoutine = JSON.parse(JSON.stringify(rawData));
+
   return {
     success: true,
-    data: {
-      name: result.data.routine.routineName,
-      color: result.data.routine.color,
-      exercises,
-    },
+    data: cleanData,
     summary: result.data.summary,
   };
 }

@@ -8,6 +8,7 @@ interface TabItem {
   id: string;
   label: string;
   icon?: React.ReactNode;
+  tabsClasses?: string;
 }
 
 interface TabsProps {
@@ -15,14 +16,17 @@ interface TabsProps {
   activeTab: string;
   onChange: (id: any) => void;
   children: React.ReactNode;
+  tabsClasses?: string;
 }
 
-export function Tabs({ items, activeTab, onChange, children }: TabsProps) {
+export function Tabs({ items, activeTab, onChange, children, tabsClasses }: TabsProps) {
   const layoutId = React.useId();
 
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex gap-2 rounded-xl bg-secondary p-1 relative">
+      <div className={cn(
+        "flex gap-2 rounded-xl bg-secondary p-1 relative", tabsClasses
+      )} >
         {items.map((item) => {
           const isActive = activeTab === item.id;
           return (

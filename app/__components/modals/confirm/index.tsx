@@ -33,7 +33,7 @@ export function ConfirmModal({
       <div className="relative z-10 bg-card border border-border rounded-xl p-6 shadow-xl max-w-xl w-full mx-4">
         {title && <h2 className="text-lg font-semibold text-foreground">{title}</h2>}
         {description && (
-          <p className="mt-2 text-sm text-muted-foreground">{description}</p>
+          <div className="mt-2 text-sm text-muted-foreground">{description}</div>
         )}
         {children && <div className="mt-4">{children}</div>}
         <div className="mt-6 flex flex-col gap-3">
