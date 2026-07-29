@@ -37,7 +37,11 @@ const scheduleSchema = z.object({
     message: "Оберіть тип тренування",
   }),
   preferredRestDays: z.array(z.enum(weekDays)).optional(),
-  dayPerWeek: z.string("Введіть кіл-кість днів тренувань"),
+  dayPerWeek: z.string().refine((val) => {
+    if (!val) return true;
+    const num = Number(val);
+    return !isNaN(num) && num > 0 && num <= 7;
+  }, { message: "Максимальна кількість — 7" }),
 });
 
 type ScheduleFormData = z.infer<typeof scheduleSchema>;
