@@ -15,8 +15,8 @@
         "wed": "Середа",
         "thu": "Четвер",
         "fri": "Пʼятниця",
-        "sat": "Saturday",
-        "sun": "Sunday"
+        "sat": "Субота",
+        "sun": "Неділя"
       },
       "short": {
         "mon": "Пн",
@@ -260,15 +260,17 @@
         "schedule": "Графік"
       },
       "fields": {
-        "goal": "Ціль",
+        "goals": "Ціль",
         "difficulty": "Рівень складності",
-        "equipment": "Обладнання",
+        "equipmentGroups": "Обладнання",
         "muscleGroups": "Групи м'язів",
+        "splitTypes": "Тип спліту",
         "additionalComment": "Додатковий коментар",
         "duration": "Тривалість (хвилин)",
         "exerciseCount": "Кількість вправ",
         "daysCount": "Кількість днів на тиждень",
-        "restDays": "Дні відпочинку"
+        "restDays": "Дні відпочинку",
+        "submit": "Generate"
       }
     }
   }

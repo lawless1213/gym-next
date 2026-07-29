@@ -39,6 +39,7 @@ type ExerciseAIFormData = z.infer<typeof exerciseSchema>;
 
 export function AiExerciseContent() {
   const tComponents = useTranslations("components");
+  const tFields = useTranslations("ai.modal.fields");
   const { close, confirm } = useModal();
   const { user } = useAuth();
   const queryClient = useQueryClient();
@@ -63,9 +64,9 @@ export function AiExerciseContent() {
   const { ref: commentRef, ...commentRest } = register("comment");
 
   const selectFields = [
-    { name: "goal", placeholder: "Оберіть ціль", options: GOALS, key: "goals" },
-    { name: "difficulty", placeholder: "Оберіть рівень", options: DIFFICULTY, key: "difficulty" },
-    { name: "equipment", placeholder: "Оберіть Equipment", options: EQUIPMENT_GROUPS, key: "equipmentGroups" },
+    { name: "goal", placeholder: tFields("goals"), options: GOALS, key: "goals" },
+    { name: "difficulty", placeholder:  tFields("difficulty"), options: DIFFICULTY, key: "difficulty" },
+    { name: "equipment", placeholder: tFields("equipmentGroups"), options: EQUIPMENT_GROUPS, key: "equipmentGroups" },
   ] as const;
 
   const onSubmit = async (data: ExerciseAIFormData) => {
@@ -135,7 +136,7 @@ export function AiExerciseContent() {
               value={field.value ?? []}
               onChange={field.onChange}
               id="groups"
-              label="Muscle groups"
+              label={tFields("muscleGroups")}
               formatLabel={(item) => tComponents('muscleGroups.' + item)}
               error={errors.groups?.message}
             />
@@ -147,7 +148,7 @@ export function AiExerciseContent() {
           textarea={{
             ...commentRest,
             id: "title",
-            placeholder: "Додатковий коментар",
+            placeholder: tFields("additionalComment"),
             error: errors.comment?.message,
           }}
         />
@@ -160,7 +161,7 @@ export function AiExerciseContent() {
         disabled={isSubmitting || !isDirty || !isValid}
         className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
         size="lg">
-        Create
+        {tFields("submit")}
       </Button>
     </form>
   );

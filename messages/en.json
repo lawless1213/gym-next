@@ -255,15 +255,17 @@
         "schedule": "Schedule"
       },
       "fields": {
-        "goal": "Goal",
+        "goals": "Goal",
         "difficulty": "Difficulty level",
-        "equipment": "Equipment",
+        "equipmentGroups": "Equipment",
         "muscleGroups": "Muscle groups",
+        "splitTypes": "Split type",
         "additionalComment": "Additional comment",
         "duration": "Duration (minutes)",
         "exerciseCount": "Exercise count",
         "daysCount": "Days per week",
-        "restDays": "Rest days"
+        "restDays": "Rest days",
+        "submit": "Generate"
       }
     }
   }

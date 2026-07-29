@@ -30,14 +30,23 @@ const routineSchema = z.object({
   goal: z.enum(GOALS, {
     message: "Оберіть ціль",
   }),
-  duration: z.string().optional(),
-  count: z.string().optional(),
+  duration: z.string().refine((val) => {
+    if (!val) return true;
+    const num = Number(val);
+    return !isNaN(num) && num > 0 && num <= 300;
+  }, { message: "Максимальна тривалість — 300 хвилин" }).optional(),
+  count: z.string().refine((val) => {
+    if (!val) return true;
+    const num = Number(val);
+    return !isNaN(num) && num > 0 && num <= 20;
+  }, { message: "Максимальна кількість — 20" }).optional(),
 });
 
 type RoutineAIFormData = z.infer<typeof routineSchema>;
 
 export function AiRoutineContent() {
   const tComponents = useTranslations("components");
+  const tFields = useTranslations("ai.modal.fields");
   const { close, confirm } = useModal();
   const { user } = useAuth();
   const queryClient = useQueryClient();
@@ -64,9 +73,9 @@ export function AiRoutineContent() {
   const { ref: countRef, ...countRest } = register("count");
 
   const selectFields = [
-    { name: "goal", placeholder: "Оберіть ціль", options: GOALS, key: "goals" },
-    { name: "difficulty", placeholder: "Оберіть рівень", options: DIFFICULTY, key: "difficulty" },
-    { name: "equipment", placeholder: "Оберіть Equipment", options: EQUIPMENT_GROUPS, key: "equipmentGroups" },
+    { name: "goal", placeholder: tFields("goals"), options: GOALS, key: "goals" },
+    { name: "difficulty", placeholder: tFields("difficulty"), options: DIFFICULTY, key: "difficulty" },
+    { name: "equipment", placeholder: tFields("equipmentGroups"), options: EQUIPMENT_GROUPS, key: "equipmentGroups" },
   ] as const;
 
   const onSubmit = async (formData: any) => {
@@ -150,7 +159,7 @@ export function AiRoutineContent() {
               value={field.value ?? []}
               onChange={field.onChange}
               id="groups"
-              label="Muscle groups"
+              label={tFields("muscleGroups")}
               formatLabel={(item) => tComponents('muscleGroups.' + item)}
               error={errors.groups?.message}
             />
@@ -163,7 +172,7 @@ export function AiRoutineContent() {
             input={{
               ...durationRest,
               id: "duratio",
-              placeholder: "Тривалість",
+              placeholder: tFields("duration"),
               error: errors.duration?.message,
               type: "number",
               classes: "flex-1 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
@@ -174,7 +183,7 @@ export function AiRoutineContent() {
             input={{
               ...countRest,
               id: "count",
-              placeholder: "Кіл-кість вправ",
+              placeholder: tFields("exerciseCount"),
               error: errors.count?.message,
               type: "number",
               classes: "flex-1 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
@@ -187,7 +196,7 @@ export function AiRoutineContent() {
           textarea={{
             ...commentRest,
             id: "comment",
-            placeholder: "Додатковий коментар",
+            placeholder: tFields("additionalComment"),
             error: errors.comment?.message,
           }}
         />
@@ -200,7 +209,7 @@ export function AiRoutineContent() {
         disabled={isSubmitting || !isDirty || !isValid}
         className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
         size="lg">
-        Create
+        {tFields("submit")}
       </Button>
     </form>
   );

@@ -5,12 +5,8 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button } from "@/app/__components/buttons/button";
 import { Input } from "@/app/__components/form/input";
-import { AUTH_ERRORS } from "@/app/lib/errors/auth";
 import { useModal } from "@/app/lib/modal/modal-store";
-import { IconBarbell, IconCheck, IconUpload } from "@tabler/icons-react";
-import { useState } from "react";
 import { toast } from "sonner";
-import { createUserExercise } from "@/app/lib/actions/exercise";
 import { useAuth } from "@/app/hooks/useAuth";
 import { useQueryClient } from "@tanstack/react-query";
 import { DIFFICULTY, EQUIPMENT_GROUPS, GOALS, MUSCLE_GROUPS, SPLIT_TYPES } from "@/app/data/exercise";
@@ -21,7 +17,6 @@ import { generateAiSchedule } from "@/app/lib/actions/gemini/schedule";
 import { Select } from "@/app/__components/form/select";
 import { ChipGroup } from "@/app/__components/form/chipGroup";
 import { WeeklyCalendar } from "@/app/__components/weeklyCalendar";
-import { useTypewriter } from "@/app/hooks/useTypewriter";
 import { TypewriterText } from "@/app/__components/common/TypewritterText";
 import { createAiUserSchedule } from "@/app/lib/actions/shedule";
 import { useTranslations } from "next-intl";
@@ -38,17 +33,18 @@ const scheduleSchema = z.object({
   goal: z.enum(GOALS, {
     message: "Оберіть ціль",
   }),
-  dayPerWeek: z.string("Введіть кіл-кість днів тренувань"),
   splitType: z.enum(SPLIT_TYPES, {
     message: "Оберіть тип тренування",
   }),
   preferredRestDays: z.array(z.enum(weekDays)).optional(),
+  dayPerWeek: z.string("Введіть кіл-кість днів тренувань"),
 });
 
 type ScheduleFormData = z.infer<typeof scheduleSchema>;
 
 export function AiScheduleContent() {
   const tComponents = useTranslations("components");
+  const tFields = useTranslations("ai.modal.fields");
 
   const { close, confirm } = useModal();
   const { user } = useAuth();
@@ -72,15 +68,15 @@ export function AiScheduleContent() {
   const { ref: dayPerWeekRef, ...dayPerWeekRest } = register("dayPerWeek");
 
   const selectFields = [
-    { name: "goal", placeholder: "Оберіть ціль", options: GOALS, key: "goals" },
-    { name: "difficulty", placeholder: "Оберіть рівень", options: DIFFICULTY, key: "difficulty" },
-    { name: "equipment", placeholder: "Оберіть Equipment", options: EQUIPMENT_GROUPS, key: "equipmentGroups" },
-    { name: "splitType", placeholder: "Оберіть тип тренування", options: SPLIT_TYPES, key: "splitTypes" },
+    { name: "goal", placeholder: tFields("goals"), options: GOALS, key: "goals" },
+    { name: "difficulty", placeholder: tFields("difficulty"), options: DIFFICULTY, key: "difficulty" },
+    { name: "equipment", placeholder: tFields("equipmentGroups"), options: EQUIPMENT_GROUPS, key: "equipmentGroups" },
+    { name: "splitType", placeholder: tFields("splitTypes"), options: SPLIT_TYPES, key: "splitTypes"},
   ] as const;
 
   const chipFields = [
-    { id: "groups", name: "groups", label: "Muscle groups", items: MUSCLE_GROUPS, key: "muscleGroups"},
-    { id: "preferredRestDays", name: "preferredRestDays", label: "Дні відпочинку", items: weekDays, key: "day.default" },
+    { id: "groups", name: "groups", label: tFields("muscleGroups"), items: MUSCLE_GROUPS, key: "muscleGroups"},
+    { id: "preferredRestDays", name: "preferredRestDays", label: tFields("restDays"), items: weekDays, key: "day.default"},
   ] as const;
 
   const onSubmit = async (formData: ScheduleFormData) => {
@@ -151,7 +147,6 @@ export function AiScheduleContent() {
 
         {chipFields.map(({ name, label, items, key }) => (
           <div key={name}>
-            <Label label={{ text: label, for: name }} />
             <Controller
               name={name}
               control={control}
@@ -160,6 +155,7 @@ export function AiScheduleContent() {
                   items={items}
                   value={field.value ?? []}
                   onChange={field.onChange}
+                  label={label}
                   formatLabel={(item) => tComponents(`${key}.${item}`)}
                   error={errors[name]?.message}
                 />
@@ -172,8 +168,8 @@ export function AiScheduleContent() {
           ref={dayPerWeekRef}
           input={{
             ...dayPerWeekRest,
-            id: "duratio",
-            placeholder: " Кіл-кість тренувальних днів",
+            id: "dayPerWeek",
+            placeholder: tFields("daysCount"),
             error: errors.dayPerWeek?.message,
             type: "number",
             classes: "flex-1 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
@@ -184,7 +180,7 @@ export function AiScheduleContent() {
           textarea={{
             ...commentRest,
             id: "comment",
-            placeholder: "Додатковий коментар",
+            placeholder: tFields("additionalComment"),
             error: errors.comment?.message,
           }}
         />
@@ -197,7 +193,7 @@ export function AiScheduleContent() {
         disabled={isSubmitting || !isDirty || !isValid}
         className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
         size="lg">
-        Create
+        {tFields("submit")}
       </Button>
     </form>
   );
