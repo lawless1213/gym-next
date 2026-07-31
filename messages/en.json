@@ -238,12 +238,16 @@
     }
   },
   "schedule": {
-    "section": {
-      "title": ""
-    },
     "modal": {
-      "title": "",
-      "submit": "Save"
+      "title": "edit",
+      "submit": "Save",
+      "success": "Schedule successfully saved!",
+      "error": "Something went wrong! Please try again later.",
+      "confirm": {
+        "description": "Are you sure?",
+        "confirm": "Yes",
+        "cancel": "No"
+      }
     }
   },
   "exercise": {
@@ -308,6 +312,18 @@
       },
       "success": "Successfully saved!",
       "error": "Something went wrong! Please try again later."
+    }
+  },
+  "workout": {
+    "confirmFinish": {
+      "description": "Finish workout?",
+      "confirm": "Yes",
+      "cancel": "No"
+    },
+    "confirmQuickStart": {
+      "description": "Start quick workout?",
+      "confirm": "Yes",
+      "cancel": "No"
     }
   }
 }

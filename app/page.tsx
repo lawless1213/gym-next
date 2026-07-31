@@ -23,6 +23,7 @@ import ButtonAdd from "./__components/buttons/ButtonAdd";
 
 export default function Home() {
   const t = useTranslations("HomePage");
+  const tQuickWorkout = useTranslations("workout.confirmQuickStart");
   const { open, confirm } = useModal();
   const { user, loading: isUserLoading } = useAuth();
   const [nextRoutine, setNextRoutine] = useState<Routine | null>(null);
@@ -51,10 +52,10 @@ export default function Home() {
       if (!user) throw new Error("Not authenticated");
       
       const ok = await confirm({
-        title: "",
-        description: `Розпочати швидке тренування`,
-        cancelLabel: " Ні",
-        confirmLabel: "Так",
+        title: tQuickWorkout("description"),
+        description: "",
+        cancelLabel: tQuickWorkout("cancel"),
+        confirmLabel: tQuickWorkout("confirm"),
       });
 
       if (ok) {

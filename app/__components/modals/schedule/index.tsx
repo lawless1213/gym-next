@@ -22,6 +22,7 @@ import { useTranslations } from "next-intl";
 import { weekDays } from "@/app/types";
 import { editUserSchedule } from "@/app/lib/actions/shedule";
 
+
 const scheduleSchema = z.object({
   routines: z.array(z.object({ routineId: z.string() })),
 });
@@ -30,6 +31,8 @@ type ScheduleFormData = z.infer<typeof scheduleSchema>;
 
 export function ScheduleEditModal() {
   const tDays = useTranslations("components.day");
+  const t = useTranslations("schedule.modal");
+
   const { user } = useAuth();
   const userId = user?.uid;
   const queryClient = useQueryClient();
@@ -83,9 +86,9 @@ export function ScheduleEditModal() {
 
       const ok = await confirm({
         title: "",
-        description: `Впевнені у зміні програм?`,
-        cancelLabel: " Ні",
-        confirmLabel: "Так",
+        description: t("confirm.description"),
+        cancelLabel: t("confirm.cancel"),
+        confirmLabel: t("confirm.confirm"),
       });
 
       if (ok) {
@@ -94,18 +97,18 @@ export function ScheduleEditModal() {
           routineIds: data.routines.map((r) => r.routineId),
         });
         queryClient.invalidateQueries({ queryKey: ["schedule", user.uid] });
-        toast.success(`${tDays(`default.${weekDays[dayIndex]}`)} - програми оновлено!`);
+        toast.success(`${tDays(`default.${weekDays[dayIndex]}`)} - ${t("success")}`);
         close();
       }
     } catch (err: any) {
-      console.log(err);
+      toast.error(t("error"));
     }
   };
 
   return (
     <ModalWrapper
       modalType="schedule"
-      title={`${tDays(`default.${weekDays[dayIndex]}`)} - editing routines`}>
+      title={`${tDays(`default.${weekDays[dayIndex]}`)} - ${t("title")}`}>
       <form
         className="flex flex-col gap-4 overflow-y-auto"
         onSubmit={handleSubmit(onSubmit)}>
@@ -116,7 +119,7 @@ export function ScheduleEditModal() {
               onClick={() => toggle(routine.id)}
               className="group flex items-center justify-between gap-1 cursor-pointer">
               <RoutineCard {...routine} />
-              <div className={`flex w-9 h-9 items-center justify-center rounded-full bg-card cursor-pointer border-2 border-solid ${isSelected(routine.id) ? "bg-primary" : "border-2 border-muted-foreground group-hover:border-primary transition-[0.2s]"}`}>
+              <div className={`flex shrink-0 w-9 h-9 items-center justify-center rounded-full bg-card cursor-pointer border-2 border-solid ${isSelected(routine.id) ? "bg-primary" : "border-2 border-muted-foreground group-hover:border-primary transition-[0.2s]"}`}>
                 {isSelected(routine.id) && (
                   <IconCheck
                     stroke={3}
@@ -132,7 +135,7 @@ export function ScheduleEditModal() {
           disabled={isSubmitting || !isDirty || !isValid}
           className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
           size="lg">
-          Create
+          {t("submit")}
         </Button>
       </form>
     </ModalWrapper>
