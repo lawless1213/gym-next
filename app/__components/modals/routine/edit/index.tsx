@@ -18,6 +18,7 @@ import { editUserRoutine } from "@/app/lib/actions/routine";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRoutineEditModal } from "@/app/hooks/useModals/useRoutineEditModal";
 import { ExerciseCard } from "@/app/__components/exerciseList";
+import { useTranslations } from "next-intl";
 
 const colors = ["#CCFF00", "#2563EB", "#F97316", "#EF4444", "#8B5CF6", "#10B981"];
 
@@ -30,6 +31,7 @@ const routineSchema = z.object({
 type RoutineFormData = z.infer<typeof routineSchema>;
 
 export function RoutineEditModal() {
+  const t = useTranslations("routine.modal");
   const { user } = useAuth();
   const userId = user?.uid;
   const [showExercisePicker, setShowExercisePicker] = useState(false);
@@ -73,7 +75,7 @@ export function RoutineEditModal() {
   const { fields, append, remove } = useFieldArray({
     control,
     name: "exercises",
-    keyName: "fieldKey", // щоб не конфліктувало з exerciseId
+    keyName: "fieldKey",
   });
 
   const { ref: titleRef, ...titleRest } = register("title");
@@ -84,17 +86,17 @@ export function RoutineEditModal() {
 
       await editUserRoutine(user.uid, routine.id, data);
       queryClient.invalidateQueries({ queryKey: ["routines", user.uid] });
-      toast.success("Програму успішно створено!");
+      toast.success(t("success"));
       close();
     } catch (err: any) {
-      console.log(err);
+      toast.error(t("error"));
     }
   };
 
   return (
     <ModalWrapper
       modalType="routineEdit"
-      title={"Edit routine"}>
+      title={t("edit.title")}>
       <div className="flex flex-col gap-4">
         <form
           onSubmit={handleSubmit(onSubmit)}
@@ -138,13 +140,13 @@ export function RoutineEditModal() {
               input={{
                 ...titleRest,
                 id: "title",
-                placeholder: "e.g., Push Day",
+                placeholder: t("name"),
                 error: errors.title?.message,
               }}
             />
 
             <div className="space-y-2">
-              <label className="text-sm font-medium text-foreground">Exercises ({fields.length})</label>
+              <label className="text-sm font-medium text-foreground">{t("exercises")} ({fields.length})</label>
 
               <div className="space-y-2">
                 {fields.map((field, index) => (
@@ -174,7 +176,7 @@ export function RoutineEditModal() {
                   onClick={() => setShowExercisePicker(true)}
                   className="flex w-full items-center justify-center gap-2 rounded-xl border-2 border-dashed border-border py-4 text-sm font-medium text-muted-foreground transition-colors hover:border-primary hover:text-primary">
                   <IconPlus className="h-4 w-4" />
-                  Add Exercise
+                  {t("addExercises")}
                 </button>
               </div>
             </div>
@@ -193,7 +195,7 @@ export function RoutineEditModal() {
           {showExercisePicker && (
             <div className="absolute inset-0 z-10 flex flex-col rounded-t-3xl bg-card">
               <div className="flex items-center justify-between border-b border-border p-6">
-                <h3 className="text-lg font-bold text-foreground">Select Exercise</h3>
+                <h3 className="text-lg font-bold text-foreground">{t("picker.title")}</h3>
                 <button
                   type="button"
                   onClick={() => setShowExercisePicker(false)}
@@ -219,7 +221,7 @@ export function RoutineEditModal() {
                       }}
                       disabled={isSelected}
                       className="rounded-xl bg-secondary hover:bg-secondary/80"
-                      trailing={isSelected && <span className="text-xs text-primary">Added</span>}
+                      trailing={isSelected && <span className="text-xs text-primary">{t("picker.added")}</span>}
                     />
                   );
                 })}

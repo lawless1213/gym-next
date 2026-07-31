@@ -272,6 +272,11 @@
       "edit": {
         "title": "Edit Routine"
       },
+      
+      "picker": {
+        "title": "Choose exercises",
+        "added": "Added"
+      },
       "name": "Routine Name",
       "exercises": "Exercises",
       "addExercises": "Add Exercises",
