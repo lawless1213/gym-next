@@ -316,6 +316,8 @@
       "exercise": {
         "reps": "Reps",
         "weight": "Weight",
+        "repsRecord": "Record reps",
+        "weightRecord": "Record weight",
         "remove": "Remove",
         "addSet": "Set",
         "removeSet": "Set"
