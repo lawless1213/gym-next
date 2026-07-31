@@ -317,6 +317,8 @@
       "exercise": {
         "reps": "Повторень",
         "weight": "Вага",
+        "repsRecord": "Рекорд повторень",
+        "weightRecord": "Рекорд по вазі",
         "remove": "Прибрати",
         "addSet": "Підхід",
         "removeSet": "Підхід"
