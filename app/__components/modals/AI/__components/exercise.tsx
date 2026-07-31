@@ -40,7 +40,7 @@ type ExerciseAIFormData = z.infer<typeof exerciseSchema>;
 
 export function AiExerciseContent() {
   const tComponents = useTranslations("components");
-  const tFields = useTranslations("ai.modal.fields");
+  const t = useTranslations("ai.modal");
   const { close, confirm } = useModal();
   const { user } = useAuth();
   const queryClient = useQueryClient();
@@ -65,9 +65,9 @@ export function AiExerciseContent() {
   const { ref: commentRef, ...commentRest } = register("comment");
 
   const selectFields = [
-    { name: "goal", placeholder: tFields("goals"), options: GOALS, key: "goals" },
-    { name: "difficulty", placeholder: tFields("difficulty"), options: DIFFICULTY, key: "difficulty" },
-    { name: "equipment", placeholder: tFields("equipmentGroups"), options: EQUIPMENT_GROUPS, key: "equipmentGroups" },
+    { name: "goal", placeholder: t("fields.goals"), options: GOALS, key: "goals" },
+    { name: "difficulty", placeholder: t("fields.difficulty"), options: DIFFICULTY, key: "difficulty" },
+    { name: "equipment", placeholder: t("fields.equipmentGroups"), options: EQUIPMENT_GROUPS, key: "equipmentGroups" },
   ] as const;
 
   const onSubmit = async (data: ExerciseAIFormData) => {
@@ -113,11 +113,11 @@ export function AiExerciseContent() {
           description: result.data.description,
         });
         queryClient.invalidateQueries({ queryKey: ["exercises", user.uid] });
-        toast.success("Вправу успішно додано до бази!");
+        toast.success(t("success"));
         close();
       }
     } catch (err: any) {
-      console.log(err);
+      toast.error(t("error"));
     }
   };
 
@@ -156,7 +156,7 @@ export function AiExerciseContent() {
               value={field.value ?? []}
               onChange={field.onChange}
               id="groups"
-              label={tFields("muscleGroups")}
+              label={t("fields.muscleGroups")}
               formatLabel={(item) => tComponents("muscleGroups." + item)}
               error={errors.groups?.message}
             />
@@ -168,7 +168,7 @@ export function AiExerciseContent() {
           textarea={{
             ...commentRest,
             id: "title",
-            placeholder: tFields("additionalComment"),
+            placeholder: t("fields.additionalComment"),
             error: errors.comment?.message,
           }}
         />
@@ -181,7 +181,7 @@ export function AiExerciseContent() {
         disabled={isSubmitting || !isDirty || !isValid}
         className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
         size="lg">
-        {tFields("submit")}
+        {t("fields.submit")}
       </Button>
     </form>
   );

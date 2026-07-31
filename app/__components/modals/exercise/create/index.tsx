@@ -15,7 +15,8 @@ import { createUserExercise } from "@/app/lib/actions/exercise";
 import { useAuth } from "@/app/hooks/useAuth";
 import { useQueryClient } from "@tanstack/react-query";
 import { MUSCLE_GROUPS } from "@/app/data/exercise";
-
+import { useTranslations } from "next-intl";
+import { ChipGroup } from "@/app/__components/form/chipGroup";
 
 const exerciseSchema = z.object({
   photo: z.instanceof(File).optional(),
@@ -27,6 +28,8 @@ const exerciseSchema = z.object({
 type ExerciseFormData = z.infer<typeof exerciseSchema>;
 
 export function ExerciseCreateModal() {
+  const tComponents = useTranslations("components");
+  const t = useTranslations("exercise.modal");
   const { close } = useModal();
   const { user } = useAuth();
   const queryClient = useQueryClient();
@@ -53,18 +56,18 @@ export function ExerciseCreateModal() {
       if (!user) throw new Error("Not authenticated");
 
       await createUserExercise(user.uid, data);
-      queryClient.invalidateQueries({ queryKey: ["exercises", user.uid] }); 
-      toast.success("Вправу успішно створено!");
+      queryClient.invalidateQueries({ queryKey: ["exercises", user.uid] });
+      toast.success(t("success"));
       close();
     } catch (err: any) {
-      console.log(err);
+      toast.error(t("error"));
     }
   };
 
   return (
     <ModalWrapper
       modalType="exercise"
-      title={"New exercise"}>
+      title={t("create.title")}>
       <div className="flex flex-col gap-4">
         <form
           onSubmit={handleSubmit(onSubmit)}
@@ -97,7 +100,7 @@ export function ExerciseCreateModal() {
                     />
                     <span className="flex items-center gap-2 text-sm font-medium group-hover:text-primary mt-1 transition-[0.2s]">
                       <IconUpload className="h-4 w-4" />
-                      {value ? "Change Photo" : "Add Photo"}
+                      {value ? t("changePicture") : t("addPicture")}
                     </span>
                   </label>
                 );
@@ -109,8 +112,7 @@ export function ExerciseCreateModal() {
               input={{
                 ...titleRest,
                 id: "title",
-                placeholder: "e.g., Incline Dumbbell Press",
-                // label: "title",
+                placeholder: t("name"),
                 error: errors.title?.message,
               }}
             />
@@ -120,38 +122,24 @@ export function ExerciseCreateModal() {
               input={{
                 ...descriptionRest,
                 id: "description",
-                placeholder: "Describe the exercise...",
-                // label: "description",
+                placeholder: t("describe"),
                 error: errors.description?.message,
               }}
             />
 
             <Controller
-              name="groups"
+              name={"groups"}
               control={control}
               render={({ field }) => (
-                <div className="space-y-1.5">
-                  <div className="flex flex-wrap gap-2">
-                    {MUSCLE_GROUPS.map((group) => {
-                      const checked = field.value.includes(group);
-                      return (
-                        <button
-                          key={group}
-                          type="button"
-                          role="checkbox"
-                          aria-checked={checked}
-                          onClick={() => {
-                            const next = checked ? field.value.filter((g) => g !== group) : [...field.value, group];
-                            field.onChange(next);
-                          }}
-                          className={`cursor-pointer flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium transition-all ${checked ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground hover:text-foreground"}`}>
-                          {group}
-                        </button>
-                      );
-                    })}
-                  </div>
-                  {errors.groups && <p className="text-sm text-red-500">{errors.groups.message}</p>}
-                </div>
+                <ChipGroup
+                  items={MUSCLE_GROUPS}
+                  value={field.value ?? []}
+                  onChange={field.onChange}
+                  id="groups"
+                  label={t("muscleGroups")}
+                  formatLabel={(item) => tComponents("muscleGroups." + item)}
+                  error={errors.groups?.message}
+                />
               )}
             />
           </div>
@@ -163,7 +151,7 @@ export function ExerciseCreateModal() {
             disabled={isSubmitting || !isDirty || !isValid}
             className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
             size="lg">
-            Create
+            {t("submit")}
           </Button>
         </form>
       </div>

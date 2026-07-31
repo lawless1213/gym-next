@@ -128,20 +128,18 @@
 }
 
 /* Custom scrollbar for dark mode */
-.dark ::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
+* ::-webkit-scrollbar {
+  width: 2px;
+  height: 2px;
 }
 
-.dark ::-webkit-scrollbar-track {
-  background: oklch(0.13 0 0);
+* ::-webkit-scrollbar-track {
+  background: var(--surface);
 }
 
-.dark ::-webkit-scrollbar-thumb {
-  background: oklch(0.3 0 0);
+* ::-webkit-scrollbar-thumb {
+  background: var(--volt);
   border-radius: 3px;
 }
 
-.dark ::-webkit-scrollbar-thumb:hover {
-  background: oklch(0.4 0 0);
-}
+

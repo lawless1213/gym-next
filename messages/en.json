@@ -237,13 +237,47 @@
       "signupFailed": "Failed to sign up. Please try again."
     }
   },
+  "schedule": {
+    "section": {
+      "title": ""
+    },
+    "modal": {
+      "title": "",
+      "submit": "Save"
+    }
+  },
   "exercise": {
     "modal": {
-      "videoUnsupported": "Your browser does not support the video tag.",
-      "title": "Exercise {name}",
-      "authorPrefix": "by",
-      "instruction": "Instruction:",
-      "notFound": "Exercise not found"
+      "create": {
+        "title": "New Exercise"
+      },
+      "edit": {
+        "title": "Edit Exercise"
+      },
+      "addPicture": "Add picture",
+      "changePicture": "Change picture",
+      "name": "Exercise Name",
+      "describe": "Describe the exercise",
+      "muscleGroups": "Muscle Groups",
+      "submit": "Save",
+      "success": "Exercise successfully saved!",
+      "error": "Something went wrong! Please try again later."
+    }
+  },
+  "routine": {
+    "modal": {
+      "create": {
+        "title": "New Routine"
+      },
+      "edit": {
+        "title": "Edit Routine"
+      },
+      "name": "Routine Name",
+      "exercises": "Exercises",
+      "addExercises": "Add Exercises",
+      "submit": "Save",
+      "success": "Program successfully saved!",
+      "error": "Something went wrong! Please try again later."
     }
   },
   "ai": {
@@ -266,7 +300,9 @@
         "daysCount": "Days per week",
         "restDays": "Rest days",
         "submit": "Generate"
-      }
+      },
+      "success": "Successfully saved!",
+      "error": "Something went wrong! Please try again later."
     }
   }
 }

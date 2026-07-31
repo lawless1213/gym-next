@@ -17,6 +17,7 @@ import { toast } from "sonner";
 import { createUserRoutine } from "@/app/lib/actions/routine";
 import { useQueryClient } from "@tanstack/react-query";
 import { ExerciseCard } from "@/app/__components/exerciseList";
+import { useTranslations } from "next-intl";
 
 const colors = ["#CCFF00", "#2563EB", "#F97316", "#EF4444", "#8B5CF6", "#10B981"];
 
@@ -29,6 +30,8 @@ const routineSchema = z.object({
 type RoutineFormData = z.infer<typeof routineSchema>;
 
 export function RoutineCreateModal() {
+  const tComponents = useTranslations("components");
+  const t = useTranslations("routine.modal");
   const { user } = useAuth();
   const userId = user?.uid;
   const [showExercisePicker, setShowExercisePicker] = useState(false);
@@ -76,7 +79,7 @@ export function RoutineCreateModal() {
   return (
     <ModalWrapper
       modalType="routine"
-      title={"Create routine"}>
+      title={t("create.title")}>
       <div className="flex flex-col gap-4">
         <form
           onSubmit={handleSubmit(onSubmit)}
