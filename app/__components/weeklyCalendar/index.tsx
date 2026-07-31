@@ -1,7 +1,7 @@
 "use client";
 
 import { useAuth } from "@/app/hooks/useAuth";
-import { useState } from "react";
+import { useRef, useState } from "react";
 import { ScheduleMap, weekDays } from "@/app/types";
 import { useTranslations } from "next-intl";
 import { AnimatePresence, motion } from "motion/react";
@@ -16,6 +16,8 @@ type WeeklyCalendarProps = {
   schedule?: ScheduleMap;
 };
 
+const TAB_HIGHLIGHT_DELAY = 0;
+
 export function WeeklyCalendar({ schedule }: WeeklyCalendarProps = {}) {
   const t = useTranslations("HomePage.weeklyCalendar");
   const tDays = useTranslations("components.day.short");
@@ -23,8 +25,12 @@ export function WeeklyCalendar({ schedule }: WeeklyCalendarProps = {}) {
   const { user, loading: isUserLoading } = useAuth();
   const userId = isPreview ? undefined : user?.uid;
   const { open } = useModal();
-  const [openCardIndex, setopenCardIndex] = useState<null | number>(null);
-  
+
+  const [openCardIndex, setOpenCardIndex] = useState<null | number>(null);
+  const [highlightIndex, setHighlightIndex] = useState<null | number>(null);
+  const [hoveredIndex, setHoveredIndex] = useState<null | number>(null);
+  const pendingIndexRef = useRef<null | number>(null);
+  const openTimeoutRef = useRef<ReturnType<typeof setTimeout> | null>(null);
 
   const d = new Date();
   const today = d.getDay();
@@ -56,8 +62,40 @@ export function WeeklyCalendar({ schedule }: WeeklyCalendarProps = {}) {
     ? false
     : isUserLoading || isDataLoading || (!!userId && !data);
 
+  const startOpening = (index: number) => {
+    setHighlightIndex(index);
+    if (openTimeoutRef.current) clearTimeout(openTimeoutRef.current);
+    openTimeoutRef.current = setTimeout(() => {
+      setOpenCardIndex(index);
+    }, TAB_HIGHLIGHT_DELAY);
+  };
+
   const cardToggler = (index: number) => {
-    setopenCardIndex((prev) => (prev === index ? null : index));
+    if (openTimeoutRef.current) clearTimeout(openTimeoutRef.current);
+
+    if (openCardIndex === index) {
+      pendingIndexRef.current = null;
+      setOpenCardIndex(null);
+      return;
+    }
+
+    if (openCardIndex !== null) {
+      pendingIndexRef.current = index;
+      setOpenCardIndex(null);
+      return;
+    }
+
+    startOpening(index);
+  };
+
+  const handleExitComplete = () => {
+    if (pendingIndexRef.current !== null) {
+      const next = pendingIndexRef.current;
+      pendingIndexRef.current = null;
+      startOpening(next);
+    } else {
+      setHighlightIndex(null);
+    }
   };
 
   const CalendarSkeleton = (
@@ -86,16 +124,33 @@ export function WeeklyCalendar({ schedule }: WeeklyCalendarProps = {}) {
             const hasWorkout = workout.length > 0;
             const canOpen = !isPreview || hasWorkout;
             const isPast = index < todayIndex;
-            const isOpen = openCardIndex === index;
+            const isActive = highlightIndex === index || hoveredIndex === index;
 
             return (
               <button
                 key={day}
                 onClick={() => canOpen && cardToggler(index)}
-                className={`flex flex-1 flex-col items-center gap-1.5 py-2 rounded-md transition-all min-h-[72px] overflow-hidden ${isToday ? "border-primary border-t" : ""} ${isOpen ? "bg-secondary/80 rounded-b-none" : ""}${canOpen ? "cursor-pointer hover:bg-secondary/80" : "cursor-default"}`}>
-                <span className="text-[12px] font-medium uppercase text-muted-foreground">{tDays(`${day}`)}</span>
-                <span className="text-sm font-bold">{weekDates[index]}</span>
-                {hasWorkout && <div className={`h-1.5 w-1.5 rounded-full ${isPast ? "bg-muted-foreground" : "bg-primary"}`} />}
+                onMouseEnter={() => canOpen && setHoveredIndex(index)}
+                onMouseLeave={() =>
+                  setHoveredIndex((prev) => (prev === index ? null : prev))
+                }
+                className={`relative flex flex-1 flex-col items-center gap-1.5 py-2 rounded-t-md min-h-[72px] overflow-hidden ${isToday ? "border-primary border-t" : ""} ${canOpen ? "cursor-pointer" : "cursor-default"}`}>
+                <span
+                  aria-hidden
+                  className={`absolute inset-0 bg-secondary/80 transition-[clip-path] duration-250 ease-in-out pointer-events-none`}
+                  style={{
+                    clipPath: isActive ? "inset(0% 0 0% 0)" : "inset(0% 0 100% 0)",
+                  }}
+                />
+                <span className="relative z-10 text-[12px] font-medium uppercase text-muted-foreground">
+                  {tDays(`${day}`)}
+                </span>
+                <span className="relative z-10 text-sm font-bold">{weekDates[index]}</span>
+                {hasWorkout && (
+                  <div
+                    className={`relative z-10 h-1.5 w-1.5 rounded-full ${isPast ? "bg-muted-foreground" : "bg-primary"}`}
+                  />
+                )}
               </button>
             );
           })}
@@ -104,7 +159,8 @@ export function WeeklyCalendar({ schedule }: WeeklyCalendarProps = {}) {
 
       <AnimatePresence
         initial={false}
-        mode="wait">
+        mode="wait"
+        onExitComplete={handleExitComplete}>
         {openCardIndex !== null && (
           <motion.div
             key={weekDays[openCardIndex]}
@@ -114,7 +170,7 @@ export function WeeklyCalendar({ schedule }: WeeklyCalendarProps = {}) {
             exit={{ opacity: 1, height: 0 }}
             transition={{ duration: 0.25, ease: "easeInOut" }}>
             <div
-              className={`overflow-hidden flex flex-col gap-3 py-3 bg-secondary/80 rounded-xl md:p-3
+              className={`overflow-hidden flex flex-col gap-3 py-3 bg-secondary/80 rounded-b-md md:p-3
                 ${openCardIndex === 0 ? "rounded-tl-none" : ""}
                 ${openCardIndex === weekDays.length - 1 ? "rounded-tr-none" : ""}`}>
               {scheduleDays[weekDays[openCardIndex]].map((routine) => (
@@ -128,7 +184,9 @@ export function WeeklyCalendar({ schedule }: WeeklyCalendarProps = {}) {
               {!isPreview && (
                 <button
                   className="group flex mx-3 rounded-2xl items-center justify-center bg-card cursor-pointer p-4 border-2 border-dashed hover:border-primary transition-[0.2s] md:mx-0"
-                  onClick={() => open("schedule", { dayIndex: openCardIndex, routines: scheduleDays[weekDays[openCardIndex]] })}>
+                  onClick={() =>
+                    open("schedule", { dayIndex: openCardIndex, routines: scheduleDays[weekDays[openCardIndex]] })
+                  }>
                   {scheduleDays[weekDays[openCardIndex]].length > 0 ? (
                     <IconEdit className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-[0.2s]" />
                   ) : (
