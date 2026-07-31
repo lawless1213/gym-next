@@ -206,9 +206,6 @@
       }
     }
   },
-  "workout": {
-    "title": "Workout page"
-  },
   "common": {
     "notFound": "Not found"
   },
@@ -315,6 +312,21 @@
     }
   },
   "workout": {
+    "modal": {
+      "exercise": {
+        "reps": "Reps",
+        "weight": "Weight",
+        "remove": "Remove",
+        "addSet": "Set",
+        "removeSet": "Set"
+      },
+      "search": {
+        "placeholder": "Choose or input name",
+        "label": "Search",
+        "add": "Use"
+      },
+      "submit": "Finish Workout"
+    },
     "confirmFinish": {
       "description": "Finish workout?",
       "confirm": "Yes",

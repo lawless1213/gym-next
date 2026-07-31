@@ -4,6 +4,7 @@ import { useState } from 'react';
 import { WorkoutSet } from '@/app/types';
 import { cn } from '@/app/lib/utils';
 import { IconCheck, IconMinus, IconPlus } from '@tabler/icons-react';
+import { useTranslations } from "next-intl";
 
 interface SetInputProps {
   set: WorkoutSet;
@@ -13,6 +14,7 @@ interface SetInputProps {
 }
 
 export function SetInput({ set, setNumber, onUpdate, onComplete }: SetInputProps) {
+  const t = useTranslations("workout.modal.exercise");
   const [weight, setWeight] = useState(set.weight || 0);
   const [reps, setReps] = useState(set.reps || 0);
 
@@ -47,7 +49,7 @@ export function SetInput({ set, setNumber, onUpdate, onComplete }: SetInputProps
 
       <div className="flex flex-1 flex-col gap-1">
         <div className="flex items-center justify-between">
-          <span className="text-[10px] font-medium uppercase text-muted-foreground">Weight</span>
+          <span className="text-[10px] font-medium uppercase text-muted-foreground">{t("weight")}</span>
         </div>
         <div className="flex items-center gap-1">
           <button
@@ -81,10 +83,9 @@ export function SetInput({ set, setNumber, onUpdate, onComplete }: SetInputProps
         </div>
       </div>
 
-      {/* Reps Input */}
       <div className="flex flex-1 flex-col gap-1">
         <div className="flex items-center justify-between">
-          <span className="text-[10px] font-medium uppercase text-muted-foreground">Reps</span>
+          <span className="text-[10px] font-medium uppercase text-muted-foreground">{t("reps")}</span>
           {/* {set.lastReps !== undefined && (
             <span className="text-[10px] text-muted-foreground">
               Last: {set.lastReps}
@@ -123,7 +124,6 @@ export function SetInput({ set, setNumber, onUpdate, onComplete }: SetInputProps
         </div>
       </div>
 
-      {/* Complete Button */}
       <button
         onClick={handleComplete}
         disabled={(weight === 0 || reps === 0)}

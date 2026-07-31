@@ -313,6 +313,21 @@
     }
   },
   "workout": {
+    "modal": {
+      "exercise": {
+        "reps": "Повторень",
+        "weight": "Вага",
+        "remove": "Прибрати",
+        "addSet": "Підхід",
+        "removeSet": "Підхід"
+      },
+      "search": {
+        "placeholder": "Виберіть або введіть нову назву",
+        "label": "Пошук",
+        "add": "Використати"
+      },
+      "submit": "Закінчити тренування"
+    },
     "confirmFinish": {
       "description": "Завершити тренування?",
       "confirm": "Так",

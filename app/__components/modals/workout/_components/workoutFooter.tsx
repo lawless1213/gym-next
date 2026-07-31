@@ -2,6 +2,7 @@
 
 import { IconChecks } from "@tabler/icons-react";
 import { Button } from "@/app/__components/common/button";
+import { useTranslations } from "next-intl";
 
 interface WorkoutFooterProps {
   completedSets: number;
@@ -10,6 +11,8 @@ interface WorkoutFooterProps {
 }
 
 export function WorkoutFooter({ completedSets, totalSets, onFinish }: WorkoutFooterProps) {
+  const t = useTranslations("workout.modal");
+
   return (
     <div className="fixed bottom-0 left-0 right-0 border-t border-border bg-background/95 p-4 backdrop-blur">
       <Button
@@ -18,7 +21,7 @@ export function WorkoutFooter({ completedSets, totalSets, onFinish }: WorkoutFoo
         size="lg"
         disabled={completedSets === 0}>
         <IconChecks className="h-5 w-5" />
-        Finish Workout ({completedSets}/{totalSets} sets)
+        {t("submit")} ({completedSets}/{totalSets} sets)
       </Button>
     </div>
   );
