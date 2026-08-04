@@ -125,7 +125,7 @@ export default function Home() {
       </div>
       <ButtonAdd
         onClick={() => quickWorkoutConfirm()}
-        ariaLabel="Create"
+        ariaLabel={t('buttonAdd')}
         icon= { <IconBolt className="h-6 w-6" /> }
       />
     </>

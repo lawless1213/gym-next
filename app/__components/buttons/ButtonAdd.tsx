@@ -4,6 +4,7 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import type { MouseEvent, ReactNode } from "react";
 import { IconPlus } from "@tabler/icons-react";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/app/__components/common/tooltip";
 
 type ButtonAddProps = {
   onClick: (e: MouseEvent<HTMLButtonElement>) => void;
@@ -21,13 +22,18 @@ export default function ButtonAdd({ onClick, ariaLabel, icon = <IconPlus classNa
   if (!mounted) return null;
 
   return createPortal(
-    <button
-      type="button"
-      onClick={onClick}
-      className="fixed bottom-24 right-4 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg hover:scale-105 active:scale-95"
-      aria-label={ariaLabel}>
-      {icon}
-    </button>,
-    document.body
+    <Tooltip>
+      <TooltipTrigger asChild>
+        <button
+          type="button"
+          onClick={onClick}
+          className="fixed bottom-24 right-4 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg hover:scale-105 active:scale-95"
+          aria-label={ariaLabel}>
+          {icon}
+        </button>
+      </TooltipTrigger>
+      <TooltipContent side="left">{ariaLabel}</TooltipContent>
+    </Tooltip>,
+    document.body,
   );
 }

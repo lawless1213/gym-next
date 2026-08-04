@@ -8,6 +8,7 @@ import { ThemeProvider } from "./providers/theme-provider";
 import { QueryProvider } from "./providers/QueryProvider";
 import AppShell from "./__components/AppShell";
 import { ModalProvider } from "./lib/modal/modal-store";
+import { TooltipProvider } from "@/app/__components/common/tooltip";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -36,7 +37,9 @@ export default function RootLayout({
               <AuthProvider>
                 <QueryProvider>
                   <ModalProvider>
-                    <AppShell>{children}</AppShell>
+                    <TooltipProvider delayDuration={200}>
+                      <AppShell>{children}</AppShell>
+                    </TooltipProvider>
                   </ModalProvider>
                 </QueryProvider>
               </AuthProvider>

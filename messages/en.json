@@ -4,6 +4,14 @@
     "subtitle": "Training app"
   },
   "components": {
+    "header": {
+      "ai": "AI Assistant",
+      "lightTheme": "Light theme",
+      "darkTheme": "Dark theme",
+      "changeLang": "Change language",
+      "logout": "Logout",
+      "login": "Login"
+    },
     "languages": {
       "uk": "Ukrainian",
       "en": "English"
@@ -125,6 +133,7 @@
       "user": "{user},",
       "guest": "Guest"
     },
+    "buttonAdd": "Quick workout",
     "weeklyCalendar": {
       "title": "Workout schedule"
     },

@@ -4,6 +4,14 @@
     "subtitle": "Додаток для тренувань"
   },
   "components": {
+    "header": {
+      "ai": "AI-асистент",
+      "lightTheme": "Світла тема",
+      "darkTheme": "Темна тема",
+      "changeLang": "Змінити мову",
+      "logout": "Вийти",
+      "login": "Увійти"
+    },
     "languages": {
       "uk": "Українська",
       "en": "Англійська"
@@ -125,6 +133,7 @@
       "user": "{user},",
       "guest": "Гість"
     },
+    "buttonAdd": "Швидке тренування",
     "weeklyCalendar": {
       "title": "Графік тренувань"
     },
