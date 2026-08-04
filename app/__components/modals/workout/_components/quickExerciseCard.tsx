@@ -5,6 +5,7 @@ import { WorkoutExercise, WorkoutSet, PersonalRecord, QuickWorkoutExercise } fro
 import { cn } from "@/app/lib/utils";
 import { IconBarbell, IconCheck, IconChevronDown, IconChevronUp, IconMinus, IconPlus, IconTrophy, IconX } from "@tabler/icons-react";
 import { SetInput } from "./setInput";
+import { useTranslations } from "next-intl";
 
 interface QuickExerciseCardProps {
   workoutExercise: QuickWorkoutExercise;
@@ -16,6 +17,7 @@ interface QuickExerciseCardProps {
 }
 
 export function QuickExerciseCard({ workoutExercise, record, onUpdateSet, onAddSet, onRemoveSet, onRemoveExercise }: QuickExerciseCardProps) {
+  const t = useTranslations("workout.modal.exercise");
   const [expanded, setExpanded] = useState(true);
   const { name, muscleGroup, sets } = workoutExercise;
 
@@ -77,13 +79,13 @@ export function QuickExerciseCard({ workoutExercise, record, onUpdateSet, onAddS
                 </div>
                 <div className="flex flex-1 flex-col gap-1">
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-medium uppercase text-muted-foreground">Record Weight</span>
+                    <span className="text-[10px] font-medium uppercase text-muted-foreground">{t("weightRecord")}</span>
                   </div>
                   <div className="flex items-center justify-center h-8 w-10 sm:w16 rounded-lg bg-background text-center text-sm font-semibold text-foreground ring-1 ring-border">{record?.weight}</div>
                 </div>
                 <div className="flex flex-1 flex-col gap-1">
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-medium uppercase text-muted-foreground">Record Reps</span>
+                    <span className="text-[10px] font-medium uppercase text-muted-foreground">{t("repsRecord")}</span>
                   </div>
                   <div className="flex items-center justify-center h-8 w-10 sm:w16 rounded-lg bg-background text-center text-sm font-semibold text-foreground ring-1 ring-border">{record?.reps}</div>
                 </div>
@@ -111,19 +113,19 @@ export function QuickExerciseCard({ workoutExercise, record, onUpdateSet, onAddS
               onClick={onRemoveSet}
               className="flex flex-1 items-center justify-center gap-2 rounded-xl border-2 border-dashed border-border py-3 text-xs font-medium text-muted-foreground transition-colors hover:border-red-500 hover:text-red-500">
               <IconMinus className="h-4 w-4" />
-              Add Set
+              {t("removeSet")}
             </button>
             <button
               onClick={onAddSet}
               className="flex flex-1 items-center justify-center gap-2 rounded-xl border-2 border-dashed border-border py-3 text-xs font-medium text-muted-foreground transition-colors hover:border-primary hover:text-primary">
               <IconPlus className="h-4 w-4" />
-              Add Set
+              {t("addSet")}
             </button>
             <button
               onClick={onRemoveExercise}
               className="flex flex-1 items-center justify-center gap-2 rounded-xl border-2 border-dashed border-border py-3 text-xs font-medium text-muted-foreground transition-colors hover:border-red-500 hover:text-red-500">
               <IconX className="h-4 w-4" />
-              Remove
+              {t("remove")}
             </button>
           </div>
         </div>

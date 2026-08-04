@@ -88,11 +88,11 @@ export default function Home() {
             nextRoutine ? (
               <WorkoutCard routine={nextRoutine} />
             ) : (
-              <ActionCard title="No upcoming workouts for this week." />
+              <ActionCard title={t('workoutCard.empty')} />
             )
           ) : (
             <ActionCard
-              title={t("workout.next.not-auth")}
+              title={t("worcoutCard.notAuth")}
               icon={IconUser}
               onClick={() => open("auth")}
             />

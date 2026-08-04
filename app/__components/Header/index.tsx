@@ -1,12 +1,13 @@
 "use client";
 
-import { useLocale } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { setUserLocale } from "@/app/lib/i18n/i18n-action";
 import { IconUser, IconLogout, IconMoon, IconSun, IconAi } from "@tabler/icons-react";
 import { useAuth } from "@/app/hooks/useAuth";
 import { useAppTheme } from "@/app/hooks/useAppTheme";
 import { useModal } from "@/app/lib/modal/modal-store";
 import { toast } from "sonner";
+import { useEffect, useState } from "react";
 
 type HeaderProps = {
   title: string;
@@ -14,19 +15,28 @@ type HeaderProps = {
 };
 
 export function Header(props: HeaderProps) {
+  const tNotification = useTranslations("notification");
   const { open } = useModal();
   const locale = useLocale();
   const { user, logout, loading } = useAuth();
   const { mounted, isDark, toggleTheme } = useAppTheme();
+  const [pendingLocaleChange, setPendingLocaleChange] = useState(false);
 
   const langButtonHandler = (): React.MouseEventHandler<HTMLButtonElement> => {
-    return (event) => {
+    return () => {
       const newLocale = locale === "uk" ? "en" : "uk";
       setUserLocale(newLocale);
-      toast.info("Мову змінено на " + newLocale);
+      setPendingLocaleChange(true);
     };
   };
-
+  
+  useEffect(() => {
+    if (pendingLocaleChange) {
+      toast.info(tNotification('language.successChange') + locale);
+      setPendingLocaleChange(false);
+    }
+  }, [locale]);
+  
   return (
     <header className="flex items-center justify-between gap-2">
       <div className="space-y-1">

@@ -1,6 +1,7 @@
 "use client";
 
 import { Button } from "@/app/__components/buttons/button";
+import { useTranslations } from "next-intl";
 
 export type ConfirmOptions = {
   title: string;
@@ -19,14 +20,16 @@ type Props = ConfirmOptions & {
 export function ConfirmModal({
   title,
   description,
-  confirmLabel = "Підтвердити",
-  cancelLabel = "Скасувати",
+  confirmLabel,
+  cancelLabel,
   variant = "default",
   
   children,
   onConfirm,
   onCancel,
 }: Props) {
+  const t = useTranslations("confirm");
+
   return (
     <div className="fixed inset-0 z-200 backdrop-blur-xs flex items-center justify-center">
       <div className="absolute inset-0 bg-black/60" onClick={onCancel} />
@@ -45,14 +48,14 @@ export function ConfirmModal({
                 ? "bg-destructive text-destructive-foreground hover:bg-destructive/90"
                 : "bg-primary text-primary-foreground hover:bg-primary/90"
             }`}>
-            {confirmLabel}
+            {confirmLabel || t('confirm')}
           </Button>
           <Button
             onClick={onCancel}
             size="lg"
             variant="outline"
             className="w-full">
-            {cancelLabel}
+            {cancelLabel || t('cancel')}
           </Button>
         </div>
       </div>

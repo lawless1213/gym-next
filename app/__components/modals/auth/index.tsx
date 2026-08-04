@@ -4,13 +4,15 @@ import { useState } from 'react'
 import SignUpForm from './signUpForm'
 import LoginForm from './loginForm'
 import { ModalWrapper } from '../modal-wrapper'
+import { useTranslations } from 'next-intl'
 
 
 export function AuthModal() {
+  const t = useTranslations("auth");
   const [isSignUp, setIsSignUp] = useState(false);
 
   return (
-    <ModalWrapper modalType="auth" title={isSignUp ? 'Sign Up' : 'Auth'}>
+    <ModalWrapper modalType="auth" title={isSignUp ? t('modal.registerTab') : t('modal.loginTab')}>
       <div className="flex flex-col gap-4">
 
         {isSignUp ? <SignUpForm /> : <LoginForm />}
@@ -19,7 +21,7 @@ export function AuthModal() {
           className="text-xs text-zinc-400 hover:underline cursor-pointer self-start"
           onClick={() => setIsSignUp(!isSignUp)}
         >
-          {isSignUp ? 'Already have an account? Login' : "Don't have an account? Register"}
+          {isSignUp ? t('modal.alreadyHaveAccount') : t('modal.dontHaveAccount')}
         </button>
       </div>
     </ModalWrapper>

@@ -124,7 +124,9 @@
     "worcoutCard": {
       "title": "Наступне тренування",
       "exercisesValue": "Кіл-сть вправ",
-      "startButton": "Почати тренування"
+      "startButton": "Почати тренування",
+      "notAuth": "Авторизуйтесь для початку тренувань",
+      "empty": "На сьогоднішній день тренувань не заплановано"
     },
 
     "banner": {
@@ -211,11 +213,21 @@
   "common": {
     "notFound": "Не знайдено"
   },
+  "notification": {
+    "language": {
+      "successChange": "Мову змінено на "
+    }
+  },
+  "confirm": {
+    "description": "Ви впевнені?",
+    "confirm": "Так",
+    "cancel": "Ні"
+  },
   "auth": {
     "modal": {
       "title": "Ласкаво просимо до GYM",
-      "registerTab": "реєстрація",
-      "loginTab": "вхід",
+      "registerTab": "Реєстрація",
+      "loginTab": "Вхід",
       "alreadyHaveAccount": "Вже маєш акаунт? Увійти",
       "dontHaveAccount": "Ще не маєш акаунта? Зареєструватися"
     },

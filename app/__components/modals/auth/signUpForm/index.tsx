@@ -7,6 +7,7 @@ import { useAuth } from "@/app/hooks/useAuth";
 import { Input } from "@/app/__components/form/input";
 import { AUTH_ERRORS } from "@/app/lib/errors/auth";
 import { useModal } from "@/app/lib/modal/modal-store";
+import { useTranslations } from "next-intl";
 
 const signUpSchema = z.object({
   email: z.string().email("Введіть коректний email"),
@@ -16,6 +17,7 @@ const signUpSchema = z.object({
 type SignUpFormData = z.infer<typeof signUpSchema>;
 
 export default function SignUpForm() {
+  const t = useTranslations("auth");
   const { close } = useModal();
   const { signup } = useAuth();
 
@@ -53,8 +55,7 @@ export default function SignUpForm() {
           input={{
             ...emailRest,
             id: "email",
-            placeholder: "Email",
-            // label: "Email",
+            placeholder: t("fields.email"),
             error: errors.email?.message,
           }}
         />
@@ -64,8 +65,7 @@ export default function SignUpForm() {
             ...passwordRest,
             id: "password",
             type: "password",
-            placeholder: "Password",
-            // label: "Password",
+            placeholder: t("fields.password"),
             error: errors.password?.message,
           }}
         />
@@ -78,7 +78,7 @@ export default function SignUpForm() {
         disabled={isSubmitting || !isDirty || !isValid}
         className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
         size="lg">
-        {isSubmitting ? "Sign up..." : "Sign up"}
+        {isSubmitting ? t("signup.submitting") : t("signup.submit")}
       </Button>
     </form>
   );

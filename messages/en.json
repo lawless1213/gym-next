@@ -124,7 +124,9 @@
     "worcoutCard": {
       "title": "Next workout",
       "exercisesValue": "Number of exercises",
-      "startButton": "Start workout"
+      "startButton": "Start workout",
+      "notAuth": "Login for workout",
+      "empty": "Today's routine list is empty"
     },
     "banner": {
       "dayStreak": "12-day streak",
@@ -209,11 +211,21 @@
   "common": {
     "notFound": "Not found"
   },
+  "notification": {
+    "language": {
+      "successChange": "Language changed to "
+    }
+  },
+  "confirm": {
+    "description": "Are you sure?",
+    "confirm": "Yes",
+    "cancel": "No"
+  },
   "auth": {
     "modal": {
       "title": "Welcome to GYM",
-      "registerTab": "register",
-      "loginTab": "login",
+      "registerTab": "Sign Up",
+      "loginTab": "Login",
       "alreadyHaveAccount": "Already have an account? Log in",
       "dontHaveAccount": "Don't have an account yet? Sign up"
     },

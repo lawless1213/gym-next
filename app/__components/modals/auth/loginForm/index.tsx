@@ -7,6 +7,7 @@ import { useAuth } from "@/app/hooks/useAuth";
 import { Input } from "@/app/__components/form/input";
 import { AUTH_ERRORS } from "@/app/lib/errors/auth";
 import { useModal } from "@/app/lib/modal/modal-store";
+import { useTranslations } from "next-intl";
 
 const loginSchema = z.object({
   email: z.string().email("Введіть коректний email"),
@@ -16,6 +17,7 @@ const loginSchema = z.object({
 type LoginFormData = z.infer<typeof loginSchema>;
 
 export default function LoginForm() {
+  const t = useTranslations("auth");
   const { close } = useModal();
   const { login } = useAuth();
 
@@ -53,8 +55,7 @@ export default function LoginForm() {
           input={{
             ...emailRest,
             id: "email",
-            placeholder: "Email",
-            // label: "Email",
+            placeholder: t("fields.email"),
             error: errors.email?.message,
           }}
         />
@@ -64,8 +65,7 @@ export default function LoginForm() {
             ...passwordRest,
             id: "password",
             type: "password",
-            placeholder: "Password",
-            // label: "Password",
+            placeholder: t("fields.password"),
             error: errors.password?.message,
           }}
         />
@@ -78,7 +78,7 @@ export default function LoginForm() {
         disabled={isSubmitting || !isDirty || !isValid}
         className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
         size="lg">
-        {isSubmitting ? "Logging in..." : "Login"}
+        {isSubmitting ? t("login.submitting") : t("login.submit")}
       </Button>
     </form>
   );
