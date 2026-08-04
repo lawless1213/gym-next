@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import { useAuth } from "@/app/hooks/useAuth";
 import { useQueryClient } from "@tanstack/react-query";
 import { addUserProgress } from "@/app/lib/actions/progress";
+import { useTranslations } from "next-intl";
 
 const progressSchema = z.object({
   date: z.date(),
@@ -26,18 +27,21 @@ const progressSchema = z.object({
 
 type ProgressFormData = z.infer<typeof progressSchema>;
 
-const FIELDS = [
-  { name: "weight", placeholder: "Вага (кг)" },
-  { name: "waist", placeholder: "Талія (см)" },
-  { name: "chest", placeholder: "Груди (см)" },
-  { name: "arms", placeholder: "Руки (см)" },
-  { name: "thighs", placeholder: "Стегна (см)" },
-] as const;
-
 export function ProgressModal() {
+  const tComponents = useTranslations("components");
+  const t = useTranslations("measurements.modal");
+
   const { close } = useModal();
   const { user } = useAuth();
   const queryClient = useQueryClient();
+
+  const FIELDS = [
+    { name: "weight", placeholder: `${t('fields.weight')} (${tComponents('measurement.kg')})` },
+    { name: "waist", placeholder: `${t('fields.waist')} (${tComponents('measurement.cm')})` },
+    { name: "chest", placeholder: `${t('fields.chest')} (${tComponents('measurement.cm')})` },
+    { name: "arms", placeholder: `${t('fields.arms')} (${tComponents('measurement.cm')})` },
+    { name: "thighs", placeholder: `${t('fields.thighs')} (${tComponents('measurement.cm')})` }
+  ] as const;
 
   const {
     register,
@@ -56,16 +60,15 @@ export function ProgressModal() {
       if (!user) throw new Error("Not authenticated");
       await addUserProgress(user.uid, data);
       queryClient.invalidateQueries({ queryKey: ["lastProgress"] });
-      toast.success("Показники збережено!");
+      toast.success(t('success'));
       close();
     } catch (err: any) {
-      console.error(err);
-      toast.error("Щось пішло не так");
+      toast.error(t("error"));
     }
   };
 
   return (
-    <ModalWrapper modalType="progress" title="Your new measurements">
+    <ModalWrapper modalType="progress" title={t('title')}>
       <div className="flex flex-col gap-4">
         <form onSubmit={handleSubmit(onSubmit)} className="flex flex-1 flex-col">
           <div className="flex-1 space-y-2 mb-4">
@@ -98,7 +101,7 @@ export function ProgressModal() {
             disabled={isSubmitting || !isDirty}
             className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
             size="lg">
-            Save
+            {t("fields.submit")}
           </Button>
         </form>
       </div>

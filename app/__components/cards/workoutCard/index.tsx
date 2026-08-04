@@ -11,7 +11,7 @@ interface WorkoutCardProps {
 }
 
 export function WorkoutCard({ routine }: WorkoutCardProps) {
-  const t = useTranslations("HomePage.worcoutCard");
+  const t = useTranslations("HomePage.workoutCard");
   const { open } = useModal();
 
   return (

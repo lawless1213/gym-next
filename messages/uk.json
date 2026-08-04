@@ -107,6 +107,13 @@
     "exerciseCard": {
       "custom": "Власна",
       "preview": "Превʼю"
+    },
+    "motivationalBanner": {
+      "records": "{value} рекордів",
+      "title": "Продовжуй рухатися до межі!",
+      "subtitle": "Ти на шляху до перевиконання тижневої цілі. {value} цього місяця",
+      "zeroSubtitle": "Не здавайся!",
+      "volumeChange": "{value}% обʼєму порівняно з минулим місяцем"
     }
   },
   "HomePage": {
@@ -121,24 +128,17 @@
     "weeklyCalendar": {
       "title": "Графік тренувань"
     },
-    "worcoutCard": {
+    "workoutCard": {
       "title": "Наступне тренування",
       "exercisesValue": "Кіл-сть вправ",
       "startButton": "Почати тренування",
       "notAuth": "Авторизуйтесь для початку тренувань",
       "empty": "На сьогоднішній день тренувань не заплановано"
     },
-
-    "banner": {
-      "dayStreak": "12 днів поспіль",
-      "title": "Продовжуй рухатися до межі!",
-      "subtitle": "Ти на шляху до перевиконання тижневої цілі.",
-      "volumeChange": "+15% обʼєму порівняно з минулим тижнем"
-    },
     "quickStats": {
       "workoutsLabel": "Тренування",
       "thisMonth": "Цього місяця",
-      "volumeLabel": "Обʼєм",
+      "volumeLabel": "Вага",
       "kgLifted": "кг піднято",
       "prsLabel": "PR"
     }
@@ -351,6 +351,21 @@
       "description": "Розпочати швидке тренування?",
       "confirm": "Так",
       "cancel": "Ні"
+    }
+  },
+  "measurements": {
+    "modal": {
+      "title": "Фіксування замірів",
+      "fields": {
+        "weight": "Вага",
+        "waist": "Талія",
+        "chest": "Груди",
+        "arms": "Руки",
+        "thighs": "Стегна",
+        "submit": "Зберегти"
+      },
+      "success": "Успішно збережено!",
+      "error": "Щось пішло не так! Повторіть будь ласка пізніше.."
     }
   }
 }

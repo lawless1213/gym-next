@@ -92,7 +92,7 @@ export default function Home() {
             )
           ) : (
             <ActionCard
-              title={t("worcoutCard.notAuth")}
+              title={t("workoutCard.notAuth")}
               icon={IconUser}
               onClick={() => open("auth")}
             />
@@ -107,19 +107,19 @@ export default function Home() {
 
         <div className="grid grid-cols-3 gap-3">
           <QuickStat
-            label="Workouts"
+            label={t("quickStats.workoutsLabel")}
             value={lastWeekHistory.length}
-            sublabel="This week"
+            sublabel={t("quickStats.thisMonth")}
           />
           <QuickStat
-            label="Volume"
+            label={t("quickStats.volumeLabel")}
             value={totalHistoryVolume(lastWeekHistory)}
-            sublabel="kg lifted"
+            sublabel={t("quickStats.kgLifted")}
           />
           <QuickStat
-            label="PRs"
+            label={t("quickStats.prsLabel")}
             value={lastWeekRecords.length}
-            sublabel="This week"
+            sublabel={t("quickStats.thisMonth")}
           />
         </div>
       </div>

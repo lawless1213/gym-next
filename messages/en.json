@@ -107,6 +107,13 @@
     "exerciseCard": {
       "custom": "custom",
       "preview": "preview"
+    },
+    "motivationalBanner": {
+      "records": "{value} PRs",
+      "title": "Keep pushing your limits!",
+      "subtitle": "You're on track to exceed your weekly goal. {value} this month",
+      "zeroSubtitle": "Don't give up!",
+      "volumeChange": "{value}% volume compared to last month"
     }
   },
   "HomePage": {
@@ -121,18 +128,12 @@
     "weeklyCalendar": {
       "title": "Workout schedule"
     },
-    "worcoutCard": {
+    "workoutCard": {
       "title": "Next workout",
       "exercisesValue": "Number of exercises",
       "startButton": "Start workout",
       "notAuth": "Login for workout",
       "empty": "Today's routine list is empty"
-    },
-    "banner": {
-      "dayStreak": "12-day streak",
-      "title": "Keep pushing your limits!",
-      "subtitle": "You're on track to beat your weekly goal.",
-      "volumeChange": "+15% volume compared to last week"
     },
     "quickStats": {
       "workoutsLabel": "Workouts",
@@ -350,6 +351,21 @@
       "description": "Start quick workout?",
       "confirm": "Yes",
       "cancel": "No"
+    }
+  },
+  "measurements": {
+    "modal": {
+      "title": "Measurements logging",
+      "fields": {
+        "weight": "Weight",
+        "waist": "Waist",
+        "chest": "Chest",
+        "arms": "Arms",
+        "thighs": "Thighs",
+        "submit": "Save"
+      },
+      "success": "Successfully saved!",
+      "error": "Something went wrong! Please try again later."
     }
   }
 }
