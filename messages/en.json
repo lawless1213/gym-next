@@ -1,7 +1,7 @@
 {
   "app": {
     "title": "GYM",
-    "subtitle": "Training app"
+    "subtitle": "Training portal"
   },
   "components": {
     "header": {

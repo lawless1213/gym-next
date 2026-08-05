@@ -161,7 +161,7 @@ export default function RoutineCard(routine: Routine) {
               <ExerciseCard
                 key={exercise.id}
                 exercise={exercise}
-                additionalBadge={exercise.id?.startsWith("temp-") ? "PREVIEW" : undefined}
+                preview={exercise.id?.startsWith("temp-")}
               />
             ))}
           </motion.div>

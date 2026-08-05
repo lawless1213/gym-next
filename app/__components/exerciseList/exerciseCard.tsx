@@ -15,12 +15,11 @@ export interface ExerciseCardProps {
   trailing?: ReactNode;
   onClick?: MouseEventHandler<HTMLElement>;
   disabled?: boolean;
-  showCustomBadge?: boolean;
+  preview?: boolean;
   as?: "div" | "button";
-  additionalBadge?: string;
 }
 
-export function ExerciseCard({ exercise, className, trailing, onClick, disabled = false, showCustomBadge = true, additionalBadge, as }: ExerciseCardProps) {
+export function ExerciseCard({ exercise, className, trailing, onClick, disabled = false, preview, as }: ExerciseCardProps) {
   const t = useTranslations("components.exerciseCard");
   const tGroups = useTranslations("components.muscleGroups");
   const Component = as ?? (onClick ? "button" : "div");
@@ -51,8 +50,8 @@ export function ExerciseCard({ exercise, className, trailing, onClick, disabled 
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-2">
           <h3 className="truncate font-medium text-foreground">{exercise.name}</h3>
-          {showCustomBadge && exercise.isCustom && <span className="shrink-0 rounded-md bg-primary/20 px-1.5 py-0.5 text-[10px] font-semibold uppercase text-primary">{t("custom")}</span>}
-          {additionalBadge && <span className="shrink-0 rounded-md bg-foreground/20 px-1.5 py-0.5 text-[10px] font-semibold uppercase text-foreground">{t("preview")}</span>}
+          {!preview && exercise.isCustom && <span className="shrink-0 rounded-md bg-primary/20 px-1.5 py-0.5 text-[10px] font-semibold uppercase text-primary">{t("custom")}</span>}
+          {preview && <span className="shrink-0 rounded-md bg-foreground/20 px-1.5 py-0.5 text-[10px] font-semibold uppercase text-foreground">{t("preview")}</span>}
         </div>
         <div className="flex gap-2 truncate text-sm text-muted-foreground">
           {exercise.muscleGroup.split(',').map(

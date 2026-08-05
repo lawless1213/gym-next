@@ -1,7 +1,7 @@
 {
   "app": {
-    "title": "ЖИМ",
-    "subtitle": "Додаток для тренувань"
+    "title": "GYM",
+    "subtitle": "Портал для тренувань"
   },
   "components": {
     "header": {
