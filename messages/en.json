@@ -114,7 +114,8 @@
     },
     "exerciseCard": {
       "custom": "custom",
-      "preview": "preview"
+      "preview": "preview",
+      "options": " Edit exercise"
     },
     "motivationalBanner": {
       "records": "{value} PRs",
@@ -161,13 +162,13 @@
     },
     "exercises": {
       "searchPlaceholder": "Search exercises...",
-      "createAriaLabel": "Create exercise",
-      "customBadge": "Custom"
+      "customBadge": "Custom",
+      "buttonAdd": "New exercise"
     },
     "routines": {
-      "empty": "The list of routines is empty",
-      "not-auth": "Please sign in to create or edit routines",
-      "createAriaLabel": "Create routine"
+      "empty": "Routine list is empty",
+      "not-auth": "Login to create or edit routines",
+      "buttonAdd": "New routine"
     }
   },
   "History": {
@@ -195,7 +196,7 @@
       "records": "Records"
     },
     "progress": {
-      "createAriaLabel": "Add progress"
+      "buttonAdd": "Add progress"
     },
     "measurements": {
       "weight": "Weight",
@@ -223,7 +224,7 @@
   },
   "notification": {
     "language": {
-      "successChange": "Language changed to "
+      "successChange": "Language changed"
     }
   },
   "confirm": {

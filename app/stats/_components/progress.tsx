@@ -259,7 +259,7 @@ export default function Progress() {
       </SkeletonSwitcher>
       <ButtonAdd
         onClick={() => open('progress')}
-        ariaLabel="Create"
+        ariaLabel={t('progress.buttonAdd')}
         icon= { <IconEdit className="h-6 w-6" /> }
       />
     </div>

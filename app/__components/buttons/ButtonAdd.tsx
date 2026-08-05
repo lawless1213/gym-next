@@ -27,7 +27,7 @@ export default function ButtonAdd({ onClick, ariaLabel, icon = <IconPlus classNa
         <button
           type="button"
           onClick={onClick}
-          className="fixed bottom-24 right-4 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg hover:scale-105 active:scale-95"
+          className="fixed bottom-20 right-4 z-40 flex h-14 w-14 items-center justify-center rounded-full bg-primary text-primary-foreground shadow-lg hover:scale-105 active:scale-95"
           aria-label={ariaLabel}>
           {icon}
         </button>

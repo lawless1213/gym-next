@@ -34,7 +34,7 @@ export function Header(props: HeaderProps) {
 
   useEffect(() => {
     if (pendingLocaleChange) {
-      toast.info(tNotification("language.successChange") + locale);
+      toast.info(tNotification("language.successChange"));
       setPendingLocaleChange(false);
     }
   }, [locale]);

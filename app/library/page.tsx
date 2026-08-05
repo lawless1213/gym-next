@@ -47,7 +47,7 @@ export default function LibraryScreen() {
           {activeTab === "exercise" ? <Exercises /> : <Routines />}
         </Tabs>
       </div>
-      {user && <ButtonAdd onClick={() => open(activeTab)}  ariaLabel="Create"/>}
+      {user && <ButtonAdd onClick={() => open(activeTab)}  ariaLabel={activeTab === "exercise" ? t("exercises.buttonAdd") : t("routines.buttonAdd")}/>}
     </>
   );
 }

@@ -11,6 +11,8 @@ import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useModal } from "@/app/lib/modal/modal-store";
 import { ExerciseCard } from "./exerciseCard";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/app/__components/common/tooltip";
+import { useTranslations } from "next-intl";
 
 export { ExerciseCard } from "./exerciseCard";
 export type { ExerciseCardProps, ExerciseCardData } from "./exerciseCard";
@@ -20,6 +22,7 @@ interface ExerciseListItemProps {
 }
 
 export function ExerciseListItem({ exercise }: ExerciseListItemProps) {
+  const t = useTranslations("components.exerciseCard");
   const { confirm, open } = useModal();
   const { user } = useAuth();
   const queryClient = useQueryClient();
@@ -89,15 +92,16 @@ export function ExerciseListItem({ exercise }: ExerciseListItemProps) {
           exercise={exercise}
           trailing={
             canEdit ? (
-              <div
-                onClick={() => setIsEditable(!isEditable)}
-                className="group flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-full border-2 border-solid border-transparent bg-secondary transition-[0.2s] hover:border-primary">
-                {isEditable ? (
-                  <IconX className="h-5 w-5 text-muted-foreground transition-[0.2s] group-hover:text-primary" />
-                ) : (
-                  <IconMenu2 className="h-5 w-5 text-muted-foreground transition-[0.2s] group-hover:text-primary" />
-                )}
-              </div>
+              <Tooltip>
+                <TooltipTrigger asChild>
+                  <div
+                    onClick={() => setIsEditable(!isEditable)}
+                    className="group flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-full border-2 border-solid border-transparent bg-secondary transition-[0.2s] hover:border-primary">
+                    {isEditable ? <IconX className="h-5 w-5 text-muted-foreground transition-[0.2s] group-hover:text-primary" /> : <IconMenu2 className="h-5 w-5 text-muted-foreground transition-[0.2s] group-hover:text-primary" />}
+                  </div>
+                </TooltipTrigger>
+                {!isEditable && <TooltipContent side="left">{t("options")}</TooltipContent>}
+              </Tooltip>
             ) : undefined
           }
         />

@@ -56,7 +56,7 @@ export function ExerciseCard({ exercise, className, trailing, onClick, disabled 
         </div>
         <div className="flex gap-2 truncate text-sm text-muted-foreground">
           {exercise.muscleGroup.split(',').map(
-            group => <span>{tGroups(group.trim().toLowerCase())}</span>
+            group => <span key={group}>{tGroups(group.trim().toLowerCase())}</span>
           )}
         </div>
       </div>

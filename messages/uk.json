@@ -1,6 +1,6 @@
 {
   "app": {
-    "title": "GYM",
+    "title": "ЖИМ",
     "subtitle": "Додаток для тренувань"
   },
   "components": {
@@ -114,7 +114,8 @@
     },
     "exerciseCard": {
       "custom": "Власна",
-      "preview": "Превʼю"
+      "preview": "Превʼю",
+      "options": "Редагувати вправу"
     },
     "motivationalBanner": {
       "records": "{value} рекордів",
@@ -162,13 +163,13 @@
     },
     "exercises": {
       "searchPlaceholder": "Пошук вправ...",
-      "createAriaLabel": "Створити вправу",
-      "customBadge": "Власна"
+      "customBadge": "Власна",
+      "buttonAdd": "Нова вправа"
     },
     "routines": {
       "empty": "Список програм порожній",
       "not-auth": "Для створення чи редагування програм авторизуйтесь",
-      "createAriaLabel": "Створити програму"
+      "buttonAdd": "Нова програма"
     }
   },
 
@@ -196,7 +197,7 @@
       "records": "Рекорди"
     },
     "progress": {
-      "createAriaLabel": "Додати прогрес"
+      "buttonAdd": "Додати прогрес"
     },
     "measurements": {
       "weight": "Вага",
@@ -224,7 +225,7 @@
   },
   "notification": {
     "language": {
-      "successChange": "Мову змінено на "
+      "successChange": "Мову змінено"
     }
   },
   "confirm": {
