@@ -3,52 +3,48 @@
 import { useState } from "react";
 import { ModalWrapper } from "../modal-wrapper";
 import { AiExerciseContent } from "./__components/exercise";
-import { IconBarbell, IconCalendarBolt, IconTreadmill } from "@tabler/icons-react";
+import { IconBarbell, IconCalendarBolt, IconPencil, IconTreadmill } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
 import { Tabs } from "../../common/tabs";
 import { AiRoutineContent } from "./__components/routine";
 import { AiScheduleContent } from "./__components/schedule";
+import { AiChatContent } from "./__components/chat";
+import { AiGeneration } from "./__components";
 
-type AiTab = "exercise" | "routine" | "schedule";
+type AiTab = "generation" | "chat";
 
 export function AiModal() {
   const t = useTranslations("ai.modal");
-	const [activeTab, setActiveTab] = useState<AiTab>("exercise");
+	const [activeTab, setActiveTab] = useState<AiTab>("chat");
 
 	const tabItems = [
     {
-      id: "exercise",
-      label: t("tabs.exercise"),
-      icon: <IconBarbell className="size-4" />,
+      id: "chat",
+      label: t("tabs.chat"),
+      title: t("chat.title")
     },
     {
-      id: "routine",
-      label: t("tabs.routine"),
-      icon: <IconTreadmill className="size-4" />,
-    },
-		{
-      id: "schedule",
-      label: t("tabs.schedule"),
-      icon: <IconCalendarBolt className="size-4" />,
+      id: "generation",
+      label: t("tabs.generation"),
+      title: t("title")
     },
   ];
 
 	const content: Record<AiTab, React.ReactNode> = {
-		exercise: <AiExerciseContent />,
-		routine: <AiRoutineContent />,
-		schedule: <AiScheduleContent />,
+		generation: <AiGeneration />,
+    chat: <AiChatContent/>
 	};
 
   return (
     <ModalWrapper
       modalType="ai"
-			// size="large"
-      title={t("title")}>
-      <div className="flex flex-col gap-4">
+      size="high"
+      title={tabItems.find(tab => tab.id === activeTab)?.title}
+    >
+      <div className="flex flex-1 flex-col gap-4">
 				<Tabs
           items={tabItems}
           activeTab={activeTab}
-          tabsClasses="sticky bottom-0 order-1"
           onChange={setActiveTab}>
           	{content[activeTab]}
         </Tabs>

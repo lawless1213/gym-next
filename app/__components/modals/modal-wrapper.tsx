@@ -36,7 +36,7 @@ export function ModalWrapper({ modalType, children, classes, contentClasses, siz
             className="fixed inset-0 z-50 bg-background/60 backdrop-blur-sm"
           />
           <div
-            className="fixed inset-0 z-50 flex justify-center items-end pointer-events-none"
+            className="fixed inset-0 z-50 flex justify-center items-start pointer-events-none"
             onClick={close}>
             <motion.div
               key="modal"
@@ -49,7 +49,7 @@ export function ModalWrapper({ modalType, children, classes, contentClasses, siz
                 stiffness: 400,
                 damping: 30,
               }}
-              className={clsx("relative pointer-events-auto max-w-screen bg-card rounded-t-xl flex flex-col max-h-dvh w-[600px]", classes, {
+              className={clsx("relative pointer-events-auto max-w-screen bg-card shadow-xs shadow-primary rounded-b-xl flex flex-col max-h-dvh w-[600px]", classes, {
                 "h-dvh": size === "high",
                 "sm:h-[95dvh] sm:w-[90vw]": size === "large",
               })}>
@@ -66,7 +66,7 @@ export function ModalWrapper({ modalType, children, classes, contentClasses, siz
                 </div>
               }
               <div 
-								className={clsx("p-2 flex-1 min-h-0 overflow-y-auto sm:p-6", contentClasses)}>
+								className={clsx("p-2 flex flex-col flex-1 min-h-0 overflow-y-auto sm:p-6", contentClasses)}>
 								{children}</div>
             </motion.div>
           </div>

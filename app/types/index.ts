@@ -134,3 +134,11 @@ export type PersistReason =
   | "component-unmount"
   | "periodic-autosave"
   | "sync-failed";
+
+export type ChatRole = "user" | "model";
+
+export type ChatMessage = {
+  id: string;
+  role: ChatRole;
+  text: string;
+};

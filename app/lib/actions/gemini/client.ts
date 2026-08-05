@@ -7,7 +7,12 @@ export const GEMINI_MODEL = "gemini-3.1-flash-lite" as const;
 export type GeminiResult<T> =
   | { success: true; data: T }
   | { success: false; error: string };
-	
+
+export type ChatMessagePart = {
+  role: "user" | "model";
+  parts: { text: string }[];
+};
+
 export async function generateStructured<T>(params: {
   prompt: string;
   schema: object;
@@ -32,18 +37,48 @@ export async function generateStructured<T>(params: {
     const data = JSON.parse(response.text) as T;
     return { success: true, data };
   } catch (err: any) {
-    console.error("Gemini generation error:", err);
-
-    if (err?.status === 429) {
-      return { success: false, error: "Сервіс тимчасово перевантажений. Спробуйте пізніше." };
-    }
-    if (err?.status === 404) {
-      return { success: false, error: "Модель AI недоступна. Зверніться до підтримки." };
-    }
-    if (err?.status === 401 || err?.status === 403) {
-      return { success: false, error: "Помилка авторизації сервісу AI." };
-    }
-
-    return { success: false, error: "Не вдалося обробити запит до AI" };
+    return handleError(err);
   }
+}
+
+export async function generateChatText(params: {
+  contents: ChatMessagePart[];
+  systemInstruction?: string;
+  model?: string;
+}): Promise<GeminiResult<string>> {
+  const { contents, systemInstruction, model = GEMINI_MODEL } = params;
+
+  try {
+    const response = await ai.models.generateContent({
+      model,
+      contents,
+      config: {
+        ...(systemInstruction ? { systemInstruction } : {}),
+      },
+    });
+
+    if (!response.text) {
+      return { success: false, error: "Порожня відповідь від AI" };
+    }
+
+    return { success: true, data: response.text };
+  } catch (err: any) {
+    return handleError(err);
+  }
+}
+
+function handleError(err: any): { success: false; error: string } {
+  console.error("Gemini generation error:", err);
+
+  if (err?.status === 429) {
+    return { success: false, error: "Сервіс тимчасово перевантажений. Спробуйте пізніше." };
+  }
+  if (err?.status === 404) {
+    return { success: false, error: "Модель AI недоступна. Зверніться до підтримки." };
+  }
+  if (err?.status === 401 || err?.status === 403) {
+    return { success: false, error: "Помилка авторизації сервісу AI." };
+  }
+
+  return { success: false, error: "Не вдалося обробити запит до AI" };
 }

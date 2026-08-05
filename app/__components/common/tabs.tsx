@@ -23,7 +23,7 @@ export function Tabs({ items, activeTab, onChange, children, tabsClasses }: Tabs
   const layoutId = React.useId();
 
   return (
-    <div className="flex flex-col gap-4">
+    <>
       <div className={cn(
         "flex gap-2 rounded-xl bg-secondary p-1 relative", tabsClasses
       )} >
@@ -52,10 +52,11 @@ export function Tabs({ items, activeTab, onChange, children, tabsClasses }: Tabs
         })}
       </div>
 
-      <div className="relative">
+      <div className="relative flex-1">
         <AnimatePresence mode="wait">
           <motion.div
             key={activeTab}
+            className="h-full flex flex-col gap-3"
             initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -4 }}
@@ -65,6 +66,6 @@ export function Tabs({ items, activeTab, onChange, children, tabsClasses }: Tabs
           </motion.div>
         </AnimatePresence>
       </div>
-    </div>
+    </>
   );
 }

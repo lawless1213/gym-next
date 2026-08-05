@@ -300,7 +300,7 @@
       "edit": {
         "title": "Edit Routine"
       },
-      
+
       "picker": {
         "title": "Choose exercises",
         "added": "Added"
@@ -319,7 +319,9 @@
       "tabs": {
         "exercise": "Exercise",
         "routine": "Routine",
-        "schedule": "Schedule"
+        "schedule": "Schedule",
+        "chat": "Chat",
+        "generation": "Generation"
       },
       "fields": {
         "goals": "Goal",
@@ -337,6 +339,12 @@
       "confirm": {
         "confirm": "Add to library",
         "cancel": "Edit request"
+      },
+      "chat": {
+        "title": "AI Consultant",
+        "submit": "Send",
+        "description": "Ask anything about training, nutrition, or exercise technique!",
+        "placeholder": "For example: How to do a proper warm-up?"
       },
  
       "success": "Successfully saved!",
