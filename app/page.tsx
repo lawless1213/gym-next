@@ -106,17 +106,17 @@ export default function Home() {
           <QuickStat
             label={t("quickStats.workoutsLabel")}
             value={lastWeekHistory.length}
-            sublabel={t("quickStats.thisMonth")}
+            sublabel={t("quickStats.thisWeek")}
           />
           <QuickStat
-            label={t("quickStats.volumeLabel")}
+            label={t("quickStats.kgLabel")}
             value={totalHistoryVolume(lastWeekHistory)}
-            sublabel={t("quickStats.kgLifted")}
+            sublabel={t("quickStats.thisWeek")}
           />
           <QuickStat
             label={t("quickStats.prsLabel")}
             value={lastWeekRecords.length}
-            sublabel={t("quickStats.thisMonth")}
+            sublabel={t("quickStats.thisWeek")}
           />
         </div>
       </div>

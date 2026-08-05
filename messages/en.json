@@ -125,9 +125,9 @@
     "motivationalBanner": {
       "records": "{value} PRs",
       "title": "Keep pushing your limits!",
-      "subtitle": "You're on track to exceed your weekly goal. {value} this month",
+      "subtitle": "You're on track to exceed your weekly goal. {value} this week",
       "zeroSubtitle": "Don't give up!",
-      "volumeChange": "{value}% volume compared to last month"
+      "volumeChange": "{value}% volume compared to last week"
     }
   },
   "HomePage": {
@@ -152,9 +152,8 @@
     },
     "quickStats": {
       "workoutsLabel": "Workouts",
-      "thisMonth": "This month",
-      "volumeLabel": "Volume",
-      "kgLifted": "kg lifted",
+      "thisWeek": "This week",
+      "kgLabel": "kg",
       "prsLabel": "PRs"
     }
   },

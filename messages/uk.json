@@ -125,9 +125,9 @@
     "motivationalBanner": {
       "records": "{value} рекордів",
       "title": "Продовжуй рухатися до межі!",
-      "subtitle": "Ти на шляху до перевиконання тижневої цілі. {value} цього місяця",
+      "subtitle": "Ти на шляху до перевиконання тижневої цілі. {value} цього тижня",
       "zeroSubtitle": "Не здавайся!",
-      "volumeChange": "{value}% обʼєму порівняно з минулим місяцем"
+      "volumeChange": "{value}% обʼєму порівняно з минулим тижнем"
     }
   },
   "HomePage": {
@@ -152,9 +152,8 @@
     },
     "quickStats": {
       "workoutsLabel": "Тренування",
-      "thisMonth": "Цього місяця",
-      "volumeLabel": "Вага",
-      "kgLifted": "кг піднято",
+      "thisWeek": "Цього тижня",
+      "kgLabel": "кг",
       "prsLabel": "PR"
     }
   },
