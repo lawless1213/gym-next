@@ -196,7 +196,7 @@ export function AiScheduleContent() {
             placeholder: t("fields.daysCount"),
             error: errors.dayPerWeek?.message,
             type: "number",
-            classes: "flex-1 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
+             
           }}
         />
         <TextArea

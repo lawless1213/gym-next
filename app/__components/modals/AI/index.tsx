@@ -45,6 +45,7 @@ export function AiModal() {
 				<Tabs
           items={tabItems}
           activeTab={activeTab}
+          tabsClasses="sticky top-0 z-1"
           onChange={setActiveTab}>
           	{content[activeTab]}
         </Tabs>

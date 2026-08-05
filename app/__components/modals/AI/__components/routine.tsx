@@ -203,7 +203,7 @@ export function AiRoutineContent() {
               placeholder: t("fields.duration"),
               error: errors.duration?.message,
               type: "number",
-              classes: "flex-1 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
+               
             }}
           />
           <Input
@@ -214,7 +214,7 @@ export function AiRoutineContent() {
               placeholder: t("fields.exerciseCount"),
               error: errors.count?.message,
               type: "number",
-              classes: "flex-1 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
+               
             }}
           />
         </div>

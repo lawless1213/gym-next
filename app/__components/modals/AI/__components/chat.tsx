@@ -4,6 +4,35 @@ import { useState, useRef, useEffect } from "react";
 import { sendChatMessage } from "@/app/lib/actions/gemini/chat";
 import type { ChatMessage } from "@/app/types";
 import { useTranslations } from "next-intl";
+import { Input } from "@/app/__components/form/input";
+import { IconSend } from "@tabler/icons-react";
+import { Button } from "@/app/__components/buttons/button";
+import { TypewriterText } from "@/app/__components/common/TypewritterText";
+
+function TypewriterMessage({ text, onRender }: { text: string; onRender: () => void }) {
+  const ref = useRef<HTMLDivElement>(null);
+
+  useEffect(() => {
+    onRender();
+
+    if (!ref.current) return;
+    const observer = new ResizeObserver(() => {
+      onRender();
+    });
+
+    observer.observe(ref.current);
+    return () => observer.disconnect();
+  }, [text, onRender]);
+
+  return (
+    <div ref={ref}>
+      <TypewriterText
+        text={text}
+        speed={10}
+      />
+    </div>
+  );
+}
 
 export function AiChatContent() {
   const t = useTranslations("ai.modal.chat");
@@ -12,8 +41,14 @@ export function AiChatContent() {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
+  const scrollToBottom = (smooth = true) => {
+    messagesEndRef.current?.scrollIntoView({
+      behavior: smooth ? "smooth" : "auto",
+    });
+  };
+
   useEffect(() => {
-    messagesEndRef.current?.scrollIntoView({ behavior: "smooth" });
+    scrollToBottom();
   }, [messages, isLoading]);
 
   const handleSubmit = async (e: React.FormEvent) => {
@@ -49,58 +84,59 @@ export function AiChatContent() {
 
   return (
     <>
-      <div className="flex-1 flex flex-col gap-4">
-        {messages.length === 0 && (
-          <p className="text-center text-muted-foreground m-auto">
-            {t('description')}
-          </p>
-        )}
+      <div className="flex-1 flex flex-col gap-4 overflow-y-auto">
+        {messages.length === 0 && <p className="text-center text-muted-foreground m-auto">{t("description")}</p>}
 
-        {messages.map((msg) => (
-          <div
-            key={msg.id}
-            className={`flex ${
-              msg.role === "user" ? "justify-end" : "justify-start"
-            }`}
-          >
+        {messages.map((msg, index) => {
+          const isLastMessage = index === messages.length - 1;
+          const isModel = msg.role === "model";
+
+          return (
             <div
-              className={`max-w-[80%] rounded-2xl px-4 py-2.5 whitespace-pre-wrap text-sm ${
-                msg.role === "user"
-                  ? "bg-primary text-primary-foreground rounded-br-none"
-                  : "bg-muted text-foreground rounded-bl-none"
-              }`}
-            >
-              {msg.text}
+              key={msg.id}
+              className={`flex ${isModel ? "justify-start" : "justify-end"}`}>
+              <div className={`max-w-[80%] rounded-2xl px-4 py-2.5 whitespace-pre-wrap text-sm ${isModel ? "bg-muted text-foreground rounded-bl-none" : "bg-primary text-primary-foreground rounded-br-none"}`}>
+                {isModel && isLastMessage ? (
+                  <TypewriterMessage
+                    text={msg.text}
+                    onRender={() => scrollToBottom(false)} 
+                  />
+                ) : (
+                  msg.text
+                )}
+              </div>
             </div>
-          </div>
-        ))}
+          );
+        })}
 
         {isLoading && (
           <div className="flex justify-start">
-            <div className="bg-muted text-muted-foreground rounded-2xl rounded-bl-none px-4 py-2 text-sm animate-pulse">
-              Думаю...
-            </div>
+            <div className="bg-muted text-muted-foreground rounded-2xl rounded-bl-none px-4 py-2 text-sm animate-pulse">{t("loading")}</div>
           </div>
         )}
         <div ref={messagesEndRef} />
       </div>
 
-      <form onSubmit={handleSubmit} className="p-3 border-t flex gap-2">
-        <input
-          type="text"
-          value={input}
-          onChange={(e) => setInput(e.target.value)}
-          placeholder={t('placeholder')}
-          className="flex-1 px-4 py-2 border rounded-xl outline-none focus:ring-2 focus:ring-primary/50 text-sm"
-          disabled={isLoading}
+      <form
+        onSubmit={handleSubmit}
+        className="flex gap-2 mt-auto">
+        <Input
+          input={{
+            id: "chatInput",
+            placeholder: t("placeholder"),
+            type: "text",
+            value: input,
+            onChange: (e) => setInput(e.target.value),
+            disabled: isLoading,
+            withoutError: true,
+          }}
         />
-        <button
+        <Button
+          size="icon-xl"
           type="submit"
-          disabled={isLoading || !input.trim()}
-          className="px-4 py-2 bg-primary text-primary-foreground rounded-xl text-sm font-medium disabled:opacity-50 hover:opacity-90 transition-opacity"
-        >
-          {t('submit')}
-        </button>
+          disabled={isLoading || !input.trim()}>
+          <IconSend className="size-6" />
+        </Button>
       </form>
     </>
   );

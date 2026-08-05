@@ -344,7 +344,8 @@
         "title": "AI Consultant",
         "submit": "Send",
         "description": "Ask anything about training, nutrition, or exercise technique!",
-        "placeholder": "For example: How to do a proper warm-up?"
+        "placeholder": "For example: How to do a proper warm-up?",
+        "loading": "Thinking..."
       },
  
       "success": "Successfully saved!",

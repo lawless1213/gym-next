@@ -33,7 +33,7 @@ export function ModalWrapper({ modalType, children, classes, contentClasses, siz
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
-            className="fixed inset-0 z-50 bg-background/60 backdrop-blur-sm"
+            className="fixed inset-0 z-50 bg-muted-foreground/5 backdrop-blur-sm"
           />
           <div
             className="fixed inset-0 z-50 flex justify-center items-start pointer-events-none"
@@ -49,7 +49,7 @@ export function ModalWrapper({ modalType, children, classes, contentClasses, siz
                 stiffness: 400,
                 damping: 30,
               }}
-              className={clsx("relative pointer-events-auto max-w-screen bg-card shadow-xs shadow-primary rounded-b-xl flex flex-col max-h-dvh w-[600px]", classes, {
+              className={clsx("relative pointer-events-auto max-w-screen bg-card shadow-xl shadow-card rounded-b-xl flex flex-col max-h-dvh w-[600px]", classes, {
                 "h-dvh": size === "high",
                 "sm:h-[95dvh] sm:w-[90vw]": size === "large",
               })}>
