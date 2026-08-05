@@ -50,8 +50,8 @@ const scheduleSchema = z.object({
 type ScheduleFormData = z.infer<typeof scheduleSchema>;
 
 export function AiScheduleContent() {
+  const t = useTranslations("ai.modal");
   const tComponents = useTranslations("components");
-  const tFields = useTranslations("ai.modal.fields");
 
   const { close, confirm } = useModal();
   const { user } = useAuth();
@@ -75,15 +75,15 @@ export function AiScheduleContent() {
   const { ref: dayPerWeekRef, ...dayPerWeekRest } = register("dayPerWeek");
 
   const selectFields = [
-    { name: "goal", placeholder: tFields("goals"), options: GOALS, key: "goals" },
-    { name: "difficulty", placeholder: tFields("difficulty"), options: DIFFICULTY, key: "difficulty" },
-    { name: "equipment", placeholder: tFields("equipmentGroups"), options: EQUIPMENT_GROUPS, key: "equipmentGroups" },
-    { name: "splitType", placeholder: tFields("splitTypes"), options: SPLIT_TYPES, key: "splitTypes" },
+    { name: "goal", placeholder: t("fields.goals"), options: GOALS, key: "goals" },
+    { name: "difficulty", placeholder: t("fields.difficulty"), options: DIFFICULTY, key: "difficulty" },
+    { name: "equipment", placeholder: t("fields.equipmentGroups"), options: EQUIPMENT_GROUPS, key: "equipmentGroups" },
+    { name: "splitType", placeholder: t("fields.splitTypes"), options: SPLIT_TYPES, key: "splitTypes" },
   ] as const;
 
   const chipFields = [
-    { id: "groups", name: "groups", label: tFields("muscleGroups"), items: MUSCLE_GROUPS, key: "muscleGroups" },
-    { id: "preferredRestDays", name: "preferredRestDays", label: tFields("restDays"), items: weekDays, key: "day.default" },
+    { id: "groups", name: "groups", label: t("fields.muscleGroups"), items: MUSCLE_GROUPS, key: "muscleGroups" },
+    { id: "preferredRestDays", name: "preferredRestDays", label: t("fields.restDays"), items: weekDays, key: "day.default" },
   ] as const;
 
   const onSubmit = async (formData: ScheduleFormData) => {
@@ -118,8 +118,8 @@ export function AiScheduleContent() {
             <WeeklyCalendar schedule={result.data} />
           </div>
         ),
-        cancelLabel: "Редагувати запит",
-        confirmLabel: "Додати до бібліотеки",
+        cancelLabel: t('confirm.cancel'),
+        confirmLabel: t('confirm.confirm'),
       });
 
       if (!ok) return;
@@ -193,7 +193,7 @@ export function AiScheduleContent() {
           input={{
             ...dayPerWeekRest,
             id: "dayPerWeek",
-            placeholder: tFields("daysCount"),
+            placeholder: t("fields.daysCount"),
             error: errors.dayPerWeek?.message,
             type: "number",
             classes: "flex-1 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
@@ -204,7 +204,7 @@ export function AiScheduleContent() {
           textarea={{
             ...commentRest,
             id: "comment",
-            placeholder: tFields("additionalComment"),
+            placeholder: t("fields.additionalComment"),
             error: errors.comment?.message,
           }}
         />
@@ -217,7 +217,7 @@ export function AiScheduleContent() {
         disabled={isSubmitting || !isDirty || !isValid}
         className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
         size="lg">
-        {tFields("submit")}
+        {t("fields.submit")}
       </Button>
     </form>
   );

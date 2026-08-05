@@ -110,12 +110,17 @@
     },
     "routineCard": {
       "amount": "Number of exercises",
-      "emptyExercises": "Exercises is empty"
+      "emptyExercises": "Exercises is empty",
+      "options": "Program exercise",
+      "delete": "Are you sure you want to delete?",
+      "deleteSuccess": "Delete successful"
     },
     "exerciseCard": {
       "custom": "custom",
       "preview": "preview",
-      "options": " Edit exercise"
+      "options": "Edit exercise",
+      "delete": "Are you sure you want to delete?",
+      "deleteSuccess": "Delete successful"
     },
     "motivationalBanner": {
       "records": "{value} PRs",
@@ -330,6 +335,11 @@
         "restDays": "Rest days",
         "submit": "Generate"
       },
+      "confirm": {
+        "confirm": "Add to library",
+        "cancel": "Edit request"
+      },
+ 
       "success": "Successfully saved!",
       "error": "Something went wrong! Please try again later."
     }
@@ -353,14 +363,10 @@
       "submit": "Finish Workout"
     },
     "confirmFinish": {
-      "description": "Finish workout?",
-      "confirm": "Yes",
-      "cancel": "No"
+      "title": "Finish workout?"
     },
     "confirmQuickStart": {
-      "description": "Start quick workout?",
-      "confirm": "Yes",
-      "cancel": "No"
+      "title": "Start quick workout?"
     }
   },
   "measurements": {

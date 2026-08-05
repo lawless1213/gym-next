@@ -52,10 +52,7 @@ export default function Home() {
       if (!user) throw new Error("Not authenticated");
       
       const ok = await confirm({
-        title: tQuickWorkout("description"),
-        description: "",
-        cancelLabel: tQuickWorkout("cancel"),
-        confirmLabel: tQuickWorkout("confirm"),
+        title: tQuickWorkout("title")
       });
 
       if (ok) {

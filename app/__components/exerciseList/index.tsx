@@ -52,10 +52,8 @@ export function ExerciseListItem({ exercise }: ExerciseListItemProps) {
       setIsEditable(false);
 
       const ok = await confirm({
-        title: "",
-        description: `Впевнені у видаленні ${exercise.name}?`,
-        cancelLabel: " Ні",
-        confirmLabel: "Так",
+        title: exercise.name,
+        description: t('delete')
       });
 
       if (ok) {
@@ -63,7 +61,7 @@ export function ExerciseListItem({ exercise }: ExerciseListItemProps) {
 
         queryClient.invalidateQueries({ queryKey: ["exercises", user.uid] });
         queryClient.invalidateQueries({ queryKey: ["routines", user.uid] });
-        toast.success("Вправу успішно видалено!");
+        toast.success(t('deleteSuccess'));
       }
     } catch (err: any) {
       console.log(err);

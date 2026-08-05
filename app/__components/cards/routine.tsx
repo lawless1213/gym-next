@@ -10,6 +10,7 @@ import { useSwipeable } from "react-swipeable";
 import { toast } from "sonner";
 import { AnimatePresence, motion } from "motion/react";
 import { ExerciseCard } from "../exerciseList";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/app/__components/common/tooltip";
 
 export default function RoutineCard(routine: Routine) {
   const t = useTranslations("components.routineCard");
@@ -18,7 +19,6 @@ export default function RoutineCard(routine: Routine) {
   const { user } = useAuth();
   const queryClient = useQueryClient();
   const [isEditable, setIsEditable] = useState(false);
-  
 
   const handlers = useSwipeable(
     routine.editable
@@ -37,18 +37,14 @@ export default function RoutineCard(routine: Routine) {
       : {},
   );
 
-  
-
   const deleteHandler = async () => {
     try {
       if (!user) throw new Error("Not authenticated");
       setIsEditable(false);
 
       const ok = await confirm({
-        title: "",
-        description: `Впевнені у видаленні ${routine.name}?`,
-        cancelLabel: " Ні",
-        confirmLabel: "Так",
+        title: routine.name,
+        description: t('delete')
       });
 
       if (ok) {
@@ -56,7 +52,7 @@ export default function RoutineCard(routine: Routine) {
 
         queryClient.invalidateQueries({ queryKey: ["exercises", user.uid] });
         queryClient.invalidateQueries({ queryKey: ["routines", user.uid] });
-        toast.success("Програму видалено!");
+        toast.success(t('deleteSuccess'));
       }
     } catch (err: any) {
       console.log(err);
@@ -75,9 +71,8 @@ export default function RoutineCard(routine: Routine) {
 
   return (
     <div
-    style={{ borderLeft: `4px solid ${routine.color}` }}
-    className="overflow-hidden md:rounded-xl"
-    >
+      style={{ borderLeft: `4px solid ${routine.color}` }}
+      className="overflow-hidden md:rounded-xl">
       <div
         key={routine.id}
         onClick={() => setIsOpen((prev) => !prev)}
@@ -85,7 +80,6 @@ export default function RoutineCard(routine: Routine) {
         {...handlers}>
         <motion.div
           className="bg-card p-4 flex gap-2 w-full items-center"
-          
           animate={{ x: routine.editable && isEditable ? -80 : 0 }}
           transition={{ type: "spring", stiffness: 300, damping: 30 }}>
           <div className="mr-auto">
@@ -121,11 +115,19 @@ export default function RoutineCard(routine: Routine) {
           )}
 
           {routine.editable && (
-            <button
-              onClick={(e) => {e.stopPropagation(); setIsEditable(!isEditable)}}
-              className="group shrink-0 flex h-10 w-10 items-center justify-center rounded-full bg-secondary cursor-pointer border-2 border-transparent border-solid hover:border-primary transition-[0.2s]">
-              {isEditable ? <IconX className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-[0.2s]" /> : <IconMenu2 className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-[0.2s]" />}
-            </button>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <button
+                  onClick={(e) => {
+                    e.stopPropagation();
+                    setIsEditable(!isEditable);
+                  }}
+                  className="group shrink-0 flex h-10 w-10 items-center justify-center rounded-full bg-secondary cursor-pointer border-2 border-transparent border-solid hover:border-primary transition-[0.2s]">
+                  {isEditable ? <IconX className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-[0.2s]" /> : <IconMenu2 className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-[0.2s]" />}
+                </button>
+              </TooltipTrigger>
+              {!isEditable && <TooltipContent side="left">{t("options")}</TooltipContent>}
+            </Tooltip>
           )}
         </motion.div>
         {routine.editable && (
@@ -156,7 +158,11 @@ export default function RoutineCard(routine: Routine) {
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.25, ease: "easeInOut" }}>
             {routine.exercises.map((exercise, exerciseIndex) => (
-              <ExerciseCard key={exercise.id} exercise={exercise} additionalBadge={exercise.id?.startsWith("temp-") ? "PREVIEW" : undefined}/>
+              <ExerciseCard
+                key={exercise.id}
+                exercise={exercise}
+                additionalBadge={exercise.id?.startsWith("temp-") ? "PREVIEW" : undefined}
+              />
             ))}
           </motion.div>
         )}

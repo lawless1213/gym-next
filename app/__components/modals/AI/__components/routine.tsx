@@ -58,8 +58,8 @@ const routineSchema = z.object({
 type RoutineAIFormData = z.infer<typeof routineSchema>;
 
 export function AiRoutineContent() {
+  const t = useTranslations("ai.modal");
   const tComponents = useTranslations("components");
-  const tFields = useTranslations("ai.modal.fields");
   const { close, confirm } = useModal();
   const { user } = useAuth();
   const queryClient = useQueryClient();
@@ -86,9 +86,9 @@ export function AiRoutineContent() {
   const { ref: countRef, ...countRest } = register("count");
 
   const selectFields = [
-    { name: "goal", placeholder: tFields("goals"), options: GOALS, key: "goals" },
-    { name: "difficulty", placeholder: tFields("difficulty"), options: DIFFICULTY, key: "difficulty" },
-    { name: "equipment", placeholder: tFields("equipmentGroups"), options: EQUIPMENT_GROUPS, key: "equipmentGroups" },
+    { name: "goal", placeholder: t("fields.goals"), options: GOALS, key: "goals" },
+    { name: "difficulty", placeholder: t("fields.difficulty"), options: DIFFICULTY, key: "difficulty" },
+    { name: "equipment", placeholder: t("fields.equipmentGroups"), options: EQUIPMENT_GROUPS, key: "equipmentGroups" },
   ] as const;
 
   const onSubmit = async (formData: any) => {
@@ -129,8 +129,8 @@ export function AiRoutineContent() {
             />
           </div>
         ),
-        cancelLabel: "Редагувати запит",
-        confirmLabel: "Додати до бібліотеки",
+        cancelLabel: t('confirm.cancel'),
+        confirmLabel: t('confirm.confirm'),
       });
 
       if (ok) {
@@ -187,7 +187,7 @@ export function AiRoutineContent() {
               value={field.value ?? []}
               onChange={field.onChange}
               id="groups"
-              label={tFields("muscleGroups")}
+              label={t("fields.muscleGroups")}
               formatLabel={(item) => tComponents("muscleGroups." + item)}
               error={errors.groups?.message}
             />
@@ -200,7 +200,7 @@ export function AiRoutineContent() {
             input={{
               ...durationRest,
               id: "duratio",
-              placeholder: tFields("duration"),
+              placeholder: t("fields.duration"),
               error: errors.duration?.message,
               type: "number",
               classes: "flex-1 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
@@ -211,7 +211,7 @@ export function AiRoutineContent() {
             input={{
               ...countRest,
               id: "count",
-              placeholder: tFields("exerciseCount"),
+              placeholder: t("fields.exerciseCount"),
               error: errors.count?.message,
               type: "number",
               classes: "flex-1 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none",
@@ -224,7 +224,7 @@ export function AiRoutineContent() {
           textarea={{
             ...commentRest,
             id: "comment",
-            placeholder: tFields("additionalComment"),
+            placeholder: t("fields.additionalComment"),
             error: errors.comment?.message,
           }}
         />
@@ -237,7 +237,7 @@ export function AiRoutineContent() {
         disabled={isSubmitting || !isDirty || !isValid}
         className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
         size="lg">
-        {tFields("submit")}
+        {t("fields.submit")}
       </Button>
     </form>
   );

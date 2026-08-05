@@ -110,12 +110,17 @@
     },
     "routineCard": {
       "amount": "Кіл-сть вправ",
-      "emptyExercises": "Вправи відсутні"
+      "emptyExercises": "Вправи відсутні",
+      "options": "Редагувати програму",
+      "delete": "Впевнені у видаленні?",
+      "deleteSuccess": "Видалення успішне"
     },
     "exerciseCard": {
       "custom": "Власна",
       "preview": "Превʼю",
-      "options": "Редагувати вправу"
+      "options": "Редагувати вправу",
+      "delete": "Впевнені у видаленні?",
+      "deleteSuccess": "Видалення успішне"
     },
     "motivationalBanner": {
       "records": "{value} рекордів",
@@ -258,7 +263,7 @@
       "signupFailed": "Не вдалось зареєструватися. Спробуйте ще раз."
     }
   },
-  "schedule": { 
+  "schedule": {
     "modal": {
       "title": "редагування",
       "submit": "Зберегти",
@@ -330,6 +335,10 @@
         "restDays": "Дні відпочинку",
         "submit": "Generate"
       },
+      "confirm": {
+        "confirm": "Додати до бібліотеки",
+        "cancel": "Редагувати запит"
+      },
       "success": "Успішно збережено!",
       "error": "Щось пішло не так! Повторіть будь ласка пізніше.."
     }
@@ -353,14 +362,10 @@
       "submit": "Закінчити тренування"
     },
     "confirmFinish": {
-      "description": "Завершити тренування?",
-      "confirm": "Так",
-      "cancel": "Ні"
+      "title": "Завершити тренування?"
     },
     "confirmQuickStart": {
-      "description": "Розпочати швидке тренування?",
-      "confirm": "Так",
-      "cancel": "Ні"
+      "title": "Розпочати швидке тренування?"
     }
   },
   "measurements": {

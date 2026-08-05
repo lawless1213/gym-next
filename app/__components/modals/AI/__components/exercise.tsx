@@ -102,8 +102,8 @@ export function AiExerciseContent() {
             <ExerciseCard exercise={result.data} />
           </div>
         ),
-        cancelLabel: "Редагувати запит",
-        confirmLabel: "Додати до бібліотеки",
+        cancelLabel: t('confirm.cancel'),
+        confirmLabel: t('confirm.confirm'),
       });
 
       if (ok) {

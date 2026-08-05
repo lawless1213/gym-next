@@ -13,8 +13,10 @@ import { useQueryClient } from "@tanstack/react-query";
 import { WorkoutHeader } from "./_components/workoutHeader";
 import { WorkoutFooter } from "./_components/workoutFooter";
 import { useWorkoutSessionPersistence } from "@/app/hooks/workout/useWorkoutSessionPersistence";
+import { useTranslations } from "next-intl";
 
 export function WorkoutModal() {
+  const t = useTranslations("workout");
   const { user } = useAuth();
   const { confirm, close, routine } = useWorkoutModal();
   const queryClient = useQueryClient();
@@ -47,10 +49,7 @@ export function WorkoutModal() {
     const finishedWorkout = getFinishedWorkout();
 
     const ok = await confirm({
-      title: "",
-      description: "Завершити тренування?",
-      cancelLabel: " Ні",
-      confirmLabel: "Так",
+      title: t('confirmFinish.title')
     });
 
     if (ok) {

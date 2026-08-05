@@ -15,8 +15,10 @@ import { WorkoutHeader } from "../_components/workoutHeader";
 import { WorkoutFooter } from "../_components/workoutFooter";
 import { useWorkoutSessionPersistence } from "@/app/hooks/workout/useWorkoutSessionPersistence";
 import { cn } from "@/app/lib/utils";
+import { useTranslations } from "next-intl";
 
 export function QuickWorkoutModal() {
+  const t = useTranslations("workout");
   const { user } = useAuth();
   const { confirm, close } = useModal();
   const queryClient = useQueryClient();
@@ -84,10 +86,7 @@ export function QuickWorkoutModal() {
     const finishedWorkout = getFinishedWorkout();
 
     const ok = await confirm({
-      title: "",
-      description: "Завершити тренування?",
-      cancelLabel: " Ні",
-      confirmLabel: "Так",
+      title: t('confirmFinish.title')
     });
 
     if (ok) {
