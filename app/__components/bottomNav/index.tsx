@@ -1,11 +1,11 @@
-'use client';
+"use client";
 
 import { usePathname } from "next/navigation";
 import { getNavLinks } from "@/app/data/navManu";
 import Link from "next/link";
-import { useTranslations } from 'next-intl';
+import { useTranslations } from "next-intl";
 import { useAuth } from "@/app/hooks/useAuth";
-
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/app/__components/common/tooltip";
 
 export function BottomNav() {
   const t = useTranslations("components.bottomNav");
@@ -14,29 +14,24 @@ export function BottomNav() {
   const pathname = usePathname();
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-card/95 backdrop-blur-lg">
-      <div className="mx-auto flex h-16 max-w-lg items-center justify-around px-4">
+      <div className="mx-auto flex h-12 max-w-lg items-center justify-around px-4">
         {getNavLinks(!!user).map((item) => {
           const isActive = pathname === item.link;
           return (
-            <Link
-              key={item.label}
-              href={item.link}
-              className={`flex min-w-[64px] flex-col items-center gap-1 rounded-xl px-4 py-2 transition-all duration-200 ${
-                isActive
-                  ? 'text-primary'
-                  : 'text-muted-foreground hover:text-foreground'
-              }`}
-              aria-label={item.label}
-            >
-              <div className={`relative ${isActive ? 'scale-130' : ''} transition-transform`}>
-                <item.icon 
-                  className={`h-6 w-6`} 
-                />
-              </div>
-              <span className={`text-[10px] font-medium capitalize ${isActive ? 'font-semibold' : ''}`}>
-                {t(item.label)}
-              </span>
-            </Link>
+            <Tooltip>
+              <TooltipTrigger asChild>
+                <Link
+                  key={item.label}
+                  href={item.link}
+                  className={`flex min-w-[64px] flex-col items-center gap-1 rounded-xl px-4 py-2 transition-all duration-200 ${isActive ? "text-primary pointer-events-none cursor-none" : "text-muted-foreground hover:text-foreground"}`}
+                  aria-label={item.label}>
+                  <div className={`relative ${isActive ? "scale-130" : ""} transition-transform`}>
+                    <item.icon className={`h-6 w-6`} />
+                  </div>
+                </Link>
+              </TooltipTrigger>
+              <TooltipContent side="top">{t(item.label)}</TooltipContent>
+            </Tooltip>
           );
         })}
       </div>
@@ -45,4 +40,3 @@ export function BottomNav() {
     </nav>
   );
 }
-

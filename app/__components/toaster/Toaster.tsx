@@ -17,7 +17,7 @@ export function Toaster({ ...props }: ToasterProps) {
         }}
         toastOptions={{
           style: {
-            bottom: '50px',
+            bottom: '40px',
           },
           
           classNames: {
