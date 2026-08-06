@@ -99,6 +99,14 @@ export function WeeklyCalendar({ schedule }: WeeklyCalendarProps = {}) {
     }
   };
 
+  const editScheduleHandler = (openCardIndex:number) => {
+    if (user) {
+      open("schedule", { dayIndex: openCardIndex, routines: scheduleDays[weekDays[openCardIndex]] });
+    } else {
+      open("auth");
+    }
+  };
+
   const CalendarSkeleton = (
     <div className="flex items-center justify-between gap-1 w-full">
       {Array.from({ length: 7 }).map((_, i) => (
@@ -186,9 +194,7 @@ export function WeeklyCalendar({ schedule }: WeeklyCalendarProps = {}) {
                 <Button
                   size="lg"
                   variant="dashed"
-                  onClick={() =>
-                    open("schedule", { dayIndex: openCardIndex, routines: scheduleDays[weekDays[openCardIndex]] })
-                  }>
+                  onClick={() => editScheduleHandler(openCardIndex)}>
                   {scheduleDays[weekDays[openCardIndex]].length > 0 ? (
                     <>
                       <IconEdit className="size-5" />

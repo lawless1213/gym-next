@@ -42,7 +42,7 @@ export function ModalWrapper({ modalType, children, classes, contentClasses, siz
             <motion.div
               key="modal"
               onClick={(e) => e.stopPropagation()}
-              initial={{ opacity: 0, scale: 0.95, y: 100 }}
+              initial={{ opacity: 0, scale: 0.95, y: -100 }}
               animate={{ opacity: 1, scale: 1, y: 0 }}
               exit={{ opacity: 0, scale: 0.98, y: 16 }}
               transition={{
