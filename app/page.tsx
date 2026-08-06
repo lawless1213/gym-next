@@ -19,7 +19,7 @@ import { useModal } from "./lib/modal/modal-store";
 import { useRecords } from "./hooks/useServices/useRecords";
 import { useHistory } from "./hooks/useServices/useHistory";
 import { totalHistoryVolume } from "./lib/utils";
-import ButtonAdd from "./__components/buttons/ButtonAdd";
+import ButtonAdd from "./__components/common/buttons/ButtonAdd";
 
 export default function Home() {
   const t = useTranslations("HomePage");

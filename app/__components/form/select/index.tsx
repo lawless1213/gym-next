@@ -4,6 +4,7 @@ import clsx from "clsx";
 import { forwardRef, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { IconChevronDown, IconPlus } from "@tabler/icons-react";
 import { Label } from "../label";
+import { Button } from "../../common/buttons/button";
 
 export type SelectOption = {
   value: string;
@@ -126,14 +127,16 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>(({ input }, _ref) 
       {label && ( <Label label={{ text: label, for: id || "select" }} /> )}
 
       <div ref={triggerRef} className="relative">
-        <div className="flex items-center gap-2">
-          <button
+        <div className="flex w-full items-center gap-2">
+          <Button
+            variant="secondary"
+            size="lg"
             type="button"
             id={id || "select"}
             name={name}
             onClick={() => setIsOpen((prev) => !prev)}
             className={clsx(
-              "flex w-full items-center justify-between rounded-xl bg-secondary px-4 py-3 text-left text-foreground focus:outline-none",
+              "w-full justify-between flex-1",
               !selectedOption && "text-muted-foreground",
               error && "ring-2 ring-red-500",
               classes,
@@ -148,16 +151,16 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>(({ input }, _ref) 
                 isOpen && !openUpward && "rotate-180",
               )}
             />
-          </button>
+          </Button>
 
           {allowCustom && (
-            <button
+            <Button
               type="button"
               onClick={handleAcceptCustom}
               className="flex size-10 shrink-0 cursor-pointer items-center justify-center rounded-full bg-secondary text-muted-foreground hover:text-foreground"
               aria-label="Додати">
               <IconPlus className="size-6" />
-            </button>
+            </Button>
           )}
         </div>
 
@@ -188,30 +191,32 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>(({ input }, _ref) 
 
             <div className="max-h-60 overflow-y-auto p-1">
               {isLoading ? (
-                <div className="px-3 py-3 text-sm text-muted-foreground">Завантаження вправ...</div>
+                <div className="px-3 py-3 text-sm text-muted-foreground">Loading...</div>
               ) : filteredOptions.length === 0 ? (
                 showCustomOption ? (
-                  <button
+                  <Button
+                    variant="ghost"
                     type="button"
                     onClick={handleAcceptCustom}
-                    className="w-full rounded-lg px-3 py-2 text-left text-sm text-primary hover:bg-primary/10">
+                    className="w-full justify-start">
                     {customOptionLabel.replace("{value}", trimmedSearch)}
-                  </button>
+                  </Button>
                 ) : (
                   <div className="px-3 py-3 text-sm text-muted-foreground">{emptyText}</div>
                 )
               ) : (
                 filteredOptions.map((option) => (
-                  <button
+                  <Button
                     key={option.value}
+                    variant="ghost"
                     type="button"
                     onClick={() => handleSelect(option)}
                     className={clsx(
-                      "w-full rounded-lg px-3 py-2 text-left text-sm text-foreground hover:bg-primary/10",
+                      "w-full justify-start",
                       option.value === value && "bg-primary/15 font-medium",
                     )}>
                     {option.label}
-                  </button>
+                  </Button>
                 ))
               )}
             </div>

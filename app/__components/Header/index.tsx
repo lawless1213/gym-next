@@ -9,27 +9,26 @@ import { useModal } from "@/app/lib/modal/modal-store";
 import { toast } from "sonner";
 import { useEffect, useState } from "react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/app/__components/common/tooltip";
+import { Button } from "../common/buttons/button";
 
 type HeaderProps = {
   title: string;
   subtitle: string;
 };
 
-export function Header(props: HeaderProps) {
-  const t = useTranslations("components.header")
+export function Header({ title, subtitle }: HeaderProps) {
+  const t = useTranslations("components.header");
   const tNotification = useTranslations("notification");
   const { open } = useModal();
   const locale = useLocale();
-  const { user, logout, loading } = useAuth();
+  const { user, logout } = useAuth();
   const { mounted, isDark, toggleTheme } = useAppTheme();
   const [pendingLocaleChange, setPendingLocaleChange] = useState(false);
 
-  const langButtonHandler = (): React.MouseEventHandler<HTMLButtonElement> => {
-    return () => {
-      const newLocale = locale === "uk" ? "en" : "uk";
-      setUserLocale(newLocale);
-      setPendingLocaleChange(true);
-    };
+  const handleLanguageChange = () => {
+    const newLocale = locale === "uk" ? "en" : "uk";
+    setUserLocale(newLocale);
+    setPendingLocaleChange(true);
   };
 
   useEffect(() => {
@@ -37,75 +36,71 @@ export function Header(props: HeaderProps) {
       toast.info(tNotification("language.successChange"));
       setPendingLocaleChange(false);
     }
-  }, [locale]);
+  }, [locale, pendingLocaleChange, tNotification]);
+
+  const actions = [
+    {
+      id: "ai",
+      show: !!user,
+      onClick: () => open("ai"),
+      tooltip: t("ai"),
+      icon: <IconAi className="size-8" />,
+    },
+    {
+      id: "theme",
+      show: mounted,
+      onClick: toggleTheme,
+      tooltip: isDark ? t("lightTheme") : t("darkTheme"),
+      icon: isDark ? (
+        <IconSun className="size-5" />
+      ) : (
+        <IconMoon className="size-5" />
+      ),
+    },
+    {
+      id: "lang",
+      show: true,
+      onClick: handleLanguageChange,
+      tooltip: t("changeLang"),
+      icon: (
+        <span className="text-sm font-bold">
+          {(locale === "uk" ? "en" : "uk").toUpperCase()}
+        </span>
+      ),
+    },
+    {
+      id: "auth",
+      show: true,
+      onClick: user ? logout : () => open("auth"),
+      tooltip: user ? t("logout") : t("login"),
+      icon: user ? (
+        <IconLogout className="size-5" />
+      ) : (
+        <IconUser className="size-5" />
+      ),
+    },
+  ];
 
   return (
     <header className="flex items-center justify-between gap-2">
       <div className="space-y-1">
-        <h1 className="text-md font-bold text-foreground sm:text-2xl">{props.subtitle}</h1>
-        <p className="text-xs text-muted-foreground sm:text-sm">{props.title}</p>
+        <h1 className="text-md font-bold text-foreground sm:text-2xl">{subtitle}</h1>
+        <p className="text-xs text-muted-foreground sm:text-sm">{title}</p>
       </div>
+
       <div className="flex gap-1">
-        {user && (
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <button
-                onClick={() => open("ai")}
-                className="group flex size-10 items-center justify-center rounded-full bg-secondary cursor-pointer border-2 border-transparent border-solid hover:border-primary transition-[0.2s]">
-                <IconAi className="size-10 text-muted-foreground group-hover:text-primary transition-[0.2s]" />
-              </button>
-            </TooltipTrigger>
-            <TooltipContent side="bottom">{t("ai")}</TooltipContent>
-          </Tooltip>
-        )}
-
-        {mounted && (
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <button
-                onClick={toggleTheme}
-                className="group flex size-10 items-center justify-center rounded-full bg-secondary cursor-pointer border-2 border-transparent border-solid hover:border-primary transition-[0.2s]">
-                {isDark ? <IconSun className="size-5 text-muted-foreground group-hover:text-primary transition-[0.2s]" /> : <IconMoon className="size-5 text-muted-foreground group-hover:text-primary transition-[0.2s]" />}
-              </button>
-            </TooltipTrigger>
-            <TooltipContent side="bottom">{isDark ? t("lightTheme") :t("darkTheme")}</TooltipContent>
-          </Tooltip>
-        )}
-
-        <Tooltip>
-          <TooltipTrigger asChild>
-            <button
-              onClick={langButtonHandler()}
-              className="group flex size-10 items-center justify-center rounded-full bg-secondary cursor-pointer border-2 border-transparent border-solid hover:border-primary transition-[0.2s]">
-              <span className="text-xs text-muted-foreground group-hover:text-primary transition-[0.2s]">{(locale === "uk" ? "en" : "uk").toUpperCase()}</span>
-            </button>
-          </TooltipTrigger>
-          <TooltipContent side="bottom">{t("changeLang")}</TooltipContent>
-        </Tooltip>
-
-        {user ? (
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <button
-                onClick={logout}
-                className="group flex size-10 items-center justify-center rounded-full bg-secondary cursor-pointer border-2 border-transparent border-solid hover:border-primary transition-[0.2s]">
-                <IconLogout className="size-5 text-muted-foreground group-hover:text-primary transition-[0.2s]" />
-              </button>
-            </TooltipTrigger>
-            <TooltipContent side="bottom">{t("logout")}</TooltipContent>
-          </Tooltip>
-        ) : (
-          <Tooltip>
-            <TooltipTrigger asChild>
-              <button
-                onClick={() => open("auth")}
-                className="group flex size-10 items-center justify-center rounded-full bg-secondary cursor-pointer border-2 border-transparent border-solid hover:border-primary transition-[0.2s]">
-                <IconUser className="size-5 text-muted-foreground group-hover:text-primary transition-[0.2s]" />
-              </button>
-            </TooltipTrigger>
-            <TooltipContent side="bottom">{t("login")}</TooltipContent>
-          </Tooltip>
-        )}
+        {actions
+          .filter((action) => action.show)
+          .map((action) => (
+            <Tooltip key={action.id}>
+              <TooltipTrigger asChild>
+                <Button size="icon-lg" variant="outline" onClick={action.onClick}>
+                  {action.icon}
+                </Button>
+              </TooltipTrigger>
+              <TooltipContent side="bottom">{action.tooltip}</TooltipContent>
+            </Tooltip>
+          ))}
       </div>
     </header>
   );

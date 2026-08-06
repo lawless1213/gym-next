@@ -1,10 +1,11 @@
-'use client';
+"use client";
 
-import { useState } from 'react';
-import { WorkoutSet } from '@/app/types';
-import { cn } from '@/app/lib/utils';
-import { IconCheck, IconMinus, IconPlus } from '@tabler/icons-react';
+import { useState } from "react";
+import { WorkoutSet } from "@/app/types";
+import { cn } from "@/app/lib/utils";
+import { IconCheck, IconMinus, IconPlus } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
+import { Button } from "@/app/__components/common/buttons/button";
 
 interface SetInputProps {
   set: WorkoutSet;
@@ -37,32 +38,25 @@ export function SetInput({ set, setNumber, onUpdate, onComplete }: SetInputProps
   };
 
   return (
-    <div className={cn(
-      "flex items-center gap-2 rounded-xl p-3 transition-all",
-      set.completed 
-        ? "bg-primary/10 ring-1 ring-primary/30" 
-        : "bg-secondary"
-    )}>
-      <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-sm font-bold text-muted-foreground">
-        {setNumber}
-      </div>
+    <div className={cn("flex items-center gap-2 rounded-xl p-3 transition-all", set.completed ? "bg-primary/10 ring-1 ring-primary/30" : "bg-secondary")}>
+      <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-sm font-bold text-muted-foreground">{setNumber}</div>
 
       <div className="flex flex-1 flex-col gap-1">
         <div className="flex items-center justify-between">
           <span className="text-[10px] font-medium uppercase text-muted-foreground">{t("weight")}</span>
         </div>
         <div className="flex items-center gap-1">
-          <button
+          <Button
+            variant="ghost"
+            size="icon-sm"
             onClick={() => handleWeightChange(-2.5)}
             disabled={set.completed}
-            className="flex h-8 w-8 items-center justify-center rounded-lg bg-background text-muted-foreground transition-colors hover:text-foreground disabled:opacity-50"
-            aria-label="Decrease weight"
-          >
+            aria-label="Decrease weight">
             <IconMinus className="h-3.5 w-3.5" />
-          </button>
+          </Button>
           <input
             type="number"
-            value={weight || ''}
+            value={weight || ""}
             onChange={(e) => {
               const val = parseFloat(e.target.value) || 0;
               setWeight(val);
@@ -72,14 +66,14 @@ export function SetInput({ set, setNumber, onUpdate, onComplete }: SetInputProps
             className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none h-8 w-10 sm:w16 rounded-lg bg-background text-center text-sm font-semibold text-foreground outline-none ring-1 ring-border focus:ring-primary disabled:opacity-50"
             placeholder="kg"
           />
-          <button
+          <Button
+            variant="ghost"
+            size="icon-sm"
             onClick={() => handleWeightChange(2.5)}
             disabled={set.completed}
-            className="flex h-8 w-8 items-center justify-center rounded-lg bg-background text-muted-foreground transition-colors hover:text-foreground disabled:opacity-50"
-            aria-label="Increase weight"
-          >
+            aria-label="Increase weight">
             <IconPlus className="h-3.5 w-3.5" />
-          </button>
+          </Button>
         </div>
       </div>
 
@@ -93,17 +87,17 @@ export function SetInput({ set, setNumber, onUpdate, onComplete }: SetInputProps
           )} */}
         </div>
         <div className="flex items-center gap-1">
-          <button
+          <Button
+            variant="ghost"
+            size="icon-sm"
             onClick={() => handleRepsChange(-1)}
             disabled={set.completed}
-            className="flex h-8 w-8 items-center justify-center rounded-lg bg-background text-muted-foreground transition-colors hover:text-foreground disabled:opacity-50"
-            aria-label="Decrease reps"
-          >
+            aria-label="Decrease reps">
             <IconMinus className="h-3.5 w-3.5" />
-          </button>
+          </Button>
           <input
             type="number"
-            value={reps || ''}
+            value={reps || ""}
             onChange={(e) => {
               const val = parseInt(e.target.value) || 0;
               setReps(val);
@@ -113,30 +107,25 @@ export function SetInput({ set, setNumber, onUpdate, onComplete }: SetInputProps
             className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none h-8 w-10 sm:w16 rounded-lg bg-background text-center text-sm font-semibold text-foreground outline-none ring-1 ring-border focus:ring-primary disabled:opacity-50"
             placeholder="#"
           />
-          <button
+          <Button
+            variant="ghost"
+            size="icon-sm"
             onClick={() => handleRepsChange(1)}
             disabled={set.completed}
-            className="flex h-8 w-8 items-center justify-center rounded-lg bg-background text-muted-foreground transition-colors hover:text-foreground disabled:opacity-50"
-            aria-label="Increase reps"
-          >
+            aria-label="Increase reps">
             <IconPlus className="h-3.5 w-3.5" />
-          </button>
+          </Button>
         </div>
       </div>
 
-      <button
+      <Button
         onClick={handleComplete}
-        disabled={(weight === 0 || reps === 0)}
-        className={cn(
-          "flex h-10 w-10 shrink-0 items-center justify-center rounded-xl transition-all",
-          set.completed
-            ? "bg-primary text-primary-foreground"
-            : "bg-primary/20 text-primary hover:bg-primary hover:text-primary-foreground disabled:bg-muted disabled:text-muted-foreground"
-        )}
-        aria-label="Complete set"
-      >
-        <IconCheck className="h-5 w-5" />
-      </button>
+        disabled={weight === 0 || reps === 0}
+        variant={set.completed ? "default" : "ghost"}
+        size="icon-xl"
+        aria-label="Complete set">
+        <IconCheck className="size-5" />
+      </Button>
     </div>
   );
 }

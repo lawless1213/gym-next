@@ -7,7 +7,7 @@ import Routines from "./_components/routines";
 import { useTranslations } from "next-intl";
 import { Header } from "../__components/Header";
 import { Tabs } from "../__components/common/tabs";
-import ButtonAdd from "../__components/buttons/ButtonAdd";
+import ButtonAdd from "../__components/common/buttons/ButtonAdd";
 import { useModal } from "../lib/modal/modal-store";
 import { useAuth } from "../hooks/useAuth";
 

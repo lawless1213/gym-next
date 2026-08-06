@@ -8,7 +8,7 @@ import { useAuth } from "@/app/hooks/useAuth";
 import { BodyProgress, Measurement } from "@/app/types";
 import SkeletonBone from "@/app/__components/common/skeletonBone";
 import SkeletonSwitcher from "@/app/__components/common/SkeletonSwitcher";
-import ButtonAdd from "@/app/__components/buttons/ButtonAdd";
+import ButtonAdd from "@/app/__components/common/buttons/ButtonAdd";
 import { useModal } from "@/app/lib/modal/modal-store";
 
 export default function Progress() {

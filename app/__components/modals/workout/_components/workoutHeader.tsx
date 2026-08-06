@@ -1,6 +1,7 @@
 "use client";
 
-import { IconClock, IconPlayerPauseFilled, IconPlayerPlay, IconX } from "@tabler/icons-react";
+import { Button } from "@/app/__components/common/buttons/button";
+import { IconClock, IconPlayerPauseFilled, IconPlayerPlayFilled, IconX } from "@tabler/icons-react";
 
 interface WorkoutHeaderProps {
   title: string;
@@ -15,12 +16,13 @@ export function WorkoutHeader({ title, elapsedTime, isPaused, onTogglePause, onC
   return (
     <header className="sticky top-0 z-40 border-b border-border bg-card backdrop-blur">
       <div className="flex items-center justify-between p-4">
-        <button
+        <Button
+          size="icon-lg"
+          variant="outline"
           onClick={onTogglePause}
-          className="flex h-10 w-10 items-center justify-center rounded-full bg-secondary text-foreground cursor-pointer"
           aria-label={isPaused ? "Resume" : "Pause"}>
-          {isPaused ? <IconPlayerPlay className="h-5 w-5" /> : <IconPlayerPauseFilled className="h-5 w-5" />}
-        </button>
+          {isPaused ? <IconPlayerPlayFilled className="size-5" /> : <IconPlayerPauseFilled className="size-5" />}
+        </Button>
 
         <div className="text-center">
           <h1 className="font-bold text-foreground">{title}</h1>
@@ -30,16 +32,20 @@ export function WorkoutHeader({ title, elapsedTime, isPaused, onTogglePause, onC
           </div>
         </div>
 
-        <button
+        <Button
+          size="icon-lg"
+          variant="outline"
           onClick={onClose}
-          className="flex h-10 w-10 items-center justify-center rounded-full bg-secondary text-muted-foreground cursor-pointer hover:text-foreground"
           aria-label="Close">
-          <IconX className="h-5 w-5" />
-        </button>
+          <IconX className="size-5" />
+        </Button>
       </div>
 
       <div className="h-1 w-full bg-secondary">
-        <div className="h-full bg-primary transition-all duration-300" style={{ width: `${progress}%` }} />
+        <div
+          className="h-full bg-primary transition-all duration-300"
+          style={{ width: `${progress}%` }}
+        />
       </div>
     </header>
   );

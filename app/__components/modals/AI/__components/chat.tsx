@@ -6,7 +6,7 @@ import type { ChatMessage } from "@/app/types";
 import { useTranslations } from "next-intl";
 import { Input } from "@/app/__components/form/input";
 import { IconSend } from "@tabler/icons-react";
-import { Button } from "@/app/__components/buttons/button";
+import { Button } from "@/app/__components/common/buttons/button";
 import { TypewriterText } from "@/app/__components/common/TypewritterText";
 
 export function AiChatContent() {

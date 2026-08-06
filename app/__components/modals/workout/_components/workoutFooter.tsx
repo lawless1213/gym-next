@@ -1,7 +1,7 @@
 "use client";
 
 import { IconChecks } from "@tabler/icons-react";
-import { Button } from "@/app/__components/common/button";
+import { Button } from "@/app/__components/common/buttons/button";
 import { useTranslations } from "next-intl";
 
 interface WorkoutFooterProps {

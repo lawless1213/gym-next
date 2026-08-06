@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/app/__components/buttons/button";
+import { Button } from "@/app/__components/common/buttons/button";
 import { useTranslations } from "next-intl";
 
 export type ConfirmOptions = {

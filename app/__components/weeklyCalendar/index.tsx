@@ -11,7 +11,7 @@ import SkeletonBone from "../common/skeletonBone";
 import SkeletonSwitcher from "../common/SkeletonSwitcher";
 import { IconEdit, IconPlus } from "@tabler/icons-react";
 import { useModal } from "@/app/lib/modal/modal-store";
-import { Button } from "../buttons/button";
+import { Button } from "../common/buttons/button";
 
 type WeeklyCalendarProps = {
   schedule?: ScheduleMap;
@@ -128,7 +128,7 @@ export function WeeklyCalendar({ schedule }: WeeklyCalendarProps = {}) {
             const isActive = highlightIndex === index || hoveredIndex === index;
 
             return (
-              <button
+              <div
                 key={day}
                 onClick={() => canOpen && cardToggler(index)}
                 onMouseEnter={() => canOpen && setHoveredIndex(index)}
@@ -152,7 +152,7 @@ export function WeeklyCalendar({ schedule }: WeeklyCalendarProps = {}) {
                     className={`relative z-10 h-1.5 w-1.5 rounded-full ${isPast ? "bg-muted-foreground" : "bg-primary"}`}
                   />
                 )}
-              </button>
+              </div>
             );
           })}
         </div>

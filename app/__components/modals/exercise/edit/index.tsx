@@ -4,7 +4,7 @@ import { ModalWrapper } from "../../modal-wrapper";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Button } from "@/app/__components/buttons/button";
+import { Button } from "@/app/__components/common/buttons/button";
 import { Input } from "@/app/__components/form/input";
 import { IconBarbell, IconUpload } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
