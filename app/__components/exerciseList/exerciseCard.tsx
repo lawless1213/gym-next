@@ -30,7 +30,7 @@ export function ExerciseCard({ exercise, className, trailing, onClick, disabled 
       type={isButton ? "button" : undefined}
       disabled={isButton ? disabled : undefined}
       onClick={onClick}
-      className={cn("flex w-full items-center gap-3 bg-card p-3 text-left", disabled && "opacity-40 cursor-not-allowed select-none", onClick && !disabled && "cursor-pointer", className)}>
+      className={cn("flex w-full items-center gap-4 bg-card p-3 text-left", disabled && "opacity-40 cursor-not-allowed select-none", onClick && !disabled && "cursor-pointer", className)}>
       <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-secondary">
         {exercise.imageUrl ? (
           <Image

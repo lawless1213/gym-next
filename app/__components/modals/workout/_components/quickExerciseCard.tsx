@@ -6,6 +6,7 @@ import { cn } from "@/app/lib/utils";
 import { IconBarbell, IconCheck, IconChevronDown, IconChevronUp, IconMinus, IconPlus, IconTrophy, IconX } from "@tabler/icons-react";
 import { SetInput } from "./setInput";
 import { useTranslations } from "next-intl";
+import { Button } from "@/app/__components/common/buttons/button";
 
 interface QuickExerciseCardProps {
   workoutExercise: QuickWorkoutExercise;
@@ -109,24 +110,30 @@ export function QuickExerciseCard({ workoutExercise, record, onUpdateSet, onAddS
           ))}
 
           <div className="flex gap-2">
-            <button
+            <Button
+              variant="outline"
+              size="sm"
               onClick={onRemoveSet}
-              className="flex flex-1 items-center justify-center gap-2 rounded-xl border-2 border-dashed border-border py-3 text-xs font-medium text-muted-foreground transition-colors hover:border-red-500 hover:text-red-500">
-              <IconMinus className="h-4 w-4" />
+              className="flex-1 hover:border-red-500 hover:text-red-500">
+              <IconMinus className="size-4" />
               {t("removeSet")}
-            </button>
-            <button
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
               onClick={onAddSet}
-              className="flex flex-1 items-center justify-center gap-2 rounded-xl border-2 border-dashed border-border py-3 text-xs font-medium text-muted-foreground transition-colors hover:border-primary hover:text-primary">
-              <IconPlus className="h-4 w-4" />
+              className="flex-1 hover:border-primary hover:text-primary">
+              <IconPlus className="size-4" />
               {t("addSet")}
-            </button>
-            <button
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
               onClick={onRemoveExercise}
-              className="flex flex-1 items-center justify-center gap-2 rounded-xl border-2 border-dashed border-border py-3 text-xs font-medium text-muted-foreground transition-colors hover:border-red-500 hover:text-red-500">
-              <IconX className="h-4 w-4" />
+              className="flex-1 hover:border-red-500 hover:text-red-500">
+              <IconX className="size-4" />
               {t("remove")}
-            </button>
+            </Button>
           </div>
         </div>
       )}

@@ -260,7 +260,7 @@ export default function Progress() {
       <ButtonAdd
         onClick={() => open('progress')}
         ariaLabel={t('progress.buttonAdd')}
-        icon= { <IconEdit className="h-6 w-6" /> }
+        icon= { <IconEdit className="size-6" /> }
       />
     </div>
   );

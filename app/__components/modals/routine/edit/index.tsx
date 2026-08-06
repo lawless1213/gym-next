@@ -115,9 +115,8 @@ export function RoutineEditModal() {
                         const isSelected = currentValue === colorItem;
 
                         return (
-                          <button
+                          <div
                             key={colorItem}
-                            type="button"
                             role="radio"
                             aria-checked={isSelected}
                             onClick={() => {
@@ -159,25 +158,28 @@ export function RoutineEditModal() {
                       <p className="font-medium text-foreground">{field.name}</p>
                       <p className="text-xs text-muted-foreground">{field.muscleGroup}</p>
                     </div>
-                    <button
+                    <Button
+                      variant="ghost"
+                      size="icon-lg"
                       type="button"
                       onClick={() => remove(index)}
-                      className="flex h-8 w-8 items-center justify-center rounded-lg text-muted-foreground hover:bg-destructive/10 hover:text-destructive"
                       aria-label={`Remove ${field.name}`}>
-                      <IconTrash className="h-4 w-4" />
-                    </button>
+                      <IconTrash className="size-4" />
+                    </Button>
                   </div>
                 ))}
 
                 {errors.exercises && <p className="text-sm text-red-500">{errors.exercises.message}</p>}
 
-                <button
+                <Button
+                  variant="dashed"
                   type="button"
-                  onClick={() => setShowExercisePicker(true)}
-                  className="flex w-full items-center justify-center gap-2 rounded-xl border-2 border-dashed border-border py-4 text-sm font-medium text-muted-foreground transition-colors hover:border-primary hover:text-primary">
+                  size="lg"
+                  className="w-full"
+                  onClick={() => setShowExercisePicker(true)}>
                   <IconPlus className="h-4 w-4" />
                   {t("addExercises")}
-                </button>
+                </Button>
               </div>
             </div>
 
@@ -188,7 +190,7 @@ export function RoutineEditModal() {
               disabled={isSubmitting || !isDirty || !isValid}
               className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
               size="lg">
-              Edit
+              {t("submit")}
             </Button>
           </div>
 
@@ -196,12 +198,13 @@ export function RoutineEditModal() {
             <div className="absolute inset-0 z-10 flex flex-col rounded-t-3xl bg-card">
               <div className="flex items-center justify-between border-b border-border p-6">
                 <h3 className="text-lg font-bold text-foreground">{t("picker.title")}</h3>
-                <button
-                  type="button"
+                <Button
                   onClick={() => setShowExercisePicker(false)}
-                  className="flex h-10 w-10 items-center justify-center rounded-full bg-secondary text-muted-foreground hover:text-foreground">
-                  <IconX className="h-5 w-5" />
-                </button>
+                  variant="outline"
+                  size="icon-lg"
+                  aria-label="Close">
+                  <IconX className="size-5" />
+                </Button>
               </div>
               <div className="flex-1 space-y-2 overflow-y-auto p-6">
                 {exercises.map((exercise) => {

@@ -2,7 +2,7 @@ import { useAuth } from "@/app/hooks/useAuth";
 import { deleteUserRoutine } from "@/app/lib/actions/routine";
 import { useModal } from "@/app/lib/modal/modal-store";
 import { Routine } from "@/app/types";
-import { IconPlayerPlay, IconChecks, IconX, IconMenu2, IconEdit, IconTrash } from "@tabler/icons-react";
+import { IconChecks, IconX, IconMenu2, IconEdit, IconTrash, IconPlayerPlayFilled } from "@tabler/icons-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
@@ -11,6 +11,7 @@ import { toast } from "sonner";
 import { AnimatePresence, motion } from "motion/react";
 import { ExerciseCard } from "../exerciseList";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/app/__components/common/tooltip";
+import { Button } from "../common/buttons/button";
 
 export default function RoutineCard(routine: Routine) {
   const t = useTranslations("components.routineCard");
@@ -44,7 +45,7 @@ export default function RoutineCard(routine: Routine) {
 
       const ok = await confirm({
         title: routine.name,
-        description: t('delete')
+        description: t("delete"),
       });
 
       if (ok) {
@@ -52,7 +53,7 @@ export default function RoutineCard(routine: Routine) {
 
         queryClient.invalidateQueries({ queryKey: ["exercises", user.uid] });
         queryClient.invalidateQueries({ queryKey: ["routines", user.uid] });
-        toast.success(t('deleteSuccess'));
+        toast.success(t("deleteSuccess"));
       }
     } catch (err: any) {
       console.log(err);
@@ -80,7 +81,7 @@ export default function RoutineCard(routine: Routine) {
         {...handlers}>
         <motion.div
           className="bg-card p-4 flex gap-2 w-full items-center"
-          animate={{ x: routine.editable && isEditable ? -80 : 0 }}
+          animate={{ x: routine.editable && isEditable ? -72 : 0 }}
           transition={{ type: "spring", stiffness: 300, damping: 30 }}>
           <div className="mr-auto">
             <h3 className="font-semibold text-foreground">{routine.name}</h3>
@@ -101,11 +102,12 @@ export default function RoutineCard(routine: Routine) {
           </div>
 
           {routine.available && !routine.completed && (
-            <button
+            <Button
+              size="icon-lg"
               onClick={() => open("workout", routine)}
-              className="group shrink-0 flex h-10 w-10 items-center justify-center rounded-full bg-secondary cursor-pointer border-2 border-transparent border-solid hover:border-primary transition-[0.2s]">
-              <IconPlayerPlay className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-[0.2s]" />
-            </button>
+              className="shrink-0">
+              <IconPlayerPlayFilled className="size-5" />
+            </Button>
           )}
 
           {routine.completed && (
@@ -117,14 +119,16 @@ export default function RoutineCard(routine: Routine) {
           {routine.editable && (
             <Tooltip>
               <TooltipTrigger asChild>
-                <button
+                <Button
+                  variant="outline"
+                  size="icon-xl"
                   onClick={(e) => {
                     e.stopPropagation();
                     setIsEditable(!isEditable);
                   }}
-                  className="group shrink-0 flex h-10 w-10 items-center justify-center rounded-full bg-secondary cursor-pointer border-2 border-transparent border-solid hover:border-primary transition-[0.2s]">
+                  className="hrink-0">
                   {isEditable ? <IconX className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-[0.2s]" /> : <IconMenu2 className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-[0.2s]" />}
-                </button>
+                </Button>
               </TooltipTrigger>
               {!isEditable && <TooltipContent side="left">{t("options")}</TooltipContent>}
             </Tooltip>
@@ -136,16 +140,19 @@ export default function RoutineCard(routine: Routine) {
             initial={{ x: 80 }}
             animate={{ x: isEditable ? 0 : 80 }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}>
-            <div
+            <Button
+              size="icon"
               onClick={editHandler}
-              className="flex items-center justify-center w-10 h-full bg-primary cursor-pointer hover:brightness-110">
-              <IconEdit className="h-5 w-5" />
-            </div>
-            <div
+              className="h-full rounded-none">
+              <IconEdit className="size-5" />
+            </Button>
+            <Button
+              size="icon"
+              variant="destructive"
               onClick={deleteHandler}
-              className="flex items-center justify-center w-10 h-full bg-red-500 cursor-pointer hover:brightness-110">
-              <IconTrash className="h-5 w-5" />
-            </div>
+              className="h-full rounded-none">
+              <IconTrash className="size-5" />
+            </Button>
           </motion.div>
         )}
       </div>

@@ -5,6 +5,7 @@ import SignUpForm from './signUpForm'
 import LoginForm from './loginForm'
 import { ModalWrapper } from '../modal-wrapper'
 import { useTranslations } from 'next-intl'
+import { Button } from '../../common/buttons/button'
 
 
 export function AuthModal() {
@@ -17,12 +18,13 @@ export function AuthModal() {
 
         {isSignUp ? <SignUpForm /> : <LoginForm />}
 
-        <button
+        <Button
+          variant="link"
           className="text-xs text-zinc-400 hover:underline cursor-pointer self-start"
           onClick={() => setIsSignUp(!isSignUp)}
         >
           {isSignUp ? t('modal.alreadyHaveAccount') : t('modal.dontHaveAccount')}
-        </button>
+        </Button>
       </div>
     </ModalWrapper>
   )

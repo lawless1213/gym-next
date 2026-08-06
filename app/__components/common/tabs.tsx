@@ -3,6 +3,7 @@
 import { motion, AnimatePresence } from "motion/react";
 import { cn } from "@/app/lib/utils";
 import React from "react";
+import { Button } from "./buttons/button";
 
 interface TabItem {
   id: string;
@@ -30,11 +31,12 @@ export function Tabs({ items, activeTab, onChange, children, tabsClasses }: Tabs
         {items.map((item) => {
           const isActive = activeTab === item.id;
           return (
-            <button
+            <Button
+              variant="link"
               key={item.id}
               onClick={() => onChange(item.id)}
               className={cn(
-                "relative z-10 cursor-pointer flex flex-1 items-center justify-center gap-2 py-2.5 text-sm font-medium transition-colors outline-none",
+                "relative z-10 flex-1 hover:no-underline",
                 isActive ? "text-foreground" : "text-muted-foreground hover:text-foreground"
               )}
             >
@@ -47,7 +49,7 @@ export function Tabs({ items, activeTab, onChange, children, tabsClasses }: Tabs
               )}
               {item.icon && <span className="z-20">{item.icon}</span>}
               <span className="z-20">{item.label}</span>
-            </button>
+            </Button>
           );
         })}
       </div>

@@ -111,7 +111,7 @@
     "routineCard": {
       "amount": "Number of exercises",
       "emptyExercises": "Exercises is empty",
-      "options": "Program exercise",
+      "options": "Edit program",
       "delete": "Are you sure you want to delete?",
       "deleteSuccess": "Delete successful"
     },

@@ -13,6 +13,7 @@ import { useModal } from "@/app/lib/modal/modal-store";
 import { ExerciseCard } from "./exerciseCard";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/app/__components/common/tooltip";
 import { useTranslations } from "next-intl";
+import { Button } from "../common/buttons/button";
 
 export { ExerciseCard } from "./exerciseCard";
 export type { ExerciseCardProps, ExerciseCardData } from "./exerciseCard";
@@ -84,7 +85,7 @@ export function ExerciseListItem({ exercise }: ExerciseListItemProps) {
       {...handlers}>
       <motion.div
         className="w-full"
-        animate={{ x: isEditable ? -80 : 0 }}
+        animate={{ x: isEditable ? -72 : 0 }}
         transition={{ type: "spring", stiffness: 300, damping: 30 }}>
         <ExerciseCard
           exercise={exercise}
@@ -92,11 +93,13 @@ export function ExerciseListItem({ exercise }: ExerciseListItemProps) {
             canEdit ? (
               <Tooltip>
                 <TooltipTrigger asChild>
-                  <div
+                  <Button
+                    variant="outline"
+                    size="icon-xl"
                     onClick={() => setIsEditable(!isEditable)}
-                    className="group flex h-10 w-10 shrink-0 cursor-pointer items-center justify-center rounded-full border-2 border-solid border-transparent bg-secondary transition-[0.2s] hover:border-primary">
-                    {isEditable ? <IconX className="h-5 w-5 text-muted-foreground transition-[0.2s] group-hover:text-primary" /> : <IconMenu2 className="h-5 w-5 text-muted-foreground transition-[0.2s] group-hover:text-primary" />}
-                  </div>
+                    className="shrink-0">
+                    {isEditable ? <IconX className="size-5" /> : <IconMenu2 className="size-5" />}
+                  </Button>
                 </TooltipTrigger>
                 {!isEditable && <TooltipContent side="left">{t("options")}</TooltipContent>}
               </Tooltip>
@@ -110,16 +113,19 @@ export function ExerciseListItem({ exercise }: ExerciseListItemProps) {
           initial={{ x: 80 }}
           animate={{ x: isEditable ? 0 : 80 }}
           transition={{ type: "spring", stiffness: 300, damping: 30 }}>
-          <div
+          <Button
+            size="icon"
             onClick={editHandler}
-            className="flex h-full w-10 cursor-pointer items-center justify-center bg-primary hover:brightness-110">
-            <IconEdit className="h-5 w-5" />
-          </div>
-          <div
+            className="h-full rounded-none">
+            <IconEdit className="size-5" />
+          </Button>
+          <Button
+            size="icon"
+            variant="destructive"
             onClick={deleteHandler}
-            className="flex h-full w-10 cursor-pointer items-center justify-center bg-red-500 hover:brightness-110">
-            <IconTrash className="h-5 w-5" />
-          </div>
+            className="h-full rounded-none">
+            <IconTrash className="size-5" />
+          </Button>
         </motion.div>
       )}
     </div>

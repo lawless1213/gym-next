@@ -7,6 +7,7 @@ import { useModal } from "@/app/lib/modal/modal-store";
 import clsx from "clsx";
 import { IconX } from "@tabler/icons-react";
 import { ModalType } from "@/app/lib/modal/modal-renderer";
+import { Button } from "../common/buttons/button";
 
 type Props = {
   modalType: ModalType;
@@ -57,12 +58,13 @@ export function ModalWrapper({ modalType, children, classes, contentClasses, siz
 								header &&
                 <div className="flex items-center justify-between border-b border-border p-6">
                   <h2 className="text-xl font-bold text-foreground">{title}</h2>
-                  <button
+                  <Button
+                    variant="outline"
+                    size="icon-lg"
                     onClick={close}
-                    className="flex h-10 w-10 items-center justify-center rounded-full bg-secondary text-muted-foreground cursor-pointer hover:text-foreground"
                     aria-label="Close">
-                    <IconX className="h-5 w-5" />
-                  </button>
+                    <IconX className="size-5" />
+                  </Button>
                 </div>
               }
               <div 

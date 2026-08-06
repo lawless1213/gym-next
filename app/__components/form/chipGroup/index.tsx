@@ -1,3 +1,4 @@
+import { Button } from "../../common/buttons/button";
 import { Label } from "../label";
 
 export function ChipGroup<T extends string>({
@@ -24,7 +25,8 @@ export function ChipGroup<T extends string>({
         {items.map((item) => {
           const checked = value.includes(item);
           return (
-            <button
+            <Button
+              variant={checked ? "default" : "secondary"}
               key={item}
               type="button"
               role="checkbox"
@@ -32,11 +34,9 @@ export function ChipGroup<T extends string>({
               onClick={() =>
                 onChange(checked ? value.filter((v) => v !== item) : [...value, item])
               }
-              className={`cursor-pointer flex items-center gap-1.5 rounded-full px-4 py-2 text-sm font-medium transition-all ${
-                checked ? "bg-primary text-primary-foreground" : "bg-secondary text-muted-foreground hover:text-foreground"
-              }`}>
+            >
               {formatLabel ? formatLabel(item) : item}
-            </button>
+            </Button>
           );
         })}
       </div>

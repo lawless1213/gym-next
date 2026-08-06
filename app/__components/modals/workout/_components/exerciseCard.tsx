@@ -6,6 +6,7 @@ import { cn } from "@/app/lib/utils";
 import { IconBarbell, IconCheck, IconChevronDown, IconChevronUp, IconMinus, IconPlus, IconTrophy } from "@tabler/icons-react";
 import { SetInput } from "./setInput";
 import { useTranslations } from "next-intl";
+import { Button } from "@/app/__components/common/buttons/button";
 
 interface ExerciseCardProps {
   workoutExercise: WorkoutExercise;
@@ -26,7 +27,7 @@ export function ExerciseCard({ workoutExercise, record, onUpdateSet, onAddSet, o
 
   return (
     <div className="overflow-hidden rounded-2xl bg-card p-0.5">
-      <button
+      <div
         onClick={() => setExpanded(!expanded)}
         className="flex w-full items-center gap-3 text-left">
         <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-secondary">
@@ -57,7 +58,7 @@ export function ExerciseCard({ workoutExercise, record, onUpdateSet, onAddSet, o
           </span>
           {expanded ? <IconChevronUp className="h-5 w-5 text-muted-foreground" /> : <IconChevronDown className="h-5 w-5 text-muted-foreground" />}
         </div>
-      </button>
+      </div>
 
       {expanded && (
         <div className="flex flex-col gap-2 mt-3">
@@ -99,18 +100,22 @@ export function ExerciseCard({ workoutExercise, record, onUpdateSet, onAddSet, o
           ))}
 
           <div className="flex gap-2">
-            <button
+            <Button
+              variant="outline"
+              size="sm"
               onClick={onRemoveSet}
-              className="flex flex-1 items-center justify-center gap-2 rounded-xl border-2 border-dashed border-border py-3 text-sm font-medium text-muted-foreground transition-colors hover:border-red-500 hover:text-red-500">
+              className="flex-1 hover:border-red-500 hover:text-red-500">
               <IconMinus className="h-4 w-4" />
               {t("removeSet")}
-            </button>
-            <button
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
               onClick={onAddSet}
-              className="flex flex-1 items-center justify-center gap-2 rounded-xl border-2 border-dashed border-border py-3 text-sm font-medium text-muted-foreground transition-colors hover:border-primary hover:text-primary">
+              className="flex-1 hover:border-primary hover:text-primary">
               <IconPlus className="h-4 w-4" />
               {t("addSet")}
-            </button>
+            </Button>
           </div>
         </div>
       )}
