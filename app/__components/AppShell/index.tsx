@@ -66,7 +66,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       ) : (
         <div
           key="app"
-          className="flex min-h-screen flex-col max-w-[1440px] w-full mx-auto">
+          className="flex min-h-screen flex-col max-w-[1920px] w-full mx-auto">
           <Toaster/>
           <BottomNav />
           <main
