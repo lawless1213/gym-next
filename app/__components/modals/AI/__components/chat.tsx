@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useRef, useEffect } from "react";
+import { useState, useRef, useCallback } from "react";
 import { sendChatMessage } from "@/app/lib/actions/gemini/chat";
 import type { ChatMessage } from "@/app/types";
 import { useTranslations } from "next-intl";
@@ -9,31 +9,6 @@ import { IconSend } from "@tabler/icons-react";
 import { Button } from "@/app/__components/buttons/button";
 import { TypewriterText } from "@/app/__components/common/TypewritterText";
 
-function TypewriterMessage({ text, onRender }: { text: string; onRender: () => void }) {
-  const ref = useRef<HTMLDivElement>(null);
-
-  useEffect(() => {
-    onRender();
-
-    if (!ref.current) return;
-    const observer = new ResizeObserver(() => {
-      onRender();
-    });
-
-    observer.observe(ref.current);
-    return () => observer.disconnect();
-  }, [text, onRender]);
-
-  return (
-    <div ref={ref}>
-      <TypewriterText
-        text={text}
-        speed={10}
-      />
-    </div>
-  );
-}
-
 export function AiChatContent() {
   const t = useTranslations("ai.modal.chat");
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -41,15 +16,14 @@ export function AiChatContent() {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  const scrollToBottom = (smooth = true) => {
+  // Огортаємо в useCallback, щоб посилання на функцію не змінювалося
+  const scrollToBottom = useCallback((smooth = false) => {
     messagesEndRef.current?.scrollIntoView({
       behavior: smooth ? "smooth" : "auto",
     });
-  };
+  }, []);
 
-  useEffect(() => {
-    scrollToBottom();
-  }, [messages, isLoading]);
+  // ❌ useEffect звідси прибрано — згладжуванням і скролом повністю керує TypewriterText
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -66,7 +40,11 @@ export function AiChatContent() {
     setInput("");
     setIsLoading(true);
 
-    const result = await sendChatMessage(messages, userMessage.text);
+    // Скролимо донизу одразу після відправки повідомлення користувача
+    scrollToBottom(true);
+
+    // Передаємо оновлену історію
+    const result = await sendChatMessage(updatedHistory, userMessage.text);
 
     setIsLoading(false);
 
@@ -85,7 +63,9 @@ export function AiChatContent() {
   return (
     <>
       <div className="flex-1 flex flex-col gap-4 overflow-y-auto">
-        {messages.length === 0 && <p className="text-center text-muted-foreground m-auto">{t("description")}</p>}
+        {messages.length === 0 && (
+          <p className="text-center text-muted-foreground m-auto">{t("description")}</p>
+        )}
 
         {messages.map((msg, index) => {
           const isLastMessage = index === messages.length - 1;
@@ -95,11 +75,16 @@ export function AiChatContent() {
             <div
               key={msg.id}
               className={`flex ${isModel ? "justify-start" : "justify-end"}`}>
-              <div className={`max-w-[80%] rounded-2xl px-4 py-2.5 whitespace-pre-wrap text-sm ${isModel ? "bg-muted text-foreground rounded-bl-none" : "bg-primary text-primary-foreground rounded-br-none"}`}>
+              <div
+                className={`max-w-[80%] rounded-2xl px-4 py-2.5 whitespace-pre-wrap text-sm ${
+                  isModel
+                    ? "bg-muted text-foreground rounded-bl-none"
+                    : "bg-primary text-primary-foreground rounded-br-none"
+                }`}>
                 {isModel && isLastMessage ? (
-                  <TypewriterMessage
+                  <TypewriterText
                     text={msg.text}
-                    onRender={() => scrollToBottom(false)} 
+                    onRender={scrollToBottom} 
                   />
                 ) : (
                   msg.text
@@ -111,7 +96,9 @@ export function AiChatContent() {
 
         {isLoading && (
           <div className="flex justify-start">
-            <div className="bg-muted text-muted-foreground rounded-2xl rounded-bl-none px-4 py-2 text-sm animate-pulse">{t("loading")}</div>
+            <div className="bg-muted text-muted-foreground rounded-2xl rounded-bl-none px-4 py-2 text-sm animate-pulse">
+              {t("loading")}
+            </div>
           </div>
         )}
         <div ref={messagesEndRef} />
