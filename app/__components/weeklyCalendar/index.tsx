@@ -11,6 +11,7 @@ import SkeletonBone from "../common/skeletonBone";
 import SkeletonSwitcher from "../common/SkeletonSwitcher";
 import { IconEdit, IconPlus } from "@tabler/icons-react";
 import { useModal } from "@/app/lib/modal/modal-store";
+import { Button } from "../buttons/button";
 
 type WeeklyCalendarProps = {
   schedule?: ScheduleMap;
@@ -19,7 +20,7 @@ type WeeklyCalendarProps = {
 const TAB_HIGHLIGHT_DELAY = 0;
 
 export function WeeklyCalendar({ schedule }: WeeklyCalendarProps = {}) {
-  const t = useTranslations("HomePage.weeklyCalendar");
+  const t = useTranslations("components.weeklyCalendar");
   const tDays = useTranslations("components.day.short");
   const isPreview = schedule != null;
   const { user, loading: isUserLoading } = useAuth();
@@ -182,17 +183,24 @@ export function WeeklyCalendar({ schedule }: WeeklyCalendarProps = {}) {
                 />
               ))}
               {!isPreview && (
-                <button
-                  className="group flex mx-3 rounded-2xl items-center justify-center bg-card cursor-pointer p-4 border-2 border-dashed hover:border-primary transition-[0.2s] md:mx-0"
+                <Button
+                  size="lg"
+                  variant="dashed"
                   onClick={() =>
                     open("schedule", { dayIndex: openCardIndex, routines: scheduleDays[weekDays[openCardIndex]] })
                   }>
                   {scheduleDays[weekDays[openCardIndex]].length > 0 ? (
-                    <IconEdit className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-[0.2s]" />
+                    <>
+                      <IconEdit className="size-5" />
+                      <span>{t("edit")}</span>
+                    </>
                   ) : (
-                    <IconPlus className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-[0.2s]" />
+                    <>
+                      <IconPlus className="size-5" />
+                      <span>{t("edit")}</span>
+                    </>
                   )}
-                </button>
+                </Button>
               )}
             </div>
           </motion.div>

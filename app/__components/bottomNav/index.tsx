@@ -18,10 +18,9 @@ export function BottomNav() {
         {getNavLinks(!!user).map((item) => {
           const isActive = pathname === item.link;
           return (
-            <Tooltip>
+            <Tooltip key={item.label}>
               <TooltipTrigger asChild>
                 <Link
-                  key={item.label}
                   href={item.link}
                   className={`flex min-w-[64px] flex-col items-center gap-1 rounded-xl px-4 py-2 transition-all duration-200 ${isActive ? "text-primary pointer-events-none cursor-none" : "text-muted-foreground hover:text-foreground"}`}
                   aria-label={item.label}>

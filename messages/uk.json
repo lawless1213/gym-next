@@ -122,6 +122,10 @@
       "delete": "Впевнені у видаленні?",
       "deleteSuccess": "Видалення успішне"
     },
+    "weeklyCalendar": {
+      "title": "Графік тренувань",
+      "edit": "Редагувати графік"
+    },
     "motivationalBanner": {
       "records": "{value} рекордів",
       "title": "Продовжуй рухатися до межі!",
@@ -140,9 +144,6 @@
       "guest": "Гість"
     },
     "buttonAdd": "Швидке тренування",
-    "weeklyCalendar": {
-      "title": "Графік тренувань"
-    },
     "workoutCard": {
       "title": "Наступне тренування",
       "exercisesValue": "Кіл-сть вправ",

@@ -16,7 +16,7 @@ import { Select } from "@/app/__components/form/select";
 import { generateAiRoutine } from "@/app/lib/actions/gemini/routine";
 import RoutineCard from "@/app/__components/cards/routine";
 import { createAiUserRoutine, createUserRoutine } from "@/app/lib/actions/routine";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { TypewriterText } from "@/app/__components/common/TypewritterText";
 
 const routineSchema = z.object({
@@ -58,6 +58,7 @@ const routineSchema = z.object({
 type RoutineAIFormData = z.infer<typeof routineSchema>;
 
 export function AiRoutineContent() {
+  const locale = useLocale();
   const t = useTranslations("ai.modal");
   const tComponents = useTranslations("components");
   const { close, confirm } = useModal();
@@ -98,6 +99,7 @@ export function AiRoutineContent() {
       const result = await generateAiRoutine({
         ...formData,
         userId: user.uid,
+        locale
       });
 
       if (!result.success) {

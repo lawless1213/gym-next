@@ -6,6 +6,7 @@ import { generateStructured } from "./client";
 import { getCommonExercises, getUserExercises } from "@/app/lib/services/exercises";
 import { MUSCLE_GROUPS } from "@/app/data/exercise";
 
+
 type MuscleGroup = (typeof MUSCLE_GROUPS)[number];
 
 const exerciseResponseSchema = {
@@ -39,6 +40,7 @@ type ExerciseInput = {
   groups: string[];
   comment?: string;
   userId: string;
+  locale: string;
 };
 
 type AiRawResponse = {
@@ -134,6 +136,7 @@ ${existingNames.map((n) => `- ${n}`).join("\n")}`
 ${exclusionBlock}
 
 Поле muscleGroup у відповіді ОБОВʼЯЗКОВО має бути одним із значень: ${MUSCLE_GROUPS.join(", ")}. Не використовуй жодних інших варіантів чи синонімів.
+Поля name та description для вправ мають бути на мові ${input.locale}.
 
 Запропонуй одну НОВУ вправу, якої немає в списку вище, з чіткою назвою та коротким описом техніки виконання.${retryNote}
 `.trim();

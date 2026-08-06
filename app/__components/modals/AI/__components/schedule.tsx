@@ -19,7 +19,7 @@ import { ChipGroup } from "@/app/__components/form/chipGroup";
 import { WeeklyCalendar } from "@/app/__components/weeklyCalendar";
 import { TypewriterText } from "@/app/__components/common/TypewritterText";
 import { createAiUserSchedule } from "@/app/lib/actions/shedule";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 
 const scheduleSchema = z.object({
   comment: z.string().optional(),
@@ -50,6 +50,8 @@ const scheduleSchema = z.object({
 type ScheduleFormData = z.infer<typeof scheduleSchema>;
 
 export function AiScheduleContent() {
+  const locale = useLocale();
+
   const t = useTranslations("ai.modal");
   const tComponents = useTranslations("components");
 
@@ -90,7 +92,8 @@ export function AiScheduleContent() {
     try {
       if (!user) throw new Error("Not authenticated");
 
-      const result = await generateAiSchedule({ ...formData, userId: user.uid });
+  const locale = useLocale();
+      const result = await generateAiSchedule({ ...formData, userId: user.uid, locale });
 
       if (!result.success) {
         setError("root", { message: result.error });

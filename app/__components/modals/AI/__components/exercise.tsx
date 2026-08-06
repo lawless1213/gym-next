@@ -19,7 +19,7 @@ import { Select } from "@/app/__components/form/select";
 import { ChipGroup } from "@/app/__components/form/chipGroup";
 import { generateAiExercise } from "@/app/lib/actions/gemini/exercise";
 import { ExerciseCard } from "@/app/__components/exerciseList";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { TypewriterText } from "@/app/__components/common/TypewritterText";
 
 const exerciseSchema = z.object({
@@ -39,6 +39,7 @@ const exerciseSchema = z.object({
 type ExerciseAIFormData = z.infer<typeof exerciseSchema>;
 
 export function AiExerciseContent() {
+  const locale = useLocale();
   const tComponents = useTranslations("components");
   const t = useTranslations("ai.modal");
   const { close, confirm } = useModal();
@@ -74,7 +75,7 @@ export function AiExerciseContent() {
     try {
       if (!user) throw new Error("Not authenticated");
 
-      const result = await generateAiExercise({ ...data, userId: user.uid });
+      const result = await generateAiExercise({ ...data, userId: user.uid, locale });
 
       if (!result.success) {
         toast.error(result.error);

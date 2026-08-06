@@ -16,14 +16,11 @@ export function AiChatContent() {
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
 
-  // Огортаємо в useCallback, щоб посилання на функцію не змінювалося
   const scrollToBottom = useCallback((smooth = false) => {
     messagesEndRef.current?.scrollIntoView({
       behavior: smooth ? "smooth" : "auto",
     });
   }, []);
-
-  // ❌ useEffect звідси прибрано — згладжуванням і скролом повністю керує TypewriterText
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -40,10 +37,8 @@ export function AiChatContent() {
     setInput("");
     setIsLoading(true);
 
-    // Скролимо донизу одразу після відправки повідомлення користувача
     scrollToBottom(true);
 
-    // Передаємо оновлену історію
     const result = await sendChatMessage(updatedHistory, userMessage.text);
 
     setIsLoading(false);
@@ -116,6 +111,7 @@ export function AiChatContent() {
             onChange: (e) => setInput(e.target.value),
             disabled: isLoading,
             withoutError: true,
+						autoComplete: "off",
           }}
         />
         <Button

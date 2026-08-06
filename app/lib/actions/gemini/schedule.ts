@@ -1,14 +1,13 @@
 "use server";
 
 import { randomUUID } from "crypto";
-import { db } from "@/app/lib/firebaseConfig";
-import { collection, doc, writeBatch, serverTimestamp, arrayUnion } from "firebase/firestore";
 import { generateStructured } from "./client";
 import { getCommonExercises, getUserExercises } from "@/app/lib/services/exercises";
 import { getUserRoutines } from "@/app/lib/services/routines";
 import { MUSCLE_GROUPS } from "@/app/data/exercise";
 import { weekDays } from "@/app/types";
-import type { Exercise, Routine, RoutinesExercise, ScheduleMap } from "@/app/types";
+import type { Exercise, Routine, ScheduleMap } from "@/app/types";
+import { useLocale } from "next-intl";
 
 type WeekDay = (typeof weekDays)[number];
 type MuscleGroup = (typeof MUSCLE_GROUPS)[number];
@@ -74,6 +73,7 @@ export type ScheduleInput = {
   preferredRestDays?: WeekDay[];
   comment?: string;
   userId: string;
+  locale: string;
 };
 
 type AiScheduleDay = {
@@ -221,6 +221,7 @@ function buildPrompt(
   existingRoutines: Routine[],
   restDays: WeekDay[]
 ): string {
+  const locale = useLocale();
   const routinesBlock =
     existingRoutines.length > 0
       ? `
@@ -259,6 +260,8 @@ ${exercisesBlock}
 
 Для кожного тренувального дня (масив schedule) вкажи day (код дня тижня), isNewRoutine, routineName.
 Якщо isNewRoutine=true — додатково вкажи color (HEX) та exercises: список вправ на цей день, кожна з полями name, isNew, muscleGroup (одне з: ${MUSCLE_GROUPS.join(", ")}) і description (тільки якщо isNew=true).
+Поля name та description для вправ мають бути на мові ${input.locale}.
+Поля name для програми мають бути на мові ${input.locale}.
 
 Кількість тренувальних днів у schedule має відповідати "${input.dayPerWeek}" і не включати дні відпочинку.
 `.trim();

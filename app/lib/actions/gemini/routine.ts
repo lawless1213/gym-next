@@ -5,6 +5,7 @@ import { generateStructured } from "./client";
 import { getCommonExercises, getUserExercises } from "@/app/lib/services/exercises";
 import { MUSCLE_GROUPS } from "@/app/data/exercise";
 import type { Exercise } from "@/app/types";
+import { useLocale } from "next-intl";
 
 type MuscleGroup = (typeof MUSCLE_GROUPS)[number];
 
@@ -51,6 +52,7 @@ export type RoutineInput = {
   count?: string;
   comment?: string;
   userId: string;
+  locale: string;
 };
 
 type AiRoutineExercise = {
@@ -151,6 +153,7 @@ function findExistingMatch(name: string, existing: Exercise[]): Exercise | undef
 }
 
 function buildPrompt(input: RoutineInput, existing: Exercise[]): string {
+  const locale = useLocale();
   const existingBlock =
     existing.length > 0
       ? `
@@ -176,6 +179,9 @@ ${existingBlock}
 Якщо серед існуючих вправ немає підходящої під якийсь етап тренування — створи нову вправу (isNew=true) з чіткою назвою, коротким описом техніки та групою м'язів.
 
 Поле muscleGroup для КОЖНОЇ вправи ОБОВʼЯЗКОВО має бути одним із значень: ${MUSCLE_GROUPS.join(", ")}.
+Поля name та description для вправ мають бути на мові ${input.locale}.
+Поля name для програми мають бути на мові ${input.locale}.
+
 
 Рутина має мати назву (routineName), колір у HEX та список вправ (комбінація існуючих і, за потреби, нових), що відповідають заданим параметрам.
 `.trim();

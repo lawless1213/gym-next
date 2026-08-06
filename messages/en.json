@@ -122,6 +122,10 @@
       "delete": "Are you sure you want to delete?",
       "deleteSuccess": "Delete successful"
     },
+    "weeklyCalendar": {
+      "title": "Workout schedule",
+      "edit": "Edit schedule"
+    },
     "motivationalBanner": {
       "records": "{value} PRs",
       "title": "Keep pushing your limits!",
@@ -140,9 +144,6 @@
       "guest": "Guest"
     },
     "buttonAdd": "Quick workout",
-    "weeklyCalendar": {
-      "title": "Workout schedule"
-    },
     "workoutCard": {
       "title": "Next workout",
       "exercisesValue": "Number of exercises",
