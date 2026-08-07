@@ -196,6 +196,7 @@ export function RoutineCreateModal() {
 
                   return (
                     <ExerciseCard
+                      key={exercise.id}
                       exercise={exercise}
                       onClick={() => {
                         if (isSelected) return;

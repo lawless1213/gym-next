@@ -171,7 +171,8 @@
     "exercises": {
       "searchPlaceholder": "Пошук вправ...",
       "customBadge": "Власна",
-      "buttonAdd": "Нова вправа"
+      "buttonAdd": "Нова вправа",
+      "loadMore": "Показати більше"
     },
     "routines": {
       "empty": "Список програм порожній",

@@ -131,24 +131,3 @@ export function ExerciseListItem({ exercise }: ExerciseListItemProps) {
     </div>
   );
 }
-
-interface ExerciseCategoryProps {
-  title: string;
-  exercises: Exercise[];
-}
-
-export function ExerciseCategory({ title, exercises }: ExerciseCategoryProps) {
-  return (
-    <div className="space-y-2">
-      <h3 className="px-1 text-sm font-semibold text-muted-foreground">{title}</h3>
-      <div className="space-y-2">
-        {exercises.map((exercise) => (
-          <ExerciseListItem
-            key={exercise.id}
-            exercise={exercise}
-          />
-        ))}
-      </div>
-    </div>
-  );
-}

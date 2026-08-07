@@ -1,11 +1,13 @@
 import { db } from "@/app/lib/firebaseConfig";
-import { collection, doc, getDoc, getDocs } from "firebase/firestore";
+import { collection, getDocs, query, orderBy } from "firebase/firestore";
 import { Exercise } from "@/app/types";
 
 export async function getCommonExercises(): Promise<Exercise[]> {
   try {
     const exercisesRef = collection(db, "exercises");
-    const querySnapshot = await getDocs(exercisesRef);
+    // Створюємо запит із сортуванням за полем "name"
+    const q = query(exercisesRef, orderBy("name"));
+    const querySnapshot = await getDocs(q);
 
     return querySnapshot.docs.map((doc) => {
       const data = doc.data();
@@ -27,7 +29,9 @@ export async function getUserExercises(userId: string): Promise<Exercise[]> {
 
   try {
     const exercisesRef = collection(db, "users", userId, "exercises");
-    const querySnapshot = await getDocs(exercisesRef);
+    // Створюємо запит із сортуванням за полем "name"
+    const q = query(exercisesRef, orderBy("name"));
+    const querySnapshot = await getDocs(q);
 
     return querySnapshot.docs.map((doc) => {
       const data = doc.data();

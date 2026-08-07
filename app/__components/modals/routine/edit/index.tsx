@@ -212,6 +212,7 @@ export function RoutineEditModal() {
 
                   return (
                     <ExerciseCard
+                      key={exercise.id}
                       exercise={exercise}
                       onClick={() => {
                         if (isSelected) return;
