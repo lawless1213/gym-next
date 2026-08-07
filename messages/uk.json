@@ -164,7 +164,9 @@
     "subtitle": "Твої вправи та програми",
     "tabs": {
       "exercises": "Вправи",
-      "routines": "Програми"
+      "routines": "Програми",
+      "commonExercises": "Загальні",
+      "customExercises": "Власні"
     },
     "exercises": {
       "searchPlaceholder": "Пошук вправ...",

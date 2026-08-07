@@ -163,7 +163,9 @@
     "subtitle": "Your exercises and routines",
     "tabs": {
       "exercises": "Exercises",
-      "routines": "Routines"
+      "routines": "Routines",
+      "commonExercises": "Common",
+      "customExercises": "Custom"
     },
     "exercises": {
       "searchPlaceholder": "Search exercises...",
