@@ -4,8 +4,8 @@ import { useEffect, useState } from "react";
 import { createPortal } from "react-dom";
 import type { MouseEvent, ReactNode } from "react";
 import { IconPlus } from "@tabler/icons-react";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/app/__components/common/tooltip";
-import { Button } from "./button";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/Tooltip";
+import { Button } from "../ui/Button";
 
 type ButtonAddProps = {
   onClick: (e: MouseEvent<HTMLButtonElement>) => void;

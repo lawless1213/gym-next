@@ -4,8 +4,8 @@ import { ModalWrapper } from "../../modal-wrapper";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Button } from "@/app/__components/common/buttons/button";
-import { Input } from "@/app/__components/form/input";
+import { Button } from "@/components/ui/Button";
+import { Input } from "@/components/ui/form/input";
 import { IconBarbell, IconUpload } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -15,7 +15,7 @@ import { useExerciseEditModal } from "@/app/hooks/useModals/useExerciseEditModal
 import { useQueryClient } from "@tanstack/react-query";
 import { MUSCLE_GROUPS } from "@/app/data/exercise";
 import { useTranslations } from "next-intl";
-import { ChipGroup } from "@/app/__components/form/chipGroup";
+import { ChipGroup } from "@/components/ui/form/chipGroup";
 
 const exerciseSchema = z.object({
   photo: z.instanceof(File).optional(),

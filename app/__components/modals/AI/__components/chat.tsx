@@ -4,10 +4,10 @@ import { useState, useRef, useCallback } from "react";
 import { sendChatMessage } from "@/app/lib/actions/gemini/chat";
 import type { ChatMessage } from "@/app/types";
 import { useTranslations } from "next-intl";
-import { Input } from "@/app/__components/form/input";
+import { Input } from "@/components/ui/form/input";
 import { IconSend } from "@tabler/icons-react";
-import { Button } from "@/app/__components/common/buttons/button";
-import { TypewriterText } from "@/app/__components/common/TypewritterText";
+import { Button } from "@/components/ui/Button";
+import { TypewriterText } from "@/components/ui/TypewritterText";
 
 export function AiChatContent() {
   const t = useTranslations("ai.modal.chat");

@@ -5,9 +5,9 @@ import { IconBarbell, IconFolderOpen } from "@tabler/icons-react";
 import Exercises from "./_components/exercises";
 import Routines from "./_components/routines";
 import { useTranslations } from "next-intl";
-import { Header } from "../__components/Header";
-import { Tabs } from "../__components/common/tabs";
-import ButtonAdd from "../__components/common/buttons/ButtonAdd";
+import { Header } from "@/components/shared/Header";
+import { Tabs } from "../../components/ui/Tabs";
+import ButtonAdd from "../../components/shared/ButtonAdd";
 import { useModal } from "../lib/modal/modal-store";
 import { useAuth } from "../hooks/useAuth";
 

@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/app/__components/common/buttons/button";
+import { Button } from "@/components/ui/Button";
 import { IconClock, IconPlayerPauseFilled, IconPlayerPlayFilled, IconX } from "@tabler/icons-react";
 
 interface WorkoutHeaderProps {

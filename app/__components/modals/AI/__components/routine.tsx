@@ -3,21 +3,21 @@
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Button } from "@/app/__components/common/buttons/button";
+import { Button } from "@/components/ui/Button";
 import { useModal } from "@/app/lib/modal/modal-store";
 import { toast } from "sonner";
 import { useAuth } from "@/app/hooks/useAuth";
 import { useQueryClient } from "@tanstack/react-query";
 import { DIFFICULTY, EQUIPMENT_GROUPS, GOALS, MUSCLE_GROUPS } from "@/app/data/exercise";
-import { TextArea } from "@/app/__components/form/textarea";
-import { Input } from "@/app/__components/form/input";
-import { ChipGroup } from "@/app/__components/form/chipGroup";
-import { Select } from "@/app/__components/form/select";
+import { TextArea } from "@/components/ui/form/textarea";
+import { Input } from "@/components/ui/form/input";
+import { ChipGroup } from "@/components/ui/form/chipGroup";
+import { Select } from "@/components/ui/form/select";
 import { generateAiRoutine } from "@/app/lib/actions/gemini/routine";
-import RoutineCard from "@/app/__components/cards/routine";
+import RoutineCard from "@/components/shared/cards/RoutineCard";
 import { createAiUserRoutine, createUserRoutine } from "@/app/lib/actions/routine";
 import { useLocale, useTranslations } from "next-intl";
-import { TypewriterText } from "@/app/__components/common/TypewritterText";
+import { TypewriterText } from "@/components/ui/TypewritterText";
 
 const routineSchema = z.object({
   comment: z.string().optional(),

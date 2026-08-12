@@ -5,9 +5,9 @@ import { ExerciseListItem } from "@/app/__components/exerciseList";
 import { IconSearch } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
 import { useCommonExercises } from "@/app/hooks/useServices/useExercises";
-import SkeletonBone from "@/app/__components/common/skeletonBone";
-import SkeletonSwitcher from "@/app/__components/common/SkeletonSwitcher";
-import { Button } from "@/app/__components/common/buttons/button";
+import SkeletonBone from "@/components/ui/Skeleton/SkeletonBone";
+import SkeletonSwitcher from "@/components/ui/Skeleton/SkeletonSwitcher";
+import { Button } from "@/components/ui/Button";
 
 const ITEMS_PER_PAGE = 5;
 

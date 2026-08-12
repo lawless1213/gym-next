@@ -2,10 +2,8 @@
 
 import { useState} from "react";
 import { useAuth } from "@/app/hooks/useAuth";
-import Loader from "../../__components/common/loader";
 import { useTranslations } from "next-intl";
-import SkeletonBone from "@/app/__components/common/skeletonBone";
-import { Tabs } from "@/app/__components/common/tabs";
+import { Tabs } from "@/components/ui/Tabs";
 import CommonExercises from "./commonExercises";
 import CustomExercises from "./customExercises";
 

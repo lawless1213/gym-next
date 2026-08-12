@@ -4,7 +4,7 @@ import { useState } from "react";
 import { AiExerciseContent } from "../__components/exercise";
 import { IconBarbell, IconCalendarBolt, IconTreadmill } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
-import { Tabs } from "../../../common/tabs";
+import { Tabs } from "../../../../../components/ui/Tabs";
 import { AiRoutineContent } from "../__components/routine";
 import { AiScheduleContent } from "../__components/schedule";
 

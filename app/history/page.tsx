@@ -4,10 +4,10 @@ import { IconCalendarWeekFilled, IconTrendingUp } from "@tabler/icons-react";
 import { useAuth } from "@/app/hooks/useAuth";
 import { useTranslations } from "next-intl";
 import WorkoutSession from "./_components/workoutSession";
-import { Header } from "../__components/Header";
+import { Header } from "@/components/shared/Header";
 import { useHistory } from "../hooks/useServices/useHistory";
-import SkeletonSwitcher from "../__components/common/SkeletonSwitcher";
-import SkeletonBone from "../__components/common/skeletonBone";
+import SkeletonSwitcher from "../../components/ui/Skeleton/SkeletonSwitcher";
+import SkeletonBone from "../../components/ui/Skeleton/SkeletonBone";
 
 export default function History() {
   const t = useTranslations("History");

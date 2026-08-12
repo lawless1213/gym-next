@@ -3,8 +3,8 @@
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
-import { Button } from "@/app/__components/common/buttons/button";
-import { TextArea } from "@/app/__components/form/textarea";
+import { Button } from "@/components/ui/Button";
+import { TextArea } from "@/components/ui/form/textarea";
 import { AUTH_ERRORS } from "@/app/lib/errors/auth";
 import { useModal } from "@/app/lib/modal/modal-store";
 import { IconBarbell, IconCheck, IconUpload } from "@tabler/icons-react";
@@ -13,14 +13,14 @@ import { toast } from "sonner";
 import { createUserExercise } from "@/app/lib/actions/exercise";
 import { useAuth } from "@/app/hooks/useAuth";
 import { useQueryClient } from "@tanstack/react-query";
-import { Label } from "@/app/__components/form/label";
+import { Label } from "@/components/ui/form/label";
 import { DIFFICULTY, EQUIPMENT_GROUPS, GOALS, MUSCLE_GROUPS } from "@/app/data/exercise";
-import { Select } from "@/app/__components/form/select";
-import { ChipGroup } from "@/app/__components/form/chipGroup";
+import { Select } from "@/components/ui/form/select";
+import { ChipGroup } from "@/components/ui/form/chipGroup";
 import { generateAiExercise } from "@/app/lib/actions/gemini/exercise";
 import { ExerciseCard } from "@/app/__components/exerciseList";
 import { useLocale, useTranslations } from "next-intl";
-import { TypewriterText } from "@/app/__components/common/TypewritterText";
+import { TypewriterText } from "@/components/ui/TypewritterText";
 
 const exerciseSchema = z.object({
   comment: z.string(),

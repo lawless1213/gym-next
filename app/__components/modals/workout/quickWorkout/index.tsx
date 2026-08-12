@@ -7,7 +7,7 @@ import { useAuth } from "@/app/hooks/useAuth";
 import { useAllExercises } from "@/app/hooks/useServices/useExercises";
 import { useWorkoutSession } from "@/app/hooks/workout/useWorkoutSession";
 import { useModal } from "@/app/lib/modal/modal-store";
-import { Select } from "@/app/__components/form/select";
+import { Select } from "@/components/ui/form/select";
 import { writeWorkoutSession } from "@/app/lib/actions/workout";
 import { Timestamp } from "firebase/firestore";
 import { useQueryClient } from "@tanstack/react-query";

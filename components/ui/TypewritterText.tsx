@@ -22,12 +22,10 @@ export function TypewriterText({
   useEffect(() => {
     if (!onRender) return;
 
-    // Викликаємо при першому маунті або зміні тексту
     onRender();
 
     if (!ref.current) return;
 
-    // Спостерігаємо за зміною розміру (яка відбувається під час друку кожної літери)
     const observer = new ResizeObserver(() => {
       onRender();
     });

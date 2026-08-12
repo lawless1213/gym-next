@@ -5,13 +5,13 @@ import { useRef, useState } from "react";
 import { ScheduleMap, weekDays } from "@/app/types";
 import { useTranslations } from "next-intl";
 import { AnimatePresence, motion } from "motion/react";
-import RoutineCard from "../cards/routine";
+import RoutineCard from "../cards/RoutineCard";
 import { useSchedule } from "@/app/hooks/useServices/useSchedule";
-import SkeletonBone from "../common/skeletonBone";
-import SkeletonSwitcher from "../common/SkeletonSwitcher";
+import SkeletonBone from "../../ui/Skeleton/SkeletonBone";
+import SkeletonSwitcher from "../../ui/Skeleton/SkeletonSwitcher";
 import { IconEdit, IconPlus } from "@tabler/icons-react";
 import { useModal } from "@/app/lib/modal/modal-store";
-import { Button } from "../common/buttons/button";
+import { Button } from "../../ui/Button";
 
 type WeeklyCalendarProps = {
   schedule?: ScheduleMap;

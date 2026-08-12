@@ -8,8 +8,8 @@ import { useAppTheme } from "@/app/hooks/useAppTheme";
 import { useModal } from "@/app/lib/modal/modal-store";
 import { toast } from "sonner";
 import { useEffect, useState } from "react";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/app/__components/common/tooltip";
-import { Button } from "../common/buttons/button";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/Tooltip";
+import { Button } from "@/components/ui/Button";
 
 type HeaderProps = {
   title: string;

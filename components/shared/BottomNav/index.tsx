@@ -5,7 +5,7 @@ import { getNavLinks } from "@/app/data/navManu";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { useAuth } from "@/app/hooks/useAuth";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/app/__components/common/tooltip";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/Tooltip";
 
 export function BottomNav() {
   const t = useTranslations("components.bottomNav");
@@ -22,7 +22,7 @@ export function BottomNav() {
               <TooltipTrigger asChild>
                 <Link
                   href={item.link}
-                  className={`flex min-w-[64px] flex-col items-center gap-1 rounded-xl px-4 py-2 transition-all duration-200 ${isActive ? "text-primary pointer-events-none cursor-none" : "text-muted-foreground hover:text-foreground"}`}
+                  className={`flex min-w-16 flex-col items-center gap-1 rounded-xl px-4 py-2 transition-all duration-200 ${isActive ? "text-primary pointer-events-none cursor-none" : "text-muted-foreground hover:text-foreground"}`}
                   aria-label={item.label}>
                   <div className={`relative ${isActive ? "scale-130" : ""} transition-transform`}>
                     <item.icon className={`h-6 w-6`} />

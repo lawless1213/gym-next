@@ -3,7 +3,7 @@
 import { motion, AnimatePresence } from "motion/react";
 import { cn } from "@/app/lib/utils";
 import React from "react";
-import { Button } from "./buttons/button";
+import { Button } from "./Button";
 
 interface TabItem {
   id: string;

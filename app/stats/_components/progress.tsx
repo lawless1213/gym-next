@@ -6,9 +6,9 @@ import { useLocale, useTranslations } from "next-intl";
 import { useLastProgress } from "@/app/hooks/useServices/useProgress";
 import { useAuth } from "@/app/hooks/useAuth";
 import { BodyProgress, Measurement } from "@/app/types";
-import SkeletonBone from "@/app/__components/common/skeletonBone";
-import SkeletonSwitcher from "@/app/__components/common/SkeletonSwitcher";
-import ButtonAdd from "@/app/__components/common/buttons/ButtonAdd";
+import SkeletonBone from "@/components/ui/Skeleton/SkeletonBone";
+import SkeletonSwitcher from "@/components/ui/Skeleton/SkeletonSwitcher";
+import ButtonAdd from "@/components/shared/ButtonAdd";
 import { useModal } from "@/app/lib/modal/modal-store";
 
 export default function Progress() {

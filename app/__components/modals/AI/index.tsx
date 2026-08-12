@@ -5,7 +5,7 @@ import { ModalWrapper } from "../modal-wrapper";
 import { AiExerciseContent } from "./__components/exercise";
 import { IconBarbell, IconCalendarBolt, IconPencil, IconTreadmill } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
-import { Tabs } from "../../common/tabs";
+import { Tabs } from "../../../../components/ui/Tabs";
 import { AiRoutineContent } from "./__components/routine";
 import { AiScheduleContent } from "./__components/schedule";
 import { AiChatContent } from "./__components/chat";

@@ -7,9 +7,9 @@ import { IconSearch } from "@tabler/icons-react";
 import { useAuth } from "@/app/hooks/useAuth";
 import { useTranslations } from "next-intl";
 import { useUserExercises } from "@/app/hooks/useServices/useExercises";
-import SkeletonBone from "@/app/__components/common/skeletonBone";
-import SkeletonSwitcher from "@/app/__components/common/SkeletonSwitcher";
-import { Button } from "@/app/__components/common/buttons/button";
+import SkeletonBone from "@/components/ui/Skeleton/SkeletonBone";
+import SkeletonSwitcher from "@/components/ui/Skeleton/SkeletonSwitcher";
+import { Button } from "@/components/ui/Button";
 
 const ITEMS_PER_PAGE = 5;
 

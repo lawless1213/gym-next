@@ -5,7 +5,7 @@ import { WorkoutSet } from "@/app/types";
 import { cn } from "@/app/lib/utils";
 import { IconCheck, IconMinus, IconPlus } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
-import { Button } from "@/app/__components/common/buttons/button";
+import { Button } from "@/components/ui/Button";
 
 interface SetInputProps {
   set: WorkoutSet;

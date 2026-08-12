@@ -6,7 +6,7 @@ import { cn } from "@/app/lib/utils";
 import { IconBarbell, IconCheck, IconChevronDown, IconChevronUp, IconMinus, IconPlus, IconTrophy, IconX } from "@tabler/icons-react";
 import { SetInput } from "./setInput";
 import { useTranslations } from "next-intl";
-import { Button } from "@/app/__components/common/buttons/button";
+import { Button } from "@/components/ui/Button";
 
 interface QuickExerciseCardProps {
   workoutExercise: QuickWorkoutExercise;

@@ -2,24 +2,24 @@
 
 import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
-import QuickStat from "@/app/__components/common/quickStat";
-import { WeeklyCalendar } from "@/app/__components/weeklyCalendar";
-import { WorkoutCard } from "@/app/__components/cards/workoutCard";
-import { MotivationalBanner } from "@/app/__components/motivationalBanner";
-import { Header } from "@/app/__components/Header";
+import QuickStat from "@/components/ui/quickStat";
+import { WeeklyCalendar } from "@/components/shared/WeeklyCalendar";
+import { WorkoutCard } from "@/components/home/WorkoutCard";
+import { MotivationalBanner } from "@/components/home/MotivationalBanner";
+import { Header } from "@/components/shared/Header";
 import { useAuth } from "@/app/hooks/useAuth";
 import { getNextPendingRoutine } from "@/app/lib/services/schedule";
 import { Routine } from "@/app/types";
 import { useSchedule } from "@/app/hooks/useServices/useSchedule";
-import SkeletonBone from "./__components/common/skeletonBone";
-import SkeletonSwitcher from "./__components/common/SkeletonSwitcher";
-import ActionCard from "./__components/cards/action";
+import SkeletonBone from "../components/ui/Skeleton/SkeletonBone";
+import SkeletonSwitcher from "../components/ui/Skeleton/SkeletonSwitcher";
+import ActionCard from "../components/shared/cards/ActionCard";
 import { IconUser, IconBolt } from "@tabler/icons-react";
 import { useModal } from "./lib/modal/modal-store";
 import { useRecords } from "./hooks/useServices/useRecords";
 import { useHistory } from "./hooks/useServices/useHistory";
 import { totalHistoryVolume } from "./lib/utils";
-import ButtonAdd from "./__components/common/buttons/ButtonAdd";
+import ButtonAdd from "../components/shared/ButtonAdd";
 
 export default function Home() {
   const t = useTranslations("HomePage");

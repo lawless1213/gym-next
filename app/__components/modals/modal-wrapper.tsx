@@ -7,7 +7,7 @@ import { useModal } from "@/app/lib/modal/modal-store";
 import clsx from "clsx";
 import { IconX } from "@tabler/icons-react";
 import { ModalType } from "@/app/lib/modal/modal-renderer";
-import { Button } from "../common/buttons/button";
+import { Button } from "../../../components/ui/Button";
 
 type Props = {
   modalType: ModalType;

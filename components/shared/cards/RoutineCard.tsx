@@ -9,9 +9,9 @@ import { useState } from "react";
 import { useSwipeable } from "react-swipeable";
 import { toast } from "sonner";
 import { AnimatePresence, motion } from "motion/react";
-import { ExerciseCard } from "../exerciseList";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/app/__components/common/tooltip";
-import { Button } from "../common/buttons/button";
+import { ExerciseCard } from "../../../app/__components/exerciseList";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/Tooltip";
+import { Button } from "../../ui/Button";
 
 export default function RoutineCard(routine: Routine) {
   const t = useTranslations("components.routineCard");

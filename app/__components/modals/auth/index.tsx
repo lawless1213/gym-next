@@ -5,7 +5,7 @@ import SignUpForm from './signUpForm'
 import LoginForm from './loginForm'
 import { ModalWrapper } from '../modal-wrapper'
 import { useTranslations } from 'next-intl'
-import { Button } from '../../common/buttons/button'
+import { Button } from '../../../../components/ui/Button'
 
 
 export function AuthModal() {

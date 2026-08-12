@@ -1,7 +1,7 @@
 "use client";
 
-import SkeletonBone from "@/app/__components/common/skeletonBone";
-import SkeletonSwitcher from "@/app/__components/common/SkeletonSwitcher";
+import SkeletonBone from "@/components/ui/Skeleton/SkeletonBone";
+import SkeletonSwitcher from "@/components/ui/Skeleton/SkeletonSwitcher";
 import { useAuth } from "@/app/hooks/useAuth";
 import { useRecords } from "@/app/hooks/useServices/useRecords";
 import { IconTrophy } from "@tabler/icons-react";

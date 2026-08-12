@@ -10,13 +10,13 @@ import { useAuth } from "@/app/hooks/useAuth";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useModal } from "@/app/lib/modal/modal-store";
-import { ExerciseCard } from "./exerciseCard";
-import { Tooltip, TooltipContent, TooltipTrigger } from "@/app/__components/common/tooltip";
+import { ExerciseCard } from "../../../components/shared/cards/ExerciseCard";
+import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/Tooltip";
 import { useTranslations } from "next-intl";
-import { Button } from "../common/buttons/button";
+import { Button } from "../../../components/ui/Button";
 
-export { ExerciseCard } from "./exerciseCard";
-export type { ExerciseCardProps, ExerciseCardData } from "./exerciseCard";
+export { ExerciseCard } from "../../../components/shared/cards/ExerciseCard";
+export type { ExerciseCardProps, ExerciseCardData } from "../../../components/shared/cards/ExerciseCard";
 
 interface ExerciseListItemProps {
   exercise: Exercise;
