@@ -4,9 +4,9 @@ import { randomUUID } from "crypto";
 import { generateStructured } from "./client";
 import { getCommonExercises, getUserExercises } from "@/app/lib/services/exercises";
 import { getUserRoutines } from "@/app/lib/services/routines";
-import { MUSCLE_GROUPS } from "@/app/data/exercise";
-import { weekDays } from "@/app/types";
-import type { Exercise, Routine, ScheduleMap } from "@/app/types";
+import { MUSCLE_GROUPS } from "@/data/exercise";
+import { weekDays } from "@/types";
+import type { Exercise, Routine, ScheduleMap } from "@/types";
 import { useLocale } from "next-intl";
 
 type WeekDay = (typeof weekDays)[number];

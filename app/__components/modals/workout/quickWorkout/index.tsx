@@ -2,7 +2,7 @@
 
 import { ModalWrapper } from "../../modal-wrapper";
 import { QuickExerciseCard } from "./../_components/quickExerciseCard";
-import { QuickWorkoutSession } from "@/app/types";
+import { QuickWorkoutSession } from "@/types";
 import { useAuth } from "@/app/hooks/useAuth";
 import { useAllExercises } from "@/app/hooks/useServices/useExercises";
 import { useWorkoutSession } from "@/app/hooks/workout/useWorkoutSession";

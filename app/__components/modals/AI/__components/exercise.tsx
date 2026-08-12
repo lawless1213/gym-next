@@ -14,7 +14,7 @@ import { createUserExercise } from "@/app/lib/actions/exercise";
 import { useAuth } from "@/app/hooks/useAuth";
 import { useQueryClient } from "@tanstack/react-query";
 import { Label } from "@/components/ui/form/label";
-import { DIFFICULTY, EQUIPMENT_GROUPS, GOALS, MUSCLE_GROUPS } from "@/app/data/exercise";
+import { DIFFICULTY, EQUIPMENT_GROUPS, GOALS, MUSCLE_GROUPS } from "@/data/exercise";
 import { Select } from "@/components/ui/form/select";
 import { ChipGroup } from "@/components/ui/form/chipGroup";
 import { generateAiExercise } from "@/app/lib/actions/gemini/exercise";

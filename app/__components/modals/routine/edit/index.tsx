@@ -11,7 +11,7 @@ import { AUTH_ERRORS } from "@/app/lib/errors/auth";
 import { useModal } from "@/app/lib/modal/modal-store";
 import { IconGridDots, IconPlus, IconTrash, IconX } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
-import { RoutinesExercise } from "@/app/types";
+import { RoutinesExercise } from "@/types";
 import { useAllExercises } from "@/app/hooks/useServices/useExercises";
 import { toast } from "sonner";
 import { editUserRoutine } from "@/app/lib/actions/routine";

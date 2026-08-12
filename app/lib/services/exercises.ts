@@ -1,6 +1,6 @@
 import { db } from "@/app/lib/firebaseConfig";
 import { collection, getDocs, query, orderBy } from "firebase/firestore";
-import { Exercise } from "@/app/types";
+import { Exercise } from "@/types";
 
 export async function getCommonExercises(): Promise<Exercise[]> {
   try {

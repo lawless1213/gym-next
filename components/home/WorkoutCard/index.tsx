@@ -1,6 +1,6 @@
 "use client";
 
-import { Routine } from "@/app/types";
+import { Routine } from "@/types";
 import { IconPlayerPlayFilled, IconBarbell } from "@tabler/icons-react";
 import { Button } from "@/components/ui/Button";
 import { useTranslations } from "next-intl";

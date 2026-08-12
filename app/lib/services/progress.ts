@@ -1,6 +1,6 @@
 import {  doc, getDoc, Timestamp } from "firebase/firestore";
 import { db } from "@/app/lib/firebaseConfig";
-import { BodyProgress, Measurement } from "@/app/types";
+import { BodyProgress, Measurement } from "@/types";
 
 type RawMeasurement = { date: Timestamp; value: number };
 

@@ -1,6 +1,6 @@
 import { collection, query, orderBy, limit, where, getDocs, Timestamp } from "firebase/firestore";
 import { db } from "@/app/lib/firebaseConfig";
-import { WorkoutSession, HistoryOptions } from "@/app/types";
+import { WorkoutSession, HistoryOptions } from "@/types";
 
 function calculateWorkoutVolume(workout: WorkoutSession): number {
   return workout.exercises.reduce((workoutTotal, exercise) => {

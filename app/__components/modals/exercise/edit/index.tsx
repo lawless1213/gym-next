@@ -13,7 +13,7 @@ import { createUserExercise, editUserExecise } from "@/app/lib/actions/exercise"
 import { useAuth } from "@/app/hooks/useAuth";
 import { useExerciseEditModal } from "@/app/hooks/useModals/useExerciseEditModal";
 import { useQueryClient } from "@tanstack/react-query";
-import { MUSCLE_GROUPS } from "@/app/data/exercise";
+import { MUSCLE_GROUPS } from "@/data/exercise";
 import { useTranslations } from "next-intl";
 import { ChipGroup } from "@/components/ui/form/chipGroup";
 

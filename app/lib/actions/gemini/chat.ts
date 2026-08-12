@@ -1,7 +1,7 @@
 "use server";
 
 import { generateChatText, type GeminiResult } from "./client";
-import type { ChatMessage } from "@/app/types";
+import type { ChatMessage } from "@/types";
 
 const MAX_HISTORY_MESSAGES = 10;
 

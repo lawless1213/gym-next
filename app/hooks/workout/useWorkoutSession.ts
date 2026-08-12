@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState, useCallback, useRef } from "react";
-import { PersistReason, WorkoutSet } from "@/app/types";
+import { PersistReason, WorkoutSet } from "@/types";
 
 interface SessionShape {
   id: string;

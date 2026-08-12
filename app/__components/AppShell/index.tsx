@@ -7,7 +7,7 @@ import { useSwipeable } from "react-swipeable";
 import { useAuth } from "@/app/hooks/useAuth";
 import LoadingScreen from "../../../components/shared/LoadingScreen";
 import { BottomNav } from "@/components/shared/BottomNav";
-import { getNavLinks, navLinks } from "@/app/data/navManu";
+import { getNavLinks, navLinks } from "@/data/navManu";
 import { Toaster } from "../../../components/shared/Toaster/Toaster";
 
 

@@ -5,7 +5,7 @@ import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContai
 import { useLocale, useTranslations } from "next-intl";
 import { useLastProgress } from "@/app/hooks/useServices/useProgress";
 import { useAuth } from "@/app/hooks/useAuth";
-import { BodyProgress, Measurement } from "@/app/types";
+import { BodyProgress, Measurement } from "@/types";
 import SkeletonBone from "@/components/ui/Skeleton/SkeletonBone";
 import SkeletonSwitcher from "@/components/ui/Skeleton/SkeletonSwitcher";
 import ButtonAdd from "@/components/shared/ButtonAdd";

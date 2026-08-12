@@ -1,7 +1,7 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { getNavLinks } from "@/app/data/navManu";
+import { getNavLinks } from "@/data/navManu";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { useAuth } from "@/app/hooks/useAuth";

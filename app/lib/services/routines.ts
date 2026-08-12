@@ -1,6 +1,6 @@
 import { db } from "@/app/lib/firebaseConfig";
 import { collection, getDocs } from "firebase/firestore";
-import { Routine } from "@/app/types";
+import { Routine } from "@/types";
 import { resolveRoutine } from "./firestoreUtils";
 
 export async function getUserRoutines(userId: string): Promise<Routine[]> {

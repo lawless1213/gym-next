@@ -8,7 +8,7 @@ import { useModal } from "@/app/lib/modal/modal-store";
 import { toast } from "sonner";
 import { useAuth } from "@/app/hooks/useAuth";
 import { useQueryClient } from "@tanstack/react-query";
-import { DIFFICULTY, EQUIPMENT_GROUPS, GOALS, MUSCLE_GROUPS } from "@/app/data/exercise";
+import { DIFFICULTY, EQUIPMENT_GROUPS, GOALS, MUSCLE_GROUPS } from "@/data/exercise";
 import { TextArea } from "@/components/ui/form/textarea";
 import { Input } from "@/components/ui/form/input";
 import { ChipGroup } from "@/components/ui/form/chipGroup";

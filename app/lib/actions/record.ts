@@ -1,6 +1,6 @@
 import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../firebaseConfig";
-import { PersonalRecord } from "@/app/types";
+import { PersonalRecord } from "@/types";
 
 export async function writeExerciseRecord(userId: string, data: PersonalRecord) {
   const recordRef = doc(db, "users", userId, "stats", "records");

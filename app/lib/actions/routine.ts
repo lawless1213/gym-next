@@ -1,5 +1,5 @@
 import { db } from "@/app/lib/firebaseConfig";
-import { Exercise, RoutinesExercise } from "@/app/types";
+import { Exercise, RoutinesExercise } from "@/types";
 import { collection, addDoc, serverTimestamp, doc, writeBatch, DocumentReference, getDoc, updateDoc} from "firebase/firestore";
 
 export async function createAiUserRoutine(

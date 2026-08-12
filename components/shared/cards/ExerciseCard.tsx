@@ -1,6 +1,6 @@
 "use client";
 
-import { Exercise } from "@/app/types";
+import { Exercise } from "@/types";
 import { IconBarbell } from "@tabler/icons-react";
 import { cn } from "@/app/lib/utils";
 import Image from "next/image";

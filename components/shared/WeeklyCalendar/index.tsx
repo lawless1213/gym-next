@@ -2,7 +2,7 @@
 
 import { useAuth } from "@/app/hooks/useAuth";
 import { useRef, useState } from "react";
-import { ScheduleMap, weekDays } from "@/app/types";
+import { ScheduleMap, weekDays } from "@/types";
 import { useTranslations } from "next-intl";
 import { AnimatePresence, motion } from "motion/react";
 import RoutineCard from "../cards/RoutineCard";

@@ -1,5 +1,5 @@
 import { db } from "@/app/lib/firebaseConfig";
-import { PersonalRecord, WorkoutSession } from "@/app/types";
+import { PersonalRecord, WorkoutSession } from "@/types";
 import { collection, addDoc } from "firebase/firestore";
 import { writeExerciseRecord } from "./record";
 export async function writeWorkoutSession(

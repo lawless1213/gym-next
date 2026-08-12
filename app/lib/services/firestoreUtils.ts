@@ -1,6 +1,6 @@
 import { db } from "@/app/lib/firebaseConfig";
 import { getDoc, doc, DocumentReference, DocumentData } from "firebase/firestore";
-import { Exercise, Routine } from "@/app/types";
+import { Exercise, Routine } from "@/types";
 
 type RoutineDoc = {
   name?: string;

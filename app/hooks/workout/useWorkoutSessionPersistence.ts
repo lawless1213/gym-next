@@ -1,6 +1,6 @@
 "use client";
 
-import { PersistReason } from "@/app/types";
+import { PersistReason } from "@/types";
 import { useEffect } from "react";
 
 interface UseWorkoutSessionPersistenceOptions {

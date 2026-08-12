@@ -10,7 +10,7 @@ import { Input } from "@/components/ui/form/input";
 import { AUTH_ERRORS } from "@/app/lib/errors/auth";
 import { IconCheck } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
-import { Routine, RoutinesExercise } from "@/app/types";
+import { Routine, RoutinesExercise } from "@/types";
 import { useAllExercises } from "@/app/hooks/useServices/useExercises";
 import { toast } from "sonner";
 import { createUserRoutine } from "@/app/lib/actions/routine";
@@ -19,7 +19,7 @@ import { useRoutines } from "@/app/hooks/useServices/useRoutines";
 import RoutineCard from "../../../../components/shared/cards/RoutineCard";
 import { useScheduleModal } from "@/app/hooks/useModals/useScheduleModal";
 import { useTranslations } from "next-intl";
-import { weekDays } from "@/app/types";
+import { weekDays } from "@/types";
 import { editUserSchedule } from "@/app/lib/actions/shedule";
 
 

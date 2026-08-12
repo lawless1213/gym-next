@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { WorkoutExercise, WorkoutSet, PersonalRecord } from "@/app/types";
+import { WorkoutExercise, WorkoutSet, PersonalRecord } from "@/types";
 import { cn } from "@/app/lib/utils";
 import { IconBarbell, IconCheck, IconChevronDown, IconChevronUp, IconMinus, IconPlus, IconTrophy } from "@tabler/icons-react";
 import { SetInput } from "./setInput";

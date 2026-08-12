@@ -1,7 +1,7 @@
 import { useAuth } from "@/app/hooks/useAuth";
 import { deleteUserRoutine } from "@/app/lib/actions/routine";
 import { useModal } from "@/app/lib/modal/modal-store";
-import { Routine } from "@/app/types";
+import { Routine } from "@/types";
 import { IconChecks, IconX, IconMenu2, IconEdit, IconTrash, IconPlayerPlayFilled } from "@tabler/icons-react";
 import { useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";

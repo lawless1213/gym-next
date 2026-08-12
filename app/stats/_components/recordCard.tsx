@@ -1,6 +1,6 @@
 "use client";
 
-import { PersonalRecord } from "@/app/types";
+import { PersonalRecord } from "@/types";
 import { IconTrophy } from "@tabler/icons-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useLocale, useTranslations } from "next-intl";

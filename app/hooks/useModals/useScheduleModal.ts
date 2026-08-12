@@ -1,5 +1,5 @@
 import { useModal } from "@/app/lib/modal/modal-store";
-import { Routine } from "@/app/types";
+import { Routine } from "@/types";
 
 type ScheduleModalData = {
   dayIndex: number;

@@ -1,10 +1,10 @@
 "use server";
 
-import type { Exercise } from "@/app/types";
+import type { Exercise } from "@/types";
 import { randomUUID } from "crypto";
 import { generateStructured } from "./client";
 import { getCommonExercises, getUserExercises } from "@/app/lib/services/exercises";
-import { MUSCLE_GROUPS } from "@/app/data/exercise";
+import { MUSCLE_GROUPS } from "@/data/exercise";
 
 
 type MuscleGroup = (typeof MUSCLE_GROUPS)[number];

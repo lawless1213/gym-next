@@ -2,7 +2,7 @@
 
 import { useState, useRef, useCallback } from "react";
 import { sendChatMessage } from "@/app/lib/actions/gemini/chat";
-import type { ChatMessage } from "@/app/types";
+import type { ChatMessage } from "@/types";
 import { useTranslations } from "next-intl";
 import { Input } from "@/components/ui/form/input";
 import { IconSend } from "@tabler/icons-react";

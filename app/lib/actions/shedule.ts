@@ -1,5 +1,5 @@
 import { db } from "@/app/lib/firebaseConfig";
-import { Routine, RoutinesExercise, ScheduleMap, weekDays } from "@/app/types";
+import { Routine, RoutinesExercise, ScheduleMap, weekDays } from "@/types";
 import { updateDoc, doc, writeBatch, arrayUnion, collection, serverTimestamp} from "firebase/firestore";
 
 export async function createAiUserSchedule(userId: string, schedule: ScheduleMap) {

@@ -9,7 +9,7 @@ import { MotivationalBanner } from "@/components/home/MotivationalBanner";
 import { Header } from "@/components/shared/Header";
 import { useAuth } from "@/app/hooks/useAuth";
 import { getNextPendingRoutine } from "@/app/lib/services/schedule";
-import { Routine } from "@/app/types";
+import { Routine } from "@/types";
 import { useSchedule } from "@/app/hooks/useServices/useSchedule";
 import SkeletonBone from "../components/ui/Skeleton/SkeletonBone";
 import SkeletonSwitcher from "../components/ui/Skeleton/SkeletonSwitcher";

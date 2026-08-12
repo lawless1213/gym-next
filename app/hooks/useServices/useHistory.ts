@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getUserHistory } from "@/app/lib/services/history";
-import { HistoryOptions } from "@/app/types";
+import { HistoryOptions } from "@/types";
 
 export const useHistory = (
   userId: string | undefined,

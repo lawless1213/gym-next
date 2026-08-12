@@ -14,7 +14,7 @@ import { toast } from "sonner";
 import { createUserExercise } from "@/app/lib/actions/exercise";
 import { useAuth } from "@/app/hooks/useAuth";
 import { useQueryClient } from "@tanstack/react-query";
-import { MUSCLE_GROUPS } from "@/app/data/exercise";
+import { MUSCLE_GROUPS } from "@/data/exercise";
 import { useTranslations } from "next-intl";
 import { ChipGroup } from "@/components/ui/form/chipGroup";
 

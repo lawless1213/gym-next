@@ -1,6 +1,6 @@
 import { db } from "@/app/lib/firebaseConfig";
 import { getDoc, doc } from "firebase/firestore";
-import { weekDay, weekDays, ScheduleMap, Routine, RegularWorkoutSession } from "@/app/types";
+import { weekDay, weekDays, ScheduleMap, Routine, RegularWorkoutSession } from "@/types";
 import { toDocRef, resolveRoutines } from "./firestoreUtils";
 import { getUserHistory } from "./history";
 

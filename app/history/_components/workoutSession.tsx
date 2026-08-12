@@ -1,6 +1,6 @@
 import { IconClock, IconBarbell } from "@tabler/icons-react";
 import { useState } from "react";
-import { WorkoutSession as WorkoutSessionType } from "@/app/types";
+import { WorkoutSession as WorkoutSessionType } from "@/types";
 import { useTranslations } from "next-intl";
 import { AnimatePresence, motion } from "motion/react";
 

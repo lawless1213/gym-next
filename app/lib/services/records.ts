@@ -1,7 +1,7 @@
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/app/lib/firebaseConfig";
-import { RecordsMap } from "@/app/types";
-import { Period } from "@/app/types";
+import { RecordsMap } from "@/types";
+import { Period } from "@/types";
 
 
 export async function getUserRecords(

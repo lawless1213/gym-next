@@ -1,6 +1,6 @@
 "use client";
 
-import { Exercise } from "@/app/types";
+import { Exercise } from "@/types";
 import { IconMenu2, IconEdit, IconTrash, IconX } from "@tabler/icons-react";
 import { useState } from "react";
 import { motion } from "motion/react";

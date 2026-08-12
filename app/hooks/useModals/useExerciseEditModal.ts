@@ -1,5 +1,5 @@
 import { useModal } from "@/app/lib/modal/modal-store";
-import { Exercise } from "@/app/types";
+import { Exercise } from "@/types";
 
 type ExerciseEditModalData = {
   exercise: Exercise;

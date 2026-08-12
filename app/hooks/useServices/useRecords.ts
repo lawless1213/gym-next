@@ -1,6 +1,6 @@
 import { useQuery } from "@tanstack/react-query";
 import { getUserRecords } from "@/app/lib/services/records";
-import { Period } from "@/app/types";
+import { Period } from "@/types";
 
 export const useRecords = ({
   userId,
