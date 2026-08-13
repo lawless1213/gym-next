@@ -1,4 +1,4 @@
-import { getUserRoutines } from "@/app/lib/services/routines";
+import { getUserRoutines } from "@/lib/services/routines";
 import { useQuery } from "@tanstack/react-query";
 
 export const useRoutines = (userId: string | undefined) => {

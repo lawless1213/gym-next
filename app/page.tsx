@@ -8,17 +8,17 @@ import { WorkoutCard } from "@/components/home/WorkoutCard";
 import { MotivationalBanner } from "@/components/home/MotivationalBanner";
 import { Header } from "@/components/shared/Header";
 import { useAuth } from "@/app/hooks/useAuth";
-import { getNextPendingRoutine } from "@/app/lib/services/schedule";
+import { getNextPendingRoutine } from "@/lib/services/schedule";
 import { Routine } from "@/types";
 import { useSchedule } from "@/app/hooks/useServices/useSchedule";
 import SkeletonBone from "../components/ui/Skeleton/SkeletonBone";
 import SkeletonSwitcher from "../components/ui/Skeleton/SkeletonSwitcher";
 import ActionCard from "../components/shared/cards/ActionCard";
 import { IconUser, IconBolt } from "@tabler/icons-react";
-import { useModal } from "./lib/modal/modal-store";
+import { useModal } from "../lib/modal/modal-store";
 import { useRecords } from "./hooks/useServices/useRecords";
 import { useHistory } from "./hooks/useServices/useHistory";
-import { totalHistoryVolume } from "./lib/utils";
+import { totalHistoryVolume } from "../lib/utils";
 import ButtonAdd from "../components/shared/ButtonAdd";
 
 export default function Home() {

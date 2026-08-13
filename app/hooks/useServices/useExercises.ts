@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getUserExercises, getCommonExercises } from "@/app/lib/services/exercises";
+import { getUserExercises, getCommonExercises } from "@/lib/services/exercises";
 
 export const useCommonExercises = () => {
   return useQuery({

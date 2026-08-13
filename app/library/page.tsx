@@ -8,7 +8,7 @@ import { useTranslations } from "next-intl";
 import { Header } from "@/components/shared/Header";
 import { Tabs } from "../../components/ui/Tabs";
 import ButtonAdd from "../../components/shared/ButtonAdd";
-import { useModal } from "../lib/modal/modal-store";
+import { useModal } from "../../lib/modal/modal-store";
 import { useAuth } from "../hooks/useAuth";
 
 type LibraryTab = "exercise" | "routine";

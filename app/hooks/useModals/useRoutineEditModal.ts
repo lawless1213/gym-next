@@ -1,4 +1,4 @@
-import { useModal } from "@/app/lib/modal/modal-store";
+import { useModal } from "@/lib/modal/modal-store";
 import { Routine } from "@/types";
 
 type RoutineEditModalData = {

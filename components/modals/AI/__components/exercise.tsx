@@ -1,0 +1,189 @@
+"use client";
+
+import { useForm, Controller } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { Button } from "@/components/ui/Button";
+import { TextArea } from "@/components/ui/form/textarea";
+import { AUTH_ERRORS } from "@/lib/errors/auth";
+import { useModal } from "@/lib/modal/modal-store";
+import { IconBarbell, IconCheck, IconUpload } from "@tabler/icons-react";
+import { useState } from "react";
+import { toast } from "sonner";
+import { createUserExercise } from "@/lib/actions/exercise";
+import { useAuth } from "@/app/hooks/useAuth";
+import { useQueryClient } from "@tanstack/react-query";
+import { Label } from "@/components/ui/form/label";
+import { DIFFICULTY, EQUIPMENT_GROUPS, GOALS, MUSCLE_GROUPS } from "@/data/exercise";
+import { Select } from "@/components/ui/form/select";
+import { ChipGroup } from "@/components/ui/form/chipGroup";
+import { generateAiExercise } from "@/lib/actions/gemini/exercise";
+import { ExerciseCard } from "@/app/__components/exerciseList";
+import { useLocale, useTranslations } from "next-intl";
+import { TypewriterText } from "@/components/ui/TypewritterText";
+
+const exerciseSchema = z.object({
+  comment: z.string(),
+  groups: z.array(z.string()).min(1, "Оберіть хоча б одну групу м'язів"),
+  equipment: z.enum(EQUIPMENT_GROUPS, {
+    message: "Оберіть обладнання",
+  }),
+  difficulty: z.enum(DIFFICULTY, {
+    message: "Оберіть рівень",
+  }),
+  goal: z.enum(GOALS, {
+    message: "Оберіть ціль",
+  }),
+});
+
+type ExerciseAIFormData = z.infer<typeof exerciseSchema>;
+
+export function AiExerciseContent() {
+  const locale = useLocale();
+  const tComponents = useTranslations("components");
+  const t = useTranslations("ai.modal");
+  const { close, confirm } = useModal();
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
+
+  const {
+    register,
+    handleSubmit,
+    control,
+    setError,
+    formState: { errors, isSubmitting, isValid, isDirty },
+  } = useForm<ExerciseAIFormData>({
+    resolver: zodResolver(exerciseSchema),
+    mode: "onTouched",
+    defaultValues: {
+      groups: [],
+      difficulty: "",
+      equipment: "",
+      goal: "",
+    },
+  });
+
+  const { ref: commentRef, ...commentRest } = register("comment");
+
+  const selectFields = [
+    { name: "goal", placeholder: t("fields.goals"), options: GOALS, key: "goals" },
+    { name: "difficulty", placeholder: t("fields.difficulty"), options: DIFFICULTY, key: "difficulty" },
+    { name: "equipment", placeholder: t("fields.equipmentGroups"), options: EQUIPMENT_GROUPS, key: "equipmentGroups" },
+  ] as const;
+
+  const onSubmit = async (data: ExerciseAIFormData) => {
+    try {
+      if (!user) throw new Error("Not authenticated");
+
+      const result = await generateAiExercise({ ...data, userId: user.uid, locale });
+
+      if (!result.success) {
+        toast.error(result.error);
+        return;
+      }
+
+      const speed = 15;
+      const typingDuration = result.summary.length * speed;
+
+      const ok = await confirm({
+        title: result.data.name,
+        description: (
+          <TypewriterText
+            text={result.summary}
+            speed={speed}
+          />
+        ),
+        children: (
+          <div
+            className="animate-fade-in"
+            style={{
+              animationDelay: `${typingDuration}ms`,
+              animationFillMode: "forwards",
+            }}>
+            <ExerciseCard exercise={result.data} />
+          </div>
+        ),
+        cancelLabel: t('confirm.cancel'),
+        confirmLabel: t('confirm.confirm'),
+      });
+
+      if (ok) {
+        await createUserExercise(user.uid, {
+          title: result.data.name,
+          groups: [result.data.muscleGroup],
+          description: result.data.description,
+        });
+        queryClient.invalidateQueries({ queryKey: ["exercises", user.uid] });
+        toast.success(t("success"));
+        close();
+      }
+    } catch (err: any) {
+      toast.error(t("error"));
+    }
+  };
+
+  return (
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="flex flex-1 flex-col static">
+      <div className="flex-1 space-y-6 mb-10">
+        {selectFields.map(({ name, placeholder, options, key }) => (
+          <Controller
+            key={name}
+            name={name}
+            control={control}
+            render={({ field }) => (
+              <Select
+                input={{
+                  id: name,
+                  placeholder,
+                  searchable: false,
+                  value: field.value,
+                  onChange: (value) => field.onChange(value),
+                  error: errors[name]?.message,
+                  options: options.map((opt) => ({ value: opt, label: tComponents(`${key}.${opt}`) })),
+                }}
+              />
+            )}
+          />
+        ))}
+
+        <Controller
+          name={"groups"}
+          control={control}
+          render={({ field }) => (
+            <ChipGroup
+              items={MUSCLE_GROUPS}
+              value={field.value ?? []}
+              onChange={field.onChange}
+              id="groups"
+              label={t("fields.muscleGroups")}
+              formatLabel={(item) => tComponents("muscleGroups." + item)}
+              error={errors.groups?.message}
+            />
+          )}
+        />
+
+        <TextArea
+          ref={commentRef}
+          textarea={{
+            ...commentRest,
+            id: "title",
+            placeholder: t("fields.additionalComment"),
+            error: errors.comment?.message,
+          }}
+        />
+      </div>
+
+      {errors.root && <p className="text-sm text-red-500 mb-1">{errors.root.message}</p>}
+
+      <Button
+        type="submit"
+        disabled={isSubmitting || !isDirty || !isValid}
+        className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
+        size="lg">
+        {t("fields.submit")}
+      </Button>
+    </form>
+  );
+}

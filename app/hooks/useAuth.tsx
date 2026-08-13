@@ -8,7 +8,7 @@ import {
   createUserWithEmailAndPassword,
   signOut,
 } from "firebase/auth";
-import { auth } from "@/app/lib/firebaseConfig";
+import { auth } from "@/lib/config/firebaseConfig";
 
 type AuthContextValue = {
   user: User | null;

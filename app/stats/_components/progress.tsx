@@ -1,6 +1,6 @@
 import { useState } from "react";
 import { IconScale, IconTrendingDown, IconTrendingUp, IconActivity, IconTrophy, IconEdit } from "@tabler/icons-react";
-import { cn } from "@/app/lib/utils";
+import { cn } from "@/lib/utils";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { useLocale, useTranslations } from "next-intl";
 import { useLastProgress } from "@/app/hooks/useServices/useProgress";
@@ -9,7 +9,7 @@ import { BodyProgress, Measurement } from "@/types";
 import SkeletonBone from "@/components/ui/Skeleton/SkeletonBone";
 import SkeletonSwitcher from "@/components/ui/Skeleton/SkeletonSwitcher";
 import ButtonAdd from "@/components/shared/ButtonAdd";
-import { useModal } from "@/app/lib/modal/modal-store";
+import { useModal } from "@/lib/modal/modal-store";
 
 export default function Progress() {
   const locale = useLocale();

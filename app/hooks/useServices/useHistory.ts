@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getUserHistory } from "@/app/lib/services/history";
+import { getUserHistory } from "@/lib/services/history";
 import { HistoryOptions } from "@/types";
 
 export const useHistory = (

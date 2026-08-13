@@ -1,5 +1,5 @@
 import { useQuery } from "@tanstack/react-query";
-import { getUserSchedule } from "@/app/lib/services/schedule";
+import { getUserSchedule } from "@/lib/services/schedule";
 
 export const useSchedule = (userId: string | undefined) => {
   return useQuery({

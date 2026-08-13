@@ -1,0 +1,143 @@
+"use client";
+
+import { ModalWrapper } from "../modal-wrapper";
+import { Controller, useForm, useFieldArray } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { z } from "zod";
+import { Button } from "@/components/ui/Button";
+import { useAuth } from "@/app/hooks/useAuth";
+import { Input } from "@/components/ui/form/input";
+import { AUTH_ERRORS } from "@/lib/errors/auth";
+import { IconCheck } from "@tabler/icons-react";
+import { useEffect, useState } from "react";
+import { Routine, RoutinesExercise } from "@/types";
+import { useAllExercises } from "@/app/hooks/useServices/useExercises";
+import { toast } from "sonner";
+import { createUserRoutine } from "@/lib/actions/routine";
+import { useQueryClient } from "@tanstack/react-query";
+import { useRoutines } from "@/app/hooks/useServices/useRoutines";
+import RoutineCard from "@/components/shared/cards/RoutineCard";
+import { useScheduleModal } from "@/app/hooks/useModals/useScheduleModal";
+import { useTranslations } from "next-intl";
+import { weekDays } from "@/types";
+import { editUserSchedule } from "@/lib/actions/shedule";
+
+
+const scheduleSchema = z.object({
+  routines: z.array(z.object({ routineId: z.string() })),
+});
+
+type ScheduleFormData = z.infer<typeof scheduleSchema>;
+
+export function ScheduleEditModal() {
+  const tDays = useTranslations("components.day");
+  const t = useTranslations("schedule.modal");
+
+  const { user } = useAuth();
+  const userId = user?.uid;
+  const queryClient = useQueryClient();
+
+  const { data: routines = [], isLoading: loading } = useRoutines(userId);
+  const { confirm, close, dayIndex, routineList } = useScheduleModal();
+
+  const {
+    register,
+    handleSubmit,
+    reset,
+    control,
+    setError,
+    formState: { errors, isSubmitting, isValid, isDirty },
+  } = useForm<ScheduleFormData>({
+    resolver: zodResolver(scheduleSchema),
+    mode: "onTouched",
+    defaultValues: {
+      routines: [],
+    },
+  });
+
+  useEffect(() => {
+    if (routineList) {
+      reset({
+        routines: routineList.map((r) => ({ routineId: r.id })),
+      });
+    }
+  }, [routineList]);
+
+  const { fields, append, remove } = useFieldArray({
+    control,
+    name: "routines",
+  });
+
+  const isSelected = (id: string) => fields.some((f) => f.routineId === id);
+
+  const toggle = (routineId: string) => {
+    const index = fields.findIndex((f) => f.routineId === routineId);
+
+    if (index !== -1) {
+      remove(index);
+    } else {
+      append({ routineId: routineId });
+    }
+  };
+
+  const onSubmit = async (data: ScheduleFormData) => {
+    try {
+      if (!user) throw new Error("Not authenticated");
+
+      const ok = await confirm({
+        title: "",
+        description: t("confirm.description"),
+        cancelLabel: t("confirm.cancel"),
+        confirmLabel: t("confirm.confirm"),
+      });
+
+      if (ok) {
+        await editUserSchedule(user.uid, {
+          dayIndex,
+          routineIds: data.routines.map((r) => r.routineId),
+        });
+        queryClient.invalidateQueries({ queryKey: ["schedule", user.uid] });
+        toast.success(`${tDays(`default.${weekDays[dayIndex]}`)} - ${t("success")}`);
+        close();
+      }
+    } catch (err: any) {
+      toast.error(t("error"));
+    }
+  };
+
+  return (
+    <ModalWrapper
+      modalType="schedule"
+      title={`${tDays(`default.${weekDays[dayIndex]}`)} - ${t("title")}`}>
+      <form
+        className="flex flex-col gap-4 overflow-y-auto"
+        onSubmit={handleSubmit(onSubmit)}>
+        {routines.map((routine) => {
+          return (
+            <div
+              key={routine.id}
+              onClick={() => toggle(routine.id)}
+              className="group flex items-center justify-between gap-1 cursor-pointer">
+              <RoutineCard {...routine} />
+              <div className={`flex shrink-0 w-9 h-9 items-center justify-center rounded-full bg-card cursor-pointer border-2 border-solid ${isSelected(routine.id) ? "bg-primary" : "border-2 border-muted-foreground group-hover:border-primary transition-[0.2s]"}`}>
+                {isSelected(routine.id) && (
+                  <IconCheck
+                    stroke={3}
+                    className="h-4 w-4 text-muted-foreground"
+                  />
+                )}
+              </div>
+            </div>
+          );
+        })}
+        <Button
+          type="submit"
+          disabled={isSubmitting || !isDirty || !isValid}
+          className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
+          size="lg">
+          {t("submit")}
+        </Button>
+      </form>
+    </ModalWrapper>
+  );
+}

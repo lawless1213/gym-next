@@ -2,7 +2,7 @@
 
 import { Exercise } from "@/types";
 import { IconBarbell } from "@tabler/icons-react";
-import { cn } from "@/app/lib/utils";
+import { cn } from "@/lib/utils";
 import Image from "next/image";
 import { useTranslations } from "next-intl";
 import type { ReactNode, MouseEventHandler } from "react";

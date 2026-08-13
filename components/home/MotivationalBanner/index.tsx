@@ -1,6 +1,6 @@
 "use client";
 
-import { totalHistoryVolume } from "@/app/lib/utils";
+import { totalHistoryVolume } from "@/lib/utils";
 import { PersonalRecord, RecordsMap, WorkoutSession } from "@/types";
 import { IconFlame, IconTrendingDown, IconTrendingUp } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
