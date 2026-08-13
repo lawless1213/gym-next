@@ -2,8 +2,8 @@
 
 import { useState } from "react";
 import { IconBarbell, IconFolderOpen } from "@tabler/icons-react";
-import Exercises from "@/components/library/exercises/exercises";
-import Routines from "@/components/library/routines/routines";
+import Exercises from "@/components/library/exercises";
+import Routines from "@/components/library/routines";
 import { useTranslations } from "next-intl";
 import { Header } from "@/components/shared/Header";
 import { Tabs } from "@/components/ui/Tabs";
