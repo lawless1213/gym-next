@@ -1,11 +1,11 @@
 "use client";
 
 import { useLocale, useTranslations } from "next-intl";
-import { setUserLocale } from "@/lib/i18n/i18n-action";
+import { setUserLocale } from "@/i18n/i18n-action";
 import { IconUser, IconLogout, IconMoon, IconSun, IconAi } from "@tabler/icons-react";
 import { useAuth } from "@/app/hooks/useAuth";
 import { useAppTheme } from "@/app/hooks/useAppTheme";
-import { useModal } from "@/lib/modal/modal-store";
+import { useModal } from  "@/components/modals/modal-store";
 import { toast } from "sonner";
 import { useEffect, useState } from "react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/Tooltip";

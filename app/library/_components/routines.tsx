@@ -6,7 +6,7 @@ import RoutineCard from "../../../components/shared/cards/RoutineCard";
 import { useRoutines } from "@/app/hooks/useServices/useRoutines";
 import SkeletonBone from "@/components/ui/Skeleton/SkeletonBone";
 import SkeletonSwitcher from "@/components/ui/Skeleton/SkeletonSwitcher";
-import { useModal } from "@/lib/modal/modal-store";
+import { useModal } from  "@/components/modals/modal-store";
 import { useTranslations } from "next-intl";
 import ActionCard from "@/components/shared/cards/ActionCard";
 

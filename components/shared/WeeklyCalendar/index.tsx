@@ -10,7 +10,7 @@ import { useSchedule } from "@/app/hooks/useServices/useSchedule";
 import SkeletonBone from "../../ui/Skeleton/SkeletonBone";
 import SkeletonSwitcher from "../../ui/Skeleton/SkeletonSwitcher";
 import { IconEdit, IconPlus } from "@tabler/icons-react";
-import { useModal } from "@/lib/modal/modal-store";
+import { useModal } from  "@/components/modals/modal-store";
 import { Button } from "../../ui/Button";
 
 type WeeklyCalendarProps = {

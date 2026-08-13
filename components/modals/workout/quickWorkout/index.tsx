@@ -6,7 +6,7 @@ import { QuickWorkoutSession } from "@/types";
 import { useAuth } from "@/app/hooks/useAuth";
 import { useAllExercises } from "@/app/hooks/useServices/useExercises";
 import { useWorkoutSession } from "@/app/hooks/workout/useWorkoutSession";
-import { useModal } from "@/lib/modal/modal-store";
+import { useModal } from  "@/components/modals/modal-store";
 import { Select } from "@/components/ui/form/select";
 import { writeWorkoutSession } from "@/lib/actions/workout";
 import { Timestamp } from "firebase/firestore";

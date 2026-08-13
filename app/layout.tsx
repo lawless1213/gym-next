@@ -5,10 +5,10 @@ import "./globals.css";
 import { AuthProvider } from "./hooks/useAuth";
 import { NextIntlClientProvider } from "next-intl";
 import { getTranslations } from "next-intl/server";
-import { ThemeProvider } from "./providers/theme-provider";
-import { QueryProvider } from "./providers/QueryProvider";
+import { ThemeProvider } from "../providers/theme-provider";
+import { QueryProvider } from "../providers/QueryProvider";
 import AppShell from "./__components/AppShell";
-import { ModalProvider } from "../lib/modal/modal-store";
+import { ModalProvider } from "@/components/modals/modal-store";
 import { TooltipProvider } from "@/components/ui/Tooltip";
 
 const inter = Inter({

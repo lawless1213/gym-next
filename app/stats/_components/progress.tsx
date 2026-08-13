@@ -9,7 +9,7 @@ import { BodyProgress, Measurement } from "@/types";
 import SkeletonBone from "@/components/ui/Skeleton/SkeletonBone";
 import SkeletonSwitcher from "@/components/ui/Skeleton/SkeletonSwitcher";
 import ButtonAdd from "@/components/shared/ButtonAdd";
-import { useModal } from "@/lib/modal/modal-store";
+import { useModal } from  "@/components/modals/modal-store";
 
 export default function Progress() {
   const locale = useLocale();

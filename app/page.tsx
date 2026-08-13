@@ -15,7 +15,7 @@ import SkeletonBone from "../components/ui/Skeleton/SkeletonBone";
 import SkeletonSwitcher from "../components/ui/Skeleton/SkeletonSwitcher";
 import ActionCard from "../components/shared/cards/ActionCard";
 import { IconUser, IconBolt } from "@tabler/icons-react";
-import { useModal } from "../lib/modal/modal-store";
+import { useModal } from "@/components/modals/modal-store";
 import { useRecords } from "./hooks/useServices/useRecords";
 import { useHistory } from "./hooks/useServices/useHistory";
 import { totalHistoryVolume } from "../lib/utils";

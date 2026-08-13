@@ -1,4 +1,4 @@
-import { useModal } from "@/lib/modal/modal-store";
+import { useModal } from  "@/components/modals/modal-store";
 import { Routine } from "@/types";
 
 export function useWorkoutModal() {

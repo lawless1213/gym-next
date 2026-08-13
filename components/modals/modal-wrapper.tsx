@@ -3,10 +3,10 @@
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "motion/react";
 import { useBodyScrollLock } from "@/app/hooks/useBodyScrollLock";
-import { useModal } from "@/lib/modal/modal-store";
+import { useModal } from  "@/components/modals/modal-store";
 import clsx from "clsx";
 import { IconX } from "@tabler/icons-react";
-import { ModalType } from "@/lib/modal/modal-renderer";
+import { ModalType } from  "@/components/modals/modal-renderer";
 import { Button } from "@/components/ui/Button";
 
 type Props = {

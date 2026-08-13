@@ -4,7 +4,7 @@ import { Routine } from "@/types";
 import { IconPlayerPlayFilled, IconBarbell } from "@tabler/icons-react";
 import { Button } from "@/components/ui/Button";
 import { useTranslations } from "next-intl";
-import { useModal } from "@/lib/modal/modal-store";
+import { useModal } from  "@/components/modals/modal-store";
 
 interface WorkoutCardProps {
   routine: Routine;
