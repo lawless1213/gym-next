@@ -6,17 +6,14 @@ import { useState } from "react";
 import { motion } from "motion/react";
 import { useSwipeable } from "react-swipeable";
 import { deleteUserExercise } from "@/lib/actions/exercise";
-import { useAuth } from "@/app/hooks/useAuth";
+import { useAuth } from "@/hooks/useAuth";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 import { useModal } from  "@/components/modals/modal-store";
-import { ExerciseCard } from "../../../components/shared/cards/ExerciseCard";
+import { ExerciseCard } from "@/components/shared/cards/ExerciseCard";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/Tooltip";
 import { useTranslations } from "next-intl";
-import { Button } from "../../../components/ui/Button";
-
-export { ExerciseCard } from "../../../components/shared/cards/ExerciseCard";
-export type { ExerciseCardProps, ExerciseCardData } from "../../../components/shared/cards/ExerciseCard";
+import { Button } from "@/components/ui/Button";
 
 interface ExerciseListItemProps {
   exercise: Exercise;

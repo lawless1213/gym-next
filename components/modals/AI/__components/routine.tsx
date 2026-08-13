@@ -6,7 +6,7 @@ import { z } from "zod";
 import { Button } from "@/components/ui/Button";
 import { useModal } from  "@/components/modals/modal-store";
 import { toast } from "sonner";
-import { useAuth } from "@/app/hooks/useAuth";
+import { useAuth } from "@/hooks/useAuth";
 import { useQueryClient } from "@tanstack/react-query";
 import { DIFFICULTY, EQUIPMENT_GROUPS, GOALS, MUSCLE_GROUPS } from "@/data/exercise";
 import { TextArea } from "@/components/ui/form/textarea";

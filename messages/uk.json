@@ -172,7 +172,8 @@
       "searchPlaceholder": "Пошук вправ...",
       "customBadge": "Власна",
       "buttonAdd": "Нова вправа",
-      "loadMore": "Показати більше"
+      "loadMore": "Показати більше",
+      "notFound": "Нічого не знайдено"
     },
     "routines": {
       "empty": "Список програм порожній",

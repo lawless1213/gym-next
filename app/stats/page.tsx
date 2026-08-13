@@ -5,9 +5,9 @@ import { IconTrophy, IconActivity } from "@tabler/icons-react";
 
 import { Header } from "@/components/shared/Header";
 import { useTranslations } from "next-intl";
-import Progress from "./_components/progress";
-import Records from "./_components/records";
-import { Tabs } from "../../components/ui/Tabs";
+import Progress from "../../components/stats/progress/progress";
+import Records from "@/components/stats/records/records";
+import { Tabs } from "@/components/ui/Tabs";
 
 type StatsTab = "progress" | "records";
 

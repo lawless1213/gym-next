@@ -3,8 +3,8 @@
 import { useLocale, useTranslations } from "next-intl";
 import { setUserLocale } from "@/i18n/i18n-action";
 import { IconUser, IconLogout, IconMoon, IconSun, IconAi } from "@tabler/icons-react";
-import { useAuth } from "@/app/hooks/useAuth";
-import { useAppTheme } from "@/app/hooks/useAppTheme";
+import { useAuth } from "@/hooks/useAuth";
+import { useAppTheme } from "@/hooks/useAppTheme";
 import { useModal } from  "@/components/modals/modal-store";
 import { toast } from "sonner";
 import { useEffect, useState } from "react";

@@ -3,8 +3,8 @@ import { IconScale, IconTrendingDown, IconTrendingUp, IconActivity, IconTrophy, 
 import { cn } from "@/lib/utils";
 import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
 import { useLocale, useTranslations } from "next-intl";
-import { useLastProgress } from "@/app/hooks/useServices/useProgress";
-import { useAuth } from "@/app/hooks/useAuth";
+import { useLastProgress } from "@/hooks/useServices/useProgress";
+import { useAuth } from "@/hooks/useAuth";
 import { BodyProgress, Measurement } from "@/types";
 import SkeletonBone from "@/components/ui/Skeleton/SkeletonBone";
 import SkeletonSwitcher from "@/components/ui/Skeleton/SkeletonSwitcher";

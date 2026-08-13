@@ -4,7 +4,7 @@ import { usePathname } from "next/navigation";
 import { getNavLinks } from "@/data/navManu";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
-import { useAuth } from "@/app/hooks/useAuth";
+import { useAuth } from "@/hooks/useAuth";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/Tooltip";
 
 export function BottomNav() {

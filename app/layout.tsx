@@ -2,12 +2,12 @@ import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
-import { AuthProvider } from "./hooks/useAuth";
+import { AuthProvider } from "../hooks/useAuth";
 import { NextIntlClientProvider } from "next-intl";
 import { getTranslations } from "next-intl/server";
-import { ThemeProvider } from "../providers/theme-provider";
-import { QueryProvider } from "../providers/QueryProvider";
-import AppShell from "./__components/AppShell";
+import { ThemeProvider } from "@/providers/theme-provider";
+import { QueryProvider } from "@/providers/QueryProvider";
+import AppShell from "@/components/shared/AppShell";
 import { ModalProvider } from "@/components/modals/modal-store";
 import { TooltipProvider } from "@/components/ui/Tooltip";
 

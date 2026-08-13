@@ -2,7 +2,7 @@
 "use client";
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "motion/react";
-import { useBodyScrollLock } from "@/app/hooks/useBodyScrollLock";
+import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
 import { useModal } from  "@/components/modals/modal-store";
 import clsx from "clsx";
 import { IconX } from "@tabler/icons-react";

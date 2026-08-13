@@ -3,16 +3,16 @@
 import { ModalWrapper } from "../modal-wrapper";
 import { ExerciseCard } from "./_components/exerciseCard";
 import { RegularWorkoutSession } from "@/types";
-import { useRecords } from "@/app/hooks/useServices/useRecords";
-import { useAuth } from "@/app/hooks/useAuth";
-import { useWorkoutModal } from "@/app/hooks/useModals/useWorkoutModal";
-import { useWorkoutSession } from "@/app/hooks/workout/useWorkoutSession";
+import { useRecords } from "@/hooks/useServices/useRecords";
+import { useAuth } from "@/hooks/useAuth";
+import { useWorkoutModal } from "@/hooks/useModals/useWorkoutModal";
+import { useWorkoutSession } from "@/hooks/workout/useWorkoutSession";
 import { writeWorkoutSession } from "@/lib/actions/workout";
 import { Timestamp } from "firebase/firestore";
 import { useQueryClient } from "@tanstack/react-query";
 import { WorkoutHeader } from "./_components/workoutHeader";
 import { WorkoutFooter } from "./_components/workoutFooter";
-import { useWorkoutSessionPersistence } from "@/app/hooks/workout/useWorkoutSessionPersistence";
+import { useWorkoutSessionPersistence } from "@/hooks/workout/useWorkoutSessionPersistence";
 import { useTranslations } from "next-intl";
 
 export function WorkoutModal() {

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useRef } from "react";
-import { useTypewriter } from "@/app/hooks/useTypewriter";
+import { useTypewriter } from "@/hooks/useTypewriter";
 
 type TypewriterTextProps = {
   text: string;

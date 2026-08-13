@@ -4,11 +4,11 @@ import { useEffect, useMemo } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { usePathname, useRouter } from "next/navigation";
 import { useSwipeable } from "react-swipeable";
-import { useAuth } from "@/app/hooks/useAuth";
-import LoadingScreen from "../../../components/shared/LoadingScreen";
+import { useAuth } from "@/hooks/useAuth";
+import LoadingScreen from "@/components/shared/LoadingScreen";
 import { BottomNav } from "@/components/shared/BottomNav";
 import { getNavLinks, navLinks } from "@/data/navManu";
-import { Toaster } from "../../../components/shared/Toaster/Toaster";
+import { Toaster } from "@/components/shared/Toaster/Toaster";
 
 
 let prevPathname = "";

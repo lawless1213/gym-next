@@ -2,8 +2,8 @@
 
 import SkeletonBone from "@/components/ui/Skeleton/SkeletonBone";
 import SkeletonSwitcher from "@/components/ui/Skeleton/SkeletonSwitcher";
-import { useAuth } from "@/app/hooks/useAuth";
-import { useRecords } from "@/app/hooks/useServices/useRecords";
+import { useAuth } from "@/hooks/useAuth";
+import { useRecords } from "@/hooks/useServices/useRecords";
 import { IconTrophy } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
 import RecordCard from "./recordCard";

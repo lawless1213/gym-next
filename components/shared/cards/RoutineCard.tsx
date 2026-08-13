@@ -1,4 +1,4 @@
-import { useAuth } from "@/app/hooks/useAuth";
+import { useAuth } from "@/hooks/useAuth";
 import { deleteUserRoutine } from "@/lib/actions/routine";
 import { useModal } from  "@/components/modals/modal-store";
 import { Routine } from "@/types";
@@ -9,7 +9,7 @@ import { useState } from "react";
 import { useSwipeable } from "react-swipeable";
 import { toast } from "sonner";
 import { AnimatePresence, motion } from "motion/react";
-import { ExerciseCard } from "../../../app/__components/exerciseList";
+import { ExerciseCard } from "@/components/shared/cards/ExerciseCard";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/Tooltip";
 import { Button } from "../../ui/Button";
 

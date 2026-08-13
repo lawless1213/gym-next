@@ -12,7 +12,7 @@ import { IconBarbell, IconCheck, IconUpload } from "@tabler/icons-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { createUserExercise } from "@/lib/actions/exercise";
-import { useAuth } from "@/app/hooks/useAuth";
+import { useAuth } from "@/hooks/useAuth";
 import { useQueryClient } from "@tanstack/react-query";
 import { MUSCLE_GROUPS } from "@/data/exercise";
 import { useTranslations } from "next-intl";

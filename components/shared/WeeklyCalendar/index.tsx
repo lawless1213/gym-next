@@ -1,12 +1,12 @@
 "use client";
 
-import { useAuth } from "@/app/hooks/useAuth";
+import { useAuth } from "@/hooks/useAuth";
 import { useRef, useState } from "react";
 import { ScheduleMap, weekDays } from "@/types";
 import { useTranslations } from "next-intl";
 import { AnimatePresence, motion } from "motion/react";
 import RoutineCard from "../cards/RoutineCard";
-import { useSchedule } from "@/app/hooks/useServices/useSchedule";
+import { useSchedule } from "@/hooks/useServices/useSchedule";
 import SkeletonBone from "../../ui/Skeleton/SkeletonBone";
 import SkeletonSwitcher from "../../ui/Skeleton/SkeletonSwitcher";
 import { IconEdit, IconPlus } from "@tabler/icons-react";

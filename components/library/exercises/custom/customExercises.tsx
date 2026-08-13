@@ -1,36 +1,15 @@
-
 "use client";
 
 import { useState, useMemo } from "react";
-import { ExerciseListItem } from "@/app/__components/exerciseList";
 import { IconSearch } from "@tabler/icons-react";
-import { useAuth } from "@/app/hooks/useAuth";
+import { useAuth } from "@/hooks/useAuth";
 import { useTranslations } from "next-intl";
-import { useUserExercises } from "@/app/hooks/useServices/useExercises";
-import SkeletonBone from "@/components/ui/Skeleton/SkeletonBone";
+import { useUserExercises } from "@/hooks/useServices/useExercises";
 import SkeletonSwitcher from "@/components/ui/Skeleton/SkeletonSwitcher";
-import { Button } from "@/components/ui/Button";
+import { ExercisesSkeleton } from "../exercisesSkeleton";
+import ExercisesList from "../exercisesList";
 
-const ITEMS_PER_PAGE = 5;
-
-const ExercisesSkeleton = (
-  <div className="space-y-6 mt-6">
-    {Array.from({ length: 3 }).map((_, i) => (
-      <div
-        key={i}
-        className="space-y-2">
-        <SkeletonBone
-          br={12}
-          height={20}
-        />
-        <SkeletonBone
-          br={12}
-          height={72}
-        />
-      </div>
-    ))}
-  </div>
-);
+const ITEMS_PER_PAGE = 10;
 
 export default function CustomExercises() {
   const t = useTranslations("Library.exercises");
@@ -80,27 +59,11 @@ export default function CustomExercises() {
       <SkeletonSwitcher
         isLoading={loading}
         skeleton={ExercisesSkeleton}>
-        <div className="space-y-6 mt-6 max-md:-mx-4">
-          {visibleExercises.length > 0 ? (
-            visibleExercises.map((exercise) => (
-              <ExerciseListItem
-                key={exercise.id}
-                exercise={exercise}
-              />
-            ))
-          ) : (
-            <p className="text-center text-sm text-muted-foreground py-8">{t("notFound") || "Нічого не знайдено"}</p>
-          )}
-
-          {hasMore && (
-            <Button
-              variant="outline"
-              onClick={handleLoadMore}
-              className="w-full">
-              {t("loadMore")}
-            </Button>
-          )}
-        </div>
+        <ExercisesList
+          visibleExercises={visibleExercises}
+          hasMore={hasMore}
+          handleLoadMore={handleLoadMore}
+        />
       </SkeletonSwitcher>
     </>
   );

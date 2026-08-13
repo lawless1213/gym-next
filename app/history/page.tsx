@@ -1,13 +1,13 @@
 "use client";
 
 import { IconCalendarWeekFilled, IconTrendingUp } from "@tabler/icons-react";
-import { useAuth } from "@/app/hooks/useAuth";
+import { useAuth } from "@/hooks/useAuth";
 import { useTranslations } from "next-intl";
-import WorkoutSession from "./_components/workoutSession";
+import WorkoutSession from "../../components/history/workoutSession";
 import { Header } from "@/components/shared/Header";
-import { useHistory } from "../hooks/useServices/useHistory";
-import SkeletonSwitcher from "../../components/ui/Skeleton/SkeletonSwitcher";
-import SkeletonBone from "../../components/ui/Skeleton/SkeletonBone";
+import { useHistory } from "../../hooks/useServices/useHistory";
+import SkeletonSwitcher from "@/components/ui/Skeleton/SkeletonSwitcher";
+import SkeletonBone from "@/components/ui/Skeleton/SkeletonBone";
 
 export default function History() {
   const t = useTranslations("History");

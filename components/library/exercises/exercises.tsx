@@ -1,11 +1,11 @@
 "use client";
 
 import { useState} from "react";
-import { useAuth } from "@/app/hooks/useAuth";
+import { useAuth } from "@/hooks/useAuth";
 import { useTranslations } from "next-intl";
 import { Tabs } from "@/components/ui/Tabs";
-import CommonExercises from "./commonExercises";
-import CustomExercises from "./customExercises";
+import CommonExercises from "./common/commonExercises";
+import CustomExercises from "./custom/customExercises";
 
 type ExerciseTab = "common" | "custom";
 

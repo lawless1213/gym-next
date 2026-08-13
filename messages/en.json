@@ -171,7 +171,8 @@
       "searchPlaceholder": "Search exercises...",
       "customBadge": "Custom",
       "buttonAdd": "New exercise",
-      "loadMore": "Show more"
+      "loadMore": "Show more",
+      "notFound": "Nothing found"
     },
     "routines": {
       "empty": "Routine list is empty",

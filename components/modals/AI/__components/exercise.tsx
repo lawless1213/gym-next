@@ -11,14 +11,14 @@ import { IconBarbell, IconCheck, IconUpload } from "@tabler/icons-react";
 import { useState } from "react";
 import { toast } from "sonner";
 import { createUserExercise } from "@/lib/actions/exercise";
-import { useAuth } from "@/app/hooks/useAuth";
+import { useAuth } from "@/hooks/useAuth";
 import { useQueryClient } from "@tanstack/react-query";
 import { Label } from "@/components/ui/form/label";
 import { DIFFICULTY, EQUIPMENT_GROUPS, GOALS, MUSCLE_GROUPS } from "@/data/exercise";
 import { Select } from "@/components/ui/form/select";
 import { ChipGroup } from "@/components/ui/form/chipGroup";
 import { generateAiExercise } from "@/lib/actions/gemini/exercise";
-import { ExerciseCard } from "@/app/__components/exerciseList";
+import { ExerciseCard } from "@/components/shared/cards/ExerciseCard";
 import { useLocale, useTranslations } from "next-intl";
 import { TypewriterText } from "@/components/ui/TypewritterText";
 

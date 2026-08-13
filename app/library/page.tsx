@@ -2,14 +2,14 @@
 
 import { useState } from "react";
 import { IconBarbell, IconFolderOpen } from "@tabler/icons-react";
-import Exercises from "./_components/exercises";
-import Routines from "./_components/routines";
+import Exercises from "@/components/library/exercises/exercises";
+import Routines from "@/components/library/routines/routines";
 import { useTranslations } from "next-intl";
 import { Header } from "@/components/shared/Header";
-import { Tabs } from "../../components/ui/Tabs";
-import ButtonAdd from "../../components/shared/ButtonAdd";
+import { Tabs } from "@/components/ui/Tabs";
+import ButtonAdd from "@/components/shared/ButtonAdd";
 import { useModal } from "@/components/modals/modal-store";
-import { useAuth } from "../hooks/useAuth";
+import { useAuth } from "../../hooks/useAuth";
 
 type LibraryTab = "exercise" | "routine";
 
