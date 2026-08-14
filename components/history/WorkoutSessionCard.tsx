@@ -4,7 +4,7 @@ import { WorkoutSession as WorkoutSessionType } from "@/types";
 import { useTranslations } from "next-intl";
 import { AnimatePresence, motion } from "motion/react";
 
-export default function WorkoutSession(workout: WorkoutSessionType) {
+export default function WorkoutSessionCard(workout: WorkoutSessionType) {
   const t = useTranslations("History");
   const tMonth = useTranslations("components.month");
   const [isOpen, setIsOpen] = useState(false);
