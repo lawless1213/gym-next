@@ -135,11 +135,18 @@
     },
     "forms": {
       "at_least_one_required": "Хоча б одне поле має бути заповнене",
+      "at_least_one_checked": "Хоча б одне значення має бути вибране",
       "invalid_number": "Недійсне число",
       "must_be_positive": "Значення має бути позитивним",
       "value_too_large": "Значення занадто велике",
+      "title_too_small": "Назва занадто маленька",
+      "title_too_large": "Назва занадто велика",
+      "text_too_small": "Тексту малувато",
+      "text_too_large": "Тексту забагато",
       "invalid_email": "Невірна електронна пошта",
-      "invalid_password": "Невірний пароль"
+      "invalid_password": "Невірний пароль",
+      "file_too_large": "Оберіть файл поменше",
+      "invalid_file_type": "Оберіть файл відповідного типу"
     }
   },
   "HomePage": {

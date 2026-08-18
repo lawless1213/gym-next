@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/form/input";
-import { useModal } from  "@/components/modals/modal-store";
+import { useModal } from "@/components/modals/modal-store";
 import { IconBarbell, IconCheck, IconUpload } from "@tabler/icons-react";
 import { toast } from "sonner";
 import { createUserExercise } from "@/lib/actions/exercise";
@@ -15,15 +15,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { MUSCLE_GROUPS } from "@/data/exercise";
 import { useTranslations } from "next-intl";
 import { ChipGroup } from "@/components/ui/form/chipGroup";
-
-const exerciseSchema = z.object({
-  photo: z.instanceof(File).optional(),
-  title: z.string().min(3, "Назва має бути мінімум 3 символа"),
-  groups: z.array(z.string()).min(1, "Оберіть хоча б одну групу м'язів"),
-  description: z.string(),
-});
-
-type ExerciseFormData = z.infer<typeof exerciseSchema>;
+import { ExerciseFormData, exerciseSchema } from "@/lib/schemas";
 
 export function ExerciseCreateModal() {
   const tComponents = useTranslations("components");
@@ -100,6 +92,7 @@ export function ExerciseCreateModal() {
                       <IconUpload className="h-4 w-4" />
                       {value ? t("changePicture") : t("addPicture")}
                     </span>
+                    {errors.photo?.message && <p className="text-xs text-red-500 min-h-5">{errors.photo?.message}</p>}
                   </label>
                 );
               }}
@@ -111,7 +104,7 @@ export function ExerciseCreateModal() {
                 ...titleRest,
                 id: "title",
                 placeholder: t("name"),
-                error: errors.title?.message,
+                error: errors.title?.message && tComponents('forms.' + errors.title?.message),
               }}
             />
 
@@ -121,7 +114,7 @@ export function ExerciseCreateModal() {
                 ...descriptionRest,
                 id: "description",
                 placeholder: t("describe"),
-                error: errors.description?.message,
+                error: errors.description?.message && tComponents('forms.' + errors.description?.message),
               }}
             />
 
@@ -136,13 +129,11 @@ export function ExerciseCreateModal() {
                   id="groups"
                   label={t("muscleGroups")}
                   formatLabel={(item) => tComponents("muscleGroups." + item)}
-                  error={errors.groups?.message}
+                  error={errors.groups?.message && tComponents('forms.' + errors.groups?.message)}
                 />
               )}
             />
           </div>
-
-          {errors.root && <p className="text-sm text-red-500 mb-1">{errors.root.message}</p>}
 
           <Button
             type="submit"
