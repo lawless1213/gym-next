@@ -8,16 +8,11 @@ import { Input } from "@/components/ui/form/input";
 import { AUTH_ERRORS } from "@/lib/errors/auth";
 import { useModal } from  "@/components/modals/modal-store";
 import { useTranslations } from "next-intl";
-
-const signUpSchema = z.object({
-  email: z.string().email("Введіть коректний email"),
-  password: z.string().min(6, "Пароль має бути мінімум 6 символів"),
-});
-
-type SignUpFormData = z.infer<typeof signUpSchema>;
+import { AuthFormData, authSchema } from "@/lib/schemas";
 
 export default function SignUpForm() {
   const t = useTranslations("auth");
+  const tForms = useTranslations("components.forms");
   const { close } = useModal();
   const { signup } = useAuth();
 
@@ -26,15 +21,15 @@ export default function SignUpForm() {
     handleSubmit,
     setError,
     formState: { errors, isSubmitting, isValid, isDirty },
-  } = useForm<SignUpFormData>({
-    resolver: zodResolver(signUpSchema),
+  } = useForm<AuthFormData>({
+    resolver: zodResolver(authSchema),
     mode: "onTouched",
   });
 
   const { ref: emailRef, ...emailRest } = register("email");
   const { ref: passwordRef, ...passwordRest } = register("password");
 
-  const onSubmit = async (data: SignUpFormData) => {
+  const onSubmit = async (data: AuthFormData) => {
     try {
       await signup(data.email, data.password);
       close();
@@ -56,7 +51,7 @@ export default function SignUpForm() {
             ...emailRest,
             id: "email",
             placeholder: t("fields.email"),
-            error: errors.email?.message,
+            error: errors.email?.message && tForms(errors.email?.message),
           }}
         />
         <Input
@@ -66,7 +61,7 @@ export default function SignUpForm() {
             id: "password",
             type: "password",
             placeholder: t("fields.password"),
-            error: errors.password?.message,
+            error: errors.password?.message && tForms(errors.password?.message),
           }}
         />
       </div>

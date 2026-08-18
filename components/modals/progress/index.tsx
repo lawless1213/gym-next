@@ -12,20 +12,8 @@ import { useAuth } from "@/hooks/useAuth";
 import { useQueryClient } from "@tanstack/react-query";
 import { addUserProgress } from "@/lib/actions/progress";
 import { useTranslations } from "next-intl";
+import { ProgressFormData, progressSchema } from "@/lib/schemas";
 
-const progressSchema = z.object({
-  date: z.date(),
-  weight: z.number('Введіть будь ласка число.').positive('Показник не може бути відʼємним.').max(300).optional(),
-  waist: z.number('Введіть будь ласка число.').positive('Показник не може бути відʼємним.').max(200).optional(),
-  chest: z.number('Введіть будь ласка число.').positive('Показник не може бути відʼємним.').max(200).optional(),
-  arms: z.number('Введіть будь ласка число.').positive('Показник не може бути відʼємним.').max(100).optional(),
-  thighs: z.number('Введіть будь ласка число.').positive('Показник не може бути відʼємним.').max(150).optional(),
-}).refine(
-  (data) => [data.weight, data.waist, data.chest, data.arms, data.thighs].some((v) => v !== undefined),
-  { message: "Введіть хоча б один показник" }
-);
-
-type ProgressFormData = z.infer<typeof progressSchema>;
 
 export function ProgressModal() {
   const tComponents = useTranslations("components");
@@ -85,7 +73,7 @@ export function ProgressModal() {
                     type: "tel",
                     id: name,
                     placeholder,
-                    error: errors[name]?.message,
+                    error: errors[name]?.message && tComponents("forms." + errors[name]?.message),
                   }}
                 />
               );

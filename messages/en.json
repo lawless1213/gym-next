@@ -132,6 +132,14 @@
       "subtitle": "You're on track to exceed your weekly goal. {value} this week",
       "zeroSubtitle": "Don't give up!",
       "volumeChange": "{value}% volume compared to last week"
+    },
+    "forms": {
+      "at_least_one_required": "At least one field must be filled in",
+      "invalid_number": "Invalid number",
+      "must_be_positive": "Value must be positive",
+      "value_too_large": "Value is too large",
+      "invalid_email": "Invalid email address",
+      "invalid_password": "Invalid password"
     }
   },
   "HomePage": {
@@ -352,7 +360,7 @@
         "placeholder": "For example: How to do a proper warm-up?",
         "loading": "Thinking..."
       },
- 
+
       "success": "Successfully saved!",
       "error": "Something went wrong! Please try again later."
     }

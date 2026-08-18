@@ -132,6 +132,14 @@
       "subtitle": "Ти на шляху до перевиконання тижневої цілі. {value} цього тижня",
       "zeroSubtitle": "Не здавайся!",
       "volumeChange": "{value}% обʼєму порівняно з минулим тижнем"
+    },
+    "forms": {
+      "at_least_one_required": "Хоча б одне поле має бути заповнене",
+      "invalid_number": "Недійсне число",
+      "must_be_positive": "Значення має бути позитивним",
+      "value_too_large": "Значення занадто велике",
+      "invalid_email": "Невірна електронна пошта",
+      "invalid_password": "Невірний пароль"
     }
   },
   "HomePage": {
