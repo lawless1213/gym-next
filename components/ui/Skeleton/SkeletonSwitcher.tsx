@@ -25,7 +25,7 @@ export default function SkeletonSwitcher({
   children,
   contentKey = "content",
   animationProps = defaultAnimation,
-  fluid
+  fluid = true,
 }: SkeletonSwitcherProps) {
   return (
     <AnimatePresence mode="wait">
@@ -34,7 +34,6 @@ export default function SkeletonSwitcher({
           key="skeleton"
           {...animationProps}
           className={fluid ? "w-full" : ""}
-     
         >
           {skeleton}
         </motion.div>
@@ -42,6 +41,7 @@ export default function SkeletonSwitcher({
         <motion.div
           key={contentKey}
           {...animationProps}
+          className={fluid ? "w-full" : ""}
         >
           {children}
         </motion.div>

@@ -1,8 +1,17 @@
 import { motion } from "motion/react";
 
-export default function SkeletonBone({ width = "100%", height = 14, circle = false, br = 6 }) {
+interface SkeletonBoneProps {
+  width?: string
+  height?: number
+  circle?: boolean,
+  br?: number,
+  className?: string,
+}
+
+export default function SkeletonBone({ width = "100%", height = 14, circle = false, br = 6, className }: SkeletonBoneProps ) {
   return (
     <motion.div
+      className={className}
       style={{
         width,
         height,

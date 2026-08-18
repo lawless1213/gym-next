@@ -1,15 +1,17 @@
 import { useState } from "react";
-import { IconScale, IconTrendingDown, IconTrendingUp, IconActivity, IconTrophy, IconEdit } from "@tabler/icons-react";
-import { cn } from "@/lib/utils";
-import { LineChart, Line, XAxis, YAxis, CartesianGrid, Tooltip, ResponsiveContainer } from "recharts";
+import { IconScale, IconActivity} from "@tabler/icons-react";
+import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 import { useLocale, useTranslations } from "next-intl";
 import { useLastProgress } from "@/hooks/useServices/useProgress";
 import { useAuth } from "@/hooks/useAuth";
-import { BodyProgress, Measurement } from "@/types";
+import { BodyProgress } from "@/types";
 import SkeletonBone from "@/components/ui/Skeleton/SkeletonBone";
 import SkeletonSwitcher from "@/components/ui/Skeleton/SkeletonSwitcher";
-import ButtonAdd from "@/components/shared/ButtonAdd";
-import { useModal } from  "@/components/modals/modal-store";
+import { useModal } from "@/components/modals/modal-store";
+import NewMeasurements from "./NewMeasurements";
+import MeasurementsList from "./MeasurementsList";
+import MeasurementsGrid from "./MeasurementsGrid";
+import MeasurementsChart from "./MeasurementsChart";
 
 export default function Progress() {
   const locale = useLocale();
@@ -17,7 +19,6 @@ export default function Progress() {
   const tMeasurement = useTranslations("components.measurement");
   const { user } = useAuth();
   const userId = user?.uid;
-  const { open } = useModal();
 
   const { data: progress, isLoading: loading } = useLastProgress(userId);
 
@@ -45,223 +46,23 @@ export default function Progress() {
   ];
 
   return (
-    <div className="space-y-2">
-      <SkeletonSwitcher
-        isLoading={loading}
-        skeleton={
-          <div className="grid grid-cols-2 gap-3">
-            {Array.from({ length: 2 }).map((_, i) => (
-              <SkeletonBone
-                key={i}
-                br={12}
-                height={104}
-              />
-            ))}
-          </div>
-        }>
-        <div className="grid grid-cols-2 gap-3">
-          {metrics.slice(0, 2).map(({ key, label, unit, icon: Icon, change }) => (
-            <button
-              key={key}
-              onClick={() => setSelectedMetric(key)}
-              className={cn("rounded-xl p-4 text-center transition-all cursor-pointer", selectedMetric === key ? "bg-primary/10 ring-2 ring-primary" : "bg-card")}>
-              <div className="flex items-center justify-center gap-2">
-                <Icon className="h-4 w-4 text-muted-foreground" />
-                <span className="text-sm text-muted-foreground">{label}</span>
-              </div>
-              <p className="text-2xl font-bold text-foreground">
-                {progress?.[key].at(-1)!.value} {unit}
-              </p>
-              {change !== 0 && (
-                <span className={cn("flex items-center justify-center gap-1 text-sm", change < 0 ? "text-primary" : "text-destructive")}>
-                  {change < 0 ? <IconTrendingDown className="h-3.5 w-3.5" /> : <IconTrendingUp className="h-3.5 w-3.5" />}
-                  <span>
-                    {Math.abs(change)} {unit}
-                  </span>
-                </span>
-              )}
-            </button>
-          ))}
-        </div>
-      </SkeletonSwitcher>
-      <SkeletonSwitcher
-        isLoading={loading}
-        skeleton={
-          <div className="grid grid-cols-3 gap-3 mt-3">
-            {Array.from({ length: 3 }).map((_, i) => (
-              <SkeletonBone
-                key={i}
-                br={12}
-                height={96}
-              />
-            ))}
-          </div>
-        }>
-        <div className="grid grid-cols-3 gap-3 mt-3">
-          {metrics.slice(2).map(({ key, label, unit, icon: Icon, change }) => (
-            <button
-              key={key}
-              onClick={() => setSelectedMetric(key)}
-              className={cn("text-center rounded-xl p-4 transition-all cursor-pointer", selectedMetric === key ? "bg-primary/10 ring-2 ring-primary" : "bg-card")}>
-              <div className="flex items-center justify-center gap-2">
-                <Icon className="h-4 w-4 text-muted-foreground" />
-                <span className="text-sm text-muted-foreground">{label}</span>
-              </div>
-              <div className="text-md font-bold text-foreground">
-                {progress?.[key].at(-1)!.value} {unit}
-                {change !== 0 && (
-                  <div className={cn("flex items-center justify-center gap-1 text-sm", change > 0 ? "text-primary" : "text-destructive")}>
-                    {change < 0 ? <IconTrendingDown className="h-3.5 w-3.5" /> : <IconTrendingUp className="h-3.5 w-3.5" />}
-                    <span>
-                      {Math.abs(change)} {unit}
-                    </span>
-                  </div>
-                )}
-              </div>
-            </button>
-          ))}
-        </div>
-      </SkeletonSwitcher>
-
-      <SkeletonSwitcher
-        isLoading={!!chartData && loading}
-        skeleton={
-          <SkeletonBone
-            br={12}
-            height={260}
-          />
-        }>
-        <div className="rounded-xl bg-card py-4 pr-4">
-          <h3 className="pl-4 mb-4 text-sm font-semibold text-muted-foreground">{t(`measurements.${selectedMetric}`)}</h3>
-          <div className="h-48">
-            <ResponsiveContainer
-              width="100%"
-              height="100%">
-              <LineChart
-                key={selectedMetric}
-                data={chartData}
-                accessibilityLayer={false}>
-                <XAxis
-                  dataKey="date"
-                  tick={{ fill: "var(--muted-foreground)", fontSize: 10 }}
-                  tickLine={false}
-                  axisLine={false}
-                />
-                <YAxis
-                  domain={["dataMin - 2", "dataMax + 2"]}
-                  tick={{ fill: "var(--muted-foreground)", fontSize: 10 }}
-                  tickLine={false}
-                  axisLine={false}
-                  width={30}
-                />
-                <Tooltip
-                  cursor={false}
-                  content={({ payload }) => {
-                    if (!payload || !payload.length) return null;
-                    const { value, date } = payload[0].payload;
-                    return (
-                      <div className="bg-card border border-border rounded-xl p-2">
-                        <div className="font-semibold">
-                          {value} {selectedMetric === "weight" ? tMeasurement("kg") : tMeasurement("cm")}
-                        </div>
-                        <div className="text-xs text-muted-foreground">{date}</div>
-                      </div>
-                    );
-                  }}
-                />
-                <Line
-                  type="monotone"
-                  dataKey="value"
-                  stroke="var(--primary)"
-                  strokeWidth={2}
-                  dot={{ fill: "var(--primary)", strokeWidth: 0, r: 4 }}
-                  activeDot={{
-                    r: 10,
-                    strokeWidth: 0,
-                  }}
-                  // isAnimationActive={false}
-                />
-              </LineChart>
-            </ResponsiveContainer>
-          </div>
-        </div>
-      </SkeletonSwitcher>
-      <SkeletonSwitcher
-        isLoading={loading}
-        skeleton={
-          <div className="space-y-3">
-            {Array.from({ length: 3 }).map((_, i) => (
-              <SkeletonBone
-                key={i}
-                br={12}
-                height={64}
-              />
-            ))}
-          </div>
-        }>
-        {progress ? (
-          (() => {
-            const reversedProgress = progress[selectedMetric].toReversed();
-            // Знаходимо поточний об'єкт метрики, щоб дізнатися і unit, і increaseProfit
-            const currentMetricConfig = metrics?.find((item) => item.key === selectedMetric);
-            const unit = currentMetricConfig?.unit || "";
-            const increaseProfit = currentMetricConfig?.increaseProfit ?? true; // за замовчуванням true, якщо не знайдено
-
-            return (
-              <div className="space-y-3">
-                {reversedProgress.map((measurement: Measurement, index: number) => {
-                  const previousMeasurement = reversedProgress[index + 1];
-                  const difference = previousMeasurement ? measurement.value - previousMeasurement.value : null;
-
-                  let textColorClass = "text-muted-foreground";
-
-                  if (difference !== null && difference !== 0) {
-                    const isGoodProgress = (difference > 0 && increaseProfit) || (difference < 0 && !increaseProfit);
-                    textColorClass = isGoodProgress ? "text-emerald-500" : "text-rose-500";
-                  }
-
-                  return (
-                    <div
-                      key={index}
-                      className="flex items-center gap-3 p-3 border-b border-border/50">
-                      <div className="w-10 h-10 rounded-xl bg-secondary flex items-center justify-center shrink-0 text-muted-foreground">
-                        {difference !== null && difference !== 0 ? (
-                          difference > 0 ? (
-                            <IconTrendingUp className="h-4 w-4" />
-                          ) : (
-                            <IconTrendingDown className="h-4 w-4" />
-                          )
-                        ) : (
-                          <IconActivity className="h-4 w-4" />
-                        )}
-                      </div>
-
-                      <div className="flex-1 min-w-0">
-                        <div className="text-xs text-muted-foreground">{measurement.date.toLocaleDateString(locale, { month: "short", day: "numeric", year: "numeric" })}</div>
-
-                        {difference !== null && (
-                          <div className={`text-xs font-medium ${textColorClass}`}>
-                            {difference > 0 ? `+${difference.toFixed(1)}` : difference.toFixed(1)} {unit}
-                          </div>
-                        )}
-                      </div>
-
-                      <span className="text-xl font-bold text-foreground shrink-0">{measurement.value + unit}</span>
-                    </div>
-                  );
-                })}
-              </div>
-            );
-          })()
-        ) : (
-          <div>empty</div>
-        )}
-      </SkeletonSwitcher>
-      <ButtonAdd
-        onClick={() => open('progress')}
-        ariaLabel={t('progress.buttonAdd')}
-        icon= { <IconEdit className="size-6" /> }
+    <div className="space-y-2 min-w-0">
+      <MeasurementsGrid
+        metrics={metrics}
+        progress={progress}
+        loading={loading}
+        selectedMetric={selectedMetric}
+        setSelectedMetric={setSelectedMetric}
       />
+
+      <MeasurementsChart loading={loading} progress={progress} selectedMetric={selectedMetric} />
+      <MeasurementsList
+        loading={loading}
+        progress={progress?.[selectedMetric] ?? []}
+        unit={metrics.find((item) => item.key === selectedMetric)?.unit}
+        increaseProfit={metrics.find((item) => item.key === selectedMetric)?.increaseProfit}
+      />
+      <NewMeasurements />
     </div>
   );
 }
