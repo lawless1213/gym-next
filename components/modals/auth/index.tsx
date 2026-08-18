@@ -1,8 +1,8 @@
 'use client'
 
 import { useState } from 'react'
-import SignUpForm from './signUpForm'
-import LoginForm from './loginForm'
+import SignUpForm from './SignUpForm'
+import LoginForm from './LoginForm'
 import { ModalWrapper } from '../modal-wrapper'
 import { useTranslations } from 'next-intl'
 import { Button } from '@/components/ui/Button'

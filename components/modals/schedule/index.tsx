@@ -1,19 +1,14 @@
 "use client";
 
 import { ModalWrapper } from "../modal-wrapper";
-import { Controller, useForm, useFieldArray } from "react-hook-form";
+import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button } from "@/components/ui/Button";
 import { useAuth } from "@/hooks/useAuth";
-import { Input } from "@/components/ui/form/input";
-import { AUTH_ERRORS } from "@/lib/errors/auth";
 import { IconCheck } from "@tabler/icons-react";
-import { useEffect, useState } from "react";
-import { Routine, RoutinesExercise } from "@/types";
-import { useAllExercises } from "@/hooks/useServices/useExercises";
+import { useEffect } from "react";
 import { toast } from "sonner";
-import { createUserRoutine } from "@/lib/actions/routine";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRoutines } from "@/hooks/useServices/useRoutines";
 import RoutineCard from "@/components/shared/cards/RoutineCard";
