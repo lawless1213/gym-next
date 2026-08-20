@@ -21,22 +21,7 @@ import { generateAiExercise } from "@/lib/actions/gemini/exercise";
 import { ExerciseCard } from "@/components/shared/cards/ExerciseCard";
 import { useLocale, useTranslations } from "next-intl";
 import { TypewriterText } from "@/components/ui/TypewritterText";
-
-const exerciseSchema = z.object({
-  comment: z.string(),
-  groups: z.array(z.string()).min(1, "Оберіть хоча б одну групу м'язів"),
-  equipment: z.enum(EQUIPMENT_GROUPS, {
-    message: "Оберіть обладнання",
-  }),
-  difficulty: z.enum(DIFFICULTY, {
-    message: "Оберіть рівень",
-  }),
-  goal: z.enum(GOALS, {
-    message: "Оберіть ціль",
-  }),
-});
-
-type ExerciseAIFormData = z.infer<typeof exerciseSchema>;
+import { AIExerciseFormData, AIExerciseSchema } from "@/lib/schemas";
 
 export function AiExerciseContent() {
   const locale = useLocale();
@@ -52,9 +37,9 @@ export function AiExerciseContent() {
     control,
     setError,
     formState: { errors, isSubmitting, isValid, isDirty },
-  } = useForm<ExerciseAIFormData>({
-    resolver: zodResolver(exerciseSchema),
-    mode: "onTouched",
+  } = useForm<AIExerciseFormData>({
+    resolver: zodResolver(AIExerciseSchema),
+    mode: "onChange",
     defaultValues: {
       groups: [],
       difficulty: "",
@@ -71,7 +56,7 @@ export function AiExerciseContent() {
     { name: "equipment", placeholder: t("fields.equipmentGroups"), options: EQUIPMENT_GROUPS, key: "equipmentGroups" },
   ] as const;
 
-  const onSubmit = async (data: ExerciseAIFormData) => {
+  const onSubmit = async (data: AIExerciseFormData) => {
     try {
       if (!user) throw new Error("Not authenticated");
 
@@ -140,7 +125,7 @@ export function AiExerciseContent() {
                   searchable: false,
                   value: field.value,
                   onChange: (value) => field.onChange(value),
-                  error: errors[name]?.message,
+                  error: errors[name]?.message && tComponents(`forms.${errors[name].message}`),
                   options: options.map((opt) => ({ value: opt, label: tComponents(`${key}.${opt}`) })),
                 }}
               />
@@ -159,7 +144,7 @@ export function AiExerciseContent() {
               id="groups"
               label={t("fields.muscleGroups")}
               formatLabel={(item) => tComponents("muscleGroups." + item)}
-              error={errors.groups?.message}
+              error={errors.groups?.message && tComponents('forms.' + errors.groups?.message)}
             />
           )}
         />
@@ -170,7 +155,7 @@ export function AiExerciseContent() {
             ...commentRest,
             id: "title",
             placeholder: t("fields.additionalComment"),
-            error: errors.comment?.message,
+            error: errors.comment?.message && tComponents('forms.' + errors.comment?.message),
           }}
         />
       </div>

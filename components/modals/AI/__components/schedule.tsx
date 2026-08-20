@@ -20,34 +20,7 @@ import { WeeklyCalendar } from "@/components/shared/WeeklyCalendar";
 import { TypewriterText } from "@/components/ui/TypewritterText";
 import { createAiUserSchedule } from "@/lib/actions/shedule";
 import { useLocale, useTranslations } from "next-intl";
-
-const scheduleSchema = z.object({
-  comment: z.string().optional(),
-  groups: z.array(z.string()).min(1, "Оберіть хоча б одну групу м'язів"),
-  equipment: z.enum(EQUIPMENT_GROUPS, {
-    message: "Оберіть обладнання",
-  }),
-  difficulty: z.enum(DIFFICULTY, {
-    message: "Оберіть рівень",
-  }),
-  goal: z.enum(GOALS, {
-    message: "Оберіть ціль",
-  }),
-  splitType: z.enum(SPLIT_TYPES, {
-    message: "Оберіть тип тренування",
-  }),
-  preferredRestDays: z.array(z.enum(weekDays)).optional(),
-  dayPerWeek: z.string().refine(
-    (val) => {
-      if (!val) return true;
-      const num = Number(val);
-      return !isNaN(num) && num > 0 && num <= 7;
-    },
-    { message: "Максимальна кількість — 7" },
-  ),
-});
-
-type ScheduleFormData = z.infer<typeof scheduleSchema>;
+import { AIScheduleFormData, AIScheduleSchema } from "@/lib/schemas";
 
 export function AiScheduleContent() {
   const locale = useLocale();
@@ -65,9 +38,9 @@ export function AiScheduleContent() {
     control,
     setError,
     formState: { errors, isSubmitting, isValid, isDirty },
-  } = useForm<ScheduleFormData>({
-    resolver: zodResolver(scheduleSchema),
-    mode: "onTouched",
+  } = useForm<AIScheduleFormData>({
+    resolver: zodResolver(AIScheduleSchema),
+    mode: "onChange",
     defaultValues: {
       groups: [],
     },
@@ -88,7 +61,7 @@ export function AiScheduleContent() {
     { id: "preferredRestDays", name: "preferredRestDays", label: t("fields.restDays"), items: weekDays, key: "day.default" },
   ] as const;
 
-  const onSubmit = async (formData: ScheduleFormData) => {
+  const onSubmit = async (formData: AIScheduleFormData) => {
     try {
       if (!user) throw new Error("Not authenticated");
 
@@ -164,7 +137,7 @@ export function AiScheduleContent() {
                   searchable: false,
                   value: field.value,
                   onChange: (value) => field.onChange(value),
-                  error: errors[name]?.message,
+                  error: errors[name]?.message && tComponents(`forms.${errors[name].message}`),
                   options: options.map((opt) => ({ value: opt, label: tComponents(`${key}.${opt}`) })),
                 }}
               />
@@ -184,7 +157,7 @@ export function AiScheduleContent() {
                   onChange={field.onChange}
                   label={label}
                   formatLabel={(item) => tComponents(`${key}.${item}`)}
-                  error={errors[name]?.message}
+                  error={errors[name]?.message && tComponents(`forms.${errors[name].message}`)}
                 />
               )}
             />
@@ -197,9 +170,8 @@ export function AiScheduleContent() {
             ...dayPerWeekRest,
             id: "dayPerWeek",
             placeholder: t("fields.daysCount"),
-            error: errors.dayPerWeek?.message,
+            error: errors.dayPerWeek?.message && tComponents("forms." + errors.dayPerWeek?.message),
             type: "number",
-             
           }}
         />
         <TextArea
@@ -208,7 +180,7 @@ export function AiScheduleContent() {
             ...commentRest,
             id: "comment",
             placeholder: t("fields.additionalComment"),
-            error: errors.comment?.message,
+            error: errors.comment?.message && tComponents("forms." + errors.comment?.message),
           }}
         />
       </div>

@@ -4,7 +4,7 @@ import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button } from "@/components/ui/Button";
-import { useModal } from  "@/components/modals/modal-store";
+import { useModal } from "@/components/modals/modal-store";
 import { toast } from "sonner";
 import { useAuth } from "@/hooks/useAuth";
 import { useQueryClient } from "@tanstack/react-query";
@@ -18,44 +18,7 @@ import RoutineCard from "@/components/shared/cards/RoutineCard";
 import { createAiUserRoutine, createUserRoutine } from "@/lib/actions/routine";
 import { useLocale, useTranslations } from "next-intl";
 import { TypewriterText } from "@/components/ui/TypewritterText";
-
-const routineSchema = z.object({
-  comment: z.string().optional(),
-  groups: z.array(z.string()).min(1, "Оберіть хоча б одну групу м'язів"),
-  equipment: z.enum(EQUIPMENT_GROUPS, {
-    message: "Оберіть обладнання",
-  }),
-  difficulty: z.enum(DIFFICULTY, {
-    message: "Оберіть рівень",
-  }),
-  goal: z.enum(GOALS, {
-    message: "Оберіть ціль",
-  }),
-  duration: z
-    .string()
-    .refine(
-      (val) => {
-        if (!val) return true;
-        const num = Number(val);
-        return !isNaN(num) && num > 0 && num <= 300;
-      },
-      { message: "Максимальна тривалість — 300 хвилин" },
-    )
-    .optional(),
-  count: z
-    .string()
-    .refine(
-      (val) => {
-        if (!val) return true;
-        const num = Number(val);
-        return !isNaN(num) && num > 0 && num <= 20;
-      },
-      { message: "Максимальна кількість — 20" },
-    )
-    .optional(),
-});
-
-type RoutineAIFormData = z.infer<typeof routineSchema>;
+import { AIRoutineAFormData, AIRoutineSchema } from "@/lib/schemas";
 
 export function AiRoutineContent() {
   const locale = useLocale();
@@ -71,9 +34,9 @@ export function AiRoutineContent() {
     control,
     setError,
     formState: { errors, isSubmitting, isValid, isDirty },
-  } = useForm<RoutineAIFormData>({
-    resolver: zodResolver(routineSchema),
-    mode: "onTouched",
+  } = useForm<AIRoutineAFormData>({
+    resolver: zodResolver(AIRoutineSchema),
+    mode: "onChange",
     defaultValues: {
       groups: [],
       difficulty: "",
@@ -92,14 +55,14 @@ export function AiRoutineContent() {
     { name: "equipment", placeholder: t("fields.equipmentGroups"), options: EQUIPMENT_GROUPS, key: "equipmentGroups" },
   ] as const;
 
-  const onSubmit = async (formData: any) => {
+  const onSubmit = async (formData: AIRoutineAFormData) => {
     try {
       if (!user) throw new Error("Користувач не авторизований");
 
       const result = await generateAiRoutine({
         ...formData,
         userId: user.uid,
-        locale
+        locale,
       });
 
       if (!result.success) {
@@ -131,8 +94,8 @@ export function AiRoutineContent() {
             />
           </div>
         ),
-        cancelLabel: t('confirm.cancel'),
-        confirmLabel: t('confirm.confirm'),
+        cancelLabel: t("confirm.cancel"),
+        confirmLabel: t("confirm.confirm"),
       });
 
       if (ok) {
@@ -172,7 +135,7 @@ export function AiRoutineContent() {
                   searchable: false,
                   value: field.value,
                   onChange: (value) => field.onChange(value),
-                  error: errors[name]?.message,
+                  error: errors[name]?.message && tComponents(`forms.${errors[name].message}`),
                   options: options.map((opt) => ({ value: opt, label: tComponents(`${key}.${opt}`) })),
                 }}
               />
@@ -191,7 +154,7 @@ export function AiRoutineContent() {
               id="groups"
               label={t("fields.muscleGroups")}
               formatLabel={(item) => tComponents("muscleGroups." + item)}
-              error={errors.groups?.message}
+              error={errors.groups?.message && tComponents("forms." + errors.groups?.message)}
             />
           )}
         />
@@ -203,9 +166,8 @@ export function AiRoutineContent() {
               ...durationRest,
               id: "duratio",
               placeholder: t("fields.duration"),
-              error: errors.duration?.message,
+              error: errors.duration?.message && tComponents("forms." + errors.duration?.message),
               type: "number",
-               
             }}
           />
           <Input
@@ -214,9 +176,8 @@ export function AiRoutineContent() {
               ...countRest,
               id: "count",
               placeholder: t("fields.exerciseCount"),
-              error: errors.count?.message,
+              error: errors.count?.message && tComponents(errors.count?.message),
               type: "number",
-               
             }}
           />
         </div>
@@ -227,7 +188,7 @@ export function AiRoutineContent() {
             ...commentRest,
             id: "comment",
             placeholder: t("fields.additionalComment"),
-            error: errors.comment?.message,
+            error: errors.comment?.message && tComponents("forms." + errors.comment?.message),
           }}
         />
       </div>

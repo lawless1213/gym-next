@@ -5,7 +5,7 @@ import { ModalWrapper } from "../modal-wrapper";
 import { useTranslations } from "next-intl";
 import { Tabs } from "@/components/ui/Tabs";
 import { AiChatContent } from "./__components/chat";
-import { AiGeneration } from "./__components";
+import { AiGeneration } from "./__components/generation";
 
 type AiTab = "generation" | "chat";
 

@@ -350,9 +350,9 @@
         "muscleGroups": "Групи м'язів",
         "splitTypes": "Тип спліту",
         "additionalComment": "Додатковий коментар",
-        "duration": "Тривалість (хвилин)",
-        "exerciseCount": "Кількість вправ",
-        "daysCount": "Кількість днів на тиждень",
+        "duration": "Тривалість (до 300 хвилин)",
+        "exerciseCount": "Кількість вправ (до 20)",
+        "daysCount": "Кількість днів на тиждень (до 7)",
         "restDays": "Дні відпочинку",
         "submit": "Generate"
       },

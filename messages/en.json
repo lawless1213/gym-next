@@ -350,9 +350,9 @@
         "muscleGroups": "Muscle groups",
         "splitTypes": "Split type",
         "additionalComment": "Additional comment",
-        "duration": "Duration (minutes)",
-        "exerciseCount": "Exercise count",
-        "daysCount": "Days per week",
+        "duration": "Duration (max: 300 minutes)",
+        "exerciseCount": "Exercise count (max: 20)",
+        "daysCount": "Days per week (max: 7)",
         "restDays": "Rest days",
         "submit": "Generate"
       },

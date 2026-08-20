@@ -34,7 +34,7 @@ export function ExerciseEditModal() {
     formState: { errors, isSubmitting, isValid, isDirty },
   } = useForm<ExerciseFormData>({
     resolver: zodResolver(exerciseSchema),
-    mode: "onTouched",
+    mode: "onChange",
     defaultValues: {
       photo: undefined,
       title: "",

@@ -32,7 +32,7 @@ export function ExerciseCreateModal() {
     formState: { errors, isSubmitting, isValid, isDirty },
   } = useForm<ExerciseFormData>({
     resolver: zodResolver(exerciseSchema),
-    mode: "onTouched",
+    mode: "onChange",
     defaultValues: {
       groups: [],
     },

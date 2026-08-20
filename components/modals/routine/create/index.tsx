@@ -18,19 +18,13 @@ import { createUserRoutine } from "@/lib/actions/routine";
 import { useQueryClient } from "@tanstack/react-query";
 import { ExerciseCard } from "@/components/shared/cards/ExerciseCard";
 import { useTranslations } from "next-intl";
+import { RoutineFormData, routineSchema } from "@/lib/schemas";
 
 const colors = ["#CCFF00", "#2563EB", "#F97316", "#EF4444", "#8B5CF6", "#10B981"];
 
-const routineSchema = z.object({
-  title: z.string().min(3, "Назва має бути мінімум 3 символа"),
-  color: z.string().min(1, "Оберіть колір"),
-  exercises: z.array(z.custom<RoutinesExercise>()).min(1, "Додайте хоча б одну вправу"),
-});
-
-type RoutineFormData = z.infer<typeof routineSchema>;
-
 export function RoutineCreateModal() {
   const t = useTranslations("routine.modal");
+  const tForms = useTranslations("components.forms");
   const { user } = useAuth();
   const userId = user?.uid;
   const [showExercisePicker, setShowExercisePicker] = useState(false);
@@ -47,7 +41,7 @@ export function RoutineCreateModal() {
     formState: { errors, isSubmitting, isValid, isDirty },
   } = useForm<RoutineFormData>({
     resolver: zodResolver(routineSchema),
-    mode: "onTouched",
+    mode: "onChange",
     defaultValues: {
       title: "",
       color: colors[0],
@@ -110,7 +104,7 @@ export function RoutineCreateModal() {
                         );
                       })}
                     </div>
-                    {errors.color && <p className="text-sm text-red-500 text-center">{errors.color.message}</p>}
+                    {errors.color?.message && <p className="text-sm text-red-500 text-center">{tForms(errors.color.message)}</p>}
                   </div>
                 );
               }}
@@ -122,7 +116,7 @@ export function RoutineCreateModal() {
                 ...titleRest,
                 id: "title",
                 placeholder: t("name"),
-                error: errors.title?.message,
+                error: errors.title?.message && tForms(errors.title?.message),
               }}
             />
 
@@ -153,7 +147,7 @@ export function RoutineCreateModal() {
                   </div>
                 ))}
 
-                {errors.exercises && <p className="text-sm text-red-500">{errors.exercises.message}</p>}
+                {errors.exercises?.message && <p className="text-sm text-red-500">{tForms(errors.exercises.message)}</p>}
 
                 <Button
                   variant="dashed"

@@ -37,7 +37,7 @@ export function ProgressModal() {
     formState: { errors, isSubmitting, isValid, isDirty },
   } = useForm<ProgressFormData>({
     resolver: zodResolver(progressSchema),
-    mode: "onTouched",
+    mode: "onChange",
     defaultValues: {
       date: new Date(),
     },

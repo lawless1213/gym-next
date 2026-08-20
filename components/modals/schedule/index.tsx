@@ -16,13 +16,7 @@ import { useScheduleModal } from "@/hooks/useModals/useScheduleModal";
 import { useTranslations } from "next-intl";
 import { weekDays } from "@/types";
 import { editUserSchedule } from "@/lib/actions/shedule";
-
-
-const scheduleSchema = z.object({
-  routines: z.array(z.object({ routineId: z.string() })),
-});
-
-type ScheduleFormData = z.infer<typeof scheduleSchema>;
+import { ScheduleFormData, scheduleSchema } from "@/lib/schemas";
 
 export function ScheduleEditModal() {
   const tDays = useTranslations("components.day");
@@ -44,7 +38,7 @@ export function ScheduleEditModal() {
     formState: { errors, isSubmitting, isValid, isDirty },
   } = useForm<ScheduleFormData>({
     resolver: zodResolver(scheduleSchema),
-    mode: "onTouched",
+    mode: "onChange",
     defaultValues: {
       routines: [],
     },

@@ -23,7 +23,7 @@ export default function LoginForm() {
     formState: { errors, isSubmitting, isValid, isDirty },
   } = useForm<AuthFormData>({
     resolver: zodResolver(authSchema),
-    mode: "onTouched",
+    mode: "onChange",
   });
 
   const { ref: emailRef, ...emailRest } = register("email");

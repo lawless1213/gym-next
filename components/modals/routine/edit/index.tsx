@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/Button";
 import { useAuth } from "@/hooks/useAuth";
 import { Input } from "@/components/ui/form/input";
 import { AUTH_ERRORS } from "@/lib/errors/auth";
-import { useModal } from  "@/components/modals/modal-store";
+import { useModal } from "@/components/modals/modal-store";
 import { IconGridDots, IconPlus, IconTrash, IconX } from "@tabler/icons-react";
 import { useEffect, useState } from "react";
 import { RoutinesExercise } from "@/types";
@@ -19,19 +19,13 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useRoutineEditModal } from "@/hooks/useModals/useRoutineEditModal";
 import { ExerciseCard } from "@/components/shared/cards/ExerciseCard";
 import { useTranslations } from "next-intl";
+import { RoutineFormData, routineSchema } from "@/lib/schemas/routine.schema";
 
 const colors = ["#CCFF00", "#2563EB", "#F97316", "#EF4444", "#8B5CF6", "#10B981"];
 
-const routineSchema = z.object({
-  title: z.string().min(3, "Назва має бути мінімум 3 символа"),
-  color: z.string().min(1, "Оберіть колір"),
-  exercises: z.array(z.custom<RoutinesExercise>()).min(1, "Додайте хоча б одну вправу"),
-});
-
-type RoutineFormData = z.infer<typeof routineSchema>;
-
 export function RoutineEditModal() {
   const t = useTranslations("routine.modal");
+  const tForms = useTranslations("components.forms");
   const { user } = useAuth();
   const userId = user?.uid;
   const [showExercisePicker, setShowExercisePicker] = useState(false);
@@ -49,7 +43,7 @@ export function RoutineEditModal() {
     formState: { errors, isSubmitting, isValid, isDirty },
   } = useForm<RoutineFormData>({
     resolver: zodResolver(routineSchema),
-    mode: "onTouched",
+    mode: "onChange",
     defaultValues: {
       title: "",
       color: colors[0],
@@ -128,7 +122,7 @@ export function RoutineEditModal() {
                         );
                       })}
                     </div>
-                    {errors.color && <p className="text-sm text-red-500 text-center">{errors.color.message}</p>}
+                    {errors.color?.message && <p className="text-sm text-red-500 text-center">{tForms(errors.color.message)}</p>}
                   </div>
                 );
               }}
@@ -140,12 +134,14 @@ export function RoutineEditModal() {
                 ...titleRest,
                 id: "title",
                 placeholder: t("name"),
-                error: errors.title?.message,
+                error: errors.title?.message && tForms(errors.title?.message),
               }}
             />
 
             <div className="space-y-2">
-              <label className="text-sm font-medium text-foreground">{t("exercises")} ({fields.length})</label>
+              <label className="text-sm font-medium text-foreground">
+                {t("exercises")} ({fields.length})
+              </label>
 
               <div className="space-y-2">
                 {fields.map((field, index) => (
@@ -169,7 +165,7 @@ export function RoutineEditModal() {
                   </div>
                 ))}
 
-                {errors.exercises && <p className="text-sm text-red-500">{errors.exercises.message}</p>}
+                {errors.exercises?.message && <p className="text-sm text-red-500">{tForms(errors.exercises.message)}</p>}
 
                 <Button
                   variant="dashed"
