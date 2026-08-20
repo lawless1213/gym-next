@@ -10,6 +10,7 @@ import { useModal } from  "@/components/modals/modal-store";
 import { useTranslations } from "next-intl";
 import ActionCard from "@/components/shared/cards/ActionCard";
 import RoutinesList from "./RoutinesList";
+import ButtonAdd from "@/components/shared/ButtonAdd";
 
 const RoutinesSkeleton = (
   <div className="space-y-3">
@@ -46,6 +47,7 @@ export default function Routines() {
           />
         )}
       </SkeletonSwitcher>
+      {user && <ButtonAdd onClick={() => open('routine')}  ariaLabel={t("buttonAdd")}/>}
     </>
   );
 }

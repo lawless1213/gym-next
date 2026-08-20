@@ -8,6 +8,8 @@ import { useUserExercises } from "@/hooks/useServices/useExercises";
 import SkeletonSwitcher from "@/components/ui/Skeleton/SkeletonSwitcher";
 import { ExercisesSkeleton } from "../exercisesSkeleton";
 import ExercisesList from "../exercisesList";
+import ButtonAdd from "@/components/shared/ButtonAdd";
+import { useModal } from "@/components/modals/modal-store";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -15,6 +17,7 @@ export default function CustomExercises() {
   const t = useTranslations("Library.exercises");
   const { user } = useAuth();
   const userId = user?.uid;
+  const { open } = useModal();
 
   const [searchQuery, setSearchQuery] = useState("");
   const [displayLimit, setDisplayLimit] = useState(ITEMS_PER_PAGE);
@@ -65,6 +68,7 @@ export default function CustomExercises() {
           handleLoadMore={handleLoadMore}
         />
       </SkeletonSwitcher>
+      {user && <ButtonAdd onClick={() => open('exercise')}  ariaLabel={t("buttonAdd")}/>}
     </>
   );
 }

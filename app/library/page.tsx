@@ -7,7 +7,6 @@ import Routines from "@/components/library/routines";
 import { useTranslations } from "next-intl";
 import { Header } from "@/components/shared/Header";
 import { Tabs } from "@/components/ui/Tabs";
-import ButtonAdd from "@/components/shared/ButtonAdd";
 import { useModal } from "@/components/modals/modal-store";
 import { useAuth } from "../../hooks/useAuth";
 
@@ -15,8 +14,6 @@ type LibraryTab = "exercise" | "routine";
 
 export default function LibraryScreen() {
   const t = useTranslations("Library");
-  const { user } = useAuth();
-  const { open } = useModal();
   const [activeTab, setActiveTab] = useState<LibraryTab>("exercise");
 
   const tabItems = [
@@ -47,7 +44,6 @@ export default function LibraryScreen() {
           {activeTab === "exercise" ? <Exercises /> : <Routines />}
         </Tabs>
       </div>
-      {user && <ButtonAdd onClick={() => open(activeTab)}  ariaLabel={activeTab === "exercise" ? t("exercises.buttonAdd") : t("routines.buttonAdd")}/>}
     </>
   );
 }
