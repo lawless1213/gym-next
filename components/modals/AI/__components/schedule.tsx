@@ -65,7 +65,6 @@ export function AiScheduleContent() {
     try {
       if (!user) throw new Error("Not authenticated");
 
-  const locale = useLocale();
       const result = await generateAiSchedule({ ...formData, userId: user.uid, locale });
 
       if (!result.success) {
@@ -77,7 +76,7 @@ export function AiScheduleContent() {
       const typingDuration = result.summary.length * speed;
 
       const ok = await confirm({
-        title: "Запровадити наступний графік занять?",
+        title: t("confirm.confirmSchedule"),
         description: (
           <TypewriterText
             text={result.summary}
@@ -95,7 +94,6 @@ export function AiScheduleContent() {
           </div>
         ),
         cancelLabel: t('confirm.cancel'),
-        confirmLabel: t('confirm.confirm'),
       });
 
       if (!ok) return;

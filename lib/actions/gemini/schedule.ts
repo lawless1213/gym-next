@@ -221,7 +221,6 @@ function buildPrompt(
   existingRoutines: Routine[],
   restDays: WeekDay[]
 ): string {
-  const locale = useLocale();
   const routinesBlock =
     existingRoutines.length > 0
       ? `
