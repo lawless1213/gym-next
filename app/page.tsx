@@ -45,7 +45,6 @@ export default function Home() {
         />
         <QuickStats lastWeekHistory={lastWeekHistory} lastWeekRecords={lastWeekRecords} isLoading={isLoadingPrevWeekHistory || isLoadingRecords}/>
         <QuickWorkout/>
-        <MuscleSchema/>
       </div>
     </>
   );
