@@ -82,7 +82,7 @@ export function ExerciseListItem({ exercise }: ExerciseListItemProps) {
   return (
     <div>
       <div
-        className="relative flex overflow-hidden md:rounded-xl"
+        className={`relative flex overflow-hidden ${isOpen ? "md:rounded-t-xl" : "md:rounded-xl"}`}
         onClick={() => setIsOpen((prev) => !prev)}
         {...handlers}>
         <motion.div
@@ -137,7 +137,7 @@ export function ExerciseListItem({ exercise }: ExerciseListItemProps) {
       <AnimatePresence initial={false}>
         {isOpen && (
           <motion.div
-            className="overflow-hidden flex flex-col bg-card"
+            className="overflow-hidden flex flex-col bg-card rounded-b-xl"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}

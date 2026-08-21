@@ -125,7 +125,6 @@ export function ExerciseCreateModal() {
               render={({ field }) => (
                 <>
                   <MuscleSchema
-                    male={false}
                     selectedMuscles={field.value ?? []}
                     onToggleMuscle={(muscle) => {
                       const next = field.value.includes(muscle) ? field.value.filter((item) => item !== muscle) : [...field.value, muscle];
