@@ -20,12 +20,14 @@ import { useRoutineEditModal } from "@/hooks/useModals/useRoutineEditModal";
 import { ExerciseCard } from "@/components/shared/cards/ExerciseCard";
 import { useTranslations } from "next-intl";
 import { RoutineFormData, routineSchema } from "@/lib/schemas/routine.schema";
+import { MUSCLE_GROUPS } from "@/data/exercise";
 
 const colors = ["#CCFF00", "#2563EB", "#F97316", "#EF4444", "#8B5CF6", "#10B981"];
 
 export function RoutineEditModal() {
   const t = useTranslations("routine.modal");
   const tForms = useTranslations("components.forms");
+  const tGroups = useTranslations("components.muscleGroups");
   const { user } = useAuth();
   const userId = user?.uid;
   const [showExercisePicker, setShowExercisePicker] = useState(false);
@@ -144,7 +146,10 @@ export function RoutineEditModal() {
               </label>
 
               <div className="space-y-2">
-                {fields.map((field, index) => (
+                {fields.map((field, index) => {
+                  const groups = field.muscleGroup ? (field.muscleGroup.split(", ").filter(Boolean) as (typeof MUSCLE_GROUPS)[number][]) : [];
+
+                  return (
                   <div
                     key={field.fieldKey}
                     className="flex items-center gap-3 rounded-xl bg-secondary p-3">
@@ -152,7 +157,9 @@ export function RoutineEditModal() {
                     <span className="flex h-6 w-6 items-center justify-center rounded-full bg-muted text-xs font-bold text-muted-foreground">{index + 1}</span>
                     <div className="flex-1">
                       <p className="font-medium text-foreground">{field.name}</p>
-                      <p className="text-xs text-muted-foreground">{field.muscleGroup}</p>
+                      <div className="text-xs text-muted-foreground flex gap-1">
+                        {groups.map(group => <span>{tGroups(group.trim())}</span>)}
+                      </div>
                     </div>
                     <Button
                       variant="ghost"
@@ -163,7 +170,8 @@ export function RoutineEditModal() {
                       <IconTrash className="size-4" />
                     </Button>
                   </div>
-                ))}
+                )
+                })}
 
                 {errors.exercises?.message && <p className="text-sm text-red-500">{tForms(errors.exercises.message)}</p>}
 

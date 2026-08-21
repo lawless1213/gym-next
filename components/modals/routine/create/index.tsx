@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/Button";
 import { useAuth } from "@/hooks/useAuth";
 import { Input } from "@/components/ui/form/input";
 import { AUTH_ERRORS } from "@/lib/errors/auth";
-import { useModal } from  "@/components/modals/modal-store";
+import { useModal } from "@/components/modals/modal-store";
 import { IconGridDots, IconPlus, IconTrash, IconX } from "@tabler/icons-react";
 import { useState } from "react";
 import { RoutinesExercise } from "@/types";
@@ -19,12 +19,14 @@ import { useQueryClient } from "@tanstack/react-query";
 import { ExerciseCard } from "@/components/shared/cards/ExerciseCard";
 import { useTranslations } from "next-intl";
 import { RoutineFormData, routineSchema } from "@/lib/schemas";
+import { MUSCLE_GROUPS } from "@/data/exercise";
 
 const colors = ["#CCFF00", "#2563EB", "#F97316", "#EF4444", "#8B5CF6", "#10B981"];
 
 export function RoutineCreateModal() {
   const t = useTranslations("routine.modal");
   const tForms = useTranslations("components.forms");
+  const tGroups = useTranslations("components.muscleGroups");
   const { user } = useAuth();
   const userId = user?.uid;
   const [showExercisePicker, setShowExercisePicker] = useState(false);
@@ -126,26 +128,34 @@ export function RoutineCreateModal() {
               </label>
 
               <div className="space-y-2">
-                {fields.map((field, index) => (
-                  <div
-                    key={field.id}
-                    className="flex items-center gap-3 rounded-xl bg-secondary p-3">
-                    <IconGridDots className="h-5 w-5 text-muted-foreground" />
-                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-muted text-xs font-bold text-muted-foreground">{index + 1}</span>
-                    <div className="flex-1">
-                      <p className="font-medium text-foreground">{field.name}</p>
-                      <p className="text-xs text-muted-foreground">{field.muscleGroup}</p>
+                {fields.map((field, index) => {
+                  const groups = field.muscleGroup ? (field.muscleGroup.split(", ").filter(Boolean) as (typeof MUSCLE_GROUPS)[number][]) : [];
+
+                  return (
+                    <div
+                      key={field.id}
+                      className="flex items-center gap-3 rounded-xl bg-secondary p-3">
+                      <IconGridDots className="h-5 w-5 text-muted-foreground" />
+                      <span className="flex h-6 w-6 items-center justify-center rounded-full bg-muted text-xs font-bold text-muted-foreground">{index + 1}</span>
+                      <div className="flex-1">
+                        <p className="font-medium text-foreground">{field.name}</p>
+                        <div className="text-xs text-muted-foreground flex gap-1">
+                          {groups.map((group) => (
+                            <span>{tGroups(group.trim())}</span>
+                          ))}
+                        </div>
+                      </div>
+                      <Button
+                        variant="ghost"
+                        size="icon-lg"
+                        type="button"
+                        onClick={() => remove(index)}
+                        aria-label={`Remove ${field.name}`}>
+                        <IconTrash className="size-4" />
+                      </Button>
                     </div>
-                    <Button
-                      variant="ghost"
-                      size="icon-lg"
-                      type="button"
-                      onClick={() => remove(index)}
-                      aria-label={`Remove ${field.name}`}>
-                      <IconTrash className="size-4" />
-                    </Button>
-                  </div>
-                ))}
+                  );
+                })}
 
                 {errors.exercises?.message && <p className="text-sm text-red-500">{tForms(errors.exercises.message)}</p>}
 
