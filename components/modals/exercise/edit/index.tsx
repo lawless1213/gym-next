@@ -144,6 +144,14 @@ export function ExerciseEditModal() {
               control={control}
               render={({ field }) => (
                 <>
+                  <MuscleSchema
+                    selectedMuscles={field.value ?? []}
+                    onToggleMuscle={(muscle) => {
+                      const next = field.value.includes(muscle) ? field.value.filter((item) => item !== muscle) : [...field.value, muscle];
+
+                      field.onChange(next);
+                    }}
+                  />
                   <ChipGroup
                     items={MUSCLE_GROUPS}
                     value={field.value ?? []}
@@ -153,8 +161,6 @@ export function ExerciseEditModal() {
                     formatLabel={(item) => tComponents("muscleGroups." + item)}
                     error={errors.groups?.message && tComponents("forms." + errors.groups?.message)}
                   />
-
-                  <MuscleSchema selectedMuscles={field.value ?? []} />
                 </>
               )}
             />
