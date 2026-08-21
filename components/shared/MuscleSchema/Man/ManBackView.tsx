@@ -8,34 +8,16 @@ export default function ManBackView() {
         fill="none"
         xmlns="http://www.w3.org/2000/svg"
         className="w-auto">
-        <defs>
-          <radialGradient
-            id="jointradial"
-            cx="50%"
-            cy="50%"
-            r="50%"
-            fx="50%"
-            fy="50%">
-            <stop
-              offset="0%"
-              style={{ stopColor: "rgb(254, 91, 127)", stopOpacity: 1 }}
-            />
-            <stop
-              offset="100%"
-              style={{ stopColor: "rgb(231, 236, 239)", stopOpacity: 1 }}
-            />
-          </radialGradient>
-        </defs>
         <g
           id="traps"
-          className="bodymap text-background active:text-red-500 lg:hover:text-red-500">
+          className="bodymap text-background active:text-muscle lg:hover:text-muscle">
           <path
             d="M233.69,210.53c3.21-1.97,7.59-4.66,10.69-6.06,1.99-.9,6.6-2.81,11.49-4.84,5-2.07,10.45-4.34,14.44-6.07.04,0,.07,0,.11-.02,19.55-5.27,40.39-4.24,51.58-3.69,1.19.06,2.28.11,3.24.16,3.33.14,6.72.14,10.04,0,.96-.04,2.04-.1,3.23-.16,11.2-.55,32.03-1.58,51.58,3.69.04,0,.07.02.11.02,4,1.73,9.45,4,14.45,6.07,4.89,2.03,9.5,3.94,11.49,4.84,3.08,1.4,7.48,4.09,10.69,6.06.06.04.12.08.19.11-16.13,2.35-25.59,11.71-30.85,17.43h0s-.02.03-.02.04c-.36.39-.71.77-1.03,1.12l-.53.58-.04.04c-6.7,7.33-11.8,6.41-24.14,4.2-9.02-1.62-21.37-3.83-40.14-3.83s-31.12,2.21-40.14,3.83c-12.33,2.21-17.44,3.12-24.14-4.2-.02-.02-.03-.04-.04-.04l-.52-.58c-5-5.5-14.62-16.06-31.89-18.59.05-.04.11-.08.18-.11Z"
             fill="currentColor"></path>
         </g>
         <g
           id="calves"
-          className="bodymap text-background active:text-red-500 lg:hover:text-red-500">
+          className="bodymap text-background active:text-muscle lg:hover:text-muscle">
           <path
             d="M475.03,965.71v.08c-1.41,26.22-4.62,53.06-17.62,53.83-7.32.45-13.09-11.27-17.28-19.82-3.48-7.09-5.78-11.78-9.14-11.49-4.23.36-4.81,5.96-5.54,13.06-.9,8.78-2.02,19.7-10.11,21.38-3.17.66-12.83,2.66-21.97-20.97,0-.02,0-.04-.02-.06-2.96-9.62-3.27-22.92,1.1-64.53.81-.12,1.45-.8,1.49-1.64.39-8.56,3.78-14.95,9.32-17.55,4.9-2.3,10.93-1.39,16.12,2.44,7.63,5.62,16.5-2.93,24.34-10.47,5.12-4.93,10.91-10.52,14.28-9.61,1.49.4,2.61,2.19,3.41,4.19,0,.03.02.06.03.09.28.85.56,1.7.85,2.57,4.88,14.97,10.31,32.88,10.74,58.5Z"
             fill="currentColor"></path>
@@ -45,7 +27,7 @@ export default function ManBackView() {
         </g>
         <g
           id="hamstrings"
-          className="bodymap text-background active:text-red-500 lg:hover:text-red-500">
+          className="bodymap text-background active:text-muscle lg:hover:text-muscle">
           <path
             d="M455.77,791.39c-1.19,6.38-2.58,12.65-4.21,18.78-.49,2.22-.72,4.55-.76,7-3.9,15.79-9.27,30.08-15.03,30.77-2.1.24-6.46-1.5-12.31-16.1-7.27-18.11-9.18-19.9-11.54-19.49-2.72.47-2.85,4.22-3.14,13.29-.44,13.91-1.19,37.18-14.61,37.18-11.9,0-19.74-20.05-27.07-69.19-.08-.49-.35-.91-.73-1.17-3.47-16.43-7.45-30.43-11.55-44.89-3.24-11.39-6.58-23.17-9.72-36.45-6.98-29.43-8.2-43.68-9.62-60.19-.39-4.47-.78-9.01-1.29-14.01.84,1.15,1.77,2.19,2.78,3.14,5.97,5.52,14.37,6.89,23.83,6.89,4.61,0,9.48-.33,14.43-.66,1.63-.11,3.27-.22,4.91-.31,8.79-.53,30.52-3.65,42.65-21.18,10.11-14.62,10.97-35.24,2.55-61.28-1.64-5.04-2.93-9.76-4.19-14.33-3.1-11.22-5.73-20.73-11.38-28.13,13.7,8.25,26.93,20.08,28.18,31.58v.04c.03,1.44-.05,2.61-.12,3.72-.28,4.27-.53,7.95,3.98,20.95,8.32,23.97,29.87,128.52,13.96,214.07Z"
             fill="currentColor"></path>
@@ -55,7 +37,7 @@ export default function ManBackView() {
         </g>
         <g
           id="glutes"
-          className="bodymap text-background active:text-red-500 lg:hover:text-red-500">
+          className="bodymap text-background active:text-muscle lg:hover:text-muscle">
           <path
             d="M419.87,622.8c-11.23,16.25-31.67,19.17-39.94,19.67-1.65.1-3.31.21-4.94.31-14.32.96-27.85,1.87-35.6-5.29-4.96-4.58-7.37-12.25-7.37-23.45v-60.34c0-17.89,5.12-30.73,15.2-38.16,11.92-8.78,28.54-8.24,40.1-4.82,1.86.55,3.58,1.15,5.18,1.81,0,0,.03,0,.04.02.55.22,1.08.45,1.6.69.03,0,.05.02.07.03,15.29,6.98,18.68,19.28,23.52,36.81,1.26,4.6,2.58,9.35,4.23,14.47,8.08,24.96,7.37,44.56-2.1,58.24Z"
             fill="currentColor"></path>
@@ -65,7 +47,7 @@ export default function ManBackView() {
         </g>
         <g
           id="hands"
-          className="bodymap text-background active:text-red-500 lg:hover:text-red-500">
+          className="bodymap text-background active:text-muscle lg:hover:text-muscle">
           <path
             d="M639.94,626.64c.44-.52.36-.97-.63-3.61-1.08-2.9-2.88-7.75-3.72-16.17-.15-.79-.35-1.86-.5-2.34-.1-.02-.21-.03-.32-.06-.87-.16-2.16-.4-4.18-1.33.36,1.75.52,3.52.69,5.35.22,2.49.45,5.06,1.22,7.96,2.27,8.63,1.88,9.63-1.83,14.87-.39.55-.82,1.16-1.3,1.84-1.3,1.9-1.78,3.73-1.41,5.47.3,1.47,1.15,2.68,1.96,3.57.85-1.84,2.21-3.65,4.07-5.42.7-1.42,3.69-7.4,5.95-10.12Z"
             fill="currentColor"></path>
@@ -81,7 +63,7 @@ export default function ManBackView() {
         </g>
         <g
           id="forearms"
-          className="bodymap text-background active:text-red-500 lg:hover:text-red-500">
+          className="bodymap text-background active:text-muscle lg:hover:text-muscle">
           <path
             d="M641.37,536.12c-1.96,6.88-5.9,12.17-10.38,13.89-4.44,1.69-10.73.5-16.91-3.2-4.3-9.14-14.31-23.73-36.66-46.42-13.84-13.95-23.22-30.12-32.29-45.76-5.73-9.89-11.14-19.21-17.56-27.96l-.42-.57c-5.13-6.98-8.93-12.15-12-16.23,5.56,3.85,9.87,5.69,13.21,5.69,1.03,0,1.97-.17,2.82-.52,5.08-2.06,5.49-9.14,5.89-15.99.27-4.54.57-9.68,2.41-10.81,2.17-1.33,6.32-.12,9.98.95,4.49,1.31,9.14,2.67,11.84-.1,1.07-1.1,1.66-2.7,1.74-4.91.68.79,1.44,1.57,2.29,2.35,7.59,6.98,33.48,32.65,47.87,69.77,9.51,24.54,17.43,48.99,22.17,63.6,2.34,7.23,3.9,12.01,4.64,13.76.42.99.89,1.75,1.37,2.44Z"
             fill="currentColor"></path>
@@ -91,7 +73,7 @@ export default function ManBackView() {
         </g>
         <g
           id="triceps"
-          className="bodymap text-background active:text-red-500 lg:hover:text-red-500">
+          className="bodymap text-background active:text-muscle lg:hover:text-muscle">
           <path
             d="M558.73,386.68c-1.2,1.24-4.96.14-8.28-.83-4.59-1.34-9.33-2.73-12.84-.57-3.41,2.1-3.73,7.68-4.08,13.59-.32,5.5-.68,11.73-3.7,12.96-2.65,1.08-9.14-.61-24.99-14.77h0s0-.02-.02-.03c-.02-.02-.03-.03-.04-.04-1.59-1.78-3.24-3.51-5.2-5.5-8.08-8.18-28.8-40.45-36.6-52.6l-.5-.76v-.02s0,0,0,0c0,0-.02-.03-.03-.04-3.09-5.07-.72-16.32,1.57-27.21,2.25-10.68,4.56-21.65,2.09-28.59,12.14,4.23,23.77,4.75,29.99,5.02.7.04,1.33.06,1.88.09,7.16.39,14.43,6.24,14.94,6.66t.02.02s0,0,.03.03c.87.75,22.04,19.45,29.55,45.42.02.09.05.17.09.24.26.57,6.42,13.93,10.73,21.4,1.4,2.41,2.1,5.09,2.81,7.9.04.15.07.3.11.45.57,2.27,1.18,4.68,2.17,7.14,0,0,0,0,0,.02,1.75,6.98,1.03,9.28.31,10.02Z"
             fill="currentColor"></path>
@@ -101,7 +83,7 @@ export default function ManBackView() {
         </g>
         <g
           id="lats"
-          className="bodymap text-background active:text-red-500 lg:hover:text-red-500">
+          className="bodymap text-background active:text-muscle lg:hover:text-muscle">
           <path
             d="M460.55,310.16c-2.47,11.73-4.81,22.83-1.44,29.18-1.15,5.04-8.99,38.57-20.51,56.67-11.74,18.46-11.85,45.39-11.92,59.85,0,1.61-.02,3.08-.04,4.39-.2,12.91,3.54,55.42,9.02,78.37-9.26-12.73-27.37-23.51-39.84-28.45h0c-.68-.32-1.38-.62-2.1-.92h0c-12.29-5.86-11.8-17.54-11.17-32.16.52-12.39,1.11-26.43-6.06-39.94-27.18-51.29-34.71-74.09-23.78-106.94.02-.04.03-.1.05-.15,1.04-2.86,2.17-5.89,3.39-9.09,8.26-21.71,20.7-51.34,41.17-88.91l.23-.25c9.33,8.75,18.9,16.09,29.02,23.85,6.51,4.99,13.24,10.15,20.16,15.89,4.25,3.52,8.81,6.24,13.42,8.35,0,0,.02,0,.02,0,5.96,3.89,3.13,17.3.4,30.26Z"
             fill="currentColor"></path>
@@ -111,21 +93,21 @@ export default function ManBackView() {
         </g>
         <g
           id="lowerback"
-          className="bodymap text-background active:text-red-500 lg:hover:text-red-500">
+          className="bodymap text-background active:text-muscle lg:hover:text-muscle">
           <path
             d="M384.18,506.32c-12-2.59-27.49-2.09-39.07,6.44-7.44,5.48-12.42,13.54-14.86,24.07-2.44-10.53-7.42-18.59-14.86-24.07-11.58-8.53-27.07-9.03-39.06-6.44,6.12-7.5,5.66-18.21,5.19-29.38-.5-11.94-1.08-25.48,5.64-38.17,20.65-38.94,30.2-62.3,28.8-86.04,4.76,12.64,8.11,18.59,14.12,18.69.05,0,.12,0,.18,0s.12,0,.19,0c6.01-.11,9.36-6.07,14.13-18.71-1.42,23.73,8.13,47.1,28.78,86.06,6.73,12.68,6.15,26.23,5.65,38.17-.47,11.17-.93,21.88,5.19,29.38Z"
             fill="currentColor"></path>
         </g>
         <g
           id="traps-middle"
-          className="bodymap text-background active:text-red-500 lg:hover:text-red-500">
+          className="bodymap text-background active:text-muscle lg:hover:text-muscle">
           <path
             d="M390.36,237.49c-18.28,34.34-29.74,61.7-37.49,82.12,0,0,0,.03-.02.04,0,.04-.03.06-.04.1-1.22,3-2.31,5.9-3.25,8.73-.03.04-.04.09-.05.13-1.56,4.29-2.96,8.2-4.22,11.72-6.56,18.38-9.85,27.6-15.04,27.6s-8.48-9.22-15.04-27.6c-1.26-3.52-2.65-7.43-4.22-11.72,0-.04-.03-.09-.05-.13-.95-2.83-2.03-5.73-3.25-8.73,0-.04-.03-.06-.04-.1,0,0,0-.03-.02-.04-7.76-20.42-19.22-47.78-37.5-82.12,2.48,1.17,5.04,1.63,7.88,1.63,3.63,0,7.73-.73,12.72-1.63,8.88-1.59,21.05-3.78,39.5-3.78s30.63,2.19,39.51,3.78c4.99.89,9.09,1.63,12.72,1.63,2.84,0,5.39-.45,7.88-1.63Z"
             fill="currentColor"></path>
         </g>
         <g
           id="rear-shoulders"
-          className="bodymap text-background active:text-red-500 lg:hover:text-red-500">
+          className="bodymap text-background active:text-muscle lg:hover:text-muscle">
           <path
             d="M511.59,288.79c-3.24-2.06-8.25-4.62-13.43-4.9-.56-.04-1.2-.06-1.91-.09-6.97-.31-21.03-.93-34.55-7.07-4.38-1.99-8.7-4.55-12.71-7.89-6.97-5.78-13.74-10.96-20.27-15.97-10.06-7.72-19.59-15.02-28.81-23.66,6.14-6.45,17.33-16.23,36.59-15.6h.02c.17,0,16.25,1.4,33.54,11.85,15.31,9.27,34.65,27.7,41.54,63.32Z"
             fill="currentColor"></path>
@@ -139,161 +121,161 @@ export default function ManBackView() {
           <path
             d="M266.34,935.47c-.89-19.84-16.47-25.12-28.26-16.43-14.11,10.4-36.12-39.53-43.56-12.29"
             fill="none"
-            stroke="#484a68"
+            stroke="var(--color-muted-foreground)"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="3.52"></path>
           <path
             d="M17.22,535.8c2.09,7.99,6.55,13.88,11.67,15.84,4.99,1.91,12,.65,18.85-3.56"
             fill="none"
-            stroke="#484a68"
+            stroke="var(--color-muted-foreground)"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="3.52"></path>
           <path
             d="M102.63,368.78c-11.91,35.01,10.78,12.73,19.35,18,8.73,5.36-8.23,50.09,34.96,11.52"
             fill="none"
-            stroke="#484a68"
+            stroke="var(--color-muted-foreground)"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="3.52"></path>
           <path
             d="M223.86,211.87c23.48-.79,35.4,13.24,40.81,19.16,12.57,13.74,20.72.94,65.59.94"
             fill="none"
-            stroke="#484a68"
+            stroke="var(--color-muted-foreground)"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="3.52"></path>
           <path
             d="M264.67,231.03c52.5,96.35,51.77,138.65,65.59,138.65"
             fill="none"
-            stroke="#484a68"
+            stroke="var(--color-muted-foreground)"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="3.52"></path>
           <path
             d="M146.43,292.74s7.92-6.67,16.02-7.1c8.1-.43,32.12-.43,50.22-15.45,18.1-15.01,34.72-25.92,50.42-40.9"
             fill="none"
-            stroke="#484a68"
+            stroke="var(--color-muted-foreground)"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="3.52"></path>
           <path
             d="M306.02,320.31c16.1,39.45,8.58,62.94-20.42,117.65-15.8,29.81,7.37,62.98-19.95,73.7-17.48,6.86-43.08,23.91-44.85,40.85"
             fill="none"
-            stroke="#484a68"
+            stroke="var(--color-muted-foreground)"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="3.52"></path>
           <path
             d="M199.54,339.06c7.74-12.38-13.12-52.58,0-60.72"
             fill="none"
-            stroke="#484a68"
+            stroke="var(--color-muted-foreground)"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="3.52"></path>
           <path
             d="M330.26,614.06c0,35.81-24.38,31.69-49.78,30.16-27.16-1.64-63.32-19.3-43.62-80.18,8.85-27.35,8.53-46.89,35.82-54.97,19.3-5.72,57.58-4.57,57.58,44.65"
             fill="none"
-            stroke="#484a68"
+            stroke="var(--color-muted-foreground)"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="3.52"></path>
           <path
             d="M203,791.63s13.43,96.36,35.71,40.85c22.28-55.5-1.29,32.07,27.64,32.07,13.1,0,21.17-19.38,28.81-70.69"
             fill="none"
-            stroke="#484a68"
+            stroke="var(--color-muted-foreground)"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="3.52"></path>
           <path
             d="M183.71,965.72c1.71,31.85,5.8,54.85,19.28,55.65,13.93.82,20.85-31.78,26.38-31.31,6.93.59-.18,31.18,15.44,34.42,4.79.99,14.84,1.64,24-22.13"
             fill="none"
-            stroke="#484a68"
+            stroke="var(--color-muted-foreground)"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="3.52"></path>
           <path
             d="M394.18,935.47c.89-19.84,16.47-25.12,28.26-16.43,14.11,10.4,36.12-39.53,43.56-12.29"
             fill="none"
-            stroke="#484a68"
+            stroke="var(--color-muted-foreground)"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="3.52"></path>
           <path
             d="M643.3,535.8c-2.09,7.99-6.55,13.88-11.67,15.84-4.99,1.91-12,.65-18.85-3.56"
             fill="none"
-            stroke="#484a68"
+            stroke="var(--color-muted-foreground)"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="3.52"></path>
           <path
             d="M557.89,368.78c11.91,35.01-10.78,12.73-19.35,18-8.73,5.36,8.23,50.09-34.96,11.52"
             fill="none"
-            stroke="#484a68"
+            stroke="var(--color-muted-foreground)"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="3.52"></path>
           <path
             d="M390.56,191.86c-21.92-5.91-45.38-4.01-55.35-3.59-3.3.14-6.59.14-9.89,0-9.98-.42-33.44-2.32-55.35,3.59"
             fill="none"
-            stroke="#484a68"
+            stroke="var(--color-muted-foreground)"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="3.52"></path>
           <path
             d="M436.66,211.87c-23.48-.79-35.4,13.24-40.81,19.16-12.57,13.74-20.72.94-65.59.94"
             fill="none"
-            stroke="#484a68"
+            stroke="var(--color-muted-foreground)"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="3.52"></path>
           <path
             d="M395.85,231.03c-52.5,96.35-51.77,138.65-65.59,138.65"
             fill="none"
-            stroke="#484a68"
+            stroke="var(--color-muted-foreground)"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="3.52"></path>
           <path
             d="M514.09,292.74s-7.92-6.67-16.02-7.1c-8.1-.43-32.12-.43-50.22-15.45-18.1-15.01-34.72-25.92-50.42-40.9"
             fill="none"
-            stroke="#484a68"
+            stroke="var(--color-muted-foreground)"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="3.52"></path>
           <path
             d="M354.5,320.31c-16.1,39.45-8.58,62.94,20.42,117.65,15.8,29.81-7.37,62.98,19.95,73.7,17.48,6.86,43.08,23.91,44.85,40.85"
             fill="none"
-            stroke="#484a68"
+            stroke="var(--color-muted-foreground)"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="3.52"></path>
           <path
             d="M460.98,339.06c-7.74-12.38,13.12-52.58,0-60.72"
             fill="none"
-            stroke="#484a68"
+            stroke="var(--color-muted-foreground)"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="3.52"></path>
           <path
             d="M330.26,614.06c0,35.81,24.38,31.69,49.78,30.16,27.16-1.64,63.32-19.3,43.62-80.18-8.85-27.35-8.53-46.89-35.82-54.97-19.3-5.72-57.58-4.57-57.58,44.65"
             fill="none"
-            stroke="#484a68"
+            stroke="var(--color-muted-foreground)"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="3.52"></path>
           <path
             d="M457.52,791.63s-13.43,96.36-35.71,40.85c-22.28-55.5,1.29,32.07-27.64,32.07-13.1,0-21.17-19.38-28.81-70.69"
             fill="none"
-            stroke="#484a68"
+            stroke="var(--color-muted-foreground)"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="3.52"></path>
           <path
             d="M476.8,965.72c-1.71,31.85-5.8,54.85-19.28,55.65-13.93.82-20.85-31.78-26.38-31.31-6.93.59.18,31.18-15.44,34.42-4.79.99-14.84,1.64-24-22.13"
             fill="none"
-            stroke="#484a68"
+            stroke="var(--color-muted-foreground)"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="3.52"></path>
@@ -303,35 +285,35 @@ export default function ManBackView() {
             x2="330.26"
             y2="614.06"
             fill="none"
-            stroke="#484a68"
+            stroke="var(--color-muted-foreground)"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="3.52"></line>
           <path
             d="M330.26,619.22c-5.25,37.26-2.28,46.61-13.11,92.29-9.91,41.79-21.41,67.61-27.83,121.66-6.42,54.05-25.22,43.33-25.68,67.01,13.34,111.61,6.88,93.43-4.16,125.06-11.04,31.63-21.35,72.92-23.59,90.89-2.37,19.05,1.52,17.62-.47,27.29-1.99,9.66-1.75,24.1-.66,32.87,1.09,8.77.3,25.48-21.05,25.48s-30.58-13.24-30.58-13.24c-9.05-2.68-18.82-5.91-25.15-6.98-16.47-4.47-5.13-14.14-5.13-14.14,4.18-5.7,10.27-5.14,10.27-5.14,3.74-4.98,8.08-4.52,8.08-4.52,9.23-5.73,19.54-19.77,19.54-19.77,1.65-8.95,3.29-15.73,4.39-27.67,1.1-11.94-4.39-55.88-10.42-120.72-6.03-64.83,17.42-88.35,18.01-117.83.59-29.47,7.5-47.62,4.55-61.22-23.86-89.98,1.7-210.43,9.8-233.79,8.1-23.36.47-15.59,5.89-37.67,5.42-22.07,9.39-65.4,9.18-78.81-.21-13.41,1.04-43.32-11.68-63.33-12.72-20.01-20.88-57.88-20.88-57.88-7.83,12.19-28.95,45.18-37.32,53.67-8.37,8.49-11.09,12.21-27.84,34.99-16.75,22.77-27.42,51.13-50.03,73.91-46.47,47.2-38.65,58.15-38.65,58.15,12.42,15.29,4.33,22.29,5.92,31.86,4.05,19.15,3.18,23.57,3.18,23.57-16.47,11.29-15.6-20.29-15.6-20.29-15.89,12.72-14.59,4-16.02,11.67-1.55,15.69-6.38,18.24-3.97,21.14,2.41,2.9,5.86,10.06,5.86,10.06,9.83,9.04,1.55,15.86,1.55,15.86-8.28-9.55-17.41-10.74-18.96-20.12-1.55-9.38-5.9-20.97-5.9-29.08,1.08-10.53,11.36-35.4,11.42-44.71-.62-23.04,3.5-21.54,5.71-26.73,2.21-5.19,12.71-40.97,26.79-77.3,14.09-36.33,39.03-61.88,48.31-70.42,9.29-8.54,7.34-17.51,11.66-24.99s10.66-21.26,10.66-21.26c7.86-27.19,30.11-46.29,30.11-46.29,12.11-75.75,77.43-80.87,77.43-80.87"
             fill="none"
-            stroke="#484a68"
+            stroke="var(--color-muted-foreground)"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="3.52"></path>
           <path
             d="M29.74,645.19s8.31-5.16,2.87-13.06c-4.55-6.58-5.28-6.14-2.87-15.29,1.87-7.08.7-12.38,3.36-17.5"
             fill="none"
-            stroke="#484a68"
+            stroke="var(--color-muted-foreground)"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="3.52"></path>
           <path
             d="M330.26,619.22c5.25,37.26,2.28,46.61,13.11,92.29,9.91,41.79,21.41,67.61,27.83,121.66,6.42,54.05,25.22,43.33,25.68,67.01-13.34,111.61-6.88,93.43,4.16,125.06,11.04,31.63,21.35,72.92,23.59,90.89,2.37,19.05-1.52,17.62.47,27.29,1.99,9.66,1.75,24.1.66,32.87-1.09,8.77-.3,25.48,21.05,25.48s30.58-13.24,30.58-13.24c9.05-2.68,18.82-5.91,25.15-6.98,16.47-4.47,5.13-14.14,5.13-14.14-4.18-5.7-10.27-5.14-10.27-5.14-3.74-4.98-8.08-4.52-8.08-4.52-9.23-5.73-19.54-19.77-19.54-19.77-1.65-8.95-3.29-15.73-4.39-27.67-1.1-11.94,4.39-55.88,10.42-120.72,6.03-64.83-17.42-88.35-18.01-117.83-.59-29.47-7.5-47.62-4.55-61.22,23.86-89.98-1.7-210.43-9.8-233.79-8.1-23.36-.47-15.59-5.89-37.67-5.42-22.07-9.39-65.4-9.18-78.81.21-13.41-1.04-43.32,11.68-63.33,12.72-20.01,20.88-57.88,20.88-57.88,7.83,12.19,28.95,45.18,37.32,53.67,8.37,8.49,11.09,12.21,27.84,34.99,16.75,22.77,27.42,51.13,50.03,73.91,46.47,47.2,38.65,58.15,38.65,58.15-12.42,15.29-4.33,22.29-5.92,31.86-4.05,19.15-3.18,23.57-3.18,23.57,16.47,11.29,15.6-20.29,15.6-20.29,15.89,12.72,14.59,4,16.02,11.67,1.55,15.69,6.38,18.24,3.97,21.14-2.41,2.9-5.86,10.06-5.86,10.06-9.83,9.04-1.55,15.86-1.55,15.86,8.28-9.55,17.41-10.74,18.96-20.12,1.55-9.38,5.9-20.97,5.9-29.08-1.08-10.53-11.36-35.4-11.42-44.71.62-23.04-3.5-21.54-5.71-26.73-2.21-5.19-12.71-40.97-26.79-77.3-14.09-36.33-39.03-61.88-48.31-70.42s-7.34-17.51-11.66-24.99c-4.32-7.48-10.66-21.26-10.66-21.26-7.86-27.19-30.11-46.29-30.11-46.29-12.11-75.75-77.43-80.87-77.43-80.87"
             fill="none"
-            stroke="#484a68"
+            stroke="var(--color-muted-foreground)"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="3.52"></path>
           <path
             d="M630.78,645.19s-8.31-5.16-2.87-13.06c4.55-6.58,5.28-6.14,2.87-15.29-1.87-7.08-.7-12.38-3.36-17.5"
             fill="none"
-            stroke="#484a68"
+            stroke="var(--color-muted-foreground)"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="3.52"></path>
@@ -339,14 +321,14 @@ export default function ManBackView() {
             <path
               d="M228.95,211.29c1.57-.7,9.71-6.15,14.7-8.41s25.39-10.44,30.52-12.98c5.14-2.54,14.41-11.57,14.41-11.57l.25-3.16c.72-7.78,1.02-39.35,1.02-39.35-2.91-5.76-3.49-15.57-3.49-15.57-7.29,1.44-12.53-1.87-13.99-21.04-.83-10.94,2.52-14.45,5.55-15.44"
               fill="none"
-              stroke="#484a68"
+              stroke="var(--color-muted-foreground)"
               strokeLinecap="round"
               strokeLinejoin="round"
               strokeWidth="3.52"></path>
             <path
               d="M382.62,83.78c3.02,1,6.37,4.51,5.54,15.44-1.46,19.17-6.71,22.48-13.99,21.04,0,0-.58,9.81-3.5,15.57,0,0,.29,31.57,1.03,39.35l.24,3.16s9.27,9.03,14.41,11.57c5.14,2.54,25.54,10.73,30.53,12.98s13.13,7.71,14.69,8.41"
               fill="none"
-              stroke="#484a68"
+              stroke="var(--color-muted-foreground)"
               strokeLinecap="round"
               strokeLinejoin="round"
               strokeWidth="3.52"></path>
@@ -354,272 +336,17 @@ export default function ManBackView() {
           <path
             d="M330.26,131.3c15.78,0,25.12,12.03,29.48,9.51,4.35-2.51,8.07-13.01,16.41-23.77,8.34-10.76-.36-12.56,9.08-42.7,9.43-30.14-14.51-56.46-20.68-60.41-6.17-3.95,17.41,10.04,4.72-3.23-12.7-13.27-38.46-4.3-46.44-2.15s27.21-9.69,0-6.1c-22.12,2.92-39.92,14.6-46.79,34.66"
             fill="none"
-            stroke="#484a68"
+            stroke="var(--color-muted-foreground)"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="3.52"></path>
           <path
             d="M330.26,131.3c-15.79,0-25.13,12.03-29.48,9.51-4.36-2.51-8.08-13.01-16.42-23.77s.36-12.56-9.07-42.7c-1.49-4.74-2.14-17.9-2.17-22.01v-.04c-.04-5.66,1.11-10.73,2.93-15.18"
             fill="none"
-            stroke="#484a68"
+            stroke="var(--color-muted-foreground)"
             strokeLinecap="round"
             strokeLinejoin="round"
             strokeWidth="3.52"></path>
-        </g>
-        <g
-          id="ankles"
-          className="hidden">
-          <ellipse
-            id="hover-9"
-            data-name="hover"
-            cx="445.81"
-            cy="1119.64"
-            rx="25.53"
-            ry="25.24"
-            fill="url(#jointradial)"
-            opacity="1"
-            strokeWidth="0"></ellipse>
-          <ellipse
-            id="hover-8"
-            data-name="hover"
-            cx="214.71"
-            cy="1119.64"
-            rx="25.53"
-            ry="25.24"
-            fill="url(#jointradial)"
-            opacity="1"
-            strokeWidth="0"></ellipse>
-          <ellipse
-            cx="214.71"
-            cy="1119.64"
-            rx="12.44"
-            ry="12.3"
-            fill="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="3.52"></ellipse>
-          <ellipse
-            cx="445.81"
-            cy="1119.64"
-            rx="12.44"
-            ry="12.3"
-            fill="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="3.52"></ellipse>
-        </g>
-        <g
-          id="knees"
-          className="hidden">
-          <ellipse
-            id="hover-7"
-            data-name="hover"
-            cx="237.16"
-            cy="879.63"
-            rx="25.53"
-            ry="25.24"
-            fill="url(#jointradial)"
-            opacity="1"
-            strokeWidth="0"></ellipse>
-          <ellipse
-            id="hover-10"
-            data-name="hover"
-            cx="423.36"
-            cy="879.63"
-            rx="25.53"
-            ry="25.24"
-            fill="url(#jointradial)"
-            opacity="1"
-            strokeWidth="0"></ellipse>
-          <ellipse
-            cx="423.36"
-            cy="879.63"
-            rx="12.44"
-            ry="12.3"
-            fill="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="3.52"></ellipse>
-          <ellipse
-            cx="237.16"
-            cy="879.63"
-            rx="12.44"
-            ry="12.3"
-            fill="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="3.52"></ellipse>
-        </g>
-        <g
-          id="wrist"
-          className="hidden">
-          <ellipse
-            id="hover-6"
-            data-name="hover"
-            cx="30.54"
-            cy="548.63"
-            rx="25.53"
-            ry="25.24"
-            fill="url(#jointradial)"
-            opacity="1"
-            strokeWidth="0"></ellipse>
-          <ellipse
-            id="hover-11"
-            data-name="hover"
-            cx="629.98"
-            cy="548.63"
-            rx="25.53"
-            ry="25.24"
-            fill="url(#jointradial)"
-            opacity="1"
-            strokeWidth="0"></ellipse>
-          <ellipse
-            cx="629.98"
-            cy="548.63"
-            rx="12.44"
-            ry="12.3"
-            fill="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="3.52"></ellipse>
-          <ellipse
-            cx="30.54"
-            cy="548.63"
-            rx="12.44"
-            ry="12.3"
-            fill="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="3.52"></ellipse>
-        </g>
-        <g
-          id="elbow"
-          className="hidden">
-          <ellipse
-            id="hover-5"
-            data-name="hover"
-            cx="119.84"
-            cy="396.23"
-            rx="25.53"
-            y="25.24"
-            fill="url(#jointradial)"
-            opacity="1"
-            strokeWidth="0"></ellipse>
-          <ellipse
-            id="hover-12"
-            data-name="hover"
-            cx="540.68"
-            cy="396.23"
-            rx="25.53"
-            ry="25.24"
-            fill="url(#jointradial)"
-            opacity="1"
-            strokeWidth="0"></ellipse>
-          <ellipse
-            cx="540.68"
-            cy="396.23"
-            rx="12.44"
-            ry="12.3"
-            fill="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="3.52"></ellipse>
-          <ellipse
-            cx="119.84"
-            cy="396.23"
-            rx="12.44"
-            ry="12.3"
-            fill="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="3.52"></ellipse>
-        </g>
-        <g
-          id="upper-spine"
-          className="hidden">
-          <ellipse
-            id="hover"
-            cx="330.26"
-            cy="209.3"
-            rx="25.53"
-            ry="25.24"
-            fill="url(#jointradial)"
-            opacity="1"
-            strokeWidth="0"></ellipse>
-          <ellipse
-            cx="330.26"
-            cy="209.3"
-            rx="12.44"
-            ry="12.3"
-            fill="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="3.52"></ellipse>
-        </g>
-        <g
-          id="scapula"
-          className="hidden">
-          <ellipse
-            id="hover-2"
-            data-name="hover"
-            cx="240.12"
-            cy="271.32"
-            rx="25.53"
-            ry="25.24"
-            fill="url(#jointradial)"
-            opacity="1"
-            strokeWidth="0"></ellipse>
-          <ellipse
-            id="hover-3"
-            data-name="hover"
-            cx="420.4"
-            cy="271.32"
-            rx="25.53"
-            ry="25.24"
-            fill="url(#jointradial)"
-            opacity="1"
-            strokeWidth="0"></ellipse>
-          <ellipse
-            cx="420.4"
-            cy="271.32"
-            rx="12.44"
-            ry="12.3"
-            fill="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="3.52"></ellipse>
-          <ellipse
-            cx="240.12"
-            cy="271.32"
-            rx="12.44"
-            ry="12.3"
-            fill="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="3.52"></ellipse>
-        </g>
-        <g
-          id="lower-spine"
-          className="hidden">
-          <ellipse
-            id="hover-4"
-            data-name="hover"
-            cx="330.26"
-            cy="491.77"
-            rx="25.53"
-            ry="25.24"
-            fill="url(#jointradial)"
-            opacity="1"
-            strokeWidth="0"></ellipse>
-          <ellipse
-            cx="330.26"
-            cy="491.77"
-            rx="12.44"
-            ry="12.3"
-            fill="currentColor"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            strokeWidth="3.52"></ellipse>
         </g>
       </svg>
     </>
