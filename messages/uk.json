@@ -81,13 +81,25 @@
       "bodyweight-only": "Тільки власна вага"
     },
     "muscleGroups": {
+      "abdominals": "Черевні м’язи",
+      "biceps": "Біцепс",
+      "calves": "Гомілки",
       "chest": "Груди",
-      "back": "Спина",
+      "forearms": "Передпліччя",
+      "front-shoulders": "Передні плечі",
+      "glutes": "Сідниці",
+      "hamstrings": "Задня поверхня стегна",
+      "hands": "Кисті / руки",
+      "hips": "Кульшовий пояс",
+      "lats": "Широчайші м’язи спини",
+      "lowerback": "Нижня частина спини",
+      "obliques": "Косі м’язи живота",
+      "quads": "Квадрицепси",
+      "rear-shoulders": "Задні плечі",
       "shoulders": "Плечі",
-      "arms": "Руки",
-      "legs": "Ноги",
-      "core": "Кор / Прес",
-      "full-body": "Все тіло"
+      "traps": "Трапеції",
+      "traps-middle": "Середні трапеції",
+      "triceps": "Трицепс"
     },
     "goals": {
       "strength": "Сила",

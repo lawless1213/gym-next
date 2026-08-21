@@ -36,7 +36,7 @@ export function ExerciseEditModal() {
     resolver: zodResolver(exerciseSchema),
     mode: "onChange",
     defaultValues: {
-      photo: undefined,
+      photo: exercise.imageUrl ?? undefined,
       title: "",
       description: "",
       groups: [],
@@ -46,7 +46,7 @@ export function ExerciseEditModal() {
   useEffect(() => {
     if (!exercise) return;
     reset({
-      photo: undefined,
+      photo: exercise.imageUrl ?? undefined,
       title: exercise.name,
       description: exercise.description,
       groups: exercise.muscleGroup ? exercise.muscleGroup.split(", ").filter(Boolean) : [],
@@ -59,9 +59,14 @@ export function ExerciseEditModal() {
   const onSubmit = async (data: ExerciseFormData) => {
     try {
       if (!user) throw new Error("Not authenticated");
-      console.log(data);
 
-      await editUserExecise(user.uid, exercise.id, data);
+      const photoToSave = data.photo instanceof File ? data.photo : (exercise?.imageUrl ?? undefined);
+
+      await editUserExecise(user.uid, exercise.id, {
+        ...data,
+        photo: photoToSave,
+      });
+
       queryClient.invalidateQueries({ queryKey: ["exercises", user.uid] });
       toast.success(t("success"));
       close();
@@ -83,7 +88,7 @@ export function ExerciseEditModal() {
               name="photo"
               control={control}
               render={({ field: { onChange, value } }) => {
-                const previewUrl = value ? URL.createObjectURL(value) : exercise?.imageUrl || null;
+                const previewUrl = value instanceof File ? URL.createObjectURL(value) : typeof value === "string" ? value : exercise?.imageUrl || null;
                 return (
                   <label className="group flex flex-col items-center cursor-pointer">
                     <div className="flex h-24 w-24 items-center justify-center rounded-2xl bg-secondary overflow-hidden">
@@ -129,7 +134,7 @@ export function ExerciseEditModal() {
                 ...descriptionRest,
                 id: "description",
                 placeholder: t("describe"),
-                error: errors.description?.message && tComponents('forms.' + errors.description?.message),
+                error: errors.description?.message && tComponents("forms." + errors.description?.message),
               }}
             />
 
@@ -144,7 +149,7 @@ export function ExerciseEditModal() {
                   id="groups"
                   label={t("muscleGroups")}
                   formatLabel={(item) => tComponents("muscleGroups." + item)}
-                  error={errors.groups?.message && tComponents('forms.' + errors.groups?.message)}
+                  error={errors.groups?.message && tComponents("forms." + errors.groups?.message)}
                 />
               )}
             />

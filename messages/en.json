@@ -77,13 +77,25 @@
       "bodyweight-only": "Bodyweight only"
     },
     "muscleGroups": {
+      "abdominals": "Abdominals",
+      "biceps": "Biceps",
+      "calves": "Calves",
       "chest": "Chest",
-      "back": "Back",
+      "forearms": "Forearms",
+      "front-shoulders": "Front shoulders",
+      "glutes": "Glutes",
+      "hamstrings": "Hamstrings",
+      "hands": "Hands",
+      "hips": "Hips",
+      "lats": "Lats",
+      "lowerback": "Lower back",
+      "obliques": "Obliques",
+      "quads": "Quads",
+      "rear-shoulders": "Rear shoulders",
       "shoulders": "Shoulders",
-      "arms": "Arms",
-      "legs": "Legs",
-      "core": "Core",
-      "full-body": "Full body"
+      "traps": "Traps",
+      "traps-middle": "Middle traps",
+      "triceps": "Triceps"
     },
     "goals": {
       "strength": "Strength",

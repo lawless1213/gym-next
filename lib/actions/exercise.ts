@@ -5,19 +5,21 @@ import { ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage
 export async function createUserExercise(
   userId: string,
   data: {
-    photo?: File;
+    photo?: File | string;
     title: string;
     groups: string[];
     description: string;
-  }
+  },
 ) {
   let imageUrl: string | null = null;
 
-  if (data.photo) {
+  if (data.photo instanceof File) {
     const ext = data.photo.name.split(".").pop();
     const storageRef = ref(storage, `users/${userId}/exercises/${Date.now()}.${ext}`);
     const snapshot = await uploadBytes(storageRef, data.photo);
     imageUrl = await getDownloadURL(snapshot.ref);
+  } else if (typeof data.photo === "string") {
+    imageUrl = data.photo;
   }
 
   const exercisesRef = collection(db, "users", userId, "exercises");
@@ -41,7 +43,7 @@ export async function editUserExecise(
     title: string;
     groups: string[];
     description: string;
-  }
+  },
 ) {
   let imageUrl: string | null = null;
 
@@ -66,11 +68,7 @@ export async function editUserExecise(
   return { id: exerciseId, imageUrl };
 }
 
-export async function deleteUserExercise(
-  userId: string,
-  exerciseId: string,
-  imageUrl?: string | null
-) {
+export async function deleteUserExercise(userId: string, exerciseId: string, imageUrl?: string | null) {
   if (imageUrl) {
     try {
       await deleteObject(ref(storage, imageUrl));
