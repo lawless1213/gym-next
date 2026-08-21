@@ -54,9 +54,9 @@ export function ExerciseCard({ exercise, className, trailing, onClick, disabled 
           {preview && <span className="shrink-0 rounded-md bg-foreground/20 px-1.5 py-0.5 text-[10px] font-semibold uppercase text-foreground">{t("preview")}</span>}
         </div>
         <div className="flex gap-2 truncate text-sm text-muted-foreground">
-          {exercise.muscleGroup.split(',').map(
-            group => <span key={group}>{tGroups(group.trim().toLowerCase())}</span>
-          )}
+          {exercise.muscleGroup.split(",").map((group) => (
+            <span key={group}>{tGroups(group.trim().toLowerCase())}</span>
+          ))}
         </div>
       </div>
 

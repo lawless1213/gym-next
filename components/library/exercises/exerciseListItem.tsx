@@ -3,17 +3,19 @@
 import { Exercise } from "@/types";
 import { IconMenu2, IconEdit, IconTrash, IconX } from "@tabler/icons-react";
 import { useState } from "react";
-import { motion } from "motion/react";
+import { AnimatePresence, motion } from "motion/react";
 import { useSwipeable } from "react-swipeable";
 import { deleteUserExercise } from "@/lib/actions/exercise";
 import { useAuth } from "@/hooks/useAuth";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { useModal } from  "@/components/modals/modal-store";
+import { useModal } from "@/components/modals/modal-store";
 import { ExerciseCard } from "@/components/shared/cards/ExerciseCard";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/Tooltip";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/Button";
+import MuscleSchema from "@/components/shared/MuscleSchema";
+import { MUSCLE_GROUPS } from "@/data/exercise";
 
 interface ExerciseListItemProps {
   exercise: Exercise;
@@ -26,6 +28,7 @@ export function ExerciseListItem({ exercise }: ExerciseListItemProps) {
   const queryClient = useQueryClient();
   const [isEditable, setIsEditable] = useState(false);
   const canEdit = exercise.isCustom;
+  const [isOpen, setIsOpen] = useState(false);
 
   const handlers = useSwipeable(
     canEdit
@@ -51,7 +54,7 @@ export function ExerciseListItem({ exercise }: ExerciseListItemProps) {
 
       const ok = await confirm({
         title: exercise.name,
-        description: t('delete')
+        description: t("delete"),
       });
 
       if (ok) {
@@ -59,7 +62,7 @@ export function ExerciseListItem({ exercise }: ExerciseListItemProps) {
 
         queryClient.invalidateQueries({ queryKey: ["exercises", user.uid] });
         queryClient.invalidateQueries({ queryKey: ["routines", user.uid] });
-        toast.success(t('deleteSuccess'));
+        toast.success(t("deleteSuccess"));
       }
     } catch (err: any) {
       console.log(err);
@@ -77,54 +80,79 @@ export function ExerciseListItem({ exercise }: ExerciseListItemProps) {
   };
 
   return (
-    <div
-      className="relative flex overflow-hidden md:rounded-xl"
-      {...handlers}>
-      <motion.div
-        className="w-full"
-        animate={{ x: isEditable ? -72 : 0 }}
-        transition={{ type: "spring", stiffness: 300, damping: 30 }}>
-        <ExerciseCard
-          exercise={exercise}
-          trailing={
-            canEdit ? (
-              <Tooltip>
-                <TooltipTrigger asChild>
-                  <Button
-                    variant="outline"
-                    size="icon-xl"
-                    onClick={() => setIsEditable(!isEditable)}
-                    className="shrink-0">
-                    {isEditable ? <IconX className="size-5" /> : <IconMenu2 className="size-5" />}
-                  </Button>
-                </TooltipTrigger>
-                {!isEditable && <TooltipContent side="left">{t("options")}</TooltipContent>}
-              </Tooltip>
-            ) : undefined
-          }
-        />
-      </motion.div>
-      {canEdit && (
+    <div>
+      <div
+        className="relative flex overflow-hidden md:rounded-xl"
+        onClick={() => setIsOpen((prev) => !prev)}
+        {...handlers}>
         <motion.div
-          className="absolute top-0 right-0 flex h-full text-white"
-          initial={{ x: 80 }}
-          animate={{ x: isEditable ? 0 : 80 }}
+          className="w-full"
+          animate={{ x: isEditable ? -72 : 0 }}
           transition={{ type: "spring", stiffness: 300, damping: 30 }}>
-          <Button
-            size="icon"
-            onClick={editHandler}
-            className="h-full rounded-none">
-            <IconEdit className="size-5" />
-          </Button>
-          <Button
-            size="icon"
-            variant="destructive"
-            onClick={deleteHandler}
-            className="h-full rounded-none">
-            <IconTrash className="size-5" />
-          </Button>
+          <ExerciseCard
+            exercise={exercise}
+            trailing={
+              canEdit ? (
+                <Tooltip>
+                  <TooltipTrigger asChild>
+                    <Button
+                      variant="outline"
+                      size="icon-xl"
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        setIsEditable(!isEditable);
+                      }}
+                      className="shrink-0">
+                      {isEditable ? <IconX className="size-5" /> : <IconMenu2 className="size-5" />}
+                    </Button>
+                  </TooltipTrigger>
+                  {!isEditable && <TooltipContent side="left">{t("options")}</TooltipContent>}
+                </Tooltip>
+              ) : undefined
+            }
+          />
         </motion.div>
-      )}
+        {canEdit && (
+          <motion.div
+            className="absolute top-0 right-0 flex h-full text-white"
+            initial={{ x: 80 }}
+            animate={{ x: isEditable ? 0 : 80 }}
+            transition={{ type: "spring", stiffness: 300, damping: 30 }}>
+            <Button
+              size="icon"
+              onClick={editHandler}
+              className="h-full rounded-none">
+              <IconEdit className="size-5" />
+            </Button>
+            <Button
+              size="icon"
+              variant="destructive"
+              onClick={deleteHandler}
+              className="h-full rounded-none">
+              <IconTrash className="size-5" />
+            </Button>
+          </motion.div>
+        )}
+      </div>
+      <AnimatePresence initial={false}>
+        {isOpen && (
+          <motion.div
+            className="overflow-hidden flex flex-col bg-card"
+            initial={{ opacity: 0, height: 0 }}
+            animate={{ opacity: 1, height: "auto" }}
+            exit={{ opacity: 0, height: 0 }}
+            transition={{ duration: 0.25, ease: "easeInOut" }}>
+            <div className="pb-3 px-3 flex flex-col items-center gap-4">
+              <p className="text-xs text-muted-foreground text-center">{exercise.description}</p>
+              <MuscleSchema
+                size="sm"
+                clickable={false}
+                selectedMuscles={exercise.muscleGroup ? (exercise.muscleGroup.split(", ").filter(Boolean) as (typeof MUSCLE_GROUPS)[number][]) : []}
+              />
+            </div>
+          </motion.div>
+        )}
+      </AnimatePresence>
     </div>
   );
 }
