@@ -1,3 +1,4 @@
+import { MUSCLE_GROUPS } from "@/data/exercise";
 import { z } from "zod";
 
 const MAX_FILE_SIZE = 3 * 1024 * 1024;
@@ -21,7 +22,7 @@ export const exerciseSchema = z.object({
       return true;
     }, "invalid_file_type"),
   title: z.string().min(3, "title_too_small").max(100, "title_too_large"),
-  groups: z.array(z.string()).min(1, "at_least_one_checked"),
+  groups: z.array(z.enum(MUSCLE_GROUPS)).min(1, "at_least_one_checked"),
   description: z.string().min(3, "text_too_small").max(300, "text_too_large"),
 });
 

@@ -1,3 +1,7 @@
+import { MUSCLE_GROUPS } from "@/data/exercise";
+
+export type MuscleGroup = (typeof MUSCLE_GROUPS)[number];
+
 export type Period = "week" | "month" | "all";
 
 export type HistoryOptions =

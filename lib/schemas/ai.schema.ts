@@ -1,10 +1,10 @@
-import { DIFFICULTY, EQUIPMENT_GROUPS, GOALS, SPLIT_TYPES } from "@/data/exercise";
+import { DIFFICULTY, EQUIPMENT_GROUPS, GOALS, MUSCLE_GROUPS, SPLIT_TYPES } from "@/data/exercise";
 import { weekDays } from "@/types";
 import { z } from "zod";
 
 export const AIExerciseSchema = z.object({
   comment: z.string(),
-  groups: z.array(z.string()).min(1, "at_least_one_checked"),
+  groups: z.array(z.enum(MUSCLE_GROUPS)).min(1, "at_least_one_checked"),
   equipment: z.enum(EQUIPMENT_GROUPS, {
     message: "at_least_one_checked",
   }),
@@ -18,7 +18,7 @@ export const AIExerciseSchema = z.object({
 
 export const AIRoutineSchema = z.object({
   comment: z.string().optional(),
-  groups: z.array(z.string()).min(1, "at_least_one_checked"),
+  groups: z.array(z.enum(MUSCLE_GROUPS)).min(1, "at_least_one_checked"),
   equipment: z.enum(EQUIPMENT_GROUPS, {
     message: "at_least_one_checked",
   }),
@@ -54,7 +54,7 @@ export const AIRoutineSchema = z.object({
 
 export const AIScheduleSchema = z.object({
 	comment: z.string().optional(),
-	groups: z.array(z.string()).min(1, "at_least_one_checked"),
+	groups: z.array(z.enum(MUSCLE_GROUPS)).min(1, "at_least_one_checked"),
 	equipment: z.enum(EQUIPMENT_GROUPS, {
 		message: "at_least_one_checked",
 	}),

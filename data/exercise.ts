@@ -20,6 +20,6 @@ export const MUSCLE_GROUPS = [
   "traps",
   "traps-middle",
   "triceps",
-];
+] as const;
 export const GOALS = ["strength", "hypertrophy", "endurance", "mobility"];
 export const SPLIT_TYPES = ["full_body", "upper_lower", "ppl", "bro_split", "custom"];

@@ -16,6 +16,7 @@ import { MUSCLE_GROUPS } from "@/data/exercise";
 import { useTranslations } from "next-intl";
 import { ChipGroup } from "@/components/ui/form/chipGroup";
 import { ExerciseFormData, exerciseSchema } from "@/lib/schemas";
+import MuscleSchema from "@/components/shared/MuscleSchema";
 
 export function ExerciseCreateModal() {
   const tComponents = useTranslations("components");
@@ -67,7 +68,7 @@ export function ExerciseCreateModal() {
               name="photo"
               control={control}
               render={({ field: { onChange, value } }) => {
-                const previewUrl = value ? URL.createObjectURL(value) : null;
+                const previewUrl = value instanceof File ? URL.createObjectURL(value) : null;
 
                 return (
                   <label className="group flex flex-col items-center cursor-pointer">
@@ -104,7 +105,7 @@ export function ExerciseCreateModal() {
                 ...titleRest,
                 id: "title",
                 placeholder: t("name"),
-                error: errors.title?.message && tComponents('forms.' + errors.title?.message),
+                error: errors.title?.message && tComponents("forms." + errors.title?.message),
               }}
             />
 
@@ -114,7 +115,7 @@ export function ExerciseCreateModal() {
                 ...descriptionRest,
                 id: "description",
                 placeholder: t("describe"),
-                error: errors.description?.message && tComponents('forms.' + errors.description?.message),
+                error: errors.description?.message && tComponents("forms." + errors.description?.message),
               }}
             />
 
@@ -122,15 +123,18 @@ export function ExerciseCreateModal() {
               name={"groups"}
               control={control}
               render={({ field }) => (
-                <ChipGroup
-                  items={MUSCLE_GROUPS}
-                  value={field.value ?? []}
-                  onChange={field.onChange}
-                  id="groups"
-                  label={t("muscleGroups")}
-                  formatLabel={(item) => tComponents("muscleGroups." + item)}
-                  error={errors.groups?.message && tComponents('forms.' + errors.groups?.message)}
-                />
+                <>
+                  <ChipGroup
+                    items={MUSCLE_GROUPS}
+                    value={field.value ?? []}
+                    onChange={field.onChange}
+                    id="groups"
+                    label={t("muscleGroups")}
+                    formatLabel={(item) => tComponents("muscleGroups." + item)}
+                    error={errors.groups?.message && tComponents("forms." + errors.groups?.message)}
+                  />
+                  <MuscleSchema male={false} selectedMuscles={field.value ?? []} />
+                </>
               )}
             />
           </div>

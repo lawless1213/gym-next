@@ -17,6 +17,7 @@ import { MUSCLE_GROUPS } from "@/data/exercise";
 import { useTranslations } from "next-intl";
 import { ChipGroup } from "@/components/ui/form/chipGroup";
 import { ExerciseFormData, exerciseSchema } from "@/lib/schemas";
+import MuscleSchema from "@/components/shared/MuscleSchema";
 
 export function ExerciseEditModal() {
   const tComponents = useTranslations("components");
@@ -49,7 +50,7 @@ export function ExerciseEditModal() {
       photo: exercise.imageUrl ?? undefined,
       title: exercise.name,
       description: exercise.description,
-      groups: exercise.muscleGroup ? exercise.muscleGroup.split(", ").filter(Boolean) : [],
+      groups: exercise.muscleGroup ? (exercise.muscleGroup.split(", ").filter(Boolean) as (typeof MUSCLE_GROUPS)[number][]) : [],
     });
   }, [exercise, reset]);
 
@@ -139,18 +140,22 @@ export function ExerciseEditModal() {
             />
 
             <Controller
-              name={"groups"}
+              name="groups"
               control={control}
               render={({ field }) => (
-                <ChipGroup
-                  items={MUSCLE_GROUPS}
-                  value={field.value ?? []}
-                  onChange={field.onChange}
-                  id="groups"
-                  label={t("muscleGroups")}
-                  formatLabel={(item) => tComponents("muscleGroups." + item)}
-                  error={errors.groups?.message && tComponents("forms." + errors.groups?.message)}
-                />
+                <>
+                  <ChipGroup
+                    items={MUSCLE_GROUPS}
+                    value={field.value ?? []}
+                    onChange={field.onChange}
+                    id="groups"
+                    label={t("muscleGroups")}
+                    formatLabel={(item) => tComponents("muscleGroups." + item)}
+                    error={errors.groups?.message && tComponents("forms." + errors.groups?.message)}
+                  />
+
+                  <MuscleSchema selectedMuscles={field.value ?? []} />
+                </>
               )}
             />
           </div>
