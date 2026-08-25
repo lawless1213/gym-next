@@ -19,7 +19,7 @@ export default function ExercisesList({
   const t = useTranslations("library.exercises");
 
   return (
-    <div className="space-y-6 mt-6 max-md:-mx-4">
+    <div className="space-y-6 max-md:-mx-4">
       {visibleExercises.length > 0 ? (
         visibleExercises.map((exercise) => (
           <ExerciseListItem

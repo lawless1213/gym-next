@@ -30,7 +30,12 @@ export default function CustomExercises() {
     if (!searchQuery) return exercises;
     const query = searchQuery.toLowerCase().trim();
 
-    return exercises.filter((ex) => getLocalizedText(ex.name, locale as any).toLowerCase().includes(query) || ex.muscleGroup?.toLowerCase().includes(query));
+    return exercises.filter(
+      (ex) =>
+        getLocalizedText(ex.name, locale as any)
+          .toLowerCase()
+          .includes(query) || ex.muscleGroup?.toLowerCase().includes(query),
+    );
   }, [searchQuery, exercises, locale]);
 
   const visibleExercises = useMemo(() => {
@@ -60,7 +65,7 @@ export default function CustomExercises() {
           className="w-full rounded-xl bg-card py-3 pl-10 pr-4 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
         />
       </div>
-
+      <div className="text-sm text-muted-foreground">{loading ? "..." : `${filteredExercises.length}/${exercises.length}`}</div>
       <SkeletonSwitcher
         isLoading={loading}
         skeleton={ExercisesSkeleton}>
@@ -70,7 +75,12 @@ export default function CustomExercises() {
           handleLoadMore={handleLoadMore}
         />
       </SkeletonSwitcher>
-      {user && <ButtonAdd onClick={() => open('exercise')}  ariaLabel={t("buttonAdd")}/>}
+      {user && (
+        <ButtonAdd
+          onClick={() => open("exercise")}
+          ariaLabel={t("buttonAdd")}
+        />
+      )}
     </>
   );
 }

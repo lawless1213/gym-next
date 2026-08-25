@@ -50,7 +50,7 @@ export function ModalWrapper({ modalType, children, classes, contentClasses, siz
                 stiffness: 400,
                 damping: 30,
               }}
-              className={clsx("relative pointer-events-auto max-w-screen bg-card shadow-xl shadow-card rounded-b-xl flex flex-col max-h-dvh w-[600px]", classes, {
+              className={clsx("pointer-events-auto max-w-screen bg-card shadow-xl shadow-card rounded-b-xl flex flex-col max-h-dvh w-[600px]", classes, {
                 "h-dvh": size === "high",
                 "sm:h-[95dvh] sm:w-[90vw]": size === "large",
               })}>

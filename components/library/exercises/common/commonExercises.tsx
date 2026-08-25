@@ -54,7 +54,9 @@ export default function CommonExercises() {
           className="w-full rounded-xl bg-card py-3 pl-10 pr-4 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
         />
       </div>
-
+      <div className="text-sm text-muted-foreground">
+        {loading ? "..." : `${filteredExercises.length}/${exercises.length}`}
+      </div>
       <SkeletonSwitcher
         isLoading={loading}
         skeleton={ExercisesSkeleton}>

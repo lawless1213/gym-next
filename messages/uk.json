@@ -196,7 +196,7 @@
       "customExercises": "Власні"
     },
     "exercises": {
-      "searchPlaceholder": "Пошук вправ...",
+      "searchPlaceholder": "Пошук вправи за назвою чи мʼязами",
       "customBadge": "Власна",
       "buttonAdd": "Нова вправа",
       "loadMore": "Показати більше",
@@ -338,7 +338,8 @@
         "added": "Додана"
       },
       "name": "Назва програми",
-      "exercises": "Вправи",
+      "exercises": "Вправи", 
+      "searchPlaceholder": "Пошук вправи за назвою чи мʼязами",
       "addExercises": "Додати вправи",
       "submit": "Зберегти",
       "success": "Програму успішно збережено!",

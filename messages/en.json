@@ -195,7 +195,7 @@
       "customExercises": "Custom"
     },
     "exercises": {
-      "searchPlaceholder": "Search exercises...",
+      "searchPlaceholder": "Search by exercise or muscle name",
       "customBadge": "Custom",
       "buttonAdd": "New exercise",
       "loadMore": "Show more",
@@ -339,6 +339,7 @@
       },
       "name": "Routine Name",
       "exercises": "Exercises",
+      "searchPlaceholder": "Search by exercise or muscle name",
       "addExercises": "Add Exercises",
       "submit": "Save",
       "success": "Program successfully saved!",

@@ -9,8 +9,8 @@ import { useAuth } from "@/hooks/useAuth";
 import { Input } from "@/components/ui/form/input";
 import { AUTH_ERRORS } from "@/lib/errors/auth";
 import { useModal } from "@/components/modals/modal-store";
-import { IconGridDots, IconPlus, IconTrash, IconX } from "@tabler/icons-react";
-import { useState } from "react";
+import { IconGridDots, IconPlus, IconSearch, IconTrash, IconX } from "@tabler/icons-react";
+import { useMemo, useState } from "react";
 import { RoutinesExercise } from "@/types";
 import { useAllExercises } from "@/hooks/useServices/useExercises";
 import { toast } from "sonner";
@@ -34,8 +34,25 @@ export function RoutineCreateModal() {
   const [showExercisePicker, setShowExercisePicker] = useState(false);
   const { close } = useModal();
   const queryClient = useQueryClient();
+  const [searchQuery, setSearchQuery] = useState("");
 
   const { data: exercises = [], isLoading: loading } = useAllExercises(userId);
+
+  const filteredExercises = useMemo(() => {
+    if (!searchQuery) return exercises;
+    const query = searchQuery.toLowerCase().trim();
+
+    return exercises.filter(
+      (ex) =>
+        getLocalizedText(ex.name, locale as any)
+          .toLowerCase()
+          .includes(query) || ex.muscleGroup?.toLowerCase().includes(query),
+    );
+  }, [searchQuery, exercises, locale]);
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+  };
 
   const {
     register,
@@ -131,7 +148,7 @@ export function RoutineCreateModal() {
 
               <div className="space-y-2">
                 {fields.map((field, index) => {
-                  const groups = field.muscleGroup ? (field.muscleGroup.split(", ").filter(Boolean) as (typeof MUSCLE_GROUPS)[number][]) : [];
+                  const groups = field.muscleGroup ? (field.muscleGroup.split(",").filter(Boolean) as (typeof MUSCLE_GROUPS)[number][]) : [];
 
                   return (
                     <div
@@ -143,7 +160,7 @@ export function RoutineCreateModal() {
                         <p className="font-medium text-foreground">{getLocalizedText(field.name, locale)}</p>
                         <div className="text-xs text-muted-foreground flex gap-1">
                           {groups.map((group) => (
-                            <span>{tGroups(group.trim())}</span>
+                            <span>{tGroups(group.trim().toLowerCase())}</span>
                           ))}
                         </div>
                       </div>
@@ -197,7 +214,18 @@ export function RoutineCreateModal() {
                 </Button>
               </div>
               <div className="flex-1 space-y-2 overflow-y-auto p-6">
-                {exercises.map((exercise) => {
+                <div className="relative">
+                  <IconSearch className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
+                  <input
+                    type="text"
+                    placeholder={t("searchPlaceholder")}
+                    value={searchQuery}
+                    onChange={handleSearchChange}
+                    className="w-full rounded-xl bg-card py-3 pl-10 pr-4 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                  />
+                </div>
+                <div className="text-sm text-muted-foreground">{loading ? "..." : `${filteredExercises.length}/${exercises.length}`}</div>
+                {filteredExercises.map((exercise) => {
                   const isSelected = fields.some((e) => e.exerciseId == exercise.id);
 
                   return (

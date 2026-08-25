@@ -9,8 +9,8 @@ import { useAuth } from "@/hooks/useAuth";
 import { Input } from "@/components/ui/form/input";
 import { AUTH_ERRORS } from "@/lib/errors/auth";
 import { useModal } from "@/components/modals/modal-store";
-import { IconGridDots, IconPlus, IconTrash, IconX } from "@tabler/icons-react";
-import { useEffect, useState } from "react";
+import { IconGridDots, IconPlus, IconSearch, IconTrash, IconX } from "@tabler/icons-react";
+import { useEffect, useMemo, useState } from "react";
 import { RoutinesExercise } from "@/types";
 import { useAllExercises } from "@/hooks/useServices/useExercises";
 import { toast } from "sonner";
@@ -35,8 +35,25 @@ export function RoutineEditModal() {
   const [showExercisePicker, setShowExercisePicker] = useState(false);
   const { close, routine } = useRoutineEditModal();
   const queryClient = useQueryClient();
+  const [searchQuery, setSearchQuery] = useState("");
 
   const { data: exercises = [], isLoading: loading } = useAllExercises(userId);
+
+  const filteredExercises = useMemo(() => {
+    if (!searchQuery) return exercises;
+    const query = searchQuery.toLowerCase().trim();
+
+    return exercises.filter(
+      (ex) =>
+        getLocalizedText(ex.name, locale as any)
+          .toLowerCase()
+          .includes(query) || ex.muscleGroup?.toLowerCase().includes(query),
+    );
+  }, [searchQuery, exercises, locale]);
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+  };
 
   const {
     register,
@@ -152,27 +169,29 @@ export function RoutineEditModal() {
                   const groups = field.muscleGroup ? (field.muscleGroup.split(", ").filter(Boolean) as (typeof MUSCLE_GROUPS)[number][]) : [];
 
                   return (
-                  <div
-                    key={field.fieldKey}
-                    className="flex items-center gap-3 rounded-xl bg-secondary p-3">
-                    <IconGridDots className="h-5 w-5 text-muted-foreground" />
-                    <span className="flex h-6 w-6 items-center justify-center rounded-full bg-muted text-xs font-bold text-muted-foreground">{index + 1}</span>
-                    <div className="flex-1">
-                      <p className="font-medium text-foreground">{getLocalizedText(field.name, locale)}</p>
-                      <div className="text-xs text-muted-foreground flex gap-1">
-                        {groups.map(group => <span>{tGroups(group.trim())}</span>)}
+                    <div
+                      key={field.fieldKey}
+                      className="flex items-center gap-3 rounded-xl bg-secondary p-3">
+                      <IconGridDots className="h-5 w-5 text-muted-foreground" />
+                      <span className="flex h-6 w-6 items-center justify-center rounded-full bg-muted text-xs font-bold text-muted-foreground">{index + 1}</span>
+                      <div className="flex-1">
+                        <p className="font-medium text-foreground">{getLocalizedText(field.name, locale)}</p>
+                        <div className="text-xs text-muted-foreground flex gap-1">
+                          {groups.map((group) => (
+                            <span>{tGroups(group.trim())}</span>
+                          ))}
+                        </div>
                       </div>
+                      <Button
+                        variant="ghost"
+                        size="icon-lg"
+                        type="button"
+                        onClick={() => remove(index)}
+                        aria-label={`Remove ${field.name}`}>
+                        <IconTrash className="size-4" />
+                      </Button>
                     </div>
-                    <Button
-                      variant="ghost"
-                      size="icon-lg"
-                      type="button"
-                      onClick={() => remove(index)}
-                      aria-label={`Remove ${field.name}`}>
-                      <IconTrash className="size-4" />
-                    </Button>
-                  </div>
-                )
+                  );
                 })}
 
                 {errors.exercises?.message && <p className="text-sm text-red-500">{tForms(errors.exercises.message)}</p>}
@@ -213,7 +232,18 @@ export function RoutineEditModal() {
                 </Button>
               </div>
               <div className="flex-1 space-y-2 overflow-y-auto p-6">
-                {exercises.map((exercise) => {
+                <div className="relative">
+                  <IconSearch className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
+                  <input
+                    type="text"
+                    placeholder={t("searchPlaceholder")}
+                    value={searchQuery}
+                    onChange={handleSearchChange}
+                    className="w-full rounded-xl bg-card py-3 pl-10 pr-4 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                  />
+                </div>
+                <div className="text-sm text-muted-foreground">{loading ? "..." : `${filteredExercises.length}/${exercises.length}`}</div>
+                {filteredExercises.map((exercise) => {
                   const isSelected = fields.some((e) => e.exerciseId == exercise.id);
 
                   return (
