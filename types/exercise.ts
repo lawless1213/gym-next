@@ -2,8 +2,8 @@ import type { LocalizedText } from "@/types/common";
 
 export interface Exercise {
   id: string;
-  name: LocalizedText;
-  description: LocalizedText;
+  name: LocalizedText | string;
+  description: LocalizedText | string;
   muscleGroup: string;
   imageUrl: string;
   isCustom: boolean;

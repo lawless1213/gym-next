@@ -3,12 +3,6 @@ import { collection, addDoc, serverTimestamp, doc, deleteDoc, getDocs, arrayRemo
 import { ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
 import type { LocalizedText } from "@/types/common";
 
-function normalizeLocalizedText(value: string | LocalizedText | undefined): LocalizedText {
-  if (!value) return { en: "", uk: "" };
-  if (typeof value === "string") return { en: value, uk: value };
-  return value;
-}
-
 export async function createUserExercise(
   userId: string,
   data: {
@@ -66,9 +60,9 @@ export async function editUserExecise(
   const exerciseRef = doc(db, "users", userId, "exercises", exerciseId);
 
   await updateDoc(exerciseRef, {
-    name: normalizeLocalizedText(data.title),
+    name: data.title,
     muscleGroup: data.groups.join(", "),
-    description: normalizeLocalizedText(data.description),
+    description: data.description,
     imageUrl,
   });
 

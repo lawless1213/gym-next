@@ -17,12 +17,10 @@ import { useLocale, useTranslations } from "next-intl";
 import { ChipGroup } from "@/components/ui/form/chipGroup";
 import { ExerciseFormData, exerciseSchema } from "@/lib/schemas";
 import MuscleSchema from "@/components/shared/MuscleSchema";
-import { toLocalizedText, type Locale } from "@/types/common";
 
 export function ExerciseCreateModal() {
   const tComponents = useTranslations("components");
   const t = useTranslations("exercise.modal");
-  const locale = useLocale() as Locale;
   const { close } = useModal();
   const { user } = useAuth();
   const queryClient = useQueryClient();

@@ -56,6 +56,9 @@ export function ExerciseEditModal() {
     });
   }, [exercise, locale, reset]);
 
+  console.log(exercise);
+  
+
   const { ref: titleRef, ...titleRest } = register("title");
   const { ref: descriptionRef, ...descriptionRest } = register("description");
 
