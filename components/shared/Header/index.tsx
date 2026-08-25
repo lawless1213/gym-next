@@ -42,13 +42,13 @@ export function Header({ page }: HeaderProps) {
   }, [locale, pendingLocaleChange, tNotification]);
 
   const actions = [
-    {
-      id: "ai",
-      show: !!user,
-      onClick: () => open("ai"),
-      tooltip: t("ai"),
-      icon: <IconAi className="size-8" />,
-    },
+    // {
+    //   id: "ai",
+    //   show: !!user,
+    //   onClick: () => open("ai"),
+    //   tooltip: t("ai"),
+    //   icon: <IconAi className="size-8" />,
+    // },
     {
       id: "theme",
       show: mounted,

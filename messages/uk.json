@@ -5,7 +5,6 @@
   },
   "components": {
     "header": {
-      "ai": "AI-асистент",
       "lightTheme": "Світла тема",
       "darkTheme": "Темна тема",
       "changeLang": "Змінити мову",
@@ -118,7 +117,8 @@
       "home": "Головна",
       "library": "Бібліотека",
       "history": "Історія",
-      "stats": "Статистика"
+      "stats": "Статистика",
+      "ai": "AI-асистент"
     },
     "routineCard": {
       "amount": "Кіл-сть вправ",

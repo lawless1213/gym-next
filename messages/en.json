@@ -5,7 +5,6 @@
   },
   "components": {
     "header": {
-      "ai": "AI Assistant",
       "lightTheme": "Light theme",
       "darkTheme": "Dark theme",
       "changeLang": "Change language",
@@ -118,7 +117,8 @@
       "home": "Home",
       "library": "Library",
       "history": "History",
-      "stats": "Stats"
+      "stats": "Stats",
+      "ai": "AI Assistant"
     },
     "routineCard": {
       "amount": "Number of exercises",
