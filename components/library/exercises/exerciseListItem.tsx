@@ -149,7 +149,7 @@ export function ExerciseListItem({ exercise }: ExerciseListItemProps) {
               <MuscleSchema
                 size="sm"
                 clickable={false}
-                selectedMuscles={exercise.muscleGroup ? (exercise.muscleGroup.split(", ").filter(Boolean) as (typeof MUSCLE_GROUPS)[number][]) : []}
+                selectedMuscles={exercise.muscleGroup ? (exercise.muscleGroup.split(",").filter(Boolean) as (typeof MUSCLE_GROUPS)[number][]) : []}
               />
             </div>
           </motion.div>
