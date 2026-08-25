@@ -29,7 +29,6 @@ export async function getUserExercises(userId: string): Promise<Exercise[]> {
 
   try {
     const exercisesRef = collection(db, "users", userId, "exercises");
-    // Створюємо запит із сортуванням за полем "name"
     const q = query(exercisesRef, orderBy("name"));
     const querySnapshot = await getDocs(q);
 

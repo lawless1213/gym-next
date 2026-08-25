@@ -3,7 +3,7 @@ import { LOCALES } from "@/i18n/locales";
 
 export type Locale = (typeof LOCALES)[number];
 
-export type LocalizedText = Partial<Record<Locale, string>>;
+export type LocalizedText = string | Partial<Record<Locale, string>>;
 
 export function getLocalizedText(value: LocalizedText | string | undefined, locale: Locale = "uk"): string {
   if (!value) return "";

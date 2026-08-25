@@ -95,9 +95,9 @@ export function AiExerciseContent() {
 
       if (ok) {
         await createUserExercise(user.uid, {
-          title: toLocalizedText(getLocalizedText(result.data.name, locale)),
+          title: result.data.name,
           groups: [result.data.muscleGroup],
-          description: toLocalizedText(getLocalizedText(result.data.description, locale)),
+          description: result.data.description,
         });
         queryClient.invalidateQueries({ queryKey: ["exercises", user.uid] });
         toast.success(t("success"));

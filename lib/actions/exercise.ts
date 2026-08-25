@@ -32,9 +32,9 @@ export async function createUserExercise(
   const exercisesRef = collection(db, "users", userId, "exercises");
 
   const docRef = await addDoc(exercisesRef, {
-    name: normalizeLocalizedText(data.title),
+    name: data.title,
     muscleGroup: data.groups.join(", "),
-    description: normalizeLocalizedText(data.description),
+    description: data.description,
     imageUrl,
     createdAt: serverTimestamp(),
   });

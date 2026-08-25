@@ -146,8 +146,8 @@ ${exclusionBlock}
 function toExercise(raw: AiRawResponse["exercise"]): Exercise {
   return {
     id: randomUUID(),
-    name: toLocalizedText(raw.name),
-    description: toLocalizedText(raw.description),
+    name: raw.name,
+    description: raw.description,
     muscleGroup: raw.muscleGroup,
     imageUrl: "",
     isCustom: true,
