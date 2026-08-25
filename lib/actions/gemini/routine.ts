@@ -153,7 +153,6 @@ function findExistingMatch(name: string, existing: Exercise[]): Exercise | undef
 }
 
 function buildPrompt(input: RoutineInput, existing: Exercise[]): string {
-  const locale = useLocale();
   const existingBlock =
     existing.length > 0
       ? `
