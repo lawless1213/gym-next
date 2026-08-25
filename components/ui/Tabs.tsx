@@ -26,7 +26,7 @@ export function Tabs({ items, activeTab, onChange, children, tabsClasses }: Tabs
   return (
     <>
       <div className={cn(
-        "flex gap-2 rounded-xl bg-secondary p-1 relative", tabsClasses
+        "flex gap-2 md:gap-4 rounded-xl bg-secondary p-1 relative", tabsClasses
       )} >
         {items.map((item) => {
           const isActive = activeTab === item.id;
