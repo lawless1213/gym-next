@@ -6,7 +6,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { AnimatePresence, motion } from "motion/react";
 
 export default function WorkoutSessionCard(workout: WorkoutSessionType) {
-  const t = useTranslations("History");
+  const t = useTranslations("history");
   const tMonth = useTranslations("components.month");
   const locale = useLocale() as Locale;
   const [isOpen, setIsOpen] = useState(false);

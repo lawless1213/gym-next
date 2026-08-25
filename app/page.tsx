@@ -18,7 +18,7 @@ import QuickWorkout from "@/components/home/QuickWorkout";
 import MuscleSchema from "@/components/shared/MuscleSchema";
 
 export default function Home() {
-  const t = useTranslations("HomePage");
+  const t = useTranslations("home");
   const { user } = useAuth();
 
   const userId = user?.uid;
@@ -30,22 +30,20 @@ export default function Home() {
   const lastWeekRecords = dataRecords ? Object.values(dataRecords) : [];
 
   return (
-    <>
-      <div className="flex flex-col gap-4 pb-4">
-        <Header
-          title={t(`header.welcome.${user ? "auth" : "unauth"}`)}
-          subtitle={user && user.displayName ? t("header.user", { user: user.displayName }) : t("header.guest")}
-        />
-        <WeeklyCalendar />
-        <WorkoutCardSection />
-        <MotivationalBanner
-          records={lastWeekRecords}
-          lastWeekHistory={lastWeekHistory}
-          prevWeekHistory={prevWeekHistory}
-        />
-        <QuickStats lastWeekHistory={lastWeekHistory} lastWeekRecords={lastWeekRecords} isLoading={isLoadingPrevWeekHistory || isLoadingRecords}/>
-        <QuickWorkout/>
-      </div>
-    </>
+    <div className="flex flex-col gap-4 pb-4">
+      <WeeklyCalendar />
+      <WorkoutCardSection />
+      <MotivationalBanner
+        records={lastWeekRecords}
+        lastWeekHistory={lastWeekHistory}
+        prevWeekHistory={prevWeekHistory}
+      />
+      <QuickStats
+        lastWeekHistory={lastWeekHistory}
+        lastWeekRecords={lastWeekRecords}
+        isLoading={isLoadingPrevWeekHistory || isLoadingRecords}
+      />
+      <QuickWorkout />
+    </div>
   );
 }

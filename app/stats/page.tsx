@@ -30,11 +30,6 @@ export default function Stats() {
 
   return (
     <div className="flex flex-col gap-4 pb-4">
-      <Header
-        title={t("title")}
-        subtitle={t("subtitle")}
-      />
-
       <Tabs
         items={tabItems}
         activeTab={activeTab}

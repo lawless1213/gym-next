@@ -161,7 +161,7 @@
       "invalid_file_type": "Invalid file type"
     }
   },
-  "HomePage": {
+  "home": {
     "header": {
       "welcome": {
         "auth": "welcome back",
@@ -185,7 +185,7 @@
       "prsLabel": "PRs"
     }
   },
-  "Library": {
+  "library": {
     "title": "Knowledge base",
     "subtitle": "Your exercises and routines",
     "tabs": {
@@ -207,7 +207,7 @@
       "buttonAdd": "New routine"
     }
   },
-  "History": {
+  "history": {
     "title": "History",
     "subtitle": "Your workout journey",
     "summary": {

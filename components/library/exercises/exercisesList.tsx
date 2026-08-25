@@ -16,7 +16,7 @@ export default function ExercisesList({
   hasMore,
   handleLoadMore,
 }: ExercisesListProps) {
-  const t = useTranslations("Library.exercises");
+  const t = useTranslations("library.exercises");
 
   return (
     <div className="space-y-6 mt-6 max-md:-mx-4">

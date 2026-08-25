@@ -13,7 +13,7 @@ import { useAuth } from "../../hooks/useAuth";
 type LibraryTab = "exercise" | "routine";
 
 export default function LibraryScreen() {
-  const t = useTranslations("Library");
+  const t = useTranslations("library");
   const [activeTab, setActiveTab] = useState<LibraryTab>("exercise");
 
   const tabItems = [
@@ -30,13 +30,7 @@ export default function LibraryScreen() {
   ];
 
   return (
-    <>
       <div className="flex flex-col gap-4 pb-4">
-        <Header
-          title={t("title")}
-          subtitle={t("subtitle")}
-        />
-
         <Tabs
           items={tabItems}
           activeTab={activeTab}
@@ -44,6 +38,5 @@ export default function LibraryScreen() {
           {activeTab === "exercise" ? <Exercises /> : <Routines />}
         </Tabs>
       </div>
-    </>
   );
 }

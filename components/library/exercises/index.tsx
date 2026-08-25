@@ -10,7 +10,7 @@ import CustomExercises from "./custom/customExercises";
 type ExerciseTab = "common" | "custom";
 
 export default function Exercises() {
-  const t = useTranslations("Library");
+  const t = useTranslations("library");
 
   const tabItems = [
     {

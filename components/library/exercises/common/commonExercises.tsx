@@ -12,7 +12,7 @@ import ExercisesList from "../exercisesList";
 const ITEMS_PER_PAGE = 10;
 
 export default function CommonExercises() {
-  const t = useTranslations("Library.exercises");
+  const t = useTranslations("library.exercises");
   const locale = useLocale();
 
   const [searchQuery, setSearchQuery] = useState("");

@@ -7,7 +7,7 @@ import { useModal } from "@/components/modals/modal-store";
 import ButtonAdd from "@/components/shared/ButtonAdd";
 
 export default function QuickWorkout() {
-  const t = useTranslations("HomePage");
+  const t = useTranslations("home");
   const tQuickWorkout = useTranslations("workout.confirmQuickStart");
   const { open, confirm } = useModal();
   const { user } = useAuth();

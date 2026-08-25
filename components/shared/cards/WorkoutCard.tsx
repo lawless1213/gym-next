@@ -12,7 +12,7 @@ interface WorkoutCardProps {
 }
 
 export function WorkoutCard({ routine }: WorkoutCardProps) {
-  const t = useTranslations("HomePage.workoutCard");
+  const t = useTranslations("home.workoutCard");
   const locale = useLocale() as Locale;
   const { open } = useModal();
 

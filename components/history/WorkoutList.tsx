@@ -24,7 +24,7 @@ const HistorySkeleton = (
 );
 
 export default function WorkoutList({ history, loading }: WorkoutListProps) {
-  const t = useTranslations("History");
+  const t = useTranslations("history");
 
   return (
     <div className="space-y-3">

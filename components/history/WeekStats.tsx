@@ -12,7 +12,7 @@ interface WeekStatsProps {
 }
 
 export default function WeekStats({history, loading} :WeekStatsProps) {
-  const t = useTranslations("History");
+  const t = useTranslations("history");
 
   const weeklyVolume = history.reduce((total, workout) => total + (workout.volume ?? 0), 0);
 

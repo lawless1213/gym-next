@@ -8,7 +8,7 @@ import WeekStats from "@/components/history/WeekStats";
 import WorkoutList from "@/components/history/WorkoutList";
 
 export default function History() {
-  const t = useTranslations("History");
+  const t = useTranslations("history");
   const { user, loading: isUserLoading } = useAuth();
   const userId = user?.uid;
 
@@ -17,10 +17,6 @@ export default function History() {
 
   return (
     <div className="flex flex-col gap-4 pb-4">
-      <Header
-        title={t("title")}
-        subtitle={t("subtitle")}
-      />
       <WeekStats history={history} loading={loading}/>
       <WorkoutList history={history} loading={loading}/>
     </div>

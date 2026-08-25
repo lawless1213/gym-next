@@ -12,18 +12,21 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/Tooltip
 import { Button } from "@/components/ui/Button";
 
 type HeaderProps = {
-  title: string;
-  subtitle: string;
+  page: string;
 };
 
-export function Header({ title, subtitle }: HeaderProps) {
+export function Header({ page }: HeaderProps) {
   const t = useTranslations("components.header");
+  const tPages = useTranslations();
   const tNotification = useTranslations("notification");
   const { open } = useModal();
   const locale = useLocale();
   const { user, logout } = useAuth();
   const { mounted, isDark, toggleTheme } = useAppTheme();
   const [pendingLocaleChange, setPendingLocaleChange] = useState(false);
+
+  const title = page === "home" ? (user && user.displayName ? tPages("home.header.user", { user: user.displayName }) : t("header.guest")) : tPages(`${page}.title`);
+  const subtitle = page === "home" ? (tPages(`home.header.welcome.${user ? "auth" : "unauth"}`)) : tPages(`${page}.subtitle`);
 
   const handleLanguageChange = () => {
     const newLocale = locale === "uk" ? "en" : "uk";
@@ -82,10 +85,10 @@ export function Header({ title, subtitle }: HeaderProps) {
   ];
 
   return (
-    <header className="flex items-center justify-between gap-2">
+    <header className="flex items-center justify-between gap-2 sticky top-0 z-30 bg-card p-4">
       <div className="space-y-1">
-        <h1 className="text-md font-bold text-foreground sm:text-2xl">{subtitle}</h1>
-        <p className="text-xs text-muted-foreground sm:text-sm">{title}</p>
+        <h1 className="text-md font-bold text-foreground sm:text-2xl">{title}</h1>
+        <p className="text-xs text-muted-foreground sm:text-sm">{subtitle}</p>
       </div>
 
       <div className="flex gap-1">

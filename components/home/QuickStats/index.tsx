@@ -14,7 +14,7 @@ type QuickStatsProps = {
 };
 
 export default function QuickStats({lastWeekHistory, lastWeekRecords, isLoading}:QuickStatsProps) {
-  const t = useTranslations("HomePage");
+  const t = useTranslations("home");
 
   return (
     <SkeletonSwitcher

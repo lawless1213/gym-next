@@ -14,7 +14,7 @@ interface RoutinesListProps {
 }
 
 export default function RoutinesList( {routines}: RoutinesListProps ) {
-  const t = useTranslations("Library.routines");
+  const t = useTranslations("library.routines");
   const { open } = useModal();
 
   return routines.length === 0 ? (

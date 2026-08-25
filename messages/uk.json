@@ -161,7 +161,7 @@
       "invalid_file_type": "Оберіть файл відповідного типу"
     }
   },
-  "HomePage": {
+  "home": {
     "header": {
       "welcome": {
         "auth": "з поверненням",
@@ -186,7 +186,7 @@
     }
   },
 
-  "Library": {
+  "library": {
     "title": "База знань",
     "subtitle": "Твої вправи та програми",
     "tabs": {
@@ -209,7 +209,7 @@
     }
   },
 
-  "History": {
+  "history": {
     "title": "Історія",
     "subtitle": "Твій шлях тренувань",
     "summary": {

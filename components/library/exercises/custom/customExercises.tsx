@@ -15,7 +15,7 @@ import { useModal } from "@/components/modals/modal-store";
 const ITEMS_PER_PAGE = 10;
 
 export default function CustomExercises() {
-  const t = useTranslations("Library.exercises");
+  const t = useTranslations("library.exercises");
   const locale = useLocale();
   const { user } = useAuth();
   const userId = user?.uid;

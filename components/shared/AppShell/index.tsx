@@ -9,7 +9,7 @@ import LoadingScreen from "@/components/shared/LoadingScreen";
 import { BottomNav } from "@/components/shared/BottomNav";
 import { getNavLinks, navLinks } from "@/data/navManu";
 import { Toaster } from "@/components/shared/Toaster/Toaster";
-
+import { Header } from "../Header";
 
 let prevPathname = "";
 let currentDir = 1;
@@ -25,15 +25,11 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const { loading, user } = useAuth();
   const pathname = usePathname();
   const router = useRouter();
+  const pageKey = pathname.split("/")[1] || "home";
 
-  const routes = useMemo(
-    () => getNavLinks(!!user).map((n) => n.link),
-    [user],
-  );
+  const routes = useMemo(() => getNavLinks(!!user).map((n) => n.link), [user]);
 
-  const isProtectedRoute = navLinks.some(
-    (item) => item.link === pathname && item.loginRequired,
-  );
+  const isProtectedRoute = navLinks.some((item) => item.link === pathname && item.loginRequired);
 
   useEffect(() => {
     if (!loading && !user && isProtectedRoute) {
@@ -67,12 +63,13 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         <div
           key="app"
           className="flex min-h-screen flex-col max-w-[1920px] w-full mx-auto">
-          <Toaster/>
+          <Header page={pageKey} />
+          <Toaster />
           <BottomNav />
           <main
             {...handlers}
             style={{ touchAction: "pan-y" }}
-            className="min-h-0 flex-1 overflow-y-auto p-4 pb-30">
+            className="min-h-0 flex-1 overflow-y-auto px-4 pb-18 flex flex-col gap-3 relative">
             <motion.div
               key={pathname}
               initial={{ x: `${30 * currentDir}%`, opacity: 0 }}
@@ -82,6 +79,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
               {children}
             </motion.div>
           </main>
+          
         </div>
       )}
     </AnimatePresence>

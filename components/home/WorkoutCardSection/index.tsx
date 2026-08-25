@@ -13,7 +13,7 @@ import { useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 
 export function WorkoutCardSection() {
-  const t = useTranslations("HomePage");
+  const t = useTranslations("home");
   const [nextRoutine, setNextRoutine] = useState<Routine | null>(null);
   const { user, loading: isUserLoading } = useAuth();
   const userId = user?.uid;
