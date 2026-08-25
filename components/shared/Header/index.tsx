@@ -85,7 +85,7 @@ export function Header({ page }: HeaderProps) {
   ];
 
   return (
-    <header className="flex items-center justify-between gap-2 sticky top-0 z-30 bg-card p-4">
+    <header className="flex items-center justify-between gap-2 sticky top-0 z-30 border-b border-border bg-card/95 p-4">
       <div className="space-y-1">
         <h1 className="text-md font-bold text-foreground sm:text-2xl">{title}</h1>
         <p className="text-xs text-muted-foreground sm:text-sm">{subtitle}</p>

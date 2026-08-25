@@ -10,6 +10,7 @@ import { BottomNav } from "@/components/shared/BottomNav";
 import { getNavLinks, navLinks } from "@/data/navManu";
 import { Toaster } from "@/components/shared/Toaster/Toaster";
 import { Header } from "../Header";
+import { NavItem } from "@/types/navMenu";
 
 let prevPathname = "";
 let currentDir = 1;
@@ -23,13 +24,13 @@ function getDirection(from: string, to: string, routes: string[]) {
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
   const { loading, user } = useAuth();
-  const pathname = usePathname();
+  const pathname = usePathname() ?? "/";
   const router = useRouter();
   const pageKey = pathname.split("/")[1] || "home";
 
-  const routes = useMemo(() => getNavLinks(!!user).map((n) => n.link), [user]);
+  const routes = useMemo(() => getNavLinks(!!user).map((n: NavItem) => n.link).filter((l): l is string => !!l), [user]);
 
-  const isProtectedRoute = navLinks.some((item) => item.link === pathname && item.loginRequired);
+  const isProtectedRoute = navLinks.some((item: NavItem) => item.link === pathname && item.loginRequired);
 
   useEffect(() => {
     if (!loading && !user && isProtectedRoute) {
