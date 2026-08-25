@@ -1,9 +1,9 @@
-import { Locale } from "next-intl";
+import type { LocalizedText } from "@/types/common";
 
 export interface Exercise {
   id: string;
-  name: string;
-  description: string;
+  name: LocalizedText;
+  description: LocalizedText;
   muscleGroup: string;
   imageUrl: string;
   isCustom: boolean;
@@ -11,7 +11,7 @@ export interface Exercise {
 
 export interface RoutinesExercise {
   exerciseId: string;
-  name: string;
+  name: LocalizedText;
   muscleGroup: string;
   isCustom: boolean;
 }

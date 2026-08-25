@@ -90,13 +90,6 @@ export default function RoutineCard(routine: Routine) {
             </p>
             <div className="mt-2 flex flex-wrap gap-1">
               {!routine.exercises.length && <span className="rounded-md bg-secondary px-2 py-0.5 text-xs text-muted-foreground">{t("emptyExercises")}</span>}
-              {routine.exercises.slice(0, 3).map((ex) => (
-                <span
-                  key={ex.id}
-                  className="rounded-md bg-secondary px-2 py-0.5 text-xs text-muted-foreground">
-                  {ex.name}
-                </span>
-              ))}
               {routine.exercises.length > 3 && <span className="rounded-md bg-secondary px-2 py-0.5 text-xs text-muted-foreground">+{routine.exercises.length - 3}</span>}
             </div>
           </div>

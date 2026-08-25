@@ -1,5 +1,6 @@
 "use client";
 
+import { getLocalizedText } from "@/lib/utils";
 import { PersonalRecord } from "@/types";
 import { IconTrophy } from "@tabler/icons-react";
 import { AnimatePresence, motion } from "motion/react";
@@ -14,6 +15,7 @@ export default function RecordCard({ record }: { record: PersonalRecord }) {
   const { exerciseName, date, weight, reps, prevWeight, prevReps } = record;
   const gain = prevWeight ? weight - prevWeight : null;
   const isNew = Date.now() - date.toDate().getTime() < 7 * 24 * 60 * 60 * 1000;
+  const title = getLocalizedText(exerciseName, locale as any);
 
   return (
     <div
@@ -26,7 +28,7 @@ export default function RecordCard({ record }: { record: PersonalRecord }) {
         </div>
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
-            <span className="text-sm font-semibold truncate">{exerciseName}</span>
+            <span className="text-sm font-semibold truncate">{title}</span>
             {isNew && <span className="text-[10px] font-semibold bg-primary/15 text-primary rounded px-1.5 py-0.5 shrink-0">{t('new')}</span>}
           </div>
 

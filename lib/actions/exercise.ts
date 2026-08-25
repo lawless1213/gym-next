@@ -1,14 +1,21 @@
 import { db, storage } from "@/lib/config/firebaseConfig";
 import { collection, addDoc, serverTimestamp, doc, deleteDoc, getDocs, arrayRemove, writeBatch, updateDoc } from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
+import type { LocalizedText } from "@/types/common";
+
+function normalizeLocalizedText(value: string | LocalizedText | undefined): LocalizedText {
+  if (!value) return { en: "", uk: "" };
+  if (typeof value === "string") return { en: value, uk: value };
+  return value;
+}
 
 export async function createUserExercise(
   userId: string,
   data: {
     photo?: File | string;
-    title: string;
+    title: string | LocalizedText;
     groups: string[];
-    description: string;
+    description: string | LocalizedText;
   },
 ) {
   let imageUrl: string | null = null;
@@ -25,9 +32,9 @@ export async function createUserExercise(
   const exercisesRef = collection(db, "users", userId, "exercises");
 
   const docRef = await addDoc(exercisesRef, {
-    name: data.title,
+    name: normalizeLocalizedText(data.title),
     muscleGroup: data.groups.join(", "),
-    description: data.description,
+    description: normalizeLocalizedText(data.description),
     imageUrl,
     createdAt: serverTimestamp(),
   });
@@ -40,9 +47,9 @@ export async function editUserExecise(
   exerciseId: string,
   data: {
     photo?: File | string;
-    title: string;
+    title: string | LocalizedText;
     groups: string[];
-    description: string;
+    description: string | LocalizedText;
   },
 ) {
   let imageUrl: string | null = null;
@@ -59,9 +66,9 @@ export async function editUserExecise(
   const exerciseRef = doc(db, "users", userId, "exercises", exerciseId);
 
   await updateDoc(exerciseRef, {
-    name: data.title,
+    name: normalizeLocalizedText(data.title),
     muscleGroup: data.groups.join(", "),
-    description: data.description,
+    description: normalizeLocalizedText(data.description),
     imageUrl,
   });
 

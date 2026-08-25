@@ -2,9 +2,10 @@
 
 import { useState, useMemo } from "react";
 import { IconSearch } from "@tabler/icons-react";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useCommonExercises } from "@/hooks/useServices/useExercises";
 import SkeletonSwitcher from "@/components/ui/Skeleton/SkeletonSwitcher";
+import { getLocalizedText } from "@/lib/utils";
 import { ExercisesSkeleton } from "../exercisesSkeleton";
 import ExercisesList from "../exercisesList";
 
@@ -12,6 +13,7 @@ const ITEMS_PER_PAGE = 10;
 
 export default function CommonExercises() {
   const t = useTranslations("Library.exercises");
+  const locale = useLocale();
 
   const [searchQuery, setSearchQuery] = useState("");
   const [displayLimit, setDisplayLimit] = useState(ITEMS_PER_PAGE);
@@ -22,8 +24,8 @@ export default function CommonExercises() {
     if (!searchQuery) return exercises;
     const query = searchQuery.toLowerCase().trim();
 
-    return exercises.filter((ex) => ex.name?.toLowerCase().includes(query) || ex.muscleGroup?.toLowerCase().includes(query));
-  }, [searchQuery, exercises]);
+    return exercises.filter((ex) => getLocalizedText(ex.name, locale as any).toLowerCase().includes(query) || ex.muscleGroup?.toLowerCase().includes(query));
+  }, [searchQuery, exercises, locale]);
 
   const visibleExercises = useMemo(() => {
     return filteredExercises.slice(0, displayLimit);

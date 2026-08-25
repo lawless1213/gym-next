@@ -1,11 +1,12 @@
 "use client";
 
-import { Exercise } from "@/types";
+
 import { IconBarbell } from "@tabler/icons-react";
-import { cn } from "@/lib/utils";
+import { cn, getLocalizedText } from "@/lib/utils";
 import Image from "next/image";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import type { ReactNode, MouseEventHandler } from "react";
+import { Exercise } from "@/types";
 
 export type ExerciseCardData = Pick<Exercise, "name" | "muscleGroup"> & Partial<Pick<Exercise, "imageUrl" | "isCustom">>;
 
@@ -22,6 +23,8 @@ export interface ExerciseCardProps {
 export function ExerciseCard({ exercise, className, trailing, onClick, disabled = false, preview, as }: ExerciseCardProps) {
   const t = useTranslations("components.exerciseCard");
   const tGroups = useTranslations("components.muscleGroups");
+  const locale = useLocale();
+  const title = getLocalizedText(exercise.name, locale as any);
   const Component = as ?? (onClick ? "button" : "div");
   const isButton = Component === "button";
 
@@ -37,7 +40,7 @@ export function ExerciseCard({ exercise, className, trailing, onClick, disabled 
             width={100}
             height={100}
             src={exercise.imageUrl}
-            alt={exercise.name}
+            alt={title}
             className="h-full w-full object-contain"
           />
         ) : (
@@ -49,7 +52,7 @@ export function ExerciseCard({ exercise, className, trailing, onClick, disabled 
 
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-2">
-          <h3 className="truncate font-medium text-foreground">{exercise.name}</h3>
+          <h3 className="truncate font-medium text-foreground">{title}</h3>
           {!preview && exercise.isCustom && <span className="shrink-0 rounded-md bg-primary/20 px-1.5 py-0.5 text-[10px] font-semibold uppercase text-primary">{t("custom")}</span>}
           {preview && <span className="shrink-0 rounded-md bg-foreground/20 px-1.5 py-0.5 text-[10px] font-semibold uppercase text-foreground">{t("preview")}</span>}
         </div>

@@ -5,7 +5,8 @@ import { generateStructured } from "./client";
 import { getCommonExercises, getUserExercises } from "@/lib/services/exercises";
 import { MUSCLE_GROUPS } from "@/data/exercise";
 import type { Exercise } from "@/types";
-import { useLocale } from "next-intl";
+import { getLocalizedText, toLocalizedText } from "@/lib/utils";
+import { Locale } from "next-intl";
 
 type MuscleGroup = (typeof MUSCLE_GROUPS)[number];
 
@@ -95,7 +96,7 @@ export async function generateAiRoutine(
   }
 
   const exercises = result.data.routine.exercises.map((aiEx) => {
-    const match = !aiEx.isNew ? findExistingMatch(aiEx.name, relevantExercises) : undefined;
+    const match = !aiEx.isNew ? findExistingMatch(aiEx.name, relevantExercises, input.locale as Locale) : undefined;
 
     if (match) {
       return match;
@@ -103,10 +104,10 @@ export async function generateAiRoutine(
 
     return {
       id: `temp-${randomUUID()}`,
-      name: aiEx.name,
+      name: toLocalizedText(aiEx.name),
       muscleGroup: aiEx.muscleGroup,
       isCustom: true,
-      description: aiEx.description ?? "",
+      description: toLocalizedText(aiEx.description ?? ""),
       imageUrl: "",
     } satisfies Exercise;
   });
@@ -144,10 +145,10 @@ function normalize(name: string): string {
   return name.toLowerCase().trim().replace(/\s+/g, " ");
 }
 
-function findExistingMatch(name: string, existing: Exercise[]): Exercise | undefined {
+function findExistingMatch(name: string, existing: Exercise[], locale: Locale = "uk"): Exercise | undefined {
   const n = normalize(name);
   return existing.find((ex) => {
-    const e = normalize(ex.name);
+    const e = normalize(getLocalizedText(ex.name, locale));
     return n === e || n.includes(e) || e.includes(n);
   });
 }
@@ -157,7 +158,7 @@ function buildPrompt(input: RoutineInput, existing: Exercise[]): string {
     existing.length > 0
       ? `
 Існуючі вправи користувача, які МОЖНА і треба пріоритетно використовувати (якщо підходять під параметри):
-${existing.map((ex) => `- ${ex.name} (${ex.muscleGroup})`).join("\n")}
+${existing.map((ex) => `- ${getLocalizedText(ex.name, input.locale as Locale)} (${ex.muscleGroup})`).join("\n")}
 
 Для таких вправ виставляй isNew=false і НЕ пиши description — просто вкажи точну назву як у списку вище.`
       : "";

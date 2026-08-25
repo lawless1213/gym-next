@@ -1,5 +1,6 @@
 import type { Timestamp } from "firebase/firestore";
 import type { Exercise } from "./exercise";
+import type { LocalizedText } from "./common";
 
 export interface WorkoutSet {
   reps: number;
@@ -11,8 +12,8 @@ export type WorkoutExercise = Exercise & { sets: WorkoutSet[] };
 
 export interface QuickWorkoutExercise {
   id: string;
-  name: string;
-  description?: string;
+  name: LocalizedText;
+  description?: LocalizedText;
   muscleGroup?: string;
   imageUrl?: string;
   isCustom?: boolean;

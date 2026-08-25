@@ -5,6 +5,7 @@ import { randomUUID } from "crypto";
 import { generateStructured } from "./client";
 import { getCommonExercises, getUserExercises } from "@/lib/services/exercises";
 import { MUSCLE_GROUPS } from "@/data/exercise";
+import { getLocalizedText, toLocalizedText } from "@/lib/utils";
 
 
 type MuscleGroup = (typeof MUSCLE_GROUPS)[number];
@@ -57,7 +58,7 @@ const MAX_RETRIES = 2;
 export async function generateAiExercise(input: ExerciseInput): Promise<{ success: true; data: Exercise; summary: string } | { success: false; error: string }> {
   const allExercises = await getAllExercises(input.userId);
   const relevantExercises = filterRelevantExercises(allExercises, input.groups);
-  const existingNames = relevantExercises.map((ex) => ex.name);
+  const existingNames = relevantExercises.map((ex) => getLocalizedText(ex.name, input.locale as any));
 
   for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
     const prompt = buildPrompt(input, existingNames, attempt > 0);
@@ -145,8 +146,8 @@ ${exclusionBlock}
 function toExercise(raw: AiRawResponse["exercise"]): Exercise {
   return {
     id: randomUUID(),
-    name: raw.name,
-    description: raw.description,
+    name: toLocalizedText(raw.name),
+    description: toLocalizedText(raw.description),
     muscleGroup: raw.muscleGroup,
     imageUrl: "",
     isCustom: true,
