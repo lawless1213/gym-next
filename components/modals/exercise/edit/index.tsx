@@ -68,8 +68,8 @@ export function ExerciseEditModal() {
       await editUserExecise(user.uid, exercise.id, {
         groups: data.groups,
         photo: photoToSave,
-        title: toLocalizedText(data.title),
-        description: toLocalizedText(data.description),
+        title: data.title,
+        description: data.description,
       });
 
       queryClient.invalidateQueries({ queryKey: ["exercises", user.uid] });
