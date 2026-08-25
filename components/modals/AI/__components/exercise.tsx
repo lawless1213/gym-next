@@ -22,9 +22,10 @@ import { ExerciseCard } from "@/components/shared/cards/ExerciseCard";
 import { useLocale, useTranslations } from "next-intl";
 import { TypewriterText } from "@/components/ui/TypewritterText";
 import { AIExerciseFormData, AIExerciseSchema } from "@/lib/schemas";
+import { getLocalizedText, toLocalizedText, type Locale } from "@/types/common";
 
 export function AiExerciseContent() {
-  const locale = useLocale();
+  const locale = useLocale() as Locale;
   const tComponents = useTranslations("components");
   const t = useTranslations("ai.modal");
   const { close, confirm } = useModal();
@@ -71,7 +72,7 @@ export function AiExerciseContent() {
       const typingDuration = result.summary.length * speed;
 
       const ok = await confirm({
-        title: result.data.name,
+        title: getLocalizedText(result.data.name, locale),
         description: (
           <TypewriterText
             text={result.summary}
@@ -94,9 +95,9 @@ export function AiExerciseContent() {
 
       if (ok) {
         await createUserExercise(user.uid, {
-          title: result.data.name,
+          title: toLocalizedText(getLocalizedText(result.data.name, locale)),
           groups: [result.data.muscleGroup],
-          description: result.data.description,
+          description: toLocalizedText(getLocalizedText(result.data.description, locale)),
         });
         queryClient.invalidateQueries({ queryKey: ["exercises", user.uid] });
         toast.success(t("success"));

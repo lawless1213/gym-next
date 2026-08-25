@@ -12,10 +12,11 @@ import { toast } from "sonner";
 import { useModal } from "@/components/modals/modal-store";
 import { ExerciseCard } from "@/components/shared/cards/ExerciseCard";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/Tooltip";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Button } from "@/components/ui/Button";
 import MuscleSchema from "@/components/shared/MuscleSchema";
 import { MUSCLE_GROUPS } from "@/data/exercise";
+import { getLocalizedText, type Locale } from "@/types/common";
 
 interface ExerciseListItemProps {
   exercise: Exercise;
@@ -23,6 +24,7 @@ interface ExerciseListItemProps {
 
 export function ExerciseListItem({ exercise }: ExerciseListItemProps) {
   const t = useTranslations("components.exerciseCard");
+  const locale = useLocale() as Locale;
   const { confirm, open } = useModal();
   const { user } = useAuth();
   const queryClient = useQueryClient();
@@ -53,7 +55,7 @@ export function ExerciseListItem({ exercise }: ExerciseListItemProps) {
       setIsEditable(false);
 
       const ok = await confirm({
-        title: exercise.name,
+        title: getLocalizedText(exercise.name, locale),
         description: t("delete"),
       });
 
@@ -143,7 +145,7 @@ export function ExerciseListItem({ exercise }: ExerciseListItemProps) {
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.25, ease: "easeInOut" }}>
             <div className="pb-3 px-3 flex flex-col items-center gap-4">
-              <p className="text-xs text-muted-foreground text-center">{exercise.description}</p>
+              <p className="text-xs text-muted-foreground text-center">{getLocalizedText(exercise.description, locale)}</p>
               <MuscleSchema
                 size="sm"
                 clickable={false}

@@ -4,8 +4,9 @@ import { useModal } from  "@/components/modals/modal-store";
 import { Routine } from "@/types";
 import { IconChecks, IconX, IconMenu2, IconEdit, IconTrash, IconPlayerPlayFilled } from "@tabler/icons-react";
 import { useQueryClient } from "@tanstack/react-query";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
+import { getLocalizedText, type Locale } from "@/types/common";
 import { useSwipeable } from "react-swipeable";
 import { toast } from "sonner";
 import { AnimatePresence, motion } from "motion/react";
@@ -15,6 +16,7 @@ import { Button } from "../../ui/Button";
 
 export default function RoutineCard(routine: Routine) {
   const t = useTranslations("components.routineCard");
+  const locale = useLocale() as Locale;
   const { confirm, open } = useModal();
   const [isOpen, setIsOpen] = useState(false);
   const { user } = useAuth();

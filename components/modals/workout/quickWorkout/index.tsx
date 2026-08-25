@@ -15,10 +15,12 @@ import { WorkoutHeader } from "../_components/workoutHeader";
 import { WorkoutFooter } from "../_components/workoutFooter";
 import { useWorkoutSessionPersistence } from "@/hooks/workout/useWorkoutSessionPersistence";
 import { cn } from "@/lib/utils";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
+import { getLocalizedText, toLocalizedText, type Locale } from "@/types/common";
 
 export function QuickWorkoutModal() {
   const t = useTranslations("workout");
+  const locale = useLocale() as Locale;
   const { user } = useAuth();
   const { confirm, close } = useModal();
   const queryClient = useQueryClient();
@@ -32,7 +34,7 @@ export function QuickWorkoutModal() {
     exercises: [
       {
         id: crypto.randomUUID(),
-        name: "Quick Exercise 1",
+        name: toLocalizedText("Quick Exercise 1"),
         isQuick: true,
         sets: [{ weight: 0, reps: 0, completed: false }],
       },
@@ -50,7 +52,7 @@ export function QuickWorkoutModal() {
       const name = exerciseIdOrName.trim().length === 0 ? `Quick Exercise ${workout.exercises.length + 1}` : exerciseIdOrName.trim();
       setWorkout((prev) => ({
         ...prev,
-        exercises: [...prev.exercises, { id: crypto.randomUUID(), name, isQuick: true, sets: [{ weight: 0, reps: 0, completed: false }] }],
+        exercises: [...prev.exercises, { id: crypto.randomUUID(), name: toLocalizedText(name), isQuick: true, sets: [{ weight: 0, reps: 0, completed: false }] }],
       }));
       return;
     }
@@ -130,7 +132,7 @@ export function QuickWorkoutModal() {
         ))}
         <Select
           input={{
-            options: exercises.filter((exercise) => !workout.exercises.some((w) => w.id === exercise.id)).map((exercise) => ({ value: exercise.id, label: exercise.name })),
+            options: exercises.filter((exercise) => !workout.exercises.some((w) => w.id === exercise.id)).map((exercise) => ({ value: exercise.id, label: getLocalizedText(exercise.name, locale) })),
             placeholder: "Виберіть чи введіть назву",
             allowCustom: true,
             onChange: handleAddExercise,

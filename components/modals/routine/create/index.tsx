@@ -17,14 +17,16 @@ import { toast } from "sonner";
 import { createUserRoutine } from "@/lib/actions/routine";
 import { useQueryClient } from "@tanstack/react-query";
 import { ExerciseCard } from "@/components/shared/cards/ExerciseCard";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { RoutineFormData, routineSchema } from "@/lib/schemas";
 import { MUSCLE_GROUPS } from "@/data/exercise";
+import { getLocalizedText, type Locale } from "@/types/common";
 
 const colors = ["#CCFF00", "#2563EB", "#F97316", "#EF4444", "#8B5CF6", "#10B981"];
 
 export function RoutineCreateModal() {
   const t = useTranslations("routine.modal");
+  const locale = useLocale() as Locale;
   const tForms = useTranslations("components.forms");
   const tGroups = useTranslations("components.muscleGroups");
   const { user } = useAuth();
@@ -138,7 +140,7 @@ export function RoutineCreateModal() {
                       <IconGridDots className="h-5 w-5 text-muted-foreground" />
                       <span className="flex h-6 w-6 items-center justify-center rounded-full bg-muted text-xs font-bold text-muted-foreground">{index + 1}</span>
                       <div className="flex-1">
-                        <p className="font-medium text-foreground">{field.name}</p>
+                        <p className="font-medium text-foreground">{getLocalizedText(field.name, locale)}</p>
                         <div className="text-xs text-muted-foreground flex gap-1">
                           {groups.map((group) => (
                             <span>{tGroups(group.trim())}</span>

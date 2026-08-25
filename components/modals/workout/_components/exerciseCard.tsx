@@ -5,8 +5,9 @@ import { WorkoutExercise, WorkoutSet, PersonalRecord } from "@/types";
 import { cn } from "@/lib/utils";
 import { IconBarbell, IconCheck, IconChevronDown, IconChevronUp, IconMinus, IconPlus, IconTrophy } from "@tabler/icons-react";
 import { SetInput } from "./setInput";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Button } from "@/components/ui/Button";
+import { getLocalizedText, type Locale } from "@/types/common";
 
 interface ExerciseCardProps {
   workoutExercise: WorkoutExercise;
@@ -18,8 +19,10 @@ interface ExerciseCardProps {
 
 export function ExerciseCard({ workoutExercise, record, onUpdateSet, onAddSet, onRemoveSet }: ExerciseCardProps) {
   const t = useTranslations("workout.modal.exercise");
+  const locale = useLocale() as Locale;
   const [expanded, setExpanded] = useState(true);
   const { name, muscleGroup, sets } = workoutExercise;
+  const displayName = getLocalizedText(name, locale);
 
   const completedSets = sets.filter((s) => s.completed).length;
   const totalSets = sets.length;
@@ -43,7 +46,7 @@ export function ExerciseCard({ workoutExercise, record, onUpdateSet, onAddSet, o
         </div>
 
         <div className="flex-1">
-          <h3 className="font-semibold text-foreground">{name}</h3>
+          <h3 className="font-semibold text-foreground">{displayName}</h3>
           <p className="text-sm text-muted-foreground">{muscleGroup}</p>
           <div className="mt-2 h-1 w-full overflow-hidden rounded-full bg-secondary">
             <div

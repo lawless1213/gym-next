@@ -1,12 +1,14 @@
 import { IconClock, IconBarbell } from "@tabler/icons-react";
 import { useState } from "react";
 import { WorkoutSession as WorkoutSessionType } from "@/types";
-import { useTranslations } from "next-intl";
+import { getLocalizedText, type Locale } from "@/types/common";
+import { useLocale, useTranslations } from "next-intl";
 import { AnimatePresence, motion } from "motion/react";
 
 export default function WorkoutSessionCard(workout: WorkoutSessionType) {
   const t = useTranslations("History");
   const tMonth = useTranslations("components.month");
+  const locale = useLocale() as Locale;
   const [isOpen, setIsOpen] = useState(false);
 
   const seconds = (workout.startedAt as any)?.seconds;
@@ -61,7 +63,7 @@ export default function WorkoutSessionCard(workout: WorkoutSessionType) {
                 key={`${exercise.id}-${exerciseIndex}`}
                 className="flex flex-wrap items-center justify-between gap-2 py-2"
               >
-                <p className="shrink-0 text-sm font-medium">{exercise.name}</p>
+                <p className="shrink-0 text-sm font-medium">{getLocalizedText(exercise.name, locale)}</p>
                 <div className="flex flex-wrap gap-2">
                   {exercise.sets.map((set, setIndex) => (
                     <div

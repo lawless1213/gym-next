@@ -3,8 +3,9 @@
 import { Routine } from "@/types";
 import { IconPlayerPlayFilled, IconBarbell } from "@tabler/icons-react";
 import { Button } from "@/components/ui/Button";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { useModal } from  "@/components/modals/modal-store";
+import { getLocalizedText, type Locale } from "@/types/common";
 
 interface WorkoutCardProps {
   routine: Routine;
@@ -12,6 +13,7 @@ interface WorkoutCardProps {
 
 export function WorkoutCard({ routine }: WorkoutCardProps) {
   const t = useTranslations("HomePage.workoutCard");
+  const locale = useLocale() as Locale;
   const { open } = useModal();
 
   return (
@@ -39,7 +41,7 @@ export function WorkoutCard({ routine }: WorkoutCardProps) {
               <span
                 key={ex.id}
                 className="rounded-md bg-secondary px-2 py-0.5 text-xs text-foreground">
-                {ex.name}
+                {getLocalizedText(ex.name, locale)}
               </span>
             ))}
             {routine.exercises.length > 3 && <span className="rounded-md bg-secondary px-2 py-0.5 text-xs text-muted-foreground">+{routine.exercises.length - 3} more</span>}

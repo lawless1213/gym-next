@@ -5,6 +5,17 @@ export type Locale = (typeof LOCALES)[number];
 
 export type LocalizedText = Partial<Record<Locale, string>>;
 
+export function getLocalizedText(value: LocalizedText | string | undefined, locale: Locale = "uk"): string {
+  if (!value) return "";
+  if (typeof value === "string") return value;
+
+  return value[locale] ?? value.en ?? value.uk ?? Object.values(value)[0] ?? "";
+}
+
+export function toLocalizedText(value: string): LocalizedText {
+  return Object.fromEntries(LOCALES.map((locale) => [locale, value])) as LocalizedText;
+}
+
 export type MuscleGroup = (typeof MUSCLE_GROUPS)[number];
 
 export type Period = "week" | "month" | "all";

@@ -7,7 +7,7 @@ import { getUserRoutines } from "@/lib/services/routines";
 import { MUSCLE_GROUPS } from "@/data/exercise";
 import { weekDays } from "@/types";
 import type { Exercise, Routine, ScheduleMap } from "@/types";
-import { useLocale } from "next-intl";
+import { getLocalizedText, toLocalizedText, type Locale } from "@/types/common";
 
 type WeekDay = (typeof weekDays)[number];
 type MuscleGroup = (typeof MUSCLE_GROUPS)[number];
@@ -127,7 +127,7 @@ export async function generateAiSchedule(
 
   for (const aiDay of result.data.schedule) {
     if (restDays.includes(aiDay.day)) continue; // підстраховка, навіть якщо AI помилилась
-    const routine = resolveDay(aiDay, allExercises, existingRoutines);
+    const routine = resolveDay(aiDay, allExercises, existingRoutines, input.locale as Locale);
     schedule[aiDay.day] = [...schedule[aiDay.day], routine];
   }
 
@@ -139,7 +139,7 @@ export async function generateAiSchedule(
   return { success: true, data: schedule, summary: result.data.summary };
 }
 
-function resolveDay(aiDay: AiScheduleDay, allExercises: Exercise[], existingRoutines: Routine[]): Routine {
+function resolveDay(aiDay: AiScheduleDay, allExercises: Exercise[], existingRoutines: Routine[], locale: Locale = "uk"): Routine {
   const routineMatch = !aiDay.isNewRoutine ? findRoutineMatch(aiDay.routineName, existingRoutines) : undefined;
 
   if (routineMatch) {
@@ -152,15 +152,15 @@ function resolveDay(aiDay: AiScheduleDay, allExercises: Exercise[], existingRout
   }
 
   const exercises: Exercise[] = (aiDay.exercises ?? []).map((aiEx) => {
-    const match = !aiEx.isNew ? findExistingExerciseMatch(aiEx.name, allExercises) : undefined;
+    const match = !aiEx.isNew ? findExistingExerciseMatch(aiEx.name, allExercises, locale) : undefined;
     if (match) return match;
 
     return {
       id: `temp-${randomUUID()}`,
-      name: aiEx.name,
+      name: toLocalizedText(aiEx.name),
       muscleGroup: aiEx.muscleGroup,
       isCustom: true,
-      description: aiEx.description ?? "",
+      description: toLocalizedText(aiEx.description ?? ""),
       imageUrl: "",
     } satisfies Exercise;
   });
@@ -199,10 +199,10 @@ function normalize(name: string): string {
   return name.toLowerCase().trim().replace(/\s+/g, " ");
 }
 
-function findExistingExerciseMatch(name: string, existing: Exercise[]): Exercise | undefined {
+function findExistingExerciseMatch(name: string, existing: Exercise[], locale: Locale = "uk"): Exercise | undefined {
   const n = normalize(name);
   return existing.find((ex) => {
-    const e = normalize(ex.name);
+    const e = normalize(getLocalizedText(ex.name, locale));
     return n === e || n.includes(e) || e.includes(n);
   });
 }
@@ -234,7 +234,7 @@ ${existingRoutines.map((r) => `- "${r.name}": ${r.exercises.map((e) => e.name).j
     relevantExercises.length > 0
       ? `
 Існуючі окремі вправи користувача (використовуй їх при складанні НОВИХ рутин, якщо підходять):
-${relevantExercises.map((ex) => `- ${ex.name} (${ex.muscleGroup})`).join("\n")}`
+${relevantExercises.map((ex) => `- ${getLocalizedText(ex.name, input.locale as Locale)} (${ex.muscleGroup})`).join("\n")}`
       : "";
 
   const restDaysBlock =

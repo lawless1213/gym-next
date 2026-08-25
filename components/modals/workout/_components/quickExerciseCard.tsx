@@ -5,8 +5,9 @@ import { WorkoutExercise, WorkoutSet, PersonalRecord, QuickWorkoutExercise } fro
 import { cn } from "@/lib/utils";
 import { IconBarbell, IconCheck, IconChevronDown, IconChevronUp, IconMinus, IconPlus, IconTrophy, IconX } from "@tabler/icons-react";
 import { SetInput } from "./setInput";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { Button } from "@/components/ui/Button";
+import { getLocalizedText, type Locale } from "@/types/common";
 
 interface QuickExerciseCardProps {
   workoutExercise: QuickWorkoutExercise;
@@ -19,8 +20,10 @@ interface QuickExerciseCardProps {
 
 export function QuickExerciseCard({ workoutExercise, record, onUpdateSet, onAddSet, onRemoveSet, onRemoveExercise }: QuickExerciseCardProps) {
   const t = useTranslations("workout.modal.exercise");
+  const locale = useLocale() as Locale;
   const [expanded, setExpanded] = useState(true);
   const { name, muscleGroup, sets } = workoutExercise;
+  const displayName = getLocalizedText(name, locale);
 
   const completedSets = sets.filter((s) => s.completed).length;
   const totalSets = sets.length;
@@ -52,7 +55,7 @@ export function QuickExerciseCard({ workoutExercise, record, onUpdateSet, onAddS
 
         <div className="flex-1">
           <div className="flex gap-2 items-center">
-            <h3 className="flex-1 text-center font-semibold text-foreground">{name}</h3>
+            <h3 className="flex-1 text-center font-semibold text-foreground">{displayName}</h3>
           </div>
           <p className="text-sm text-muted-foreground">{muscleGroup}</p>
           <div className="mt-2 h-1 w-full overflow-hidden rounded-full bg-secondary">

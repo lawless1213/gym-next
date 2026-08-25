@@ -13,14 +13,16 @@ import { createUserExercise } from "@/lib/actions/exercise";
 import { useAuth } from "@/hooks/useAuth";
 import { useQueryClient } from "@tanstack/react-query";
 import { MUSCLE_GROUPS } from "@/data/exercise";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { ChipGroup } from "@/components/ui/form/chipGroup";
 import { ExerciseFormData, exerciseSchema } from "@/lib/schemas";
 import MuscleSchema from "@/components/shared/MuscleSchema";
+import { toLocalizedText, type Locale } from "@/types/common";
 
 export function ExerciseCreateModal() {
   const tComponents = useTranslations("components");
   const t = useTranslations("exercise.modal");
+  const locale = useLocale() as Locale;
   const { close } = useModal();
   const { user } = useAuth();
   const queryClient = useQueryClient();
@@ -46,7 +48,11 @@ export function ExerciseCreateModal() {
     try {
       if (!user) throw new Error("Not authenticated");
 
-      await createUserExercise(user.uid, data);
+      await createUserExercise(user.uid, {
+        ...data,
+        title: toLocalizedText(data.title),
+        description: toLocalizedText(data.description),
+      });
       queryClient.invalidateQueries({ queryKey: ["exercises", user.uid] });
       toast.success(t("success"));
       close();

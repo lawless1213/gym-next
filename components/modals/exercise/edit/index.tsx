@@ -14,14 +14,16 @@ import { useAuth } from "@/hooks/useAuth";
 import { useExerciseEditModal } from "@/hooks/useModals/useExerciseEditModal";
 import { useQueryClient } from "@tanstack/react-query";
 import { MUSCLE_GROUPS } from "@/data/exercise";
-import { useTranslations } from "next-intl";
+import { useLocale, useTranslations } from "next-intl";
 import { ChipGroup } from "@/components/ui/form/chipGroup";
 import { ExerciseFormData, exerciseSchema } from "@/lib/schemas";
 import MuscleSchema from "@/components/shared/MuscleSchema";
+import { getLocalizedText, toLocalizedText, type Locale } from "@/types/common";
 
 export function ExerciseEditModal() {
   const tComponents = useTranslations("components");
   const t = useTranslations("exercise.modal");
+  const locale = useLocale() as Locale;
   const { close, exercise } = useExerciseEditModal();
   const { user } = useAuth();
   const queryClient = useQueryClient();
@@ -48,11 +50,11 @@ export function ExerciseEditModal() {
     if (!exercise) return;
     reset({
       photo: exercise.imageUrl ?? undefined,
-      title: exercise.name,
-      description: exercise.description,
+      title: getLocalizedText(exercise.name, locale),
+      description: getLocalizedText(exercise.description, locale),
       groups: exercise.muscleGroup ? (exercise.muscleGroup.split(", ").filter(Boolean) as (typeof MUSCLE_GROUPS)[number][]) : [],
     });
-  }, [exercise, reset]);
+  }, [exercise, locale, reset]);
 
   const { ref: titleRef, ...titleRest } = register("title");
   const { ref: descriptionRef, ...descriptionRest } = register("description");
@@ -64,8 +66,10 @@ export function ExerciseEditModal() {
       const photoToSave = data.photo instanceof File ? data.photo : (exercise?.imageUrl ?? undefined);
 
       await editUserExecise(user.uid, exercise.id, {
-        ...data,
+        groups: data.groups,
         photo: photoToSave,
+        title: toLocalizedText(data.title),
+        description: toLocalizedText(data.description),
       });
 
       queryClient.invalidateQueries({ queryKey: ["exercises", user.uid] });
