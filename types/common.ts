@@ -1,4 +1,7 @@
 import { MUSCLE_GROUPS } from "@/data/exercise";
+import { LOCALES } from "@/i18n/locales";
+
+export type Locale = (typeof LOCALES)[number];
 
 export type MuscleGroup = (typeof MUSCLE_GROUPS)[number];
 

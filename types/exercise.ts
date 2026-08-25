@@ -1,3 +1,5 @@
+import { Locale } from "next-intl";
+
 export interface Exercise {
   id: string;
   name: string;
