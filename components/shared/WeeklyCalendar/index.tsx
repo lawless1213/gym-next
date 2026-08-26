@@ -185,9 +185,7 @@ export function WeeklyCalendar({ schedule }: WeeklyCalendarProps = {}) {
               {scheduleDays[weekDays[openCardIndex]].map((routine) => (
                 <RoutineCard
                   key={routine.id}
-                  {...routine}
-                  available={!isPreview && openCardIndex === todayIndex}
-                  editable={false}
+                  routine={{...routine, available: !isPreview && openCardIndex === todayIndex, editable:false}}
                 />
               ))}
               {!isPreview && (

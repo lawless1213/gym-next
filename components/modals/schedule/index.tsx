@@ -107,7 +107,7 @@ export function ScheduleEditModal() {
               key={routine.id}
               onClick={() => toggle(routine.id)}
               className="group flex items-center justify-between gap-1 cursor-pointer">
-              <RoutineCard {...routine} />
+              <RoutineCard routine={{...routine}} />
               <div className={`flex shrink-0 w-9 h-9 items-center justify-center rounded-full bg-card cursor-pointer border-2 border-solid ${isSelected(routine.id) ? "bg-primary" : "border-2 border-muted-foreground group-hover:border-primary transition-[0.2s]"}`}>
                 {isSelected(routine.id) && (
                   <IconCheck

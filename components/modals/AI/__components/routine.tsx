@@ -89,8 +89,7 @@ export function AiRoutineContent() {
               animationFillMode: "forwards",
             }}>
             <RoutineCard
-              id="preview"
-              {...result.data}
+              routine={{...result.data, id:"preview"}}
             />
           </div>
         ),

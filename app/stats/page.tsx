@@ -2,8 +2,6 @@
 
 import { useState } from "react";
 import { IconTrophy, IconActivity } from "@tabler/icons-react";
-
-import { Header } from "@/components/shared/Header";
 import { useTranslations } from "next-intl";
 import Progress from "../../components/stats/progress";
 import Records from "@/components/stats/records";

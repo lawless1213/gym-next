@@ -27,7 +27,7 @@ export function ExerciseCard({ exercise, isOpen, className, trailing, onClick, d
   const locale = useLocale();
   const title = getLocalizedText(exercise.name, locale as any);
   const Component = as ?? (onClick ? "button" : "div");
-  const isButton = Component === "button";
+  const isButton = Component === "button"
 
   return (
     <Component

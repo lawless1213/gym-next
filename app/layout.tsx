@@ -1,5 +1,5 @@
 import { SpeedInsights } from "@vercel/speed-insights/next";
-import type { Metadata } from "next";
+import type { Metadata, Viewport } from "next";
 import { Inter } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "../hooks/useAuth";
@@ -16,12 +16,27 @@ const inter = Inter({
   variable: "--font-inter",
 });
 
+export const viewport: Viewport = {
+  themeColor: "#ffffff",
+  width: "device-width",
+  initialScale: 1,
+  maximumScale: 1,
+};
+
 export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("app");
 
   return {
     title: t("title"),
     description: t("subtitle"),
+    appleWebApp: {
+      capable: true,
+      statusBarStyle: "default",
+      title: t("title"),
+    },
+    formatDetection: {
+      telephone: false,
+    },
   };
 }
 
@@ -31,28 +46,26 @@ export default function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <>
-      <SpeedInsights />
-      <html
-        lang="en"
-        suppressHydrationWarning>
-        <body className={`${inter.variable} antialiased flex min-h-screen flex-col bg-background`}>
-          <ThemeProvider>
-            <FaviconSwitcher />
-            <NextIntlClientProvider>
-              <AuthProvider>
-                <QueryProvider>
-                  <ModalProvider>
-                    <TooltipProvider delayDuration={200}>
-                      <AppShell>{children}</AppShell>
-                    </TooltipProvider>
-                  </ModalProvider>
-                </QueryProvider>
-              </AuthProvider>
-            </NextIntlClientProvider>
-          </ThemeProvider>
-        </body>
-      </html>
-    </>
+    <html
+      lang="en"
+      suppressHydrationWarning>
+      <body className={`${inter.variable} antialiased flex min-h-screen flex-col bg-background`}>
+        <SpeedInsights />
+        <ThemeProvider>
+          <FaviconSwitcher />
+          <NextIntlClientProvider>
+            <AuthProvider>
+              <QueryProvider>
+                <ModalProvider>
+                  <TooltipProvider delayDuration={200}>
+                    <AppShell>{children}</AppShell>
+                  </TooltipProvider>
+                </ModalProvider>
+              </QueryProvider>
+            </AuthProvider>
+          </NextIntlClientProvider>
+        </ThemeProvider>
+      </body>
+    </html>
   );
 }
