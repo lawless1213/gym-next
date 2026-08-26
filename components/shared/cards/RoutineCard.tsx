@@ -4,9 +4,8 @@ import { useModal } from "@/components/modals/modal-store";
 import { Routine } from "@/types";
 import { IconChecks, IconX, IconMenu2, IconEdit, IconTrash, IconPlayerPlayFilled } from "@tabler/icons-react";
 import { useQueryClient } from "@tanstack/react-query";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { useState } from "react";
-import { getLocalizedText, type Locale } from "@/types/common";
 import { useSwipeable } from "react-swipeable";
 import { toast } from "sonner";
 import { AnimatePresence, motion } from "motion/react";
@@ -22,7 +21,6 @@ interface RoutineListItemProps {
 
 export default function RoutineCard({routine, isOpen, onToggle}: RoutineListItemProps) {
   const t = useTranslations("components.routineCard");
-  const locale = useLocale() as Locale;
   const { confirm, open } = useModal();
   const { user } = useAuth();
   const queryClient = useQueryClient();
@@ -79,7 +77,7 @@ export default function RoutineCard({routine, isOpen, onToggle}: RoutineListItem
 
   return (
     <div
-      style={{ borderLeft: `4px solid ${routine.color}` }}
+      style={{ borderLeft: `6px solid ${routine.color}` }}
       className="overflow-hidden md:rounded-xl">
       <div
         key={routine.id}
