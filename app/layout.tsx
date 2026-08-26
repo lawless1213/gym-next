@@ -5,7 +5,7 @@ import "./globals.css";
 import { AuthProvider } from "../hooks/useAuth";
 import { NextIntlClientProvider } from "next-intl";
 import { getTranslations } from "next-intl/server";
-import { ThemeProvider } from "@/providers/theme-provider";
+import FaviconSwitcher, { ThemeProvider } from "@/providers/theme-provider";
 import { QueryProvider } from "@/providers/QueryProvider";
 import AppShell from "@/components/shared/AppShell";
 import { ModalProvider } from "@/components/modals/modal-store";
@@ -38,6 +38,7 @@ export default function RootLayout({
         suppressHydrationWarning>
         <body className={`${inter.variable} antialiased flex min-h-screen flex-col bg-background`}>
           <ThemeProvider>
+            <FaviconSwitcher />
             <NextIntlClientProvider>
               <AuthProvider>
                 <QueryProvider>
