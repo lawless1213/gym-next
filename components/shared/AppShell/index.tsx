@@ -11,6 +11,7 @@ import { getNavLinks, navLinks } from "@/data/navManu";
 import { Toaster } from "@/components/shared/Toaster/Toaster";
 import { Header } from "../Header";
 import { NavItem } from "@/types/navMenu";
+import InstallBanner from "../InstallBanner";
 
 let prevPathname = "";
 let currentDir = 1;
@@ -64,6 +65,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
         <div
           key="app"
           className="flex min-h-screen flex-col max-w-[1920px] w-full mx-auto">
+          <InstallBanner />
           <Header page={pageKey} />
           <Toaster />
           <BottomNav />

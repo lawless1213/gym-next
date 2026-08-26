@@ -22,3 +22,5 @@ export function getLocalizedText(value: LocalizedText | string | undefined, loca
 export function toLocalizedText(value: string): LocalizedText {
   return Object.fromEntries(LOCALES.map((locale) => [locale, value])) as LocalizedText;
 }
+
+export * from "./PWA";
