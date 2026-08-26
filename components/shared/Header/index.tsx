@@ -25,7 +25,7 @@ export function Header({ page }: HeaderProps) {
   const { mounted, isDark, toggleTheme } = useAppTheme();
   const [pendingLocaleChange, setPendingLocaleChange] = useState(false);
 
-  const title = page === "home" ? (user && user.displayName ? tPages("home.header.user", { user: user.displayName }) : t("header.guest")) : tPages(`${page}.title`);
+  const title = page === "home" ? (user && user.displayName ? tPages("home.header.user", { user: user.displayName }) : tPages("home.header.guest")) : tPages(`${page}.title`);
   const subtitle = page === "home" ? (tPages(`home.header.welcome.${user ? "auth" : "unauth"}`)) : tPages(`${page}.subtitle`);
 
   const handleLanguageChange = () => {
