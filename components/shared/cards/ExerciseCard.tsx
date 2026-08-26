@@ -1,17 +1,18 @@
 "use client";
 
-
 import { IconBarbell } from "@tabler/icons-react";
 import { cn, getLocalizedText } from "@/lib/utils";
 import Image from "next/image";
 import { useLocale, useTranslations } from "next-intl";
 import type { ReactNode, MouseEventHandler } from "react";
 import { Exercise } from "@/types";
+import { motion } from "motion/react";
 
-export type ExerciseCardData = Pick<Exercise, "name" | "muscleGroup"> & Partial<Pick<Exercise, "imageUrl" | "isCustom">>;
+export type ExerciseCardData = Pick<Exercise, "name" | "muscleGroup" | "description"> & Partial<Pick<Exercise, "imageUrl" | "isCustom">>;
 
 export interface ExerciseCardProps {
   exercise: ExerciseCardData;
+  isOpen?: boolean;
   className?: string;
   trailing?: ReactNode;
   onClick?: MouseEventHandler<HTMLElement>;
@@ -20,7 +21,7 @@ export interface ExerciseCardProps {
   as?: "div" | "button";
 }
 
-export function ExerciseCard({ exercise, className, trailing, onClick, disabled = false, preview, as }: ExerciseCardProps) {
+export function ExerciseCard({ exercise, isOpen, className, trailing, onClick, disabled = false, preview, as }: ExerciseCardProps) {
   const t = useTranslations("components.exerciseCard");
   const tGroups = useTranslations("components.muscleGroups");
   const locale = useLocale();
@@ -34,7 +35,11 @@ export function ExerciseCard({ exercise, className, trailing, onClick, disabled 
       disabled={isButton ? disabled : undefined}
       onClick={onClick}
       className={cn("flex w-full items-center gap-4 bg-card p-3 text-left", disabled && "opacity-40 cursor-not-allowed select-none", onClick && !disabled && "cursor-pointer", className)}>
-      <div className="flex h-12 w-12 shrink-0 items-center justify-center rounded-xl bg-secondary">
+      <motion.div
+        className="flex shrink-0 items-center justify-center rounded-xl bg-secondary p-1"
+        initial={{ width: 48, height: 48 }}
+        animate={{ width: isOpen ? 98 : 48, height: isOpen ? 98 : 48 }}
+        transition={{ type: "spring", stiffness: 300, damping: 30 }}>
         {exercise.imageUrl ? (
           <Image
             width={100}
@@ -45,10 +50,10 @@ export function ExerciseCard({ exercise, className, trailing, onClick, disabled 
           />
         ) : (
           <div className="flex h-full w-full items-center justify-center">
-            <IconBarbell className="h-5 w-5 text-muted-foreground" />
+            <IconBarbell className="size-full text-muted-foreground" />
           </div>
         )}
-      </div>
+      </motion.div>
 
       <div className="min-w-0 flex-1">
         <div className="flex items-center gap-2">

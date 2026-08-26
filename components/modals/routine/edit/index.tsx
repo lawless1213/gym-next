@@ -178,7 +178,7 @@ export function RoutineEditModal() {
                         <p className="font-medium text-foreground">{getLocalizedText(field.name, locale)}</p>
                         <div className="text-xs text-muted-foreground flex gap-1">
                           {groups.map((group) => (
-                            <span>{tGroups(group.trim())}</span>
+                            <span key={group}>{tGroups(group.trim())}</span>
                           ))}
                         </div>
                       </div>

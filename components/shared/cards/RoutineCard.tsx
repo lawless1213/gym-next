@@ -1,6 +1,6 @@
 import { useAuth } from "@/hooks/useAuth";
 import { deleteUserRoutine } from "@/lib/actions/routine";
-import { useModal } from  "@/components/modals/modal-store";
+import { useModal } from "@/components/modals/modal-store";
 import { Routine } from "@/types";
 import { IconChecks, IconX, IconMenu2, IconEdit, IconTrash, IconPlayerPlayFilled } from "@tabler/icons-react";
 import { useQueryClient } from "@tanstack/react-query";
@@ -14,11 +14,16 @@ import { ExerciseCard } from "@/components/shared/cards/ExerciseCard";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/Tooltip";
 import { Button } from "../../ui/Button";
 
-export default function RoutineCard(routine: Routine) {
+interface RoutineListItemProps {
+  routine: Routine;
+  isOpen?: boolean;
+  onToggle?: () => void;
+}
+
+export default function RoutineCard({routine, isOpen, onToggle}: RoutineListItemProps) {
   const t = useTranslations("components.routineCard");
   const locale = useLocale() as Locale;
   const { confirm, open } = useModal();
-  const [isOpen, setIsOpen] = useState(false);
   const { user } = useAuth();
   const queryClient = useQueryClient();
   const [isEditable, setIsEditable] = useState(false);
@@ -78,7 +83,9 @@ export default function RoutineCard(routine: Routine) {
       className="overflow-hidden md:rounded-xl">
       <div
         key={routine.id}
-        onClick={() => setIsOpen((prev) => !prev)}
+         onClick={() => {
+          if (!isEditable && onToggle) onToggle();
+        }}
         className="relative "
         {...handlers}>
         <motion.div

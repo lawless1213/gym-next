@@ -70,7 +70,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
           <main
             {...handlers}
             style={{ touchAction: "pan-y" }}
-            className="min-h-0 flex-1 overflow-y-auto px-4 pb-18 flex flex-col gap-3 relative">
+            className="min-h-0 flex-1 overflow-y-auto pt-4 px-4 pb-18 flex flex-col gap-3 relative">
             <motion.div
               key={pathname}
               initial={{ x: `${30 * currentDir}%`, opacity: 0 }}

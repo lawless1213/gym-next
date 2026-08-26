@@ -8,14 +8,20 @@ import { useModal } from "@/components/modals/modal-store";
 import { useTranslations } from "next-intl";
 import ActionCard from "@/components/shared/cards/ActionCard";
 import { Routine } from "@/types";
+import { useState } from "react";
 
 interface RoutinesListProps {
-	routines: Routine[];
+  routines: Routine[];
 }
 
-export default function RoutinesList( {routines}: RoutinesListProps ) {
+export default function RoutinesList({ routines }: RoutinesListProps) {
   const t = useTranslations("library.routines");
   const { open } = useModal();
+  const [openRoutineId, setOpenRoutineId] = useState<string | null>(null);
+
+  const toggleRoutine = (id: string) => {
+    setOpenRoutineId((prev) => (prev === id ? null : id));
+  };
 
   return routines.length === 0 ? (
     <ActionCard
@@ -28,8 +34,9 @@ export default function RoutinesList( {routines}: RoutinesListProps ) {
       {routines.map((routine) => (
         <RoutineCard
           key={routine.id}
-          editable={true}
-          {...routine}
+          isOpen={openRoutineId === routine.id}
+          onToggle={() => toggleRoutine(routine.id)}
+          routine={{ ...routine, editable: true }}
         />
       ))}
     </div>

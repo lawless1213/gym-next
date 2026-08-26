@@ -4,6 +4,7 @@ import { ExerciseListItem } from "@/components/library/exercises/exerciseListIte
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/Button";
 import { Exercise } from "@/types";
+import { useState } from "react";
 
 interface ExercisesListProps {
   visibleExercises: Exercise[];
@@ -17,14 +18,21 @@ export default function ExercisesList({
   handleLoadMore,
 }: ExercisesListProps) {
   const t = useTranslations("library.exercises");
+  const [openExerciseId, setOpenExerciseId] = useState<string | null>(null);
+
+  const toggleExercise = (id: string) => {
+    setOpenExerciseId((prev) => (prev === id ? null : id));
+  };
 
   return (
-    <div className="space-y-6 max-md:-mx-4">
+    <div className="space-y-1 max-md:-mx-4">
       {visibleExercises.length > 0 ? (
         visibleExercises.map((exercise) => (
           <ExerciseListItem
             key={exercise.id}
             exercise={exercise}
+            isOpen={openExerciseId === exercise.id}
+            onToggle={() => toggleExercise(exercise.id)}
           />
         ))
       ) : (

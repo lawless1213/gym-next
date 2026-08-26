@@ -20,9 +20,11 @@ import { getLocalizedText, type Locale } from "@/types/common";
 
 interface ExerciseListItemProps {
   exercise: Exercise;
+  isOpen: boolean;
+  onToggle: () => void;
 }
 
-export function ExerciseListItem({ exercise }: ExerciseListItemProps) {
+export function ExerciseListItem({ exercise, isOpen, onToggle }: ExerciseListItemProps) {
   const t = useTranslations("components.exerciseCard");
   const locale = useLocale() as Locale;
   const { confirm, open } = useModal();
@@ -30,7 +32,6 @@ export function ExerciseListItem({ exercise }: ExerciseListItemProps) {
   const queryClient = useQueryClient();
   const [isEditable, setIsEditable] = useState(false);
   const canEdit = exercise.isCustom;
-  const [isOpen, setIsOpen] = useState(false);
 
   const handlers = useSwipeable(
     canEdit
@@ -85,7 +86,9 @@ export function ExerciseListItem({ exercise }: ExerciseListItemProps) {
     <div>
       <div
         className={`relative flex overflow-hidden ${isOpen ? "md:rounded-t-xl" : "md:rounded-xl"}`}
-        onClick={() => setIsOpen((prev) => !prev)}
+        onClick={() => {
+          if (!isEditable) onToggle();
+        }}
         {...handlers}>
         <motion.div
           className="w-full"
@@ -93,6 +96,7 @@ export function ExerciseListItem({ exercise }: ExerciseListItemProps) {
           transition={{ type: "spring", stiffness: 300, damping: 30 }}>
           <ExerciseCard
             exercise={exercise}
+            isOpen={isOpen}
             trailing={
               canEdit ? (
                 <Tooltip>
