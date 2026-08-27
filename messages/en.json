@@ -121,6 +121,13 @@
       "stats": "Stats",
       "ai": "AI Assistant"
     },
+    "InstallBanner": {
+      "title": "Install the app",
+      "description": "Faster access and offline support",
+      "descriptionIOS": "Tap 'Share' → 'Add to Home Screen'",
+      "install": "Install",
+      "closeLAbel": "Close"
+    },
     "routineCard": {
       "amount": "Number of exercises",
       "emptyExercises": "Exercises is empty",
