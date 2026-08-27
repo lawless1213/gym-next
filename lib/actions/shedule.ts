@@ -1,6 +1,6 @@
 import { db } from "@/lib/config/firebaseConfig";
 import { Routine, RoutinesExercise, ScheduleMap, weekDays } from "@/types";
-import { updateDoc, doc, writeBatch, arrayUnion, collection, serverTimestamp} from "firebase/firestore";
+import { updateDoc, doc, writeBatch, arrayUnion, collection, serverTimestamp, setDoc, getDoc} from "firebase/firestore";
 
 export async function createAiUserSchedule(userId: string, schedule: ScheduleMap) {
   const batch = writeBatch(db);
@@ -77,6 +77,27 @@ export async function editUserSchedule(
   const newDaySchedule = data.routineIds.map((routine) =>
     doc(db, "users", userId, "routines", routine)
   );
+
+  const userSnap = await getDoc(userRef);
+  const existingSchedule = userSnap.exists() ? userSnap.data()?.schedule : null;
+
+  if (
+    !userSnap.exists() ||
+    !existingSchedule ||
+    typeof existingSchedule !== "object"
+  ) {
+    await setDoc(
+      userRef,
+      {
+        schedule: {
+          [dayKey]: newDaySchedule,
+        },
+      },
+      { merge: true }
+    );
+
+    return;
+  }
 
   await updateDoc(userRef, {
     [`schedule.${dayKey}`]: newDaySchedule,

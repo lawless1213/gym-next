@@ -1,5 +1,12 @@
 import { db } from "@/lib/config/firebaseConfig";
-import { updateDoc, doc, arrayUnion, Timestamp } from "firebase/firestore";
+import {
+  updateDoc,
+  doc,
+  arrayUnion,
+  Timestamp,
+  getDoc,
+  setDoc,
+} from "firebase/firestore";
 
 const PROGRESS_FIELDS = ["weight", "waist", "chest", "arms", "thighs"] as const;
 
@@ -26,5 +33,13 @@ export async function addUserProgress(userId: string, data: ProgressEntry) {
   }
 
   if (Object.keys(updates).length === 0) return;
-	await updateDoc(userRef, updates);
+
+  const userProgressSnap = await getDoc(userRef);
+
+  if (!userProgressSnap.exists()) {
+    await setDoc(userRef, updates, { merge: true });
+    return;
+  }
+
+  await updateDoc(userRef, updates);
 }

@@ -1,6 +1,6 @@
 "use client";
 
-import RecordCard from "@/components/shared/cards/recordCard";
+import RecordCard from "@/components/shared/cards/RecordCardTemp";
 import SkeletonBone from "@/components/ui/Skeleton/SkeletonBone";
 import SkeletonSwitcher from "@/components/ui/Skeleton/SkeletonSwitcher";
 import { PersonalRecord } from "@/types";

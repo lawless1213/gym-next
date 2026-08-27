@@ -10,12 +10,10 @@ function getWeekDayFromDate(date: Date): weekDay {
   return weekDays[normalizedIndex];
 }
 
-function createEmptyScheduleMap(): ScheduleMap {
-  return weekDays.reduce((acc, day) => {
-    acc[day] = [];
-    return acc;
-  }, {} as ScheduleMap);
-}
+export const EMPTY_SCHEDULE: ScheduleMap = weekDays.reduce((acc, day) => {
+  acc[day] = [];
+  return acc;
+}, {} as ScheduleMap);
 
 export function getNextPendingRoutine(scheduleMap: ScheduleMap, todayDate: Date = new Date()): Routine | null {
   const jsDay = todayDate.getDay();
@@ -37,20 +35,20 @@ export function getNextPendingRoutine(scheduleMap: ScheduleMap, todayDate: Date 
 }
 
 export async function getUserSchedule(userId: string): Promise<ScheduleMap> {
-  if (!userId) return createEmptyScheduleMap();
+  if (!userId) return EMPTY_SCHEDULE;
 
   try {
     const userRef = doc(db, "users", userId);
     const userSnap = await getDoc(userRef);
-    if (!userSnap.exists()) return createEmptyScheduleMap();
+    if (!userSnap.exists()) return EMPTY_SCHEDULE;
 
     const rawSchedule = userSnap.data().schedule;
 
     if (!rawSchedule || typeof rawSchedule !== "object") {
-      return createEmptyScheduleMap();
+      return EMPTY_SCHEDULE;
     }
 
-    const scheduleMap = createEmptyScheduleMap();
+    const scheduleMap = EMPTY_SCHEDULE;
 
     const history = await getUserHistory(userId, { period: "current-week" });
     const completedRoutineByDay = new Set(
@@ -79,6 +77,6 @@ export async function getUserSchedule(userId: string): Promise<ScheduleMap> {
     return scheduleMap;
   } catch (error) {
     console.error("Error loading schedule:", error);
-    return createEmptyScheduleMap();
+    return EMPTY_SCHEDULE;
   }
 }

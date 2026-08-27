@@ -240,7 +240,10 @@
       "records": "Records"
     },
     "progress": {
-      "buttonAdd": "Add progress"
+      "buttonAdd": "Add progress",
+      "chart": {
+        "empty": "Enter at least one value to view the chart"
+      }
     },
     "measurements": {
       "weight": "Weight",

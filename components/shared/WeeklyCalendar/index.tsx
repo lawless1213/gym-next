@@ -12,6 +12,7 @@ import SkeletonSwitcher from "../../ui/Skeleton/SkeletonSwitcher";
 import { IconEdit, IconPlus } from "@tabler/icons-react";
 import { useModal } from  "@/components/modals/modal-store";
 import { Button } from "../../ui/Button";
+import { EMPTY_SCHEDULE } from "@/lib/services/schedule";
 
 type WeeklyCalendarProps = {
   schedule?: ScheduleMap;
@@ -46,22 +47,11 @@ export function WeeklyCalendar({ schedule }: WeeklyCalendarProps = {}) {
     return date.getDate();
   });
 
-  const createEmptySchedule = (): ScheduleMap =>
-    weekDays.reduce((acc, day) => {
-      acc[day] = [];
-      return acc;
-    }, {} as ScheduleMap);
+  const { data: userSchedule, isLoading: isDataLoading } = useSchedule(userId);
+  
+  const scheduleDays: ScheduleMap = (isPreview ? schedule : userSchedule) ?? EMPTY_SCHEDULE;
 
-  const emptySchedule = createEmptySchedule();
-  const { data, isLoading: isDataLoading } = useSchedule(userId);
-  const scheduleDays: ScheduleMap = isPreview
-    ? schedule
-    : userId
-      ? (data ?? emptySchedule)
-      : emptySchedule;
-  const isLoading = isPreview
-    ? false
-    : isUserLoading || isDataLoading || (!!userId && !data);
+  const isLoading = isPreview ? false : isUserLoading || isDataLoading || (!!userId && !userSchedule);
 
   const startOpening = (index: number) => {
     setHighlightIndex(index);
