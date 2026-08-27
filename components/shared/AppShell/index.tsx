@@ -58,7 +58,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   });
 
   return (
-    <AnimatePresence mode="wait">
+    <AnimatePresence mode="sync">
       {loading ? (
         <LoadingScreen key="loading" />
       ) : (
@@ -78,7 +78,8 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
               initial={{ x: `${30 * currentDir}%`, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: `${-30 * currentDir}%`, opacity: 0 }}
-              transition={{ type: "spring", stiffness: 500, damping: 30 }}>
+              transition={{ type: "tween", duration: 0.18, ease: "easeOut" }}
+              >
               {children}
             </motion.div>
           </main>
