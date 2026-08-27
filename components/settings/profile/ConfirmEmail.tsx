@@ -9,12 +9,18 @@ import { toast } from "sonner";
 export default function ConfirmEmail() {
   const t = useTranslations("settings.profile.email.confirm");
   const [isOpen, setIsOpen] = useState(false);
+  const [isSend, setIsSend] = useState(false);
 
   const { user } = useAuth();
   const userId = user?.uid;
 
   const handleConfirmEmail = () => {
-      toast.info(t("language.successChange"));
+    toast.info(t("send"));
+    setIsSend(true);
+  };
+
+  const handleCheckConfirm = () => {
+    toast.success(t("success"));
   };
 
   return (
@@ -22,7 +28,15 @@ export default function ConfirmEmail() {
       {isOpen ? (
         <>
           <div className="text-sm text-muted-foreground">{t("description")}</div>
-          <Button className="m-auto">{t("confirm")}</Button>
+          {isSend ? (
+            <Button onClick={() => handleCheckConfirm()}>{t("check")}</Button>
+          ) : (
+            <Button
+              onClick={() => handleConfirmEmail()}
+              className="m-auto">
+              {t("confirm")}
+            </Button>
+          )}
         </>
       ) : (
         <Button onClick={() => setIsOpen(true)}>{t("confirm")}</Button>
