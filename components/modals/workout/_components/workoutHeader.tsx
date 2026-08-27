@@ -14,7 +14,7 @@ interface WorkoutHeaderProps {
 
 export function WorkoutHeader({ title, elapsedTime, isPaused, onTogglePause, onClose, progress }: WorkoutHeaderProps) {
   return (
-    <header className="sticky top-0 z-40 border-b border-border bg-card backdrop-blur">
+    <header className="sticky top-0 z-40 bg-card ">
       <div className="flex items-center justify-between p-4">
         <Button
           size="icon-lg"

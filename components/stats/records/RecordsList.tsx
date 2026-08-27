@@ -1,9 +1,12 @@
 "use client";
 
-import RecordCard from "@/components/shared/cards/RecordCardTemp";
+import { useModal } from "@/components/modals/modal-store";
+import ActionCard from "@/components/shared/cards/ActionCard";
+import RecordCard from "@/components/shared/cards/recordCard";
 import SkeletonBone from "@/components/ui/Skeleton/SkeletonBone";
 import SkeletonSwitcher from "@/components/ui/Skeleton/SkeletonSwitcher";
 import { PersonalRecord } from "@/types";
+import { IconBolt } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
 
 interface RecordsListProps {
@@ -13,7 +16,8 @@ interface RecordsListProps {
 
 export default function RecordsList({ records, loading }: RecordsListProps) {
   const t = useTranslations("stats.records");
-
+  const { open, confirm } = useModal();
+  
   return (
     <div className="space-y-3">
       <h2 className="text-sm font-semibold text-muted-foreground">{t("title")}</h2>
@@ -31,7 +35,7 @@ export default function RecordsList({ records, loading }: RecordsListProps) {
             ))}
           </div>
         }>
-        {records ? (
+        {records && records.length ? (
           <div className="space-y-3">
             {records
               .sort((a, b) => b.date.toMillis() - a.date.toMillis())
@@ -43,7 +47,7 @@ export default function RecordsList({ records, loading }: RecordsListProps) {
               ))}
           </div>
         ) : (
-          <div>{t("empty")}</div>
+          <ActionCard title={t("empty")} icon={IconBolt} onClick={() => open("quickWorkout")}/>
         )}
       </SkeletonSwitcher>
     </div>

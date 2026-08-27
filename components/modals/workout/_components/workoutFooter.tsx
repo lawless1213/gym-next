@@ -14,7 +14,7 @@ export function WorkoutFooter({ completedSets, totalSets, onFinish }: WorkoutFoo
   const t = useTranslations("workout.modal");
 
   return (
-    <div className="fixed bottom-0 left-0 right-0 border-t border-border bg-background/95 p-4 backdrop-blur">
+    <div className="sticky bottom-0 bg-card p-4">
       <Button
         onClick={onFinish}
         className="w-full gap-2 bg-primary text-primary-foreground hover:bg-primary/90"

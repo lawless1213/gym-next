@@ -31,14 +31,7 @@ export function QuickWorkoutModal() {
     startedAt: Timestamp.fromDate(new Date()),
     duration: 0,
     isQuick: true,
-    exercises: [
-      {
-        id: crypto.randomUUID(),
-        name: toLocalizedText("Quick Exercise 1"),
-        isQuick: true,
-        sets: [{ weight: 0, reps: 0, completed: false }],
-      },
-    ],
+    exercises: [],
   };
 
   const { workout, setWorkout, isPaused, setIsPaused, elapsedTime, formatTime, handleUpdateSet, handleAddSet, handleRemoveSet, totalSets, completedSets, progress, getFinishedWorkout, persistWorkoutDraft } = useWorkoutSession(initialWorkout);
@@ -104,9 +97,10 @@ export function QuickWorkoutModal() {
   return (
     <ModalWrapper
       modalType="quickWorkout"
+      size="high"
       header={false}
       title={workout.name}
-      contentClasses="pt-0">
+      contentClasses="!py-0">
       <WorkoutHeader
         title={workout.name}
         elapsedTime={formatTime(elapsedTime)}
@@ -119,7 +113,7 @@ export function QuickWorkoutModal() {
         progress={progress}
       />
 
-      <main className={cn("flex-1 space-y-4 pt-4 pb-20", isPaused && "pointer-events-none brightness-80 blur-xs")}>
+      <main className={cn("flex-1 space-y-4 py-4")}>
         {workout.exercises.map((workoutExercise) => (
           <QuickExerciseCard
             key={workoutExercise.id}
