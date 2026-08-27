@@ -48,7 +48,12 @@ export function Tabs({ items, activeTab, onChange, children, tabsClasses }: Tabs
                 />
               )}
               {item.icon && <span className="z-20">{item.icon}</span>}
-              <span className="z-20">{item.label}</span>
+              <span 
+              className={cn(
+                "z-20",
+                (items.length > 2 && item.icon) && "hidden sm:block" 
+              )}
+              >{item.label}</span>
             </Button>
           );
         })}

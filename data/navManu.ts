@@ -6,6 +6,7 @@ import {
   IconHistory,
   IconChartBar,
   IconAi,
+  IconSettings,
 } from '@tabler/icons-react';
 
 const navLinks:NavItem[] = [
@@ -13,6 +14,7 @@ const navLinks:NavItem[] = [
   { link: '/library', label: 'library', icon: IconBarbell },
   { link: '/history', label: 'history', icon: IconHistory, loginRequired: true },
   { link: '/stats', label: 'stats', icon: IconChartBar, loginRequired: true },
+  { link: '/settings', label: 'settings', icon: IconSettings, loginRequired: true },
   { modal: "ai", label: 'ai', icon: IconAi, loginRequired: true },
 ];
 

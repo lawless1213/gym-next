@@ -2,7 +2,7 @@
 
 import { useLocale, useTranslations } from "next-intl";
 import { setUserLocale } from "@/i18n/i18n-action";
-import { IconUser, IconLogout, IconMoon, IconSun, IconAi, IconSettings } from "@tabler/icons-react";
+import { IconUser, IconLogout, IconMoon, IconSun } from "@tabler/icons-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useAppTheme } from "@/hooks/useAppTheme";
 import { useModal } from  "@/components/modals/modal-store";
@@ -63,13 +63,6 @@ export function Header({ page }: HeaderProps) {
           {(locale === "uk" ? "en" : "uk").toUpperCase()}
         </span>
       ),
-    },
-    {
-      id: "settings",
-      show: !!user,
-      onClick: toggleTheme,
-      tooltip: t("settings"),
-      icon: <IconSettings className="size-5" />,
     },
     {
       id: "auth",

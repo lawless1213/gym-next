@@ -119,6 +119,7 @@
       "library": "Library",
       "history": "History",
       "stats": "Stats",
+      "settings": "Settings",
       "ai": "AI Assistant"
     },
     "InstallBanner": {
@@ -265,6 +266,41 @@
         "growth": "Growth"
       }
     }
+  },
+  "settings": {
+    "title": "Settings",
+    "subtitle": " ",
+    "tabs": {
+      "profile": "Profile",
+      "preferences": "Preferences"
+    },
+    "profile": {
+      "personal": {
+        "title": "Personal details",
+        "text": "Edit your details"
+      },
+      "email": {
+        "confirm": {
+          "title": "Email confirmation",
+          "text": "To access all website features, please confirm your email"
+        },
+        "change": {
+          "title": "Change email",
+          "text": "You can change your email, but you will need to confirm it afterwards"
+        }
+      },
+      "password": {
+        "title": "Change password",
+        "text": "Change your password to a more secure one"
+      },
+      "delete": {
+        "title": "Delete account",
+        "text": "Your account will be permanently deleted. This action cannot be undone",
+        "confirm": "Delete"
+        
+      }
+    },
+    "preferences": {}
   },
   "common": {
     "notFound": "Not found"
