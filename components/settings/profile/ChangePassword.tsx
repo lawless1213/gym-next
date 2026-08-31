@@ -5,6 +5,7 @@ import { Input } from "@/components/ui/form/input";
 import { useAuth } from "@/hooks/useAuth";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
+import { toast } from "sonner";
 
 export default function ChangePassword() {
   const t = useTranslations("settings.profile.password");
@@ -13,31 +14,29 @@ export default function ChangePassword() {
   const { user } = useAuth();
   const userId = user?.uid;
 
+   const handleSubmitPassword = () => {
+    toast.success(t("passwordChanged"));
+  };
+
   return (
     <>
-      {isOpen ? (
-        <>
-          <Input
-            input={{
-              id: "chatInput",
-              placeholder: t("placeholder"),
-              type: "text",
-              autoComplete: "off",
-            }}
-          />
-					<Input
-            input={{
-              id: "chatInput",
-              placeholder: t("placeholder"),
-              type: "text",
-              autoComplete: "off",
-            }}
-          />
-          <Button>{t("confirm")}</Button>
-        </>
-      ) : (
-        <Button onClick={() => setIsOpen(true)}>{t("confirm")}</Button>
-      )}
+      <Input
+        input={{
+          id: "changePasswordInput",
+          placeholder: t("placeholders.change"),
+          type: "text",
+          autoComplete: "off",
+        }}
+      />
+      <Input
+        input={{
+          id: "repeatPasswordInput",
+          placeholder: t("placeholders.repeat"),
+          type: "text",
+          autoComplete: "off",
+        }}
+      />
+      <Button onClick={() => handleSubmitPassword()}>{t("submit")}</Button>
     </>
   );
 }

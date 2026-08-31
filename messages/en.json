@@ -277,27 +277,49 @@
     "profile": {
       "personal": {
         "title": "Personal details",
-        "text": "Edit your details"
+        "text": "Edit your details",
+        "profileUpdated": "Personal details updated",
+        "error": "Something went wrong. Please try again"
       },
       "email": {
         "confirm": {
           "title": "Email confirmation",
-          "text": "To access all website features, please confirm your email"
+          "text": "Please confirm your email to access all site features",
+          "description": "We have sent a confirmation link to your email address.",
+          "submit": "Resend email",
+          "check": "Check email",
+          "emailConfirmSent": "Confirmation email has been sent",
+          "success": "Confirmation successful",
+          "error": "Something went wrong. Please try again"
         },
         "change": {
           "title": "Change email",
-          "text": "You can change your email, but you will need to confirm it afterwards"
+          "text": "You can change your email, but you will need to confirm it afterwards",
+          "placeholders": {
+            "email": "Enter new email"
+          },
+          "submit": "Save email",
+          "emailChanged": "Email changed successfully. Please confirm it",
+          "error": "Something went wrong. Please try again"
         }
       },
       "password": {
         "title": "Change password",
-        "text": "Change your password to a more secure one"
+        "text": "Change your password to a more secure one",
+        "placeholders": {
+          "change": "New password",
+          "repeat": "Repeat new password"
+        },
+        "submit": "Update password",
+        "passwordChanged": "Password updated successfully",
+        "error": "Something went wrong. Please try again"
       },
       "delete": {
         "title": "Delete account",
-        "text": "Your account will be permanently deleted. This action cannot be undone",
-        "confirm": "Delete"
-        
+        "text": "Your account will be permanently deleted. This action is irreversible",
+        "submit": "Delete",
+        "accountDeleted": "Account deleted successfully",
+        "error": "Something went wrong. Please try again"
       }
     },
     "preferences": {}

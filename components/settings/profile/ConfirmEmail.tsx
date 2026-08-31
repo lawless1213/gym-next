@@ -14,7 +14,7 @@ export default function ConfirmEmail() {
   const { user } = useAuth();
   const userId = user?.uid;
 
-  const handleConfirmEmail = () => {
+  const handleSubmitEmail = () => {
     toast.info(t("send"));
     setIsSend(true);
   };
@@ -25,21 +25,15 @@ export default function ConfirmEmail() {
 
   return (
     <>
-      {isOpen ? (
-        <>
-          <div className="text-sm text-muted-foreground">{t("description")}</div>
-          {isSend ? (
-            <Button onClick={() => handleCheckConfirm()}>{t("check")}</Button>
-          ) : (
-            <Button
-              onClick={() => handleConfirmEmail()}
-              className="m-auto">
-              {t("confirm")}
-            </Button>
-          )}
-        </>
+      <div className="text-sm text-muted-foreground">{t("description")}</div>
+      {isSend ? (
+        <Button onClick={() => handleCheckConfirm()}>{t("check")}</Button>
       ) : (
-        <Button onClick={() => setIsOpen(true)}>{t("confirm")}</Button>
+        <Button
+          onClick={() => handleSubmitEmail()}
+          className="m-auto">
+          {t("submit")}
+        </Button>
       )}
     </>
   );

@@ -7,6 +7,7 @@ import Personal from "./Personal";
 import ConfirmEmail from "./ConfirmEmail";
 import ChangeEmail from "./ChangeEmail";
 import ChangePassword from "./ChangePassword";
+import SettingsSection from "../SettingsSection";
 
 export default function Profile() {
 	const t = useTranslations("settings.profile");
@@ -50,15 +51,7 @@ export default function Profile() {
 	return (
 		<div className="space-y-4">
 			{sectionItems.map(item => (
-				<div className="bg-card rounded-2xl">
-					<div className="p-4 border-b-2 border-background">
-						<div className="font-bold text-primary uppercase">{item.label}</div>
-						<div className="text-sm text-muted-foreground">{item.text}</div>
-					</div>
-					<div className="p-4 flex flex-col gap-3 items-center">
-						{item.content}
-					</div>
-				</div>
+				<SettingsSection key={item.label} label={item.label} text={item.text} content={item.content} />
 			))}
 		</div>
 	);
