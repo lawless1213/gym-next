@@ -17,7 +17,7 @@ export default function Setting() {
   const tabItems = [
     {
       id: "subscribe",
-      label: t("tabs.preferences"),
+      label: t("tabs.subscribe"),
       icon: <IconStar className="size-4" />,
     },
     {
