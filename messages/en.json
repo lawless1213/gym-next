@@ -12,6 +12,11 @@
       "logout": "Logout",
       "login": "Login"
     },
+    "themes": {
+      "light": "Light",
+      "dark": "Dark",
+      "system": "System"
+    },
     "languages": {
       "uk": "Ukrainian",
       "en": "English"
@@ -320,27 +325,33 @@
     "preferences": {
       "appearance": {
         "title": "Appearance",
-        "text": "Customize the look and visual layout of the application.",
-        "gender": {
-          "title": "Gender",
-          "description": "Select your gender to adjust muscle diagram visuals."
+        "text": "Customize the look and visual layout of the interface.",
+        "theme": {
+          "title": "App Theme"
         },
-        "weight": {
-          "title": "Одиниця маси",
-          "description": "Оберіть бажану одиницю вимірювання ваги."
-        },
-        "startOfWeek": {
-          "title": "First Day of the Week",
-          "description": "Choose which day your calendar and weekly statistics start on."
+        "language": {
+          "title": "App Language"
         }
       },
       "user": {
         "title": "User",
-        "text": "Manage your profile settings and interface preferences.",
-        "theme": {
-          "title": "App Theme",
-          "description": "Choose between light, dark, or system default color themes."
+        "text": "Manage your profile and core account settings.",
+        "gender": {
+          "title": "Gender"
+        },
+        "weight": {
+          "title": "Weight Unit"
+        },
+        "distance": {
+          "title": "Distance Unit"
+        },
+        "startOfWeek": {
+          "title": "First Day of the Week"
         }
+      },
+      "notifications": {
+        "title": "Notifications",
+        "text": "Manage your app notifications and reminders."
       }
     }
   },

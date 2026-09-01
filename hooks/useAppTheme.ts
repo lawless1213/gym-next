@@ -3,7 +3,7 @@
 import { useEffect, useMemo, useState } from "react";
 import { useTheme } from "next-themes";
 
-type AppTheme = "light" | "dark" | "system";
+export type AppTheme = "light" | "dark" | "system";
 type ResolvedTheme = "light" | "dark";
 
 export function useAppTheme() {
