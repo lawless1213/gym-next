@@ -2,6 +2,7 @@
 
 import { Button } from "@/components/ui/Button";
 import { useAuth } from "@/hooks/useAuth";
+import { IconChevronRight, IconMailExclamation } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -24,17 +25,14 @@ export default function ConfirmEmail() {
   };
 
   return (
-    <>
-      <div className="text-sm text-muted-foreground">{t("description")}</div>
+    <div onClick={() => handleCheckConfirm()} className="flex gap-2 p-4 items-center bg-warning/10 text-warning rounded-2xl cursor-pointer hover:text-foreground duration-200">
+      <IconMailExclamation/>
+      <div className="text-sm">{t("title")}</div>
       {isSend ? (
-        <Button onClick={() => handleCheckConfirm()}>{t("check")}</Button>
+        <Button >{t("check")}</Button>
       ) : (
-        <Button
-          onClick={() => handleSubmitEmail()}
-          className="m-auto">
-          {t("submit")}
-        </Button>
+        <IconChevronRight className="ml-auto"/>
       )}
-    </>
+    </div>
   );
 }

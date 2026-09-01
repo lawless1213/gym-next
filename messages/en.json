@@ -276,16 +276,10 @@
       "subscribe": "Subscribtion"
     },
     "profile": {
-      "personal": {
-        "title": "Personal details",
-        "text": "Edit your details",
-        "profileUpdated": "Personal details updated",
-        "error": "Something went wrong. Please try again"
-      },
+      "personal": {},
       "email": {
         "confirm": {
-          "title": "Email confirmation",
-          "text": "Please confirm your email to access all site features",
+          "title": "Please confirm your email to access all site features",
           "description": "We have sent a confirmation link to your email address.",
           "submit": "Resend email",
           "check": "Check email",

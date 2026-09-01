@@ -39,6 +39,16 @@
   /* IronStack specific */
   --surface: oklch(1 0 0);
   --volt: oklch(0.55 0.22 264);
+
+  /* Statuses */
+  --success: oklch(0.65 0.18 162);
+  --success-foreground: oklch(0.13 0.028 261);
+  --warning: oklch(0.75 0.15 84);
+  --warning-foreground: oklch(0.13 0.028 261);
+  --info: oklch(0.55 0.22 264);
+  --info-foreground: oklch(1 0 0);
+  --error: oklch(0.55 0.2 27);
+  --error-foreground: oklch(1 0 0);
 }
 
 .dark {
@@ -72,6 +82,16 @@
   /* IronStack specific */
   --surface: oklch(0.13 0 0);
   --volt: oklch(0.88 0.17 110);
+
+  /* Statuses */
+  --success: oklch(0.72 0.2 162);
+  --success-foreground: oklch(0.08 0 0);
+  --warning: oklch(0.80 0.18 84);
+  --warning-foreground: oklch(0.08 0 0);
+  --info: oklch(0.88 0.17 110);
+  --info-foreground: oklch(0.08 0 0);
+  --error: oklch(0.60 0.2 27);
+  --error-foreground: oklch(1 0 0);
 }
 
 @theme inline {
@@ -93,6 +113,14 @@
   --color-accent-foreground: var(--accent-foreground);
   --color-destructive: var(--destructive);
   --color-destructive-foreground: var(--destructive-foreground);
+  --color-success: var(--success);
+  --color-success-foreground: var(--success-foreground);
+  --color-warning: var(--warning);
+  --color-warning-foreground: var(--warning-foreground);
+  --color-info: var(--info);
+  --color-info-foreground: var(--info-foreground);
+  --color-error: var(--error);
+  --color-error-foreground: var(--error-foreground);
   --color-border: var(--border);
   --color-input: var(--input);
   --color-ring: var(--ring);

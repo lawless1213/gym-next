@@ -36,7 +36,7 @@ export function Tabs({ items, activeTab, onChange, children, tabsClasses }: Tabs
               key={item.id}
               onClick={() => onChange(item.id)}
               className={cn(
-                "relative z-10 flex-1 hover:no-underline",
+                "relative z-10 flex-1 hover:no-underline h-auto max-sm:flex-col",
                 isActive ? "text-foreground" : "text-muted-foreground hover:text-foreground"
               )}
             >
@@ -51,7 +51,7 @@ export function Tabs({ items, activeTab, onChange, children, tabsClasses }: Tabs
               <span 
               className={cn(
                 "z-20",
-                (items.length > 2 && item.icon) && "hidden sm:block" 
+                // (items.length > 2 && item.icon) && "hidden sm:block" 
               )}
               >{item.label}</span>
             </Button>
