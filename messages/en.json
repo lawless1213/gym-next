@@ -323,7 +323,32 @@
         "error": "Something went wrong. Please try again"
       }
     },
-    "preferences": {}
+    "preferences": {
+      "appearance": {
+        "title": "Appearance",
+        "text": "Customize the look and visual layout of the application.",
+        "gender": {
+          "title": "Gender",
+          "description": "Select your gender to adjust muscle diagram visuals."
+        },
+        "weight": {
+          "title": "Одиниця маси",
+          "description": "Оберіть бажану одиницю вимірювання ваги."
+        },
+        "startOfWeek": {
+          "title": "First Day of the Week",
+          "description": "Choose which day your calendar and weekly statistics start on."
+        }
+      },
+      "user": {
+        "title": "User",
+        "text": "Manage your profile settings and interface preferences.",
+        "theme": {
+          "title": "App Theme",
+          "description": "Choose between light, dark, or system default color themes."
+        }
+      }
+    }
   },
   "common": {
     "notFound": "Not found"

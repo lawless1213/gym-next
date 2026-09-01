@@ -21,8 +21,8 @@ export default function Profile() {
     },
     {
       id: "userPreferences",
-      label: t("userPreferences.title"),
-      text: t("userPreferences.text"),
+      label: t("user.title"),
+      text: t("user.text"),
 			content: <UserPreferences/>
     },
   ];
