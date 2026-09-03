@@ -17,6 +17,18 @@
       "dark": "Dark",
       "system": "System"
     },
+    "gender": {
+      "male": "Male",
+      "female": "Female"
+    },
+    "distance": {
+      "cm": "cm",
+      "in": "in"
+    },
+    "weight": {
+      "kg": "kg",
+      "lb": "lbs"
+    },
     "languages": {
       "uk": "Ukrainian",
       "en": "English"

@@ -11,7 +11,7 @@ export default function Notifications() {
 
 	return (
 		<>
-			<div>notifications</div>	
+			<div>Notifications will be available in future</div>	
 		</>
 	);
 }

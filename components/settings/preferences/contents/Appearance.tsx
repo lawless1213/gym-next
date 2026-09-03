@@ -5,6 +5,8 @@ import { Select } from "@/components/ui/form/select";
 import { AppTheme, useAppTheme } from "@/hooks/useAppTheme";
 import { useAuth } from "@/hooks/useAuth";
 import { setUserLocale } from "@/i18n/i18n-action";
+import { setUserParams } from "@/lib/actions/user";
+import { useUserPreferences } from "@/providers/user-preferences-provider";
 import { IconEdit } from "@tabler/icons-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
@@ -14,6 +16,7 @@ export default function Appearance() {
   const t = useTranslations("settings.preferences.appearance");
   const tComponents = useTranslations("components");
   const tNotification = useTranslations("notification");
+  const { params, updateParam } = useUserPreferences();
   const { setTheme, theme } = useAppTheme();
   const [pendingLocaleChange, setPendingLocaleChange] = useState(false);
   const locale = useLocale();
@@ -21,9 +24,16 @@ export default function Appearance() {
   const { user } = useAuth();
   const userId = user?.uid;
 
-  const handleLanguageChange = (newLocale: string) => {
-    setUserLocale(newLocale);
-    setPendingLocaleChange(true);
+  const handleLanguageChange = async (newLocale: string) => {
+    if (newLocale !== "en" && newLocale !== "uk") return;
+
+    try {
+      await updateParam("language", newLocale);
+      await setUserLocale(newLocale);
+      setPendingLocaleChange(true);
+    } catch (error) {
+      console.error("Failed to save language:", error);
+    }
   };
 
   useEffect(() => {
@@ -37,7 +47,7 @@ export default function Appearance() {
     <div className="w-full space-y-2">
       {/* Theme */}
       <div className="flex items-center gap-2 w-full justify-between">
-        <span>{t('theme.title')}</span>
+        <span>{t("theme.title")}</span>
         <div className="flex items-center gap-2">
           <Select
             input={{
@@ -53,7 +63,7 @@ export default function Appearance() {
 
       {/* Language */}
       <div className="flex items-center gap-2 w-full justify-between">
-        <span>{t('language.title')}</span>
+        <span>{t("language.title")}</span>
         <div className="flex items-center gap-2">
           <Select
             input={{

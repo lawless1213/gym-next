@@ -10,6 +10,7 @@ import { toast } from "sonner";
 import { useEffect, useState } from "react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/Tooltip";
 import { Button } from "@/components/ui/Button";
+import { setUserParams } from "@/lib/actions/user";
 
 type HeaderProps = {
   page: string;
@@ -25,13 +26,26 @@ export function Header({ page }: HeaderProps) {
   const { mounted, isDark, toggleTheme } = useAppTheme();
   const [pendingLocaleChange, setPendingLocaleChange] = useState(false);
 
+  const userId = user?.uid;
+
+
   const title = page === "home" ? (user && user.displayName ? tPages("home.header.user", { user: user.displayName }) : tPages("home.header.guest")) : tPages(`${page}.title`);
   const subtitle = page === "home" ? (tPages(`home.header.welcome.${user ? "auth" : "unauth"}`)) : tPages(`${page}.subtitle`);
 
-  const handleLanguageChange = () => {
+  const handleLanguageChange = async () => {
     const newLocale = locale === "uk" ? "en" : "uk";
-    setUserLocale(newLocale);
+    try {
+    await setUserParams({
+      param: "language",
+      value: newLocale,
+      userId
+    });
+
+    await setUserLocale(newLocale);
     setPendingLocaleChange(true);
+  } catch (error) {
+    console.error("Failed to save language:", error);
+  }
   };
 
   useEffect(() => {

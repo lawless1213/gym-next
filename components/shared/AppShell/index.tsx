@@ -12,6 +12,7 @@ import { Toaster } from "@/components/shared/Toaster/Toaster";
 import { Header } from "../Header";
 import { NavItem } from "@/types/navMenu";
 import InstallBanner from "../InstallBanner";
+import { useUserPreferences } from "@/providers/user-preferences-provider";
 
 let prevPathname = "";
 let currentDir = 1;
@@ -25,6 +26,7 @@ function getDirection(from: string, to: string, routes: string[]) {
 
 export default function AppShell({ children }: { children: React.ReactNode }) {
   const { loading, user } = useAuth();
+  const { isLoading: paramsLoading } = useUserPreferences();
   const pathname = usePathname() ?? "/";
   const router = useRouter();
   const pageKey = pathname.split("/")[1] || "home";
@@ -59,7 +61,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
 
   return (
     <AnimatePresence mode="sync">
-      {loading ? (
+      {loading || (user && paramsLoading) ? (
         <LoadingScreen key="loading" />
       ) : (
         <div

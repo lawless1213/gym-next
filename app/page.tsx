@@ -15,7 +15,6 @@ import ButtonAdd from "../components/shared/ButtonAdd";
 import { WorkoutCardSection } from "@/components/home/WorkoutCardSection";
 import QuickStats from "@/components/home/QuickStats";
 import QuickWorkout from "@/components/home/QuickWorkout";
-import MuscleSchema from "@/components/shared/MuscleSchema";
 
 export default function Home() {
   const t = useTranslations("home");
