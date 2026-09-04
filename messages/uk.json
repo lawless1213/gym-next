@@ -374,6 +374,13 @@
   "notification": {
     "language": {
       "successChange": "Мову змінено"
+    },
+    "confirmEmail": {
+      "send": "",
+      "wasSent": "",
+      "notConfirmed": "",
+      "error": "",
+      "success": ""
     }
   },
   "confirm": {
