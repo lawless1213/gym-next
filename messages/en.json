@@ -291,7 +291,9 @@
       "subscribe": "Subscribtion"
     },
     "profile": {
-      "personal": {},
+      "personal": {
+        "user": "User"
+      },
       "email": {
         "confirm": {
           "title": "Please confirm your email to access all site features",

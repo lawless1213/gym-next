@@ -16,7 +16,7 @@ export default function Appearance() {
   const t = useTranslations("settings.preferences.appearance");
   const tComponents = useTranslations("components");
   const tNotification = useTranslations("notification");
-  const { params, updateParam } = useUserPreferences();
+  const { updateParam } = useUserPreferences();
   const { setTheme, theme } = useAppTheme();
   const [pendingLocaleChange, setPendingLocaleChange] = useState(false);
   const locale = useLocale();

@@ -11,7 +11,7 @@ export default function Notifications() {
 
 	return (
 		<>
-			<div>Notifications will be available in future</div>	
+			<div className="text-muted-foreground text-xs">Notifications will be available in future</div>	
 		</>
 	);
 }
