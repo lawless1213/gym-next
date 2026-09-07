@@ -5,3 +5,4 @@ export * from "./exercise.schema";
 export * from "./routine.schema";
 export * from "./schedule.schema";
 export * from "./ai.schema";
+export * from "./user.schema";

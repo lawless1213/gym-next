@@ -181,6 +181,8 @@
       "value_too_large": "Value is too large",
       "title_too_small": "Title is too short",
       "title_too_large": "Title is too long",
+      "name_too_small": "Name is too short",
+      "name_too_large": "Name is too long",
       "text_too_small": "Text is too short",
       "text_too_large": "Text is too long",
       "invalid_email": "Invalid email address",
@@ -292,7 +294,8 @@
     },
     "profile": {
       "personal": {
-        "user": "User"
+        "user": "User",
+        "edit": "Edit profile"
       },
       "email": {
         "confirm": {
@@ -410,6 +413,17 @@
     "errors": {
       "loginFailed": "Failed to log in. Please try again.",
       "signupFailed": "Failed to sign up. Please try again."
+    }
+  },
+  "userEdit": {
+    "modal": {
+      "title": "Edit Profile",
+      "changePicture": "Change photo",
+      "addPicture": "Add photo",
+      "name": "Name",
+      "height": "Height",
+      "submit": "Save",
+      "error": "Something went wrong. Please try again later."
     }
   },
   "schedule": {
