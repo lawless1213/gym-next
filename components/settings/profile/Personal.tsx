@@ -14,8 +14,8 @@ export default function Personal() {
   const editHandler = () => {};
 
   return (
-    <div className="flex justify-start w-full items-center gap-4 p-6 bg-secondary rounded-2xl">
-      <div className="shrink-0 size-25 max-sm:size-15 bg-primary/60 rounded-[100%] flex items-center justify-center">
+    <div className="flex justify-start w-full items-center gap-4 p-4 bg-secondary rounded-2xl">
+      <div className="shrink-0 size-20 max-sm:size-15 bg-primary/60 rounded-[100%] flex items-center justify-center">
 				<span className="text-white font-bold text-2xl tracking-widest">AL</span>
 			</div>
       <div className="flex-1">

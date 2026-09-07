@@ -9,7 +9,7 @@ import { toast } from "sonner";
 
 export default function ConfirmEmail() {
   const t = useTranslations("settings.profile.email.confirm");
-  const tNotifications = useTranslations("notification.confirmEmail.send");
+  const tNotifications = useTranslations("notification.confirmEmail");
   const [isSend, setIsSend] = useState(false);
   const [loading, setLoading] = useState(false);
 
@@ -25,7 +25,7 @@ export default function ConfirmEmail() {
     try {
       setLoading(true);
       await sendVerificationEmail();
-      toast.info(tNotifications("send"));
+      toast.info(tNotifications("sent"));
       setIsSend(true);
     } catch (error: any) {
       if (error.code === "auth/too-many-requests") {

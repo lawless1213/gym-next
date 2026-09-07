@@ -129,7 +129,9 @@
     },
     "measurement": {
       "cm": "cm",
-      "kg": "kg"
+      "kg": "kg",
+      "in": "in",
+      "lb": "lbs"
     },
     "bottomNav": {
       "home": "Home",
@@ -299,7 +301,7 @@
           "title": "Please confirm your email to access all site features",
           "description": "We have sent a confirmation link to your email address.",
           "submit": "Resend email",
-          "check": "Check email",
+          "check": "Check",
           "emailConfirmSent": "Confirmation email has been sent",
           "success": "Confirmation successful",
           "error": "Something went wrong. Please try again"
@@ -373,6 +375,13 @@
   "notification": {
     "language": {
       "successChange": "Language changed"
+    },
+    "confirmEmail": {
+      "sent": "CVerification email sent",
+      "wasSent": "Confirmation email has already been sent to your inbox.",
+      "notConfirmed": "Email address is not verified.",
+      "error": "Failed to send confirmation email. Please try again later.",
+      "success": "Email address successfully verified!"
     }
   },
   "confirm": {
