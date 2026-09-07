@@ -2,6 +2,7 @@
 
 import SkeletonBone from "@/components/ui/Skeleton/SkeletonBone";
 import SkeletonSwitcher from "@/components/ui/Skeleton/SkeletonSwitcher";
+import { useUserPreferences } from "@/providers/user-preferences-provider";
 import { PersonalRecord } from "@/types";
 import { useTranslations } from "next-intl";
 
@@ -11,6 +12,7 @@ interface TotalRecordsProps {
 }
 
 export default function TotalRecords({records, loading}: TotalRecordsProps) {
+  const { params } = useUserPreferences();
   const tMeasurement = useTranslations("components.measurement");
   const t = useTranslations("stats.records");
   
@@ -36,7 +38,7 @@ export default function TotalRecords({records, loading}: TotalRecordsProps) {
           <div>
             <p className="text-2xl font-bold text-foreground">
               {Math.max(...records.map((pr) => pr.weight))}
-              {tMeasurement("kg")}
+              {tMeasurement(params.weight)}
             </p>
             <p className="text-sm text-muted-foreground">{t("heaviestLift")}</p>
           </div>

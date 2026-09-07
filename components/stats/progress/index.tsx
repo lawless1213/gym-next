@@ -12,8 +12,10 @@ import NewMeasurements from "./NewMeasurements";
 import MeasurementsList from "./MeasurementsList";
 import MeasurementsGrid from "./MeasurementsGrid";
 import MeasurementsChart from "./MeasurementsChart";
+import { useUserPreferences } from "@/providers/user-preferences-provider";
 
 export default function Progress() {
+  const { params } = useUserPreferences();
   const locale = useLocale();
   const t = useTranslations("stats");
   const tMeasurement = useTranslations("components.measurement");
@@ -38,11 +40,11 @@ export default function Progress() {
   const armsChange = progress?.arms && progress.arms.length >= 2 ? progress.arms.at(-1)!.value - progress.arms.at(-2)!.value : 0;
 
   const metrics = [
-    { key: "weight" as keyof BodyProgress, label: t("measurements.weight"), unit: tMeasurement("kg"), icon: IconScale, change: weightChange, increaseProfit: false },
-    { key: "waist" as keyof BodyProgress, label: t("measurements.waist"), unit: tMeasurement("cm"), icon: IconActivity, change: waistChange, increaseProfit: false },
-    { key: "chest" as keyof BodyProgress, label: t("measurements.chest"), unit: tMeasurement("cm"), icon: IconActivity, change: chestChange, increaseProfit: true },
-    { key: "arms" as keyof BodyProgress, label: t("measurements.arms"), unit: tMeasurement("cm"), icon: IconActivity, change: armsChange, increaseProfit: true },
-    { key: "thighs" as keyof BodyProgress, label: t("measurements.thighs"), unit: tMeasurement("cm"), icon: IconActivity, change: thighsChange, increaseProfit: true },
+    { key: "weight" as keyof BodyProgress, label: t("measurements.weight"), unit: tMeasurement(params.weight), icon: IconScale, change: weightChange, increaseProfit: false },
+    { key: "waist" as keyof BodyProgress, label: t("measurements.waist"), unit: tMeasurement(params.distance), icon: IconActivity, change: waistChange, increaseProfit: false },
+    { key: "chest" as keyof BodyProgress, label: t("measurements.chest"), unit: tMeasurement(params.distance), icon: IconActivity, change: chestChange, increaseProfit: true },
+    { key: "arms" as keyof BodyProgress, label: t("measurements.arms"), unit: tMeasurement(params.distance), icon: IconActivity, change: armsChange, increaseProfit: true },
+    { key: "thighs" as keyof BodyProgress, label: t("measurements.thighs"), unit: tMeasurement(params.distance), icon: IconActivity, change: thighsChange, increaseProfit: true },
   ];
 
   return (

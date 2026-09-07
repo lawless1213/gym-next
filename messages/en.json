@@ -209,7 +209,6 @@
     "quickStats": {
       "workoutsLabel": "Workouts",
       "thisWeek": "This week",
-      "kgLabel": "kg",
       "prsLabel": "PRs"
     }
   },
@@ -242,14 +241,11 @@
       "exercises": "Number of exercises",
       "textExercises": "this week",
       "volume": "Volume",
-      "textVolume": "kg this week"
+      "textVolume": "this week"
     },
     "list": {
       "recentTitle": "Recent workouts",
-      "exercises": "exercises",
-      "kg": "kg",
-      "prSingle": "PR",
-      "prPlural": "PRs"
+      "exercises": "exercises"
     }
   },
   "stats": {

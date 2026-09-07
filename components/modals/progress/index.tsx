@@ -13,9 +13,11 @@ import { useQueryClient } from "@tanstack/react-query";
 import { addUserProgress } from "@/lib/actions/progress";
 import { useTranslations } from "next-intl";
 import { ProgressFormData, progressSchema } from "@/lib/schemas";
+import { useUserPreferences } from "@/providers/user-preferences-provider";
 
 
 export function ProgressModal() {
+  const { params } = useUserPreferences();
   const tComponents = useTranslations("components");
   const t = useTranslations("measurements.modal");
 
@@ -24,11 +26,11 @@ export function ProgressModal() {
   const queryClient = useQueryClient();
 
   const FIELDS = [
-    { name: "weight", placeholder: `${t('fields.weight')} (${tComponents('measurement.kg')})` },
-    { name: "waist", placeholder: `${t('fields.waist')} (${tComponents('measurement.cm')})` },
-    { name: "chest", placeholder: `${t('fields.chest')} (${tComponents('measurement.cm')})` },
-    { name: "arms", placeholder: `${t('fields.arms')} (${tComponents('measurement.cm')})` },
-    { name: "thighs", placeholder: `${t('fields.thighs')} (${tComponents('measurement.cm')})` }
+    { name: "weight", placeholder: `${t('fields.weight')} (${tComponents(`measurement.${params.weight}`)})` },
+    { name: "waist", placeholder: `${t('fields.waist')} (${tComponents(`measurement.${params.distance}`)})` },
+    { name: "chest", placeholder: `${t('fields.chest')} (${tComponents(`measurement.${params.distance}`)})` },
+    { name: "arms", placeholder: `${t('fields.arms')} (${tComponents(`measurement.${params.distance}`)})` },
+    { name: "thighs", placeholder: `${t('fields.thighs')} (${tComponents(`measurement.${params.distance}`)})` }
   ] as const;
 
   const {

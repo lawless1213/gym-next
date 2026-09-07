@@ -6,6 +6,7 @@ import { cn } from "@/lib/utils";
 import { IconCheck, IconMinus, IconPlus } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/Button";
+import { useUserPreferences } from "@/providers/user-preferences-provider";
 
 interface SetInputProps {
   set: WorkoutSet;
@@ -15,7 +16,9 @@ interface SetInputProps {
 }
 
 export function SetInput({ set, setNumber, onUpdate, onComplete }: SetInputProps) {
+  const { params } = useUserPreferences();
   const t = useTranslations("workout.modal.exercise");
+  const tMeasurement = useTranslations("components.measurement");
   const [weight, setWeight] = useState(set.weight || 0);
   const [reps, setReps] = useState(set.reps || 0);
 
@@ -64,7 +67,7 @@ export function SetInput({ set, setNumber, onUpdate, onComplete }: SetInputProps
             }}
             disabled={set.completed}
             className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none h-8 w-10 sm:w16 rounded-lg bg-background text-center text-sm font-semibold text-foreground outline-none ring-1 ring-border focus:ring-primary disabled:opacity-50"
-            placeholder="kg"
+            placeholder={tMeasurement(params.weight)}
           />
           <Button
             variant="ghost"

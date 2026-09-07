@@ -209,7 +209,6 @@
     "quickStats": {
       "workoutsLabel": "Тренування",
       "thisWeek": "Цього тижня",
-      "kgLabel": "кг",
       "prsLabel": "PR"
     }
   },
@@ -244,12 +243,11 @@
       "exercises": "Кіл-сть вправ",
       "textExercises": "за цей тиждень",
       "volume": "Обʼєм",
-      "textVolume": "кг цього тижня"
+      "textVolume": "цього тижня"
     },
     "list": {
       "recentTitle": "Останні тренування",
-      "exercises": "вправ",
-      "kg": "кг"
+      "exercises": "вправ"
     }
   },
 

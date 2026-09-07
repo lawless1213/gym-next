@@ -4,10 +4,14 @@ import { WorkoutSession as WorkoutSessionType } from "@/types";
 import { getLocalizedText, type Locale } from "@/types/common";
 import { useLocale, useTranslations } from "next-intl";
 import { AnimatePresence, motion } from "motion/react";
+import { useUserPreferences } from "@/providers/user-preferences-provider";
 
 export default function WorkoutSessionCard(workout: WorkoutSessionType) {
+  const { params } = useUserPreferences();
+
   const t = useTranslations("history");
   const tMonth = useTranslations("components.month");
+  const tMeasurement = useTranslations("components.measurement");
   const locale = useLocale() as Locale;
   const [isOpen, setIsOpen] = useState(false);
 
@@ -19,8 +23,7 @@ export default function WorkoutSessionCard(workout: WorkoutSessionType) {
     <div
       onClick={() => setIsOpen((prev) => !prev)}
       aria-expanded={isOpen}
-      className="w-full rounded-xl bg-card text-left cursor-pointer transition-colors hover:bg-secondary"
-    >
+      className="w-full rounded-xl bg-card text-left cursor-pointer transition-colors hover:bg-secondary">
       <div className="flex w-full items-center gap-4 p-4">
         <div className="flex h-12 w-12 shrink-0 flex-col items-center justify-center rounded-xl bg-secondary">
           <span className="text-xs font-medium text-muted-foreground">{tMonth(`short.${String(date.getMonth() + 1)}`)}</span>
@@ -35,7 +38,6 @@ export default function WorkoutSessionCard(workout: WorkoutSessionType) {
             <span className="flex items-center gap-1">
               <IconClock className="h-3.5 w-3.5" />
               {Math.round((workout.duration ?? 0) / 60)}m
-         
             </span>
             <span className="flex items-center gap-1">
               <IconBarbell className="h-3.5 w-3.5" />
@@ -46,7 +48,7 @@ export default function WorkoutSessionCard(workout: WorkoutSessionType) {
 
         <div className="text-right">
           <p className="font-semibold text-foreground">{volume >= 1000 ? `${(volume / 1000).toFixed(1)}K` : volume}</p>
-          <p className="text-xs text-muted-foreground">{t("list.kg")}</p>
+          <p className="text-xs text-muted-foreground">{tMeasurement(params.weight)}</p>
         </div>
       </div>
       <AnimatePresence initial={false}>
@@ -56,20 +58,17 @@ export default function WorkoutSessionCard(workout: WorkoutSessionType) {
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
-            transition={{ duration: 0.25, ease: "easeInOut" }}
-          >
+            transition={{ duration: 0.25, ease: "easeInOut" }}>
             {workout.exercises.map((exercise, exerciseIndex) => (
               <div
                 key={`${exercise.id}-${exerciseIndex}`}
-                className="flex flex-wrap items-center justify-between gap-2 py-2"
-              >
+                className="flex flex-wrap items-center justify-between gap-2 py-2">
                 <p className="shrink-0 text-sm font-medium">{getLocalizedText(exercise.name, locale)}</p>
                 <div className="flex flex-wrap gap-2">
                   {exercise.sets.map((set, setIndex) => (
                     <div
                       key={`${exercise.id}-${setIndex}`}
-                      className={`rounded-xl bg-secondary px-4 py-1 ${set.completed ? "border border-primary" : ""}`}
-                    >
+                      className={`rounded-xl bg-secondary px-4 py-1 ${set.completed ? "border border-primary" : ""}`}>
                       <span className="text-xs text-foreground">
                         {set.reps}x{set.weight}
                       </span>
@@ -81,7 +80,6 @@ export default function WorkoutSessionCard(workout: WorkoutSessionType) {
           </motion.div>
         )}
       </AnimatePresence>
-      
     </div>
   );
 }

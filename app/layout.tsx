@@ -57,13 +57,13 @@ export default function RootLayout({
           <NextIntlClientProvider>
             <AuthProvider>
               <QueryProvider>
-                <ModalProvider>
-                  <TooltipProvider delayDuration={200}>
-                    <UserPreferencesProvider>
+                <UserPreferencesProvider>
+                  <ModalProvider>
+                    <TooltipProvider delayDuration={200}>
                       <AppShell>{children}</AppShell>
-                    </UserPreferencesProvider>
-                  </TooltipProvider>
-                </ModalProvider>
+                    </TooltipProvider>
+                  </ModalProvider>
+                </UserPreferencesProvider>
               </QueryProvider>
             </AuthProvider>
           </NextIntlClientProvider>

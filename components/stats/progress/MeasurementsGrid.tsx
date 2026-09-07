@@ -1,6 +1,6 @@
 import { IconTrendingDown, IconTrendingUp } from "@tabler/icons-react";
 import { cn } from "@/lib/utils";
-import { BodyProgress, Measurement } from "@/types";
+import { BodyProgress } from "@/types";
 import SkeletonBone from "@/components/ui/Skeleton/SkeletonBone";
 import SkeletonSwitcher from "@/components/ui/Skeleton/SkeletonSwitcher";
 

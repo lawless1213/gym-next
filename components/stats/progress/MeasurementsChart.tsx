@@ -4,6 +4,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { BodyProgress } from "@/types";
 import SkeletonBone from "@/components/ui/Skeleton/SkeletonBone";
 import SkeletonSwitcher from "@/components/ui/Skeleton/SkeletonSwitcher";
+import { useUserPreferences } from "@/providers/user-preferences-provider";
 
 interface MeasurementsChartProps {
   progress?: BodyProgress;
@@ -12,6 +13,7 @@ interface MeasurementsChartProps {
 }
 
 export default function MeasurementsChart({ progress, selectedMetric, loading }: MeasurementsChartProps) {
+  const { params } = useUserPreferences();
   const locale = useLocale();
   const t = useTranslations("stats");
   const tMeasurement = useTranslations("components.measurement");
@@ -66,7 +68,7 @@ export default function MeasurementsChart({ progress, selectedMetric, loading }:
                     return (
                       <div className="bg-card border border-border rounded-xl p-2">
                         <div className="font-semibold">
-                          {value} {selectedMetric === "weight" ? tMeasurement("kg") : tMeasurement("cm")}
+                          {value} {selectedMetric === "weight" ? tMeasurement(params.weight) : tMeasurement(params.distance)}
                         </div>
                         <div className="text-xs text-muted-foreground">{date}</div>
                       </div>

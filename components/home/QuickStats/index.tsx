@@ -6,6 +6,7 @@ import { totalHistoryVolume } from "@/lib/utils";
 import SkeletonSwitcher from "@/components/ui/Skeleton/SkeletonSwitcher";
 import SkeletonBone from "@/components/ui/Skeleton/SkeletonBone";
 import { PersonalRecord, WorkoutSession } from "@/types";
+import { useUserPreferences } from "@/providers/user-preferences-provider";
 
 type QuickStatsProps = {
 	lastWeekHistory: WorkoutSession[];
@@ -14,7 +15,9 @@ type QuickStatsProps = {
 };
 
 export default function QuickStats({lastWeekHistory, lastWeekRecords, isLoading}:QuickStatsProps) {
+  const { params } = useUserPreferences();
   const t = useTranslations("home");
+  const tMeasurement = useTranslations("components.measurement");
 
   return (
     <SkeletonSwitcher
@@ -37,7 +40,7 @@ export default function QuickStats({lastWeekHistory, lastWeekRecords, isLoading}
           sublabel={t("quickStats.thisWeek")}
         />
         <QuickStat
-          label={t("quickStats.kgLabel")}
+          label={tMeasurement(params.weight)}
           value={totalHistoryVolume(lastWeekHistory)}
           sublabel={t("quickStats.thisWeek")}
         />

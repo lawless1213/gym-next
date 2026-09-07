@@ -5,13 +5,17 @@ import { useTranslations } from "next-intl";
 import SkeletonSwitcher from "@/components/ui/Skeleton/SkeletonSwitcher";
 import SkeletonBone from "@/components/ui/Skeleton/SkeletonBone";
 import { WorkoutSession } from "@/types";
+import { useUserPreferences } from "@/providers/user-preferences-provider";
 
 interface WeekStatsProps {
-	history: WorkoutSession[];
-	loading: boolean;
+  history: WorkoutSession[];
+  loading: boolean;
 }
 
-export default function WeekStats({history, loading} :WeekStatsProps) {
+export default function WeekStats({ history, loading }: WeekStatsProps) {
+  const { params } = useUserPreferences();
+  const tMeasurement = useTranslations("components.measurement");
+
   const t = useTranslations("history");
 
   const weeklyVolume = history.reduce((total, workout) => total + (workout.volume ?? 0), 0);
@@ -49,7 +53,7 @@ export default function WeekStats({history, loading} :WeekStatsProps) {
             <span className="text-sm">{t("summary.volume")}</span>
           </div>
           <p className="mt-1 text-2xl font-bold text-foreground">{weeklyVolume >= 1000 ? `${(weeklyVolume / 1000).toFixed(1)}K` : weeklyVolume}</p>
-          <p className="text-xs text-muted-foreground">{t("summary.textVolume")}</p>
+          <p className="text-xs text-muted-foreground">{tMeasurement(params.weight)} {t("summary.textVolume")}</p>
         </div>
       </SkeletonSwitcher>
     </div>

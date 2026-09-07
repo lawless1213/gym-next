@@ -14,10 +14,22 @@ interface RecordsListProps {
   loading: boolean;
 }
 
+function toMillis(d: any): number {
+  if (d == null) return 0;
+  if (typeof d === "number") return d;
+  if (typeof d === "string") return new Date(d).getTime();
+  if (d instanceof Date) return d.getTime();
+  if (typeof d.toMillis === "function") return d.toMillis();
+  if (typeof d.seconds === "number") {
+    return d.seconds * 1000 + Math.floor((d.nanoseconds ?? 0) / 1e6);
+  }
+  return 0;
+}
+
 export default function RecordsList({ records, loading }: RecordsListProps) {
   const t = useTranslations("stats.records");
   const { open, confirm } = useModal();
-  
+
   return (
     <div className="space-y-3">
       <h2 className="text-sm font-semibold text-muted-foreground">{t("title")}</h2>
@@ -38,16 +50,21 @@ export default function RecordsList({ records, loading }: RecordsListProps) {
         {records && records.length ? (
           <div className="space-y-3">
             {records
-              .sort((a, b) => b.date.toMillis() - a.date.toMillis())
+              .slice()
+              .sort((a: any, b: any) => toMillis(b.date) - toMillis(a.date))
               .map((record: any) => (
                 <RecordCard
-                  key={`${record.workoutId}-${record.date?.toMillis?.() ?? ""}`}
+                  key={`${record.workoutId}-${toMillis(record.date)}`}
                   record={record}
                 />
               ))}
           </div>
         ) : (
-          <ActionCard title={t("empty")} icon={IconBolt} onClick={() => open("quickWorkout")}/>
+          <ActionCard
+            title={t("empty")}
+            icon={IconBolt}
+            onClick={() => open("quickWorkout")}
+          />
         )}
       </SkeletonSwitcher>
     </div>

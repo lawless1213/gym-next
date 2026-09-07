@@ -1,6 +1,7 @@
 "use client";
 
 import { getLocalizedText } from "@/lib/utils";
+import { useUserPreferences } from "@/providers/user-preferences-provider";
 import { PersonalRecord } from "@/types";
 import { IconTrophy } from "@tabler/icons-react";
 import { AnimatePresence, motion } from "motion/react";
@@ -8,7 +9,8 @@ import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
 
 export default function RecordCard({ record }: { record: PersonalRecord }) {
-	const locale = useLocale();
+  const { params } = useUserPreferences();
+  const locale = useLocale();
   const t = useTranslations("stats.records.card");
   const tMeasurement = useTranslations("components.measurement");
   const [isOpen, setIsOpen] = useState(false);
@@ -29,12 +31,12 @@ export default function RecordCard({ record }: { record: PersonalRecord }) {
         <div className="flex-1 min-w-0">
           <div className="flex items-center gap-2">
             <span className="text-sm font-semibold truncate">{title}</span>
-            {isNew && <span className="text-[10px] font-semibold bg-primary/15 text-primary rounded px-1.5 py-0.5 shrink-0">{t('new')}</span>}
+            {isNew && <span className="text-[10px] font-semibold bg-primary/15 text-primary rounded px-1.5 py-0.5 shrink-0">{t("new")}</span>}
           </div>
 
           <span className="text-xs text-muted-foreground">{date.toDate().toLocaleDateString(locale, { month: "short", day: "numeric", year: "numeric" })}</span>
         </div>
-        <span className="text-xl font-bold text-primary shrink-0">{weight + tMeasurement('kg')}</span>
+        <span className="text-xl font-bold text-primary shrink-0">{weight + tMeasurement(params.weight)}</span>
       </div>
 
       <AnimatePresence initial={false}>
@@ -46,20 +48,20 @@ export default function RecordCard({ record }: { record: PersonalRecord }) {
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.25, ease: "easeInOut" }}>
             <div className="flex-1 flex flex-col gap-0.5 p-3">
-              <span className="text-[10px] text-muted-foreground uppercase tracking-wide">{t('current')}</span>
+              <span className="text-[10px] text-muted-foreground uppercase tracking-wide">{t("current")}</span>
               <span className="text-sm font-semibold text-primary">
-                {weight}kg × {reps}
+                {weight + tMeasurement(params.weight)} × {reps}
               </span>
             </div>
 
             <div className="flex-1 flex flex-col gap-0.5 border-l border-dashed border-muted-foreground/20 p-3">
-              <span className="text-[10px] text-muted-foreground uppercase tracking-wide">{t('previous')}</span>
-              <span className="text-sm font-semibold text-muted-foreground">{prevWeight ? `${prevWeight + tMeasurement('kg')} × ${prevReps}` : "—"}</span>
+              <span className="text-[10px] text-muted-foreground uppercase tracking-wide">{t("previous")}</span>
+              <span className="text-sm font-semibold text-muted-foreground">{prevWeight ? `${prevWeight + tMeasurement(params.weight)} × ${prevReps}` : "—"}</span>
             </div>
 
             <div className="flex-1 flex flex-col gap-0.5 border-l border-dashed border-muted-foreground/20 p-3">
-              <span className="text-[10px] text-muted-foreground uppercase tracking-wide">{t('growth')}</span>
-              <span className="text-sm font-semibold text-primary">{gain ? `+${gain + tMeasurement('kg')}` : "—"}</span>
+              <span className="text-[10px] text-muted-foreground uppercase tracking-wide">{t("growth")}</span>
+              <span className="text-sm font-semibold text-primary">{gain ? `+${gain + tMeasurement(params.weight)}` : "—"}</span>
             </div>
           </motion.div>
         )}

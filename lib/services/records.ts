@@ -36,7 +36,10 @@ export async function getUserRecords(
     const matchesExercise = exerciseIds ? exerciseIds.includes(exerciseId) : true;
     const matchesPeriod = startDate ? record.date.toDate() >= startDate : true;
     if (matchesExercise && matchesPeriod) {
-      filteredRecords[exerciseId] = record;
+      filteredRecords[exerciseId] = {
+        ...record,
+        date: record.date.toMillis() as unknown as typeof record.date,
+      };
     }
   }
 
