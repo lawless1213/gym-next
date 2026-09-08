@@ -8,8 +8,8 @@ export type UserParams = {
   gender: "male" | "female";
   distance: "cm" | "in";
   weight: "kg" | "lb";
-  height: number;
-  avatarUrl: string;
+  height: number | null;
+  avatarUrl: string | null;
 };
 
 export async function getUserParams(

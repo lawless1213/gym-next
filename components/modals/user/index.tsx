@@ -33,7 +33,7 @@ export function UserEditModal() {
     defaultValues: {
       photo: params.avatarUrl ?? undefined,
       name: user?.displayName || "",
-      height: params.height,
+      height: params?.height ? params?.height : 0
     },
   });
 

@@ -13,6 +13,8 @@ const defaultUserParams: UserParams = {
   gender: "male",
   distance: "cm",
   weight: "kg",
+  height: null,
+  avatarUrl: null
 };
 
 type UserPreferencesContextValue = {
