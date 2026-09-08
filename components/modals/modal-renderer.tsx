@@ -11,9 +11,11 @@ import { RoutineEditModal } from '@/components/modals/routine/edit';
 import { QuickWorkoutModal } from '@/components/modals/workout/quickWorkout';
 import { AiModal } from '@/components/modals/AI';
 import { UserEditModal } from './user';
+import { ReauthModal } from './reauth';
 
 const MODAL_MAP = {
   auth: AuthModal,
+  reauth: ReauthModal,
   userEdit: UserEditModal,
   exercise: ExerciseCreateModal,
   exerciseEdit: ExerciseEditModal,

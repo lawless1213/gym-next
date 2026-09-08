@@ -3,37 +3,30 @@
 import { useModal } from "@/components/modals/modal-store";
 import { Button } from "@/components/ui/Button";
 import { useAuth } from "@/hooks/useAuth";
+import { useReauthModal } from "@/hooks/useModals/useReauthModal";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 
 export default function DeleteUser() {
   const t = useTranslations("settings.profile.delete");
-  const { open, confirm } = useModal();
+ const { requestReauth } = useReauthModal();
+  const { deleteAccount } = useAuth();
 
-  const { user, deleteAccount } = useAuth();
-  const userId = user?.uid;
-
-  const handleDelete = async () => {
-    try {
-      if (!user) throw new Error("Not authenticated");
-
-      const ok = await confirm({
-        title: t("confirm"),
-      });
-
-      if (ok) {
-        // deleteAccount();
-        toast.warning(t("accountDeleted"));
-      }
-    } catch (err: any) {
-      console.log(err);
-    }
+  const handleDelete = () => {
+    requestReauth({
+      title: "Видалення акаунту",
+      description: "Для підтвердження цієї дії введіть свій поточний пароль.",
+      onConfirm: async (password: string) => {
+        await deleteAccount(password);
+        toast.success("Акаунт успішно видалено");
+      },
+    });
   };
 
   return (
     <Button
       variant="destructive"
-      onClick={() => handleDelete()}>
+      onClick={handleDelete}>
       {t("submit")}
     </Button>
   );

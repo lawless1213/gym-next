@@ -27,7 +27,7 @@ type AuthContextValue = {
   checkEmailVerified: () => Promise<boolean>;
   changePassword: (newPassword: string) => Promise<void>;
   changeEmail: (newEmail: string) => Promise<void>;
-  deleteAccount: () => Promise<void>;
+  deleteAccount: (password?: string) => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
