@@ -15,6 +15,7 @@ import ButtonAdd from "../components/shared/ButtonAdd";
 import { WorkoutCardSection } from "@/components/home/WorkoutCardSection";
 import QuickStats from "@/components/home/QuickStats";
 import QuickWorkout from "@/components/home/QuickWorkout";
+import ConfirmEmail from "../components/shared/ConfirmEmail";
 
 export default function Home() {
   const t = useTranslations("home");
@@ -32,6 +33,7 @@ export default function Home() {
     <div className="flex flex-col gap-4 pb-4">
       <WeeklyCalendar />
       <WorkoutCardSection />
+      <ConfirmEmail />
       <MotivationalBanner
         records={lastWeekRecords}
         lastWeekHistory={lastWeekHistory}

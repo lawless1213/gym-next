@@ -4,7 +4,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useTranslations } from "next-intl";
 import DeleteUser from "./contents/DeleteUser";
 import Personal from "./Personal";
-import ConfirmEmail from "./ConfirmEmail";
+import ConfirmEmail from "../../shared/ConfirmEmail";
 import ChangeEmail from "./contents/ChangeEmail";
 import ChangePassword from "./contents/ChangePassword";
 import SettingsSection from "../SettingsSection";

@@ -378,11 +378,12 @@
       "successChange": "Language changed"
     },
     "confirmEmail": {
-      "sent": "CVerification email sent",
+      "sent": "Verification email sent",
       "wasSent": "Confirmation email has already been sent to your inbox.",
       "notConfirmed": "Email address is not verified.",
       "error": "Failed to send confirmation email. Please try again later.",
-      "success": "Email address successfully verified!"
+      "success": "Email address successfully verified!",
+      "signup": "For verification email visit account setting"
     }
   },
   "confirm": {

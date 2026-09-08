@@ -2,7 +2,7 @@
 
 import { Button } from "@/components/ui/Button"; // перевірте шлях до кнопки
 import { useAuth } from "@/hooks/useAuth";
-import { IconChevronRight, IconMailExclamation } from "@tabler/icons-react";
+import { IconChevronRight, IconMailExclamation, IconReload } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -62,19 +62,26 @@ export default function ConfirmEmail() {
   return (
     <div
       onClick={!isSend ? handleSendEmail : undefined}
-      className="flex gap-2 p-4 items-center bg-warning/10 text-warning rounded-2xl cursor-pointer hover:text-foreground duration-200 select-none">
-      <IconMailExclamation className="shrink-0" />
-      <div className="text-sm">{t("title")}</div>
+      className={`flex gap-x-2 gap-y-4 p-4 min-h-17 items-center justify-between bg-warning/10 text-warning rounded-2xl duration-200 select-none max-sm:flex-col ${!isSend && "hover:text-foreground cursor-pointer"}`}>
+      <div className="flex gap-2 self-center items-center flex-1">
+        <IconMailExclamation className="shrink-0" />
+        <div className="text-sm">{t("title")}</div>{!isSend && <IconChevronRight className="ml-auto shrink-0" />}
+      </div>
 
-      {isSend ? (
-        <Button
-          disabled={loading}
-          onClick={handleCheckConfirm}
-          className="ml-auto">
-          {t("check")}
-        </Button>
-      ) : (
-        <IconChevronRight className="ml-auto shrink-0" />
+      {isSend && (
+        <div className="flex gap-2 items-center self-center">
+          <Button
+            variant="outline"
+            size="icon"
+            onClick={handleSendEmail}>
+            <IconReload stroke={2} />
+          </Button>
+          <Button
+            disabled={loading}
+            onClick={handleCheckConfirm}>
+            {t("check")}
+          </Button>
+        </div>
       )}
     </div>
   );
