@@ -8,8 +8,8 @@ import { useTranslations } from "next-intl";
 import { toast } from "sonner";
 
 export default function DeleteUser() {
-  const t = useTranslations("settings.profile.delete");
- const { requestReauth } = useReauthModal();
+	const t = useTranslations("settings.profile.delete");
+ 	const { requestReauth } = useReauthModal();
   const { deleteAccount } = useAuth();
 
   const handleDelete = () => {

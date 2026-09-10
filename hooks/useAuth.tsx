@@ -9,12 +9,12 @@ import {
   signOut,
   sendEmailVerification,
   updatePassword,
-  updateEmail,
+  verifyBeforeUpdateEmail,
   deleteUser,
+  reauthenticateWithCredential,
+  EmailAuthProvider,
 } from "firebase/auth";
 import { auth } from "@/lib/config/firebaseConfig";
-
-
 
 type AuthContextValue = {
   user: User | null;
@@ -22,12 +22,12 @@ type AuthContextValue = {
   login: (email: string, password: string) => Promise<void>;
   signup: (email: string, password: string) => Promise<void>;
   logout: () => Promise<void>;
-  // Нові функції:
   sendVerificationEmail: () => Promise<void>;
   checkEmailVerified: () => Promise<boolean>;
-  changePassword: (newPassword: string) => Promise<void>;
-  changeEmail: (newEmail: string) => Promise<void>;
+  changePassword: (newPassword: string, currentPassword?: string) => Promise<void>;
+  changeEmail: (newEmail: string, currentPassword?: string) => Promise<void>;
   deleteAccount: (password?: string) => Promise<void>;
+  reauthenticate: (password: string) => Promise<void>;
 };
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
@@ -49,11 +49,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const signup = async (email: string, password: string) => {
-    const res = await createUserWithEmailAndPassword(auth, email, password);
+    await createUserWithEmailAndPassword(auth, email, password);
   };
 
   const logout = async () => {
     await signOut(auth);
+  };
+
+  const reauthenticate = async (password: string) => {
+    const currentUser = auth.currentUser;
+    if (!currentUser || !currentUser.email) {
+      throw new Error("Користувач не авторизований");
+    }
+    const credential = EmailAuthProvider.credential(currentUser.email, password);
+    await reauthenticateWithCredential(currentUser, credential);
   };
 
   const sendVerificationEmail = async () => {
@@ -69,18 +78,29 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     return updatedUser.emailVerified;
   };
 
-  const changePassword = async (newPassword: string) => {
+  const changePassword = async (newPassword: string, currentPassword?: string) => {
     if (!auth.currentUser) throw new Error("Користувач не авторизований");
+    if (currentPassword) {
+      await reauthenticate(currentPassword);
+    }
     await updatePassword(auth.currentUser, newPassword);
   };
 
-  const changeEmail = async (newEmail: string) => {
+  const changeEmail = async (newEmail: string, currentPassword?: string) => {
     if (!auth.currentUser) throw new Error("Користувач не авторизований");
-    await updateEmail(auth.currentUser, newEmail);
+    if (currentPassword) {
+      await reauthenticate(currentPassword);
+    }
+    await verifyBeforeUpdateEmail(auth.currentUser, newEmail);
   };
 
-  const deleteAccount = async () => {
+  const deleteAccount = async (password?: string) => {
     if (!auth.currentUser) throw new Error("Користувач не авторизований");
+
+    if (password) {
+      await reauthenticate(password);
+    }
+
     await deleteUser(auth.currentUser);
   };
 
@@ -96,8 +116,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       changePassword,
       changeEmail,
       deleteAccount,
+      reauthenticate,
     }),
-    [user, loading]
+    [user, loading],
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
