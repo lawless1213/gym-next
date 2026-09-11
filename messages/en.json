@@ -398,6 +398,16 @@
     "cancel": "No"
   },
   "auth": {
+    "title": "Email Verification",
+    "subtitle": "Updating account security details",
+    "page": {
+      "confirming": "Confirming your new email address...",
+      "confirmingError": "Confirmation Error",
+      "linkOld": "This link is expired or has already been used.",
+      "login": "Go to Login",
+      "confirmingSuccess": "Your new email address has been successfully verified. Please log in to your account again.",
+      "repeatLogin": "Log In with New Email"
+    },
     "modal": {
       "title": "Welcome to GYM",
       "registerTab": "Sign Up",

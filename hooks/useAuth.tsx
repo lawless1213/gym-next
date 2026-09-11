@@ -2,18 +2,7 @@
 
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import type { User } from "firebase/auth";
-import {
-  onAuthStateChanged,
-  signInWithEmailAndPassword,
-  createUserWithEmailAndPassword,
-  signOut,
-  sendEmailVerification,
-  updatePassword,
-  verifyBeforeUpdateEmail,
-  deleteUser,
-  reauthenticateWithCredential,
-  EmailAuthProvider,
-} from "firebase/auth";
+import { onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, sendEmailVerification, updatePassword, verifyBeforeUpdateEmail, deleteUser, reauthenticateWithCredential, EmailAuthProvider } from "firebase/auth";
 import { auth } from "@/lib/config/firebaseConfig";
 
 type AuthContextValue = {
@@ -80,7 +69,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const changePassword = async (newPassword: string, currentPassword?: string) => {
     if (!auth.currentUser) throw new Error("Користувач не авторизований");
-  
+
     if (currentPassword && currentPassword === newPassword) {
       const error = new Error("Новий пароль не може збігатися з поточним");
       (error as any).code = "auth/same-password";
@@ -94,11 +83,20 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const changeEmail = async (newEmail: string, currentPassword?: string) => {
-    if (!auth.currentUser) throw new Error("Користувач не авторизований");
+    if (!auth.currentUser) throw new Error("No user");
+
     if (currentPassword) {
       await reauthenticate(currentPassword);
     }
-    await verifyBeforeUpdateEmail(auth.currentUser, newEmail);
+
+    const baseUrl = typeof window !== "undefined" ? window.location.origin : "";
+
+    const actionCodeSettings = {
+      url: `${baseUrl}/auth/action`,
+      handleCodeInApp: true,
+    };
+
+    await verifyBeforeUpdateEmail(auth.currentUser, newEmail, actionCodeSettings);
   };
 
   const deleteAccount = async (password?: string) => {
