@@ -4,6 +4,7 @@ import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import type { User } from "firebase/auth";
 import { onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, sendEmailVerification, updatePassword, verifyBeforeUpdateEmail, deleteUser, reauthenticateWithCredential, EmailAuthProvider } from "firebase/auth";
 import { auth } from "@/lib/config/firebaseConfig";
+import { useRouter } from "next/router";
 
 type AuthContextValue = {
   user: User | null;
@@ -34,7 +35,9 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const login = async (email: string, password: string) => {
+    // const router = useRouter();
     await signInWithEmailAndPassword(auth, email, password);
+    // router.push("/");
   };
 
   const signup = async (email: string, password: string) => {
