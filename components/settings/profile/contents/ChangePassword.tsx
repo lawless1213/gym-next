@@ -30,33 +30,28 @@ export default function ChangePassword() {
   const { ref: passwordRef, ...passwordRest } = register("password");
   const { ref: confirmPasswordRef, ...confirmPasswordRest } = register("confirmPassword");
 
-  // Основний обробник відправки форми після успішної валідації Zod
-  const onSubmit = (data: newPassFormData) => {
-    requestReauth({
-      title: t("title"), // "Зміна пароля"
-      description: t("reauthDescription"), // "Для підтвердження дії введіть свій поточний пароль"
-      onConfirm: async (currentPassword: string) => {
-        try {
-          // Передаємо 1: новий пароль, 2: поточний пароль для реавтентифікації
-          await changePassword(data.password, currentPassword);
-          toast.success(t("passwordChanged"));
-          reset(); // очищаємо форму після успіху
-        } catch (err: any) {
-          if (err?.code === "auth/same-global-password") {
-            setError("password", {
-              message: t("errors.samePassword"), // "Новий пароль не може збігатися зі старим"
-            });
-          } else {
-            // Передаємо помилку далі, щоб ReauthModal зміг показати "Невірний поточний пароль"
-            throw err; 
-          }
-        }
-      },
-    });
-  };
+ const onSubmit = (data: newPassFormData) => {
+  requestReauth({
+    title: t("confirmTitle"),
+    description: t("confirmDescription"),
+    onConfirm: async (currentPassword: string) => {
+      if (data.password === currentPassword) {
+        setError("password", {
+          message: "same_as_current",
+        });
+        
+        return; 
+      }
+
+      await changePassword(data.password, currentPassword);
+      toast.success(t("passwordChanged"));
+      reset();
+    },
+  });
+};
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4">
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 w-full">
       <Input
         ref={passwordRef}
         input={{

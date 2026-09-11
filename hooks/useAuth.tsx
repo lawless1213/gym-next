@@ -80,6 +80,13 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const changePassword = async (newPassword: string, currentPassword?: string) => {
     if (!auth.currentUser) throw new Error("Користувач не авторизований");
+  
+    if (currentPassword && currentPassword === newPassword) {
+      const error = new Error("Новий пароль не може збігатися з поточним");
+      (error as any).code = "auth/same-password";
+      throw error;
+    }
+
     if (currentPassword) {
       await reauthenticate(currentPassword);
     }

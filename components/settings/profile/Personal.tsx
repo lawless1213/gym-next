@@ -37,6 +37,7 @@ export default function Personal() {
       <div className="flex-1">
         <div className="text-xl font-bold">{user?.displayName || t("user")}</div>
         <div className="text-sm">{params.height + tMeasurement(params.distance)}</div>
+        {user?.displayName ? <div className="text-sm text-muted-foreground">{user.email}</div> : <div className="text-sm">t("emptyEmail")</div> }
       </div>
 
       <Tooltip>

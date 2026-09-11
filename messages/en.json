@@ -313,6 +313,8 @@
           "placeholders": {
             "email": "Enter new email"
           },
+          "confirmTitle": "Change Email Address",
+          "confirmDescription": "Please enter your current password to confirm this action.",
           "submit": "Save email",
           "emailChanged": "Email changed successfully. Please confirm it",
           "error": "Something went wrong. Please try again"
@@ -325,6 +327,8 @@
           "change": "New password",
           "repeat": "Repeat new password"
         },
+        "confirmTitle": "Change Password",
+        "confirmDescription": "Please enter your current password to confirm this action.",
         "submit": "Update password",
         "passwordChanged": "Password updated successfully",
         "error": "Something went wrong. Please try again"
@@ -333,6 +337,8 @@
         "title": "Delete account",
         "text": "Your account will be permanently deleted. This action is irreversible",
         "submit": "Delete",
+        "confirmTitle": "Delete Account",
+        "confirmDescription": "Please enter your current password to confirm this action.",
         "accountDeleted": "Account deleted successfully",
         "error": "Something went wrong. Please try again"
       }
@@ -414,6 +420,22 @@
     "errors": {
       "loginFailed": "Failed to log in. Please try again.",
       "signupFailed": "Failed to sign up. Please try again."
+    }
+  },
+  "reauth": {
+    "modal": {
+      "title": "Action Confirmation",
+      "confirm": "Confirm",
+      "cancel": "Cancel",
+      "confirming": "Confirming..."
+    },
+    "fields": {
+      "password": "Password"
+    },
+    "errors": {
+      "error_occurred": "An error occurred. Please try again",
+      "wrong_password": "Incorrect current password",
+      "password_required": "Please enter your password"
     }
   },
   "userEdit": {

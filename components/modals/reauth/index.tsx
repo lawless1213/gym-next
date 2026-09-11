@@ -11,7 +11,7 @@ import { useReauthModal } from "@/hooks/useModals/useReauthModal";
 
 export function ReauthModal() {
   const tComponents = useTranslations("components");
-  const t = useTranslations("reauth.modal");
+  const t = useTranslations("reauth");
   
   // Отримуємо дані з нашого хука
   const { close, title, description, onSuccess } = useReauthModal();
@@ -40,7 +40,13 @@ export function ReauthModal() {
       reset();
       close();
     } catch (err: any) {
-      if (err?.code === "auth/wrong-password" || err?.code === "auth/invalid-credential") {
+      const wrongPasswordCodes = [
+        "auth/wrong-password",
+        "auth/invalid-credential",
+        "auth/invalid-password",
+      ];
+
+      if (wrongPasswordCodes.includes(err?.code)) {
         setError("password", { message: "wrong_password" });
       } else {
         setError("password", { message: "error_occurred" });
@@ -51,7 +57,7 @@ export function ReauthModal() {
   return (
     <ModalWrapper
       modalType="reauth"
-      title={title || t("title")}
+      title={title || t("modal.title")}
     >
       <div className="flex flex-col gap-4">
         {description && (
@@ -65,7 +71,7 @@ export function ReauthModal() {
               ...passwordRest,
               type: "password",
               id: "currentPassword",
-              placeholder: t("passwordPlaceholder"),
+              placeholder: t("fields.password"),
               error:
                 errors.password?.message &&
                 tComponents("forms." + errors.password?.message),
@@ -79,7 +85,7 @@ export function ReauthModal() {
               onClick={close}
               disabled={isSubmitting}
             >
-              {t("cancel")}
+              {t("modal.cancel")}
             </Button>
 
             <Button
@@ -87,7 +93,7 @@ export function ReauthModal() {
               disabled={isSubmitting}
               className="bg-primary text-primary-foreground hover:bg-primary/90"
             >
-              {isSubmitting ? t("confirming") : t("confirm")}
+              {isSubmitting ? t("modal.confirming") : t("modal.confirm")}
             </Button>
           </div>
         </form>

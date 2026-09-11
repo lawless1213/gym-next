@@ -14,11 +14,11 @@ export default function DeleteUser() {
 
   const handleDelete = () => {
     requestReauth({
-      title: "Видалення акаунту",
-      description: "Для підтвердження цієї дії введіть свій поточний пароль.",
+      title: t("confirmTitle"),
+      description: t("confirmDescription"),
       onConfirm: async (password: string) => {
         await deleteAccount(password);
-        toast.success("Акаунт успішно видалено");
+        toast.success(t('accountDeleted'));
       },
     });
   };
