@@ -316,7 +316,7 @@
           "confirmTitle": "Change Email Address",
           "confirmDescription": "Please enter your current password to confirm this action.",
           "submit": "Save email",
-          "emailChanged": "Email changed successfully. Please confirm it",
+          "emailChanged": "A verification email has been sent to your new address. Please check your inbox.",
           "error": "Something went wrong. Please try again"
         }
       },

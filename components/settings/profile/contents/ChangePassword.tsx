@@ -30,28 +30,30 @@ export default function ChangePassword() {
   const { ref: passwordRef, ...passwordRest } = register("password");
   const { ref: confirmPasswordRef, ...confirmPasswordRest } = register("confirmPassword");
 
- const onSubmit = (data: newPassFormData) => {
-  requestReauth({
-    title: t("confirmTitle"),
-    description: t("confirmDescription"),
-    onConfirm: async (currentPassword: string) => {
-      if (data.password === currentPassword) {
-        setError("password", {
-          message: "same_as_current",
-        });
-        
-        return; 
-      }
+  const onSubmit = (data: newPassFormData) => {
+    requestReauth({
+      title: t("confirmTitle"),
+      description: t("confirmDescription"),
+      onConfirm: async (currentPassword: string) => {
+        if (data.password === currentPassword) {
+          setError("password", {
+            message: "same_as_current",
+          });
 
-      await changePassword(data.password, currentPassword);
-      toast.success(t("passwordChanged"));
-      reset();
-    },
-  });
-};
+          return;
+        }
+
+        await changePassword(data.password, currentPassword);
+        toast.success(t("passwordChanged"));
+        reset();
+      },
+    });
+  };
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)} className="space-y-4 w-full">
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="space-y-4 w-full">
       <Input
         ref={passwordRef}
         input={{
@@ -79,8 +81,7 @@ export default function ChangePassword() {
       <Button
         type="submit"
         disabled={isSubmitting || !isDirty || !isValid}
-        className="w-full"
-      >
+        className="w-full">
         {t("submit")}
       </Button>
     </form>
