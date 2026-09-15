@@ -3,11 +3,12 @@
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "motion/react";
 import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
-import { useModal } from  "@/components/modals/modal-store";
+import { useModal } from "@/components/modals/modal-store";
 import clsx from "clsx";
 import { IconX } from "@tabler/icons-react";
-import { ModalType } from  "@/components/modals/modal-renderer";
+import { ModalType } from "@/components/modals/modal-renderer";
 import { Button } from "@/components/ui/Button";
+import { useEffect } from "react";
 
 type Props = {
   modalType: ModalType;
@@ -19,10 +20,26 @@ type Props = {
   size?: "default" | "large" | "high";
 };
 
-export function ModalWrapper({ modalType, children, classes, contentClasses, size = "default", title, header=true }: Props) {
+export function ModalWrapper({ modalType, children, classes, contentClasses, size = "default", title, header = true }: Props) {
   const { type, close } = useModal();
   const isOpen = type === modalType;
   useBodyScrollLock(isOpen);
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === "Escape") {
+        close();
+      }
+    };
+
+    if (isOpen) {
+      window.addEventListener("keydown", handleKeyDown);
+    }
+
+    return () => {
+      window.removeEventListener("keydown", handleKeyDown);
+    };
+  }, [isOpen, close]);
 
   return createPortal(
     <AnimatePresence>
@@ -54,8 +71,7 @@ export function ModalWrapper({ modalType, children, classes, contentClasses, siz
                 "h-dvh": size === "high",
                 "sm:h-[95dvh] sm:w-[90vw]": size === "large",
               })}>
-              {
-								header &&
+              {header && (
                 <div className="flex items-center justify-between border-b border-border p-6">
                   <h2 className="text-xl font-bold text-foreground">{title}</h2>
                   <Button
@@ -66,10 +82,8 @@ export function ModalWrapper({ modalType, children, classes, contentClasses, siz
                     <IconX className="size-5" />
                   </Button>
                 </div>
-              }
-              <div 
-								className={clsx("p-2 flex flex-col flex-1 min-h-0 overflow-y-auto sm:p-6", contentClasses)}>
-								{children}</div>
+              )}
+              <div className={clsx("p-2 flex flex-col flex-1 min-h-0 overflow-y-auto sm:p-6", contentClasses)}>{children}</div>
             </motion.div>
           </div>
         </>

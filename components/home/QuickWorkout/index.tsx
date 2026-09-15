@@ -32,6 +32,7 @@ export default function QuickWorkout() {
       <ButtonAdd
         onClick={() => quickWorkoutConfirm()}
         ariaLabel={t("buttonAdd")}
+        ariaLabelVerify={t("buttonAddVerify")}
         icon={<IconBolt className="size-6" />}
       />
   );

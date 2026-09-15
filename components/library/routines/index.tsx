@@ -47,7 +47,7 @@ export default function Routines() {
           />
         )}
       </SkeletonSwitcher>
-      {user && <ButtonAdd onClick={() => open('routine')}  ariaLabel={t("buttonAdd")}/>}
+      {user && <ButtonAdd onClick={() => open('routine')}  ariaLabel={t("buttonAdd")} ariaLabelVerify={t("buttonAddVerify")}/>}
     </>
   );
 }

@@ -1,17 +1,11 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import QuickStat from "@/components/ui/quickStat";
 import { WeeklyCalendar } from "@/components/shared/WeeklyCalendar";
 import { MotivationalBanner } from "@/components/home/MotivationalBanner";
-import { Header } from "@/components/shared/Header";
 import { useAuth } from "@/hooks/useAuth";
-import { IconBolt } from "@tabler/icons-react";
-import { useModal } from "@/components/modals/modal-store";
 import { useRecords } from "../hooks/useServices/useRecords";
 import { useHistory } from "../hooks/useServices/useHistory";
-import { totalHistoryVolume } from "../lib/utils";
-import ButtonAdd from "../components/shared/ButtonAdd";
 import { WorkoutCardSection } from "@/components/home/WorkoutCardSection";
 import QuickStats from "@/components/home/QuickStats";
 import QuickWorkout from "@/components/home/QuickWorkout";

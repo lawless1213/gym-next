@@ -93,7 +93,7 @@ export function UserEditModal() {
                         />
                       ) : (
                         <div className="w-full h-full bg-primary/60 flex items-center justify-center">
-                          <span className="text-white font-bold text-2xl tracking-widest">{user?.displayName?.slice(0, 1)}</span>
+                          <span className="text-white font-bold text-2xl tracking-widest">{user?.displayName ? user?.displayName.slice(0, 1) : t("user").slice(0, 1)}</span>
                         </div>
                       )}
                     </div>

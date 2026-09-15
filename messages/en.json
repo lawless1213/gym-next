@@ -201,6 +201,7 @@
       "guest": "Guest"
     },
     "buttonAdd": "Quick workout",
+    "buttonAddVerify": "Verify your email for a quick workout",
     "workoutCard": {
       "title": "Next workout",
       "exercisesValue": "Number of exercises",
