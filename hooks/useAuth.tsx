@@ -2,15 +2,30 @@
 
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import type { User } from "firebase/auth";
-import { onAuthStateChanged, signInWithEmailAndPassword, createUserWithEmailAndPassword, signOut, sendEmailVerification, updatePassword, verifyBeforeUpdateEmail, deleteUser, reauthenticateWithCredential, EmailAuthProvider } from "firebase/auth";
+import { 
+  onAuthStateChanged, 
+  signInWithEmailAndPassword, 
+  createUserWithEmailAndPassword, 
+  signOut, 
+  sendEmailVerification, 
+  updatePassword, 
+  verifyBeforeUpdateEmail, 
+  deleteUser, 
+  reauthenticateWithCredential, 
+  EmailAuthProvider,
+  GoogleAuthProvider,
+  GithubAuthProvider,
+  signInWithPopup
+} from "firebase/auth";
 import { auth } from "@/lib/config/firebaseConfig";
-import { useRouter } from "next/router";
 
 type AuthContextValue = {
   user: User | null;
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
   signup: (email: string, password: string) => Promise<void>;
+  loginWithGoogle: () => Promise<void>;
+  loginWithGithub: () => Promise<void>;
   logout: () => Promise<void>;
   sendVerificationEmail: () => Promise<void>;
   checkEmailVerified: () => Promise<boolean>;
@@ -35,13 +50,21 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const login = async (email: string, password: string) => {
-    // const router = useRouter();
     await signInWithEmailAndPassword(auth, email, password);
-    // router.push("/");
   };
 
   const signup = async (email: string, password: string) => {
     await createUserWithEmailAndPassword(auth, email, password);
+  };
+
+  const loginWithGoogle = async () => {
+    const provider = new GoogleAuthProvider();
+    await signInWithPopup(auth, provider);
+  };
+
+  const loginWithGithub = async () => {
+    const provider = new GithubAuthProvider();
+    await signInWithPopup(auth, provider);
   };
 
   const logout = async () => {
@@ -118,6 +141,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       loading,
       login,
       signup,
+      loginWithGoogle,
+      loginWithGithub,
       logout,
       sendVerificationEmail,
       checkEmailVerified,

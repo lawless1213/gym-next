@@ -16,18 +16,18 @@ export default function Personal() {
   const t = useTranslations("settings.profile.personal");
   const tMeasurement = useTranslations("components.measurement");
   console.log(user);
-  
 
+  const avatarUrl = user?.photoURL || params.avatarUrl;
   return (
     <div className="flex justify-start w-full items-center gap-4 p-4 bg-secondary rounded-2xl">
-      {params.avatarUrl ? (
+      {avatarUrl ? (
         <div className="shrink-0 size-20 max-sm:size-15">
           <Image
             width={100}
             height={100}
-            src={params.avatarUrl}
+            src={avatarUrl}
             alt={user?.displayName || "avatar"}
-            className="h-full w-full object-contain"
+            className="h-full w-full object-contain rounded-sm"
           />
         </div>
       ) : (
@@ -38,8 +38,8 @@ export default function Personal() {
 
       <div className="flex-1">
         <div className="text-xl font-bold">{user?.displayName || t("user")}</div>
-        {params.height && <div className="text-sm">{(params.height) + tMeasurement(params.distance)}</div>}
-        {user?.email ? <div className="text-sm text-muted-foreground">{user.email}</div> : <div className="text-sm">t("emptyEmail")</div> }
+        {params.height && <div className="text-sm">{params.height + tMeasurement(params.distance)}</div>}
+        {user?.email ? <div className="text-sm text-muted-foreground">{user.email}</div> : <div className="text-sm">t("emptyEmail")</div>}
       </div>
 
       <Tooltip>

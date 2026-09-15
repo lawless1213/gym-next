@@ -72,7 +72,7 @@ export function ModalWrapper({ modalType, children, classes, contentClasses, siz
                 "sm:h-[95dvh] sm:w-[90vw]": size === "large",
               })}>
               {header && (
-                <div className="flex items-center justify-between border-b border-border p-6">
+                <div className="flex items-center justify-between border-b border-border p-3 sm:p-6">
                   <h2 className="text-xl font-bold text-foreground">{title}</h2>
                   <Button
                     variant="outline"
@@ -83,7 +83,7 @@ export function ModalWrapper({ modalType, children, classes, contentClasses, siz
                   </Button>
                 </div>
               )}
-              <div className={clsx("p-2 flex flex-col flex-1 min-h-0 overflow-y-auto sm:p-6", contentClasses)}>{children}</div>
+              <div className={clsx("p-3 flex flex-col flex-1 min-h-0 overflow-y-auto sm:p-6", contentClasses)}>{children}</div>
             </motion.div>
           </div>
         </>

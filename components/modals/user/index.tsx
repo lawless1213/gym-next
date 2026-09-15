@@ -68,6 +68,8 @@ export function UserEditModal() {
     }
   };
 
+  const avatarUrl = user?.photoURL || params.avatarUrl;
+
   return (
     <ModalWrapper
       modalType="userEdit"
@@ -81,7 +83,7 @@ export function UserEditModal() {
               name="photo"
               control={control}
               render={({ field: { onChange, value } }) => {
-                const previewUrl = value instanceof File ? URL.createObjectURL(value) : typeof value === "string" ? value : params.avatarUrl || null;
+                const previewUrl = value instanceof File ? URL.createObjectURL(value) : typeof value === "string" ? value : avatarUrl || null;
                 return (
                   <label className="group flex flex-col items-center cursor-pointer">
                     <div className="flex h-24 w-24 items-center justify-center rounded-2xl bg-secondary overflow-hidden">
