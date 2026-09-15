@@ -18,14 +18,12 @@ type ButtonAddProps = {
 export default function ButtonAdd({ onClick, ariaLabel, ariaLabelVerify, icon = <IconPlus className="size-6" /> }: ButtonAddProps) {
   const [mounted, setMounted] = useState(false);
   const { user } = useAuth();
-
-  if (!user) return null;
   
   useEffect(() => {
     setMounted(true);
   }, []);
 
-  if (!mounted) return null;
+  if (!user || !mounted) return null;
 
   return createPortal(
     <Tooltip>
