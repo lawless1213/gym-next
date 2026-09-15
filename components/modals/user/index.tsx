@@ -12,6 +12,8 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import { userFormData, userSchema } from "@/lib/schemas";
 import { useUserPreferences } from "@/providers/user-preferences-provider";
+import { updateUserProfile } from "@/lib/actions/user";
+import { useModal } from "../modal-store";
 
 export function UserEditModal() {
   const tComponents = useTranslations("components");
@@ -19,6 +21,7 @@ export function UserEditModal() {
   const { params } = useUserPreferences();
   const { user } = useAuth();
   const queryClient = useQueryClient();
+  const { close } = useModal();
 
   const {
     register,
@@ -33,26 +36,31 @@ export function UserEditModal() {
     defaultValues: {
       photo: params.avatarUrl ?? undefined,
       name: user?.displayName || "",
-      height: params?.height ? params?.height : 0
+      height: params?.height ? Number(params?.height) : undefined,
     },
   });
 
   const { ref: nameRef, ...titleRest } = register("name");
-  const { ref: heightRef, ...heightRest } = register("height");
+  const { ref: heightRef, ...heightRest } = register("height", {
+    setValueAs: (value) => (value === "" ? undefined : Number(value)),
+  });
 
   const onSubmit = async (data: userFormData) => {
     try {
       if (!user) throw new Error("Not authenticated");
 
-      const photoToSave = data.photo instanceof File ? data.photo : (params.avatarUrl ?? undefined);
+      const photoToSave = data.photo instanceof File ? data.photo : undefined;
 
-      // await editUserExecise(user.uid, exercise.id, {
-      //   photo: photoToSave,
-      //   name: data.name,
-      //   height: data.height,
-      // });
+      await updateUserProfile(user.uid, {
+        avatarFile: photoToSave,
+        displayName: data.name,
+        height: data.height,
+      });
 
-      // queryClient.invalidateQueries({ queryKey: ["exercises", user.uid] });
+      await queryClient.invalidateQueries({
+        queryKey: ["userParams", user.uid],
+      });
+
       toast.success(t("success"));
       close();
     } catch (err: any) {
