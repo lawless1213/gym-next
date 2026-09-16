@@ -454,10 +454,12 @@
       "title": "Edit Profile",
       "changePicture": "Change photo",
       "addPicture": "Add photo",
+      "user": "User",
       "name": "Name",
       "height": "Height",
       "submit": "Save",
-      "error": "Something went wrong. Please try again later."
+      "error": "Something went wrong. Please try again later.",
+      "modalSuccess": "Profile`s changes were success saved."
     }
   },
   "schedule": {

@@ -12,12 +12,14 @@ import {
   verifyBeforeUpdateEmail, 
   deleteUser, 
   reauthenticateWithCredential, 
-  EmailAuthProvider,
-  GoogleAuthProvider,
-  GithubAuthProvider,
-  signInWithPopup
+  EmailAuthProvider, 
+  GoogleAuthProvider, 
+  GithubAuthProvider, 
+  signInWithPopup 
 } from "firebase/auth";
-import { auth } from "@/lib/config/firebaseConfig";
+import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
+import { auth, db } from "@/lib/config/firebaseConfig";
+import { deleteUserData } from "@/lib/actions/user";
 
 type AuthContextValue = {
   user: User | null;
@@ -37,12 +39,27 @@ type AuthContextValue = {
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
+// Допоміжна функція для ініціалізації документа в Firestore
+async function ensureUserDoc(user: User) {
+  const userRef = doc(db, "users", user.uid);
+  const userSnap = await getDoc(userRef);
+
+  // Створюємо базовий документ тільки якщо його ще немає
+  if (!userSnap.exists()) {
+    await setDoc(userRef, {
+      displayName: user.displayName || "",
+      avatarUrl: user.photoURL || "",
+      createdAt: serverTimestamp(),
+    }, { merge: true });
+  }
+}
+
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(auth.currentUser);
   const [loading, setLoading] = useState(true);
 
   useEffect(() => {
-    const unsub = onAuthStateChanged(auth, (firebaseUser) => {
+    const unsub = onAuthStateChanged(auth, async (firebaseUser) => {
       setUser(firebaseUser);
       setLoading(false);
     });
@@ -50,21 +67,25 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   }, []);
 
   const login = async (email: string, password: string) => {
-    await signInWithEmailAndPassword(auth, email, password);
+    const res = await signInWithEmailAndPassword(auth, email, password);
+    if (res.user) await ensureUserDoc(res.user);
   };
 
   const signup = async (email: string, password: string) => {
-    await createUserWithEmailAndPassword(auth, email, password);
+    const res = await createUserWithEmailAndPassword(auth, email, password);
+    if (res.user) await ensureUserDoc(res.user);
   };
 
   const loginWithGoogle = async () => {
     const provider = new GoogleAuthProvider();
-    await signInWithPopup(auth, provider);
+    const res = await signInWithPopup(auth, provider);
+    if (res.user) await ensureUserDoc(res.user);
   };
 
   const loginWithGithub = async () => {
     const provider = new GithubAuthProvider();
-    await signInWithPopup(auth, provider);
+    const res = await signInWithPopup(auth, provider);
+    if (res.user) await ensureUserDoc(res.user);
   };
 
   const logout = async () => {
@@ -126,13 +147,17 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const deleteAccount = async (password?: string) => {
-    if (!auth.currentUser) throw new Error("Користувач не авторизований");
+    const currentUser = auth.currentUser;
+    if (!currentUser) throw new Error("Користувач не авторизований");
 
     if (password) {
       await reauthenticate(password);
     }
 
-    await deleteUser(auth.currentUser);
+    const userId = currentUser.uid;
+
+    await deleteUserData(userId);
+    await deleteUser(currentUser);
   };
 
   const value = useMemo(
