@@ -39,6 +39,15 @@ export const updateUserProfile = async (
   let avatarUrl = currentUser.photoURL || "";
 
   if (data.avatarFile) {
+    if (currentUser.photoURL && currentUser.photoURL.includes("firebasestorage")) {
+      try {
+        const oldAvatarRef = ref(storage, currentUser.photoURL);
+        await deleteObject(oldAvatarRef);
+      } catch (error) {
+        console.warn("Не вдалося видалити старий аватар:", error);
+      }
+    }
+
     const storageRef = ref(storage, `users/${userId}/${data.avatarFile.name}`);
     await uploadBytes(storageRef, data.avatarFile);
     avatarUrl = await getDownloadURL(storageRef);
@@ -58,13 +67,10 @@ export const updateUserProfile = async (
   if (data.height !== undefined) updateData.height = data.height;
 
   if (Object.keys(updateData).length > 0) {
-    // Замість updateDoc використовуємо setDoc з { merge: true }
-    // Це створить документ, якщо його ще не було у Firestore, або оновить існуючий
     await setDoc(userDocRef, updateData, { merge: true });
   }
 };
 
-// Допоміжна функція: рекурсивне видалення папки в Storage
 async function deleteStorageFolder(path: string) {
   const folderRef = ref(storage, path);
   const res = await listAll(folderRef);
@@ -77,7 +83,6 @@ async function deleteStorageFolder(path: string) {
   await Promise.all([...deleteFilesPromises, ...deleteSubFoldersPromises]);
 }
 
-// Функція видалення всіх даних користувача (Firestore + Storage)
 export async function deleteUserData(userId: string) {
   const subcollections = ["exercises", "routines", "stats"];
   

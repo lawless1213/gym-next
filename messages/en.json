@@ -459,7 +459,7 @@
       "height": "Height",
       "submit": "Save",
       "error": "Something went wrong. Please try again later.",
-      "modalSuccess": "Profile`s changes were success saved."
+      "success": "Profile`s changes were success saved."
     }
   },
   "schedule": {
