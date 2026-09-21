@@ -1,36 +1,46 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Gym Next 🏋️‍♂️
 
-## Getting Started
+**Gym Next** is a modern Progressive Web Application (PWA) designed for tracking workouts, monitoring body progress, generating AI-powered training plans, and managing personalized fitness routines.
 
-First, run the development server:
+---
 
-```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
-```
+## 🌟 Key Features
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+### 🗓 Workout Scheduling & Tracking
+- **Interactive Calendar:** Plan workouts for any day of the week and launch them with a single tap.
+- **Active Workout Mode:** Track sets, reps, and weights in real-time during your session.
+- **Workout History:** Review past workouts, total volume lifted, and exercise frequency.
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### 📚 Knowledge Base & Custom Exercises
+- **Predefined Exercises:** Access a comprehensive library of 260+ standard exercises organized by muscle groups.
+- **Search & Filters:** Quickly search exercises by target muscle group or name.
+- **Custom Exercises (Premium):** Add and save personalized exercises with custom parameters.
+- **Custom Routines:** Build and save reusable workout routines and split templates.
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+### 📊 Progress Tracking & Analytics
+- **Body Measurements (Premium):** Log and visualize body weight, chest, waist, arms, and thighs over time.
+- **Personal Records (PRs):** Automatic tracking of maximum weight lifted per exercise and weekly volume trends.
 
-## Learn More
+### 🤖 AI Assistant & Plan Generation
+- **AI Schedule & Routine Generator:** Generate tailored workout splits based on user goals, equipment, experience level, target muscle groups, and rest days.
+- **AI Fitness Chat:** Interactive chat assistant for workout and nutrition queries.
+- **Freemium AI Access:** Includes a free trial credit limit for non-subscribers to test AI generation features before upgrading.
 
-To learn more about Next.js, take a look at the following resources:
+### 📱 Progressive Web App (PWA)
+- **Installable:** Install directly to iOS, Android, or desktop devices.
+- **Cross-Platform:** Responsive, app-like user interface across mobile and desktop devices.
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+### 🌐 Localization & Customization
+- **Multilingual Support:** Switch between English and Ukrainian (`next-intl`).
+- **Theme Support:** Dark and light mode preference switching.
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+---
 
-## Deploy on Vercel
+## 🛠 Tech Stack
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
-
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- **Framework:** Next.js (App Router)
+- **Language:** TypeScript
+- **Styling:** Tailwind CSS
+- **PWA:** `@ducanh2912/next-pwa`
+- **Authentication & Database:** Firebase / Cloud Firestore
+- **Internationalization:** `next-intl`
