@@ -6,6 +6,7 @@ type BaseNavItem = {
   icon: ReactNode;
   loginRequired?: boolean;
   verifyRequired?: boolean;
+  subscribeRequired?: boolean;
 };
 
 type LinkNavItem = BaseNavItem & {

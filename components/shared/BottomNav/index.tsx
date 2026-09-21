@@ -9,6 +9,7 @@ import { useModal } from "@/components/modals/modal-store";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/Tooltip";
 import { getNavLinks } from "@/data/navManu";
 import { NavItem } from "@/types/navMenu";
+import { IconCarambolaFilled } from "@tabler/icons-react";
 
 export function BottomNav() {
   const t = useTranslations("components.bottomNav");
@@ -36,17 +37,17 @@ export function BottomNav() {
       <div className="mx-auto flex max-w-lg items-center justify-around">
         {getNavLinks(!!user).map((item: NavItem) => {
           const isActive = Boolean(item.link && pathname === item.link);
-          const Icon = item.icon;
-
-          const baseStyles = `flex-1 flex h-16 justify-center flex-col items-center gap-1 rounded-xl py-2 transition-all duration-200 ${
-            isActive
-              ? "text-primary pointer-events-none"
-              : "text-muted-foreground hover:text-foreground cursor-pointer"
-          }`;
+          const baseStyles = `flex-1 flex h-16 justify-center flex-col items-center gap-1 rounded-xl py-2 transition-all duration-200 ${isActive ? "text-primary pointer-events-none" : "text-muted-foreground hover:text-foreground cursor-pointer"}`;
 
           const content = (
-            <div className={`relative transition-transform ${isActive ? "scale-125" : ""}`}>
+            <div className={`relative min-h-10 flex items-center transition-transform ${isActive ? "scale-125" : ""}`}>
               {item.icon}
+              {
+                item.subscribeRequired &&
+                <div className="absolute top-0 left-[60%] bg-card/95 p-1 rounded-[100%]">
+                  <IconCarambolaFilled className="size-2 text-foreground " />
+                </div>
+              }
             </div>
           );
 
@@ -58,8 +59,7 @@ export function BottomNav() {
                     href={item.link}
                     onClick={(e) => handleAction(e, item)}
                     className={baseStyles}
-                    aria-label={t(item.label)}
-                  >
+                    aria-label={t(item.label)}>
                     {content}
                   </Link>
                 ) : (
@@ -67,8 +67,7 @@ export function BottomNav() {
                     type="button"
                     onClick={(e) => handleAction(e, item)}
                     className={baseStyles}
-                    aria-label={t(item.label)}
-                  >
+                    aria-label={t(item.label)}>
                     {content}
                   </button>
                 )}

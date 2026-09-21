@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { IconAdjustmentsHorizontal, IconStar, IconUser } from "@tabler/icons-react";
+import { IconAdjustmentsHorizontal, IconCarambolaFilled, IconUser } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
 import { Tabs } from "@/components/ui/Tabs";
 import Profile from "@/components/settings/profile";
@@ -18,7 +18,7 @@ export default function Setting() {
     {
       id: "subscribe",
       label: t("tabs.subscribe"),
-      icon: <IconStar className="size-4" />,
+      icon: <IconCarambolaFilled className="size-4" />,
     },
     {
       id: "profile",

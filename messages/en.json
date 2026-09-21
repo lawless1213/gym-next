@@ -292,6 +292,35 @@
       "preferences": "Preferences",
       "subscribe": "Subscribtion"
     },
+    "subscribe": {
+      "title": "Unlock Premium",
+      "subtitle": "Body measurements, custom exercises, and detailed workout analytics.",
+      "plans": {
+        "monthly": {
+          "title": "Monthly",
+          "note": "Flexible plan",
+          "period": "per month",
+          "button": "Choose Monthly Plan",
+          "footnote": "Cancel anytime."
+        },
+        "yearly": {
+          "title": "Yearly",
+          "note": "Save 59%, just $4.08 per month",
+          "top": "Best price",
+          "trial": "14 days free",
+          "period": "per year",
+          "button": "Start Free Trial",
+          "footnote": "After 14 days — $49.00 per year. Cancel anytime before the trial ends."
+        },
+        "lifetime": {
+          "title": "Lifetime",
+          "note": "One-time payment, unlimited access forever",
+          "period": "one-time",
+          "button": "Get Lifetime Access",
+          "footnote": "No recurring charges."
+        }
+      }
+    },
     "profile": {
       "personal": {
         "user": "User",
