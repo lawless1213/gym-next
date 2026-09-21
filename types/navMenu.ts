@@ -1,10 +1,11 @@
 import { ModalType } from "@/components/modals/modal-renderer";
-import { TablerIcon } from "@tabler/icons-react";
+import { ReactNode } from "react";
 
 type BaseNavItem = {
   label: string;
-  icon: TablerIcon;
+  icon: ReactNode;
   loginRequired?: boolean;
+  verifyRequired?: boolean;
 };
 
 type LinkNavItem = BaseNavItem & {

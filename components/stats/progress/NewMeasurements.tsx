@@ -13,7 +13,6 @@ export default function NewMeasurements() {
     <ButtonAdd
       onClick={() => open("progress")}
       ariaLabel={t("progress.buttonAdd")}
-      ariaLabelVerify={t("buttonAddVerify")}
       icon={<IconEdit className="size-6" />}
     />
   );

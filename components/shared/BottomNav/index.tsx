@@ -1,46 +1,76 @@
 "use client";
 
 import { usePathname } from "next/navigation";
-import { getNavLinks } from "@/data/navManu";
 import Link from "next/link";
 import { useTranslations } from "next-intl";
+import { toast } from "sonner"; // Або ваш кастомний toast
 import { useAuth } from "@/hooks/useAuth";
+import { useModal } from "@/components/modals/modal-store";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/Tooltip";
-import { useModal } from  "@/components/modals/modal-store";
+import { getNavLinks } from "@/data/navManu";
 import { NavItem } from "@/types/navMenu";
 
 export function BottomNav() {
   const t = useTranslations("components.bottomNav");
+  const tNotification = useTranslations("notification");
   const { user } = useAuth();
   const { open } = useModal();
-
   const pathname = usePathname();
+
+  const isVerified = Boolean(user?.emailVerified);
+
+  const handleAction = (e: React.MouseEvent, item: NavItem) => {
+    if (item.verifyRequired && !isVerified) {
+      e.preventDefault();
+      toast.warning(tNotification("verifyRequiredWarning"));
+      return;
+    }
+
+    if (item.modal) {
+      open(item.modal);
+    }
+  };
+
   return (
     <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-card/95 backdrop-blur-lg">
       <div className="mx-auto flex max-w-lg items-center justify-around">
         {getNavLinks(!!user).map((item: NavItem) => {
-          const isActive = pathname === item.link;
+          const isActive = Boolean(item.link && pathname === item.link);
+          const Icon = item.icon;
+
+          const baseStyles = `flex-1 flex h-16 justify-center flex-col items-center gap-1 rounded-xl py-2 transition-all duration-200 ${
+            isActive
+              ? "text-primary pointer-events-none"
+              : "text-muted-foreground hover:text-foreground cursor-pointer"
+          }`;
+
+          const content = (
+            <div className={`relative transition-transform ${isActive ? "scale-125" : ""}`}>
+              {item.icon}
+            </div>
+          );
+
           return (
             <Tooltip key={item.label}>
               <TooltipTrigger asChild>
                 {item.link ? (
                   <Link
                     href={item.link}
-                    className={`flex-1 flex h-16 justify-center flex-col items-center gap-1 rounded-xl py-2 transition-all duration-200 ${isActive ? "text-primary pointer-events-none cursor-none" : "text-muted-foreground hover:text-foreground"}`}
-                    aria-label={item.label}>
-                    <div className={`relative ${isActive ? "scale-130" : ""} transition-transform`}>
-                      <item.icon className={`size-6`} />
-                    </div>
+                    onClick={(e) => handleAction(e, item)}
+                    className={baseStyles}
+                    aria-label={t(item.label)}
+                  >
+                    {content}
                   </Link>
-                ) : ( item.modal &&
-                  <div
-                    onClick={() => open(item.modal)}
-                    className={`flex-1 flex h-16 justify-center flex-col items-center gap-1 rounded-xl py-2 transition-all duration-200 ${isActive ? "text-primary pointer-events-none cursor-none" : "text-muted-foreground hover:text-foreground"}`}
-                    aria-label={item.label}>
-                    <div className={`relative ${isActive ? "scale-130" : ""} transition-transform`}>
-                      <item.icon className={`size-10`} />
-                    </div>
-                  </div>
+                ) : (
+                  <button
+                    type="button"
+                    onClick={(e) => handleAction(e, item)}
+                    className={baseStyles}
+                    aria-label={t(item.label)}
+                  >
+                    {content}
+                  </button>
                 )}
               </TooltipTrigger>
               <TooltipContent side="top">{t(item.label)}</TooltipContent>

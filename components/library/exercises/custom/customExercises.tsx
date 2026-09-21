@@ -79,7 +79,6 @@ export default function CustomExercises() {
         <ButtonAdd
           onClick={() => open("exercise")}
           ariaLabel={t("buttonAdd")}
-          ariaLabelVerify={t("buttonAddVerify")}
         />
       )}
     </>

@@ -5,9 +5,11 @@ import ActionCard from "@/components/shared/cards/ActionCard";
 import RecordCard from "@/components/shared/cards/recordCard";
 import SkeletonBone from "@/components/ui/Skeleton/SkeletonBone";
 import SkeletonSwitcher from "@/components/ui/Skeleton/SkeletonSwitcher";
+import { useAuth } from "@/hooks/useAuth";
 import { PersonalRecord } from "@/types";
 import { IconBolt } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
+import { toast } from "sonner";
 
 interface RecordsListProps {
   records: PersonalRecord[];
@@ -28,7 +30,20 @@ function toMillis(d: any): number {
 
 export default function RecordsList({ records, loading }: RecordsListProps) {
   const t = useTranslations("stats.records");
+  const tNotification = useTranslations("notification");
   const { open, confirm } = useModal();
+  const { user } = useAuth();
+
+   const isVerified = user?.emailVerified;
+
+  const handleClick = () => {
+    if (!isVerified) {
+      toast.warning(tNotification("verifyRequiredWarning"));
+      return;
+    }
+
+    open("quickWorkout")
+  };
 
   return (
     <div className="space-y-3">
@@ -63,7 +78,7 @@ export default function RecordsList({ records, loading }: RecordsListProps) {
           <ActionCard
             title={t("empty")}
             icon={IconBolt}
-            onClick={() => open("quickWorkout")}
+            onClick={() => handleClick()}
           />
         )}
       </SkeletonSwitcher>

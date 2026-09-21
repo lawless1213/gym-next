@@ -7,38 +7,48 @@ import { IconPlus } from "@tabler/icons-react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/Tooltip";
 import { Button } from "../ui/Button";
 import { useAuth } from "@/hooks/useAuth";
+import { toast } from "sonner";
+import { useTranslations } from "next-intl";
 
 type ButtonAddProps = {
   onClick: (e: MouseEvent<HTMLButtonElement>) => void;
   ariaLabel: string;
-  ariaLabelVerify: string;
   icon?: ReactNode;
 };
 
-export default function ButtonAdd({ onClick, ariaLabel, ariaLabelVerify, icon = <IconPlus className="size-6" /> }: ButtonAddProps) {
+export default function ButtonAdd({ onClick, ariaLabel, icon = <IconPlus className="size-6" /> }: ButtonAddProps) {
+  const tNotification = useTranslations("notification");
+
   const [mounted, setMounted] = useState(false);
   const { user } = useAuth();
-  
+
   useEffect(() => {
     setMounted(true);
   }, []);
 
   if (!user || !mounted) return null;
 
+  const isVerified = user.emailVerified;
+
+  const handleClick = (event: MouseEvent<HTMLButtonElement>) => {
+    if (!isVerified) {
+      toast.warning(tNotification("verifyRequiredWarning"));
+      return;
+    }
+
+    onClick(event);
+  };
+
   return createPortal(
-    <Tooltip>
-      <TooltipTrigger asChild>
-        <Button
-          size="icon-2xl"
-          type="button"
-          onClick={user.emailVerified ? onClick : () => {return true}}
-          className={`fixed bottom-20 left-4 z-40 shadow-lg ${user.emailVerified ? 'hover:scale-105 active:scale-95' : 'cursor-auto brightness-50 hover:brightness-50 '}`}
-          aria-label={user.emailVerified ? ariaLabel : ariaLabelVerify}>
-          {icon}
-        </Button>
-      </TooltipTrigger>
-      <TooltipContent side="right">{user.emailVerified ? ariaLabel : ariaLabelVerify}</TooltipContent>
-    </Tooltip>,
+    <Button
+      size="icon-2xl"
+      type="button"
+      onClick={handleClick}
+      aria-disabled={!isVerified}
+      aria-label={isVerified ? ariaLabel : tNotification("verifyRequiredWarning")}
+      className="fixed bottom-20 left-4 z-40 shadow-lg hover:scale-105 active:scale-95">
+      {icon}
+    </Button>,
     document.body,
   );
 }

@@ -10,9 +10,10 @@ import { useSchedule } from "@/hooks/useServices/useSchedule";
 import SkeletonBone from "../../ui/Skeleton/SkeletonBone";
 import SkeletonSwitcher from "../../ui/Skeleton/SkeletonSwitcher";
 import { IconEdit, IconPlus } from "@tabler/icons-react";
-import { useModal } from  "@/components/modals/modal-store";
+import { useModal } from "@/components/modals/modal-store";
 import { Button } from "../../ui/Button";
 import { EMPTY_SCHEDULE } from "@/lib/services/schedule";
+import { toast } from "sonner";
 
 type WeeklyCalendarProps = {
   schedule?: ScheduleMap;
@@ -26,6 +27,7 @@ export function WeeklyCalendar({ schedule }: WeeklyCalendarProps = {}) {
   const isPreview = schedule != null;
   const { user, loading: isUserLoading } = useAuth();
   const userId = isPreview ? undefined : user?.uid;
+  const isVerified = user?.emailVerified;
   const { open } = useModal();
 
   const [openCardIndex, setOpenCardIndex] = useState<null | number>(null);
@@ -48,7 +50,7 @@ export function WeeklyCalendar({ schedule }: WeeklyCalendarProps = {}) {
   });
 
   const { data: userSchedule, isLoading: isDataLoading } = useSchedule(userId);
-  
+
   const scheduleDays: ScheduleMap = (isPreview ? schedule : userSchedule) ?? EMPTY_SCHEDULE;
 
   const isLoading = isPreview ? false : isUserLoading || isDataLoading || (!!userId && !userSchedule);
@@ -89,8 +91,12 @@ export function WeeklyCalendar({ schedule }: WeeklyCalendarProps = {}) {
     }
   };
 
-  const editScheduleHandler = (openCardIndex:number) => {
+  const editScheduleHandler = (openCardIndex: number) => {
     if (user) {
+      if (!isVerified) {
+        toast.warning(t('editVerify'));
+        return;
+      }
       open("schedule", { dayIndex: openCardIndex, routines: scheduleDays[weekDays[openCardIndex]] });
     } else {
       open("auth");
@@ -130,9 +136,7 @@ export function WeeklyCalendar({ schedule }: WeeklyCalendarProps = {}) {
                 key={day}
                 onClick={() => canOpen && cardToggler(index)}
                 onMouseEnter={() => canOpen && setHoveredIndex(index)}
-                onMouseLeave={() =>
-                  setHoveredIndex((prev) => (prev === index ? null : prev))
-                }
+                onMouseLeave={() => setHoveredIndex((prev) => (prev === index ? null : prev))}
                 className={`relative flex flex-1 flex-col items-center gap-1.5 py-2 rounded-t-md min-h-[72px] overflow-hidden ${isToday ? "border-primary border-t" : ""} ${canOpen ? "cursor-pointer" : "cursor-default"}`}>
                 <span
                   aria-hidden
@@ -141,15 +145,9 @@ export function WeeklyCalendar({ schedule }: WeeklyCalendarProps = {}) {
                     clipPath: isActive ? "inset(0% 0 0% 0)" : "inset(0% 0 100% 0)",
                   }}
                 />
-                <span className="relative z-10 text-[12px] font-medium uppercase text-muted-foreground">
-                  {tDays(`${day}`)}
-                </span>
+                <span className="relative z-10 text-[12px] font-medium uppercase text-muted-foreground">{tDays(`${day}`)}</span>
                 <span className="relative z-10 text-sm font-bold">{weekDates[index]}</span>
-                {hasWorkout && (
-                  <div
-                    className={`relative z-10 h-1.5 w-1.5 rounded-full ${isPast ? "bg-muted-foreground" : "bg-primary"}`}
-                  />
-                )}
+                {hasWorkout && <div className={`relative z-10 h-1.5 w-1.5 rounded-full ${isPast ? "bg-muted-foreground" : "bg-primary"}`} />}
               </div>
             );
           })}
@@ -175,7 +173,7 @@ export function WeeklyCalendar({ schedule }: WeeklyCalendarProps = {}) {
               {scheduleDays[weekDays[openCardIndex]].map((routine) => (
                 <RoutineCard
                   key={routine.id}
-                  routine={{...routine, available: !isPreview && openCardIndex === todayIndex, editable:false}}
+                  routine={{ ...routine, available: !isPreview && openCardIndex === todayIndex, editable: false }}
                 />
               ))}
               {!isPreview && (

@@ -9,6 +9,7 @@ import { useTranslations } from "next-intl";
 import ActionCard from "@/components/shared/cards/ActionCard";
 import { Routine } from "@/types";
 import { useState } from "react";
+import { toast } from "sonner";
 
 interface RoutinesListProps {
   routines: Routine[];
@@ -16,8 +17,22 @@ interface RoutinesListProps {
 
 export default function RoutinesList({ routines }: RoutinesListProps) {
   const t = useTranslations("library.routines");
+  const tNotification = useTranslations("notification");
+
+  const { user } = useAuth();
   const { open } = useModal();
   const [openRoutineId, setOpenRoutineId] = useState<string | null>(null);
+
+   const isVerified = user?.emailVerified;
+
+  const handleClick = () => {
+    if (!isVerified) {
+      toast.warning(tNotification("verifyRequiredWarning"));
+      return;
+    }
+
+    open("routine")
+  };
 
   const toggleRoutine = (id: string) => {
     setOpenRoutineId((prev) => (prev === id ? null : id));
@@ -27,7 +42,7 @@ export default function RoutinesList({ routines }: RoutinesListProps) {
     <ActionCard
       title={t("empty")}
       icon={IconPlus}
-      onClick={() => open("routine")}
+      onClick={() => handleClick()}
     />
   ) : (
     <div className="space-y-3 max-md:-mx-4">
