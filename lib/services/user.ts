@@ -11,6 +11,7 @@ export type UserParams = {
   height: number | null;
   avatarUrl: string | null;
   subscribe: boolean | null;
+  createdAt: number | null; 
 };
 
 export async function getUserParams(
@@ -22,5 +23,10 @@ export async function getUserParams(
     return {};
   }
 
-  return snapshot.data() as Partial<UserParams>;
+  const { schedule, ...rest } = snapshot.data();
+
+  return {
+    ...rest,
+    createdAt: rest.createdAt?.toMillis?.() ?? null,
+  } as Partial<UserParams>;
 }
