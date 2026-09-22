@@ -581,8 +581,9 @@
 
       "subscribe": {
         "subtitle": "Get personalized advice, form analysis, and smart insights for every workout.",
+        "tries": "Free tries: {count}",
         "close": "Dismiss",
-        "trial": "You have {count} free tryouts remaining",
+        "trial": "Try free",
         "link": "Get Premium Access"
       },
       "success": "Successfully saved!",

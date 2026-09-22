@@ -2,6 +2,12 @@
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/lib/config/firebaseConfig";
 
+type UserSubscribe = {
+  type: 'monthly' | 'yearly' | 'lifetime' | null;
+  isActive: Boolean;
+  freeAiTries: number;
+}
+
 export type UserParams = {
   theme: "light" | "dark" | "system";
   language: "en" | "uk";
@@ -10,8 +16,8 @@ export type UserParams = {
   weight: "kg" | "lb";
   height: number | null;
   avatarUrl: string | null;
-  subscribe: boolean | null;
-  createdAt: number | null; 
+  createdAt?: number | null; 
+  subscribe: UserSubscribe;
 };
 
 export async function getUserParams(

@@ -15,7 +15,11 @@ const defaultUserParams: UserParams = {
   weight: "kg",
   height: null,
   avatarUrl: null,
-  subscribe: null,
+  subscribe: {
+    type: null,
+    isActive: false,
+    freeAiTries: 5,
+  },
 };
 
 type UserPreferencesContextValue = {

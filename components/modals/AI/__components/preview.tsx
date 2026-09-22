@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
 import { useModal } from "../../modal-store";
 import Image from "next/image";
+import { useUserPreferences } from "@/providers/user-preferences-provider";
 
 type PreviewProps = {
   onChange?: (value: boolean) => void;
@@ -12,6 +13,7 @@ type PreviewProps = {
 
 export function Preview({ onChange }: PreviewProps) {
   const t = useTranslations("ai.modal.subscribe");
+  const { params } = useUserPreferences();
   const router = useRouter();
   const { close } = useModal();
 
@@ -24,12 +26,10 @@ export function Preview({ onChange }: PreviewProps) {
     close();
   };
 
-  const maxAmount = 3;
-  const amount = 1;
-  const allowedTries = maxAmount - amount;
+  const allowedTries = params.subscribe.freeAiTries;
 
   return (
-    <div className="flex items-center flex-col gap-4">
+    <div className="flex items-center flex-col">
       <Image
         className="invert-50"
         src="/images/trainer.png"
@@ -37,17 +37,20 @@ export function Preview({ onChange }: PreviewProps) {
         width={200}
         height={200}
       />
-
-      <p className="text-muted-foreground  text-center">{t("subtitle")}</p>
-
-      <div className="flex flex-col gap-2 w-full">
+      <p className="text-foreground text-center my-7">{t("subtitle")}</p>
+      <div className="flex flex-col gap-4 w-full">
+        <Button
+          variant="default"
+          onClick={() => toSubscribeHandle()}>
+          {t("link")}
+        </Button>
         {allowedTries ? (
           <Button
             onClick={() => {
               handlePreviewChange(false);
             }}
             variant="outline">
-            {t("trial", { count: allowedTries })}
+            {t("trial")}
           </Button>
         ) : (
           <Button
@@ -56,12 +59,8 @@ export function Preview({ onChange }: PreviewProps) {
             {t("close")}
           </Button>
         )}
-        <Button
-          variant="default"
-          onClick={() => toSubscribeHandle()}>
-          {t("link")}
-        </Button>
       </div>
+      <div className="text-muted-foreground text-xs text-center mt-2">{t("tries", { count: allowedTries })}</div>
     </div>
   );
 }

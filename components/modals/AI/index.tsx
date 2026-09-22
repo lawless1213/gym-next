@@ -8,6 +8,7 @@ import { AiChatContent } from "./__components/chat";
 import { AiGeneration } from "./__components/generation";
 import { Preview } from "./__components/preview";
 import { useUserPreferences } from "@/providers/user-preferences-provider";
+import ActionCard from "@/components/shared/cards/ActionCard";
 
 type AiTab = "generation" | "chat";
 
@@ -15,7 +16,7 @@ export function AiModal() {
   const t = useTranslations("ai.modal");
   const { params } = useUserPreferences();
   const [activeTab, setActiveTab] = useState<AiTab>("chat");
-  const [isPreview, setIsPreview] = useState(!params.subscribe);
+  const [isPreview, setIsPreview] = useState(!params.subscribe.isActive);
 
   const tabItems = [
     {
@@ -41,6 +42,9 @@ export function AiModal() {
       size="high"
       title={tabItems.find((tab) => tab.id === activeTab)?.title}>
       <div className="flex flex-1 flex-col gap-4 justify-center">
+        {
+          !params.subscribe.isActive && <ActionCard classNames="bg-secondary text-sm text-center" title={t('subscribe.tries', { count: params.subscribe.freeAiTries })}/>
+        }
         {isPreview ? (
           <Preview onChange={setIsPreview} />
         ) : (

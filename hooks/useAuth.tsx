@@ -20,6 +20,7 @@ import {
 import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
 import { auth, db } from "@/lib/config/firebaseConfig";
 import { deleteUserData } from "@/lib/actions/user";
+import { subscribe } from "diagnostics_channel";
 
 type AuthContextValue = {
   user: User | null;
@@ -50,6 +51,10 @@ async function ensureUserDoc(user: User) {
       displayName: user.displayName || "",
       avatarUrl: user.photoURL || "",
       createdAt: serverTimestamp(),
+      subscribed: {
+        type: null,
+        freeAiTries: 5,
+      },
     }, { merge: true });
   }
 }
