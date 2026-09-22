@@ -1,21 +1,17 @@
 "use client";
 
 import { QueryClient } from "@tanstack/react-query";
-import {
-  PersistQueryClientProvider,
-  Persister,
-  PersistedClient,
-} from "@tanstack/react-query-persist-client";
+import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
 import { useState, useEffect } from "react";
 import { get, set, del } from "idb-keyval";
 
-const idbPersister: Persister = {
-  persistClient: async (client: PersistedClient) => {
+const idbPersister = {
+  persistClient: async (client: unknown) => {
     await set("REACT_QUERY_OFFLINE_CACHE", client);
   },
   restoreClient: async () => {
     try {
-      const cache = await get<PersistedClient>("REACT_QUERY_OFFLINE_CACHE");
+      const cache = await get("REACT_QUERY_OFFLINE_CACHE");
       return cache ?? undefined;
     } catch {
       return undefined;
@@ -66,25 +62,6 @@ export const QueryProvider = ({ children }: { children: React.ReactNode }) => {
         persister: idbPersister,
         maxAge: 1000 * 60 * 60 * 24 * 7,
         buster: "v1",
-        dehydrateOptions: {
-          shouldDehydrateQuery: (query) => {
-            if (query.state.status !== "success") return false;
-
-            const data = query.state.data;
-            if (data && typeof data === "object") {
-              if ("logger" in data || "container" in data) {
-                return false;
-              }
-            }
-
-            const key = query.queryKey[0];
-            if (typeof key === "string" && (key.includes("logger") || key.includes("platform"))) {
-              return false;
-            }
-
-            return true;
-          },
-        },
       }}
       onSuccess={() => {
         queryClient.resumePausedMutations();
