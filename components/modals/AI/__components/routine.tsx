@@ -59,9 +59,11 @@ export function AiRoutineContent() {
     try {
       if (!user) throw new Error("Користувач не авторизований");
 
+      const idToken = await user.getIdToken();
+
       const result = await generateAiRoutine({
         ...formData,
-        userId: user.uid,
+        idToken,
         locale,
       });
 

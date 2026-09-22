@@ -2,6 +2,7 @@
 
 import { randomUUID } from "crypto";
 import { generateStructured } from "./client";
+import { requireFreeTry } from "./guard";
 import { getCommonExercises, getUserExercises } from "@/lib/services/exercises";
 import { MUSCLE_GROUPS } from "@/data/exercise";
 import type { Exercise } from "@/types";
@@ -52,7 +53,7 @@ export type RoutineInput = {
   duration?: string;
   count?: string;
   comment?: string;
-  userId: string;
+  idToken: string;
   locale: string;
 };
 
@@ -81,7 +82,13 @@ export type GeneratedRoutine = {
 export async function generateAiRoutine(
   input: RoutineInput
 ): Promise<{ success: true; data: GeneratedRoutine; summary: string } | { success: false; error: string }> {
-  const allExercises = await getAllExercises(input.userId);
+  const guard = await requireFreeTry(input.idToken);
+  if (!guard.ok) {
+    return { success: false, error: guard.error };
+  }
+  const userId = guard.userId;
+
+  const allExercises = await getAllExercises(userId);
   const relevantExercises = filterRelevantExercises(allExercises, input.groups);
 
   const prompt = buildPrompt(input, relevantExercises);

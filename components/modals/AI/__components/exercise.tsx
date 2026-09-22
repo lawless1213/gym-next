@@ -61,7 +61,8 @@ export function AiExerciseContent() {
     try {
       if (!user) throw new Error("Not authenticated");
 
-      const result = await generateAiExercise({ ...data, userId: user.uid, locale });
+      const idToken = await user.getIdToken();
+      const result = await generateAiExercise({ ...data, idToken, locale });
 
       if (!result.success) {
         toast.error(result.error);

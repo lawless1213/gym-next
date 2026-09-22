@@ -2,6 +2,7 @@
 
 import { randomUUID } from "crypto";
 import { generateStructured } from "./client";
+import { requireFreeTry } from "./guard";
 import { getCommonExercises, getUserExercises } from "@/lib/services/exercises";
 import { getUserRoutines } from "@/lib/services/routines";
 import { MUSCLE_GROUPS } from "@/data/exercise";
@@ -72,7 +73,7 @@ export type ScheduleInput = {
   splitType: string;
   preferredRestDays?: WeekDay[];
   comment?: string;
-  userId: string;
+  idToken: string;
   locale: string;
 };
 
@@ -102,17 +103,21 @@ type AiRawResponse = {
 export async function generateAiSchedule(
   input: ScheduleInput
 ): Promise<{ success: true; data: ScheduleMap; summary: string } | { success: false; error: string }> {
+  const guard = await requireFreeTry(input.idToken);
+  if (!guard.ok) {
+    return { success: false, error: guard.error };
+  }
+  const userId = guard.userId;
+
   const [allExercises, existingRoutines] = await Promise.all([
-    getAllExercises(input.userId),
-    getUserRoutines(input.userId),
+    getAllExercises(userId),
+    getUserRoutines(userId),
   ]);
 
   const relevantExercises = filterRelevantExercises(allExercises, input.groups);
   const restDays = input.preferredRestDays ?? [];
 
   const prompt = buildPrompt(input, relevantExercises, existingRoutines, restDays);
-  console.log(prompt);
-  
 
   const result = await generateStructured<AiRawResponse>({
     prompt,

@@ -65,7 +65,8 @@ export function AiScheduleContent() {
     try {
       if (!user) throw new Error("Not authenticated");
 
-      const result = await generateAiSchedule({ ...formData, userId: user.uid, locale });
+      const idToken = await user.getIdToken();
+      const result = await generateAiSchedule({ ...formData, idToken, locale });
 
       if (!result.success) {
         setError("root", { message: result.error });

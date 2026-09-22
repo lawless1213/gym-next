@@ -26,7 +26,7 @@ export function Preview({ onChange }: PreviewProps) {
     close();
   };
 
-  const allowedTries = params.subscribe.freeAiTries;
+  const allowedTries = params.subscribed.freeAiTries;
 
   return (
     <div className="flex items-center flex-col">

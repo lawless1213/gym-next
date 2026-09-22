@@ -16,7 +16,7 @@ export function AiModal() {
   const t = useTranslations("ai.modal");
   const { params } = useUserPreferences();
   const [activeTab, setActiveTab] = useState<AiTab>("chat");
-  const [isPreview, setIsPreview] = useState(!params.subscribe.isActive);
+  const [isPreview, setIsPreview] = useState(!params.subscribed.isActive);
 
   const tabItems = [
     {
@@ -43,7 +43,7 @@ export function AiModal() {
       title={tabItems.find((tab) => tab.id === activeTab)?.title}>
       <div className="flex flex-1 flex-col gap-4 justify-center">
         {
-          (!isPreview && !params.subscribe.isActive) && <ActionCard classNames="bg-secondary text-sm text-center" title={t('subscribe.tries', { count: params.subscribe.freeAiTries })}/>
+          (!isPreview && !params.subscribed.isActive) && <ActionCard classNames="bg-secondary text-sm text-center" title={t('subscribe.tries', { count: params.subscribed.freeAiTries })}/>
         }
         {isPreview ? (
           <Preview onChange={setIsPreview} />

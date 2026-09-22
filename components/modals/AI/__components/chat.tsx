@@ -8,13 +8,22 @@ import { Input } from "@/components/ui/form/input";
 import { IconSend } from "@tabler/icons-react";
 import { Button } from "@/components/ui/Button";
 import { TypewriterText } from "@/components/ui/TypewritterText";
+import { useAuth } from "@/hooks/useAuth";
+import { useQueryClient } from "@tanstack/react-query";
+import { UserParams } from "@/lib/services/user";
+import { defaultUserParams, useUserPreferences } from "@/providers/user-preferences-provider";
 
 export function AiChatContent() {
   const t = useTranslations("ai.modal.chat");
+  const { params } = useUserPreferences();
+  const queryClient = useQueryClient();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
   const [input, setInput] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const messagesEndRef = useRef<HTMLDivElement>(null);
+  const { user } = useAuth();
+
+  if (!user) return;
 
   const scrollToBottom = useCallback((smooth = false) => {
     messagesEndRef.current?.scrollIntoView({
@@ -39,7 +48,20 @@ export function AiChatContent() {
 
     scrollToBottom(true);
 
-    const result = await sendChatMessage(updatedHistory, userMessage.text);
+    const idToken = await user.getIdToken();
+    const result = await sendChatMessage(idToken, updatedHistory, userMessage.text);
+
+    console.log(result);
+    
+
+    queryClient.setQueryData(["userParams", user.uid], (old: UserParams | undefined) => ({
+      ...defaultUserParams,
+      ...old,
+      subscribed: {
+        ...old?.subscribed,
+        freeAiTries: result.freeAiTries,
+      },
+    }));
 
     setIsLoading(false);
 
@@ -58,9 +80,7 @@ export function AiChatContent() {
   return (
     <>
       <div className="flex-1 flex flex-col gap-4 overflow-y-auto">
-        {messages.length === 0 && (
-          <p className="text-center text-muted-foreground m-auto">{t("description")}</p>
-        )}
+        {messages.length === 0 && <p className="text-center text-muted-foreground m-auto">{t("description")}</p>}
 
         {messages.map((msg, index) => {
           const isLastMessage = index === messages.length - 1;
@@ -70,16 +90,11 @@ export function AiChatContent() {
             <div
               key={msg.id}
               className={`flex ${isModel ? "justify-start" : "justify-end"}`}>
-              <div
-                className={`max-w-[80%] rounded-2xl px-4 py-2.5 whitespace-pre-wrap text-sm ${
-                  isModel
-                    ? "bg-muted text-foreground rounded-bl-none"
-                    : "bg-primary text-primary-foreground rounded-br-none"
-                }`}>
+              <div className={`max-w-[80%] rounded-2xl px-4 py-2.5 whitespace-pre-wrap text-sm ${isModel ? "bg-muted text-foreground rounded-bl-none" : "bg-primary text-primary-foreground rounded-br-none"}`}>
                 {isModel && isLastMessage ? (
                   <TypewriterText
                     text={msg.text}
-                    onRender={scrollToBottom} 
+                    onRender={scrollToBottom}
                   />
                 ) : (
                   msg.text
@@ -91,14 +106,15 @@ export function AiChatContent() {
 
         {isLoading && (
           <div className="flex justify-start">
-            <div className="bg-muted text-muted-foreground rounded-2xl rounded-bl-none px-4 py-2 text-sm animate-pulse">
-              {t("loading")}
-            </div>
+            <div className="bg-muted text-muted-foreground rounded-2xl rounded-bl-none px-4 py-2 text-sm animate-pulse">{t("loading")}</div>
           </div>
         )}
         <div ref={messagesEndRef} />
       </div>
-
+      {
+        (!params.subscribed.isActive && params.subscribed.freeAiTries === 0) &&
+        <div className="text-center bg-secondary p-2 rounded-2xl">дальші треба купіть подпіську</div>
+      }
       <form
         onSubmit={handleSubmit}
         className="flex gap-2 mt-auto">
@@ -111,13 +127,13 @@ export function AiChatContent() {
             onChange: (e) => setInput(e.target.value),
             disabled: isLoading,
             withoutError: true,
-						autoComplete: "off",
+            autoComplete: "off",
           }}
         />
         <Button
           size="icon-xl"
           type="submit"
-          disabled={isLoading || !input.trim()}>
+          disabled={isLoading || !input.trim() || (!params.subscribed.isActive && params.subscribed.freeAiTries === 0)}>
           <IconSend className="size-6" />
         </Button>
       </form>

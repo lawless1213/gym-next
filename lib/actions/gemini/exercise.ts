@@ -3,6 +3,7 @@
 import type { Exercise } from "@/types";
 import { randomUUID } from "crypto";
 import { generateStructured } from "./client";
+import { requireFreeTry } from "./guard";
 import { getCommonExercises, getUserExercises } from "@/lib/services/exercises";
 import { MUSCLE_GROUPS } from "@/data/exercise";
 import { getLocalizedText, toLocalizedText } from "@/lib/utils";
@@ -40,7 +41,7 @@ type ExerciseInput = {
   equipment: string;
   groups: string[];
   comment?: string;
-  userId: string;
+  idToken: string;
   locale: string;
 };
 
@@ -56,7 +57,13 @@ type AiRawResponse = {
 const MAX_RETRIES = 2;
 
 export async function generateAiExercise(input: ExerciseInput): Promise<{ success: true; data: Exercise; summary: string } | { success: false; error: string }> {
-  const allExercises = await getAllExercises(input.userId);
+  const guard = await requireFreeTry(input.idToken);
+  if (!guard.ok) {
+    return { success: false, error: guard.error };
+  }
+  const userId = guard.userId;
+
+  const allExercises = await getAllExercises(userId);
   const relevantExercises = filterRelevantExercises(allExercises, input.groups);
   const existingNames = relevantExercises.map((ex) => getLocalizedText(ex.name, input.locale as any));
 

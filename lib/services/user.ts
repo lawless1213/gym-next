@@ -17,7 +17,7 @@ export type UserParams = {
   height: number | null;
   avatarUrl: string | null;
   createdAt?: number | null; 
-  subscribe: UserSubscribe;
+  subscribed: UserSubscribe;
 };
 
 export async function getUserParams(

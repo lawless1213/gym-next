@@ -7,7 +7,7 @@ import { setUserParams } from "@/lib/actions/user";
 import { useAuth } from "@/hooks/useAuth";
 import { useUserParams } from "@/hooks/useServices/useUserParams";
 
-const defaultUserParams: UserParams = {
+export const defaultUserParams: UserParams = {
   theme: "system",
   language: "en",
   gender: "male",
@@ -15,7 +15,7 @@ const defaultUserParams: UserParams = {
   weight: "kg",
   height: null,
   avatarUrl: null,
-  subscribe: {
+  subscribed: {
     type: null,
     isActive: false,
     freeAiTries: 5,
