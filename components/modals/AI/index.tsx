@@ -43,7 +43,7 @@ export function AiModal() {
       title={tabItems.find((tab) => tab.id === activeTab)?.title}>
       <div className="flex flex-1 flex-col gap-4 justify-center">
         {
-          !params.subscribe.isActive && <ActionCard classNames="bg-secondary text-sm text-center" title={t('subscribe.tries', { count: params.subscribe.freeAiTries })}/>
+          (!isPreview && !params.subscribe.isActive) && <ActionCard classNames="bg-secondary text-sm text-center" title={t('subscribe.tries', { count: params.subscribe.freeAiTries })}/>
         }
         {isPreview ? (
           <Preview onChange={setIsPreview} />
