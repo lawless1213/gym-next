@@ -7,12 +7,22 @@ import { Tabs } from "@/components/ui/Tabs";
 import Profile from "@/components/settings/profile";
 import Preferences from "@/components/settings/preferences";
 import Subscribe from "@/components/settings/subscribe";
+import { useSearchParams } from "next/navigation";
 
 type SettingsTab = "profile" | "preferences" | "subscribe";
 
 export default function Setting() {
   const t = useTranslations("settings");
-  const [activeTab, setActiveTab] = useState<SettingsTab>("profile");
+  const searchParams = useSearchParams();
+  const requestedTab = searchParams.get("tab");
+  const initialTab: SettingsTab =
+  requestedTab === "subscribe" ||
+  requestedTab === "preferences" ||
+  requestedTab === "profile"
+    ? requestedTab
+    : "profile";
+    
+  const [activeTab, setActiveTab] = useState<SettingsTab>(initialTab);
 
   const tabItems = [
     {

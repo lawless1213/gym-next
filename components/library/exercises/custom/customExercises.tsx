@@ -11,14 +11,18 @@ import { ExercisesSkeleton } from "../exercisesSkeleton";
 import ExercisesList from "../exercisesList";
 import ButtonAdd from "@/components/shared/ButtonAdd";
 import { useModal } from "@/components/modals/modal-store";
+import { useUserPreferences } from "@/providers/user-preferences-provider";
+import { useRouter } from "next/navigation";
 
 const ITEMS_PER_PAGE = 10;
 
 export default function CustomExercises() {
+  const { params } = useUserPreferences();
   const t = useTranslations("library.exercises");
   const locale = useLocale();
   const { user } = useAuth();
   const userId = user?.uid;
+  const router = useRouter();
   const { open } = useModal();
 
   const [searchQuery, setSearchQuery] = useState("");
@@ -77,7 +81,7 @@ export default function CustomExercises() {
       </SkeletonSwitcher>
       {user && (
         <ButtonAdd
-          onClick={() => open("exercise")}
+          onClick={() => (params.subscribe ? open("exercise") : router.push("/settings?tab=subscribe"))}
           ariaLabel={t("buttonAdd")}
         />
       )}

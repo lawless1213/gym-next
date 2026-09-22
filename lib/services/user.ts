@@ -10,6 +10,7 @@ export type UserParams = {
   weight: "kg" | "lb";
   height: number | null;
   avatarUrl: string | null;
+  subscribe: boolean | null;
 };
 
 export async function getUserParams(

@@ -14,7 +14,8 @@ const defaultUserParams: UserParams = {
   distance: "cm",
   weight: "kg",
   height: null,
-  avatarUrl: null
+  avatarUrl: null,
+  subscribe: null,
 };
 
 type UserPreferencesContextValue = {

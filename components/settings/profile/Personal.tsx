@@ -15,8 +15,6 @@ export default function Personal() {
   const { user } = useAuth();
   const t = useTranslations("settings.profile.personal");
   const tMeasurement = useTranslations("components.measurement");
-  console.log(user);
-
   const avatarUrl = user?.photoURL || params.avatarUrl;
   return (
     <div className="flex justify-start w-full items-center gap-4 p-4 bg-secondary rounded-2xl">
