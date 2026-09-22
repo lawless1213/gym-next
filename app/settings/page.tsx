@@ -1,6 +1,6 @@
 "use client";
 
-import { useState } from "react";
+import { useState, useEffect } from "react";
 import { IconAdjustmentsHorizontal, IconCarambolaFilled, IconUser } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
 import { Tabs } from "@/components/ui/Tabs";
@@ -14,15 +14,17 @@ type SettingsTab = "profile" | "preferences" | "subscribe";
 export default function Setting() {
   const t = useTranslations("settings");
   const searchParams = useSearchParams();
-  const requestedTab = searchParams.get("tab");
-  const initialTab: SettingsTab =
-  requestedTab === "subscribe" ||
-  requestedTab === "preferences" ||
-  requestedTab === "profile"
-    ? requestedTab
-    : "profile";
-    
-  const [activeTab, setActiveTab] = useState<SettingsTab>(initialTab);
+
+  const tab = searchParams.get("tab");
+  const [activeTab, setActiveTab] = useState<SettingsTab>(tab === "subscribe" || tab === "preferences" || tab === "profile" ? tab : "profile");
+
+  useEffect(() => {
+    const requestedTab = searchParams.get("tab");
+
+    if (requestedTab === "subscribe" || requestedTab === "preferences" || requestedTab === "profile") {
+      setActiveTab(requestedTab);
+    }
+  }, [searchParams]);
 
   const tabItems = [
     {

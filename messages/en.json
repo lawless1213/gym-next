@@ -579,6 +579,12 @@
         "loading": "Thinking..."
       },
 
+      "subscribe": {
+        "subtitle": "Get personalized advice, form analysis, and smart insights for every workout.",
+        "close": "Dismiss",
+        "trial": "You have {count} free tryouts remaining",
+        "link": "Get Premium Access"
+      },
       "success": "Successfully saved!",
       "error": "Something went wrong! Please try again later."
     }
