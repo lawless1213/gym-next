@@ -42,7 +42,7 @@ export function AiModal() {
       title={tabItems.find((tab) => tab.id === activeTab)?.title}>
       <div className="flex flex-1 flex-col gap-4 justify-center">
         {isPreview ? (
-          <Preview />
+          <Preview onChange={setIsPreview} />
         ) : (
           <Tabs
             items={tabItems}
