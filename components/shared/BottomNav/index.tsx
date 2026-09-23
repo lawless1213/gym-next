@@ -10,11 +10,14 @@ import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/Tooltip
 import { getNavLinks } from "@/data/navManu";
 import { NavItem } from "@/types/navMenu";
 import { IconCarambolaFilled } from "@tabler/icons-react";
+import { useUserPreferences } from "@/providers/user-preferences-provider";
 
 export function BottomNav() {
   const t = useTranslations("components.bottomNav");
   const tNotification = useTranslations("notification");
   const { user } = useAuth();
+  const { params } = useUserPreferences();
+
   const { open } = useModal();
   const pathname = usePathname();
 
@@ -42,12 +45,11 @@ export function BottomNav() {
           const content = (
             <div className={`relative min-h-10 flex items-center transition-transform ${isActive ? "scale-125" : ""}`}>
               {item.icon}
-              {
-                item.subscribeRequired &&
+              {(item.subscribeRequired && !params.subscribed.isActive) && (
                 <div className="absolute top-0 left-[60%] bg-card/95 p-1 rounded-[100%]">
                   <IconCarambolaFilled className="size-2 text-foreground " />
                 </div>
-              }
+              )}
             </div>
           );
 

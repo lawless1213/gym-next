@@ -83,7 +83,21 @@ export function ModalWrapper({ modalType, children, classes, contentClasses, siz
                   </Button>
                 </div>
               )}
-              <div className={clsx("p-3 flex flex-col flex-1 min-h-0 overflow-y-auto sm:p-6", contentClasses)}>{children}</div>
+              <div
+                className={clsx(
+                  "p-3 flex flex-col flex-1 min-h-0 overflow-y-auto sm:p-6",
+                  "transform-gpu will-change-transform",
+                  contentClasses,
+                )}
+                // onScroll={(e) => {
+                //   const activeElement = document.activeElement as HTMLElement;
+                //   if (activeElement && (activeElement.tagName === "INPUT" || activeElement.tagName === "TEXTAREA")) {
+                //     activeElement.blur();
+                //   }
+                // }}
+                >
+                {children}
+              </div>
             </motion.div>
           </div>
         </>
