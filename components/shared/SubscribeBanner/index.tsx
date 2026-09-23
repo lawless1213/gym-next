@@ -12,9 +12,9 @@ export default function SubscribeBanner() {
   const { params } = useUserPreferences();
   const router = useRouter();
 
-  // if (!user || !user.emailVerified || params.subscribed.isActive) {
-  //   return null;
-  // }
+  if (!user || params.subscribed.isActive) {
+    return null;
+  }
 
   return (
     <div

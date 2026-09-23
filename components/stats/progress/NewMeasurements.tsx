@@ -16,7 +16,7 @@ export default function NewMeasurements() {
 
   return (
     <ButtonAdd
-      onClick={() => (params.subscribe ? open("progress") : router.push("/settings?tab=subscribe"))}
+      onClick={() => (params.subscribed.isActive ? open("progress") : router.push("/settings?tab=subscribe"))}
       ariaLabel={t("progress.buttonAdd")}
       icon={<IconEdit className="size-6" />}
     />
