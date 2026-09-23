@@ -189,6 +189,14 @@
       "invalid_password": "Invalid password",
       "file_too_large": "File is too large",
       "invalid_file_type": "Invalid file type"
+    },
+    "cookie": {
+      "banner": {
+        "text": "We use cookies to enhance your browsing experience and analyze our traffic. ",
+        "link": "Privacy Policy",
+        "required": "Required only",
+        "all": "Accept all"
+      }
     }
   },
   "home": {

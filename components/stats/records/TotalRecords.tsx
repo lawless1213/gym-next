@@ -15,6 +15,8 @@ export default function TotalRecords({records, loading}: TotalRecordsProps) {
   const { params } = useUserPreferences();
   const tMeasurement = useTranslations("components.measurement");
   const t = useTranslations("stats.records");
+
+  if(!records.length) return;
   
   return (
     <div className="space-y-3 mt-5">

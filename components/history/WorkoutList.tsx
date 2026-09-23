@@ -26,6 +26,8 @@ const HistorySkeleton = (
 export default function WorkoutList({ history, loading }: WorkoutListProps) {
   const t = useTranslations("history");
 
+  if(!history.length) return;
+
   return (
     <div className="space-y-3">
       <h2 className="text-sm font-semibold text-muted-foreground">{t("list.recentTitle")}</h2>

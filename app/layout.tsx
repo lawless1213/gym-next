@@ -11,6 +11,7 @@ import AppShell from "@/components/shared/AppShell";
 import { ModalProvider } from "@/components/modals/modal-store";
 import { TooltipProvider } from "@/components/ui/Tooltip";
 import { UserPreferencesProvider } from "@/providers/user-preferences-provider";
+import { CookieBanner } from "@/components/shared/CookieBanner";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -55,6 +56,7 @@ export default function RootLayout({
         <ThemeProvider>
           <FaviconSwitcher />
           <NextIntlClientProvider>
+            <CookieBanner />
             <AuthProvider>
               <QueryProvider>
                 <UserPreferencesProvider>

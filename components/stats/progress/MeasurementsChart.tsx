@@ -5,6 +5,7 @@ import { BodyProgress } from "@/types";
 import SkeletonBone from "@/components/ui/Skeleton/SkeletonBone";
 import SkeletonSwitcher from "@/components/ui/Skeleton/SkeletonSwitcher";
 import { useUserPreferences } from "@/providers/user-preferences-provider";
+import { IconEdit } from "@tabler/icons-react";
 
 interface MeasurementsChartProps {
   progress?: BodyProgress;
@@ -40,7 +41,13 @@ export default function MeasurementsChart({ progress, selectedMetric, loading }:
         <h3 className="pl-4 mb-4 text-sm font-semibold text-muted-foreground">{t(`measurements.${selectedMetric}`)}</h3>
         <div className="h-48 w-full min-w-0 flex items-center text-center justify-center">
           {!chartData?.length || !chartData ? (
-            <div className="text-muted-foreground pl-4">{t("progress.chart.empty")}</div>
+            <div className="text-center text-sm text-muted-foreground flex flex-col items-center gap-5 mt-2">
+              <IconEdit
+                stroke={1.5}
+                className="size-25"
+              />
+              <p>{t("progress.chart.empty")}</p>
+            </div>
           ) : (
             <ResponsiveContainer className="h-full w-full min-w-0">
               <LineChart
