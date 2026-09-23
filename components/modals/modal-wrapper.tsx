@@ -89,12 +89,12 @@ export function ModalWrapper({ modalType, children, classes, contentClasses, siz
                   "transform-gpu will-change-transform",
                   contentClasses,
                 )}
-                // onScroll={(e) => {
-                //   const activeElement = document.activeElement as HTMLElement;
-                //   if (activeElement && (activeElement.tagName === "INPUT" || activeElement.tagName === "TEXTAREA")) {
-                //     activeElement.blur();
-                //   }
-                // }}
+                onScroll={(e) => {
+                  const activeElement = document.activeElement as HTMLElement;
+                  if (activeElement && (activeElement.tagName === "INPUT" || activeElement.tagName === "TEXTAREA")) {
+                    activeElement.blur();
+                  }
+                }}
                 >
                 {children}
               </div>
