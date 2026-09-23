@@ -13,15 +13,15 @@ import {
 export const DEFAULT_PLANS: Plan[] = [
   {
     id: 'monthly',
-    price: 9.99,
+    price: 4.99,
   },
   {
     id: 'yearly',
-    price: 49.00,
+    price: 39.00,
   },
   {
     id: 'lifetime',
-    price: 149.00,
+    price: 99.00,
   },
 ];
 

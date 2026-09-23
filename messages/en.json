@@ -305,12 +305,12 @@
         },
         "yearly": {
           "title": "Yearly",
-          "note": "Save 59%, just $4.08 per month",
+          "note": "Save 35%, just $3.25 per month",
           "top": "Best price",
           "trial": "14 days free",
           "period": "per year",
           "button": "Start Free Trial",
-          "footnote": "After 14 days — $49.00 per year. Cancel anytime before the trial ends."
+          "footnote": "After 14 days — $39.00 per year. Cancel anytime before the trial ends."
         },
         "lifetime": {
           "title": "Lifetime",
