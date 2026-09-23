@@ -1,12 +1,10 @@
 "use client";
 
-import { IconPlus } from "@tabler/icons-react";
+import { IconMoodPuzzled, IconPlus } from "@tabler/icons-react";
 import { useAuth } from "@/hooks/useAuth";
 import RoutineCard from "../../shared/cards/RoutineCard";
-import { useRoutines } from "@/hooks/useServices/useRoutines";
 import { useModal } from "@/components/modals/modal-store";
 import { useTranslations } from "next-intl";
-import ActionCard from "@/components/shared/cards/ActionCard";
 import { Routine } from "@/types";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -23,7 +21,7 @@ export default function RoutinesList({ routines }: RoutinesListProps) {
   const { open } = useModal();
   const [openRoutineId, setOpenRoutineId] = useState<string | null>(null);
 
-   const isVerified = user?.emailVerified;
+  const isVerified = user?.emailVerified;
 
   const handleClick = () => {
     if (!isVerified) {
@@ -31,7 +29,7 @@ export default function RoutinesList({ routines }: RoutinesListProps) {
       return;
     }
 
-    open("routine")
+    open("routine");
   };
 
   const toggleRoutine = (id: string) => {
@@ -39,11 +37,13 @@ export default function RoutinesList({ routines }: RoutinesListProps) {
   };
 
   return routines.length === 0 ? (
-    <ActionCard
-      title={t("empty")}
-      icon={IconPlus}
-      onClick={() => handleClick()}
-    />
+    <div className="text-center text-sm text-muted-foreground flex flex-col items-center gap-5 mt-5">
+      <IconMoodPuzzled
+        stroke={1.5}
+        className="size-25"
+      />
+      <p>{t("empty")}</p>
+    </div>
   ) : (
     <div className="space-y-3 max-md:-mx-4">
       {routines.map((routine) => (

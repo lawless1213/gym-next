@@ -5,6 +5,7 @@ import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/Button";
 import { Exercise } from "@/types";
 import { useState } from "react";
+import { IconMoodPuzzled } from "@tabler/icons-react";
 
 interface ExercisesListProps {
   visibleExercises: Exercise[];
@@ -12,11 +13,7 @@ interface ExercisesListProps {
   handleLoadMore: () => void;
 }
 
-export default function ExercisesList({
-  visibleExercises,
-  hasMore,
-  handleLoadMore,
-}: ExercisesListProps) {
+export default function ExercisesList({ visibleExercises, hasMore, handleLoadMore }: ExercisesListProps) {
   const t = useTranslations("library.exercises");
   const [openExerciseId, setOpenExerciseId] = useState<string | null>(null);
 
@@ -36,17 +33,17 @@ export default function ExercisesList({
           />
         ))
       ) : (
-        <p className="text-center text-sm text-muted-foreground py-8">
-          {t("notFound")}
-        </p>
+        <div className="text-center text-sm text-muted-foreground flex flex-col items-center gap-5 mt-2">
+          <IconMoodPuzzled stroke={1.5}  className="size-25"/>
+          <p>{t("notFound")}</p>
+        </div>
       )}
 
       {hasMore && (
         <Button
           variant="outline"
           onClick={handleLoadMore}
-          className="w-full"
-        >
+          className="w-full">
           {t("loadMore")}
         </Button>
       )}

@@ -10,6 +10,7 @@ import { WorkoutCardSection } from "@/components/home/WorkoutCardSection";
 import QuickStats from "@/components/home/QuickStats";
 import QuickWorkout from "@/components/home/QuickWorkout";
 import ConfirmEmail from "../components/shared/ConfirmEmail";
+import SubscribeBanner from "@/components/shared/SubscribeBanner";
 
 export default function Home() {
   const t = useTranslations("home");
@@ -28,6 +29,7 @@ export default function Home() {
       <WeeklyCalendar />
       <WorkoutCardSection />
       <ConfirmEmail />
+      <SubscribeBanner />
       <MotivationalBanner
         records={lastWeekRecords}
         lastWeekHistory={lastWeekHistory}

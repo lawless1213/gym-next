@@ -328,7 +328,7 @@
       },
       "email": {
         "confirm": {
-          "title": "Please confirm your email to access all site features",
+          "title": "Please confirm your email to access site features",
           "description": "We have sent a confirmation link to your email address.",
           "submit": "Resend email",
           "check": "Check",

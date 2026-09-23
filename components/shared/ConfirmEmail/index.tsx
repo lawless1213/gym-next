@@ -1,6 +1,6 @@
 "use client";
 
-import { Button } from "@/components/ui/Button"; // перевірте шлях до кнопки
+import { Button } from "@/components/ui/Button";
 import { useAuth } from "@/hooks/useAuth";
 import { IconChevronRight, IconMailExclamation, IconReload } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
@@ -19,7 +19,6 @@ export default function ConfirmEmail() {
     return null;
   }
 
-  // Обробник надсилання листа
   const handleSendEmail = async () => {
     if (loading) return;
     try {

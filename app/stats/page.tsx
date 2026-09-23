@@ -6,6 +6,7 @@ import { useTranslations } from "next-intl";
 import Progress from "../../components/stats/progress";
 import Records from "@/components/stats/records";
 import { Tabs } from "@/components/ui/Tabs";
+import SubscribeBanner from "@/components/shared/SubscribeBanner";
 
 type StatsTab = "progress" | "records";
 
@@ -28,6 +29,7 @@ export default function Stats() {
 
   return (
     <div className="flex flex-col gap-4 pb-4">
+      <SubscribeBanner />
       <Tabs
         items={tabItems}
         activeTab={activeTab}

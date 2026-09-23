@@ -13,6 +13,7 @@ import ButtonAdd from "@/components/shared/ButtonAdd";
 import { useModal } from "@/components/modals/modal-store";
 import { useUserPreferences } from "@/providers/user-preferences-provider";
 import { useRouter } from "next/navigation";
+import SubscribeBanner from "@/components/shared/SubscribeBanner";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -59,6 +60,7 @@ export default function CustomExercises() {
 
   return (
     <>
+      <SubscribeBanner />
       <div className="relative">
         <IconSearch className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
         <input
@@ -81,7 +83,7 @@ export default function CustomExercises() {
       </SkeletonSwitcher>
       {user && (
         <ButtonAdd
-          onClick={() => (params.subscribe ? open("exercise") : router.push("/settings?tab=subscribe"))}
+          onClick={() => (params.subscribed.isActive ? open("exercise") : router.push("/settings?tab=subscribe"))}
           ariaLabel={t("buttonAdd")}
         />
       )}
