@@ -44,6 +44,12 @@ Estimates are rough, for a single developer. The "why" behind each item is in [P
 - [ ] 3.8 `MuscleSchema`: move SVG paths into data + one render component.
 - [ ] 3.9 PWA: `@ducanh2912/next-pwa` → Serwist (`@serwist/next`), verify offline mode.
 - [ ] 3.10 Tie the persister `buster` to the data schema version.
+- [ ] 3.11 Feature-based structure ("FSD-lite"), one feature per PR, after Stages 0–2. See [Target structure](#target-structure-fsd-lite).
+  - [ ] Create `shared/` (ui, lib, config) and `server/` (Admin SDK, server actions, AI guard, `import "server-only"`).
+  - [ ] Migrate features one by one, smallest first: `progress` → `history` → `exercises` → `routines` → `schedule` → `workouts` → `ai` → `subscription` → `auth`.
+  - [ ] Each feature exposes a public API via `index.ts`; no deep imports into another feature's internals.
+  - [ ] Enforce boundaries with ESLint (`eslint-plugin-boundaries` or `import/no-restricted-paths`): `shared` never imports from `features`/`server`; features import each other only through `index.ts`; client code never imports `server/`.
+  - [ ] `app/` stays routing-only (thin `page.tsx`/`layout.tsx` composing features).
 
 ## Stage 4 — Product (P4, after stabilization)
 - [ ] 4.1 Payments: Stripe/LemonSqueezy + webhook → server-side `subscribed` update (depends on 0.3–0.4).
@@ -54,5 +60,37 @@ Estimates are rough, for a single developer. The "why" behind each item is in [P
 - [ ] 4.6 Analytics (Firebase Analytics / PostHog): subscription funnel.
 - [ ] 4.7 Playwright e2e: login → workout → history → stats.
 
+## Target structure (FSD-lite)
+
+Why not full FSD: the project is ~14k lines with a single developer, FSD's `app`/`pages` layers clash with Next.js App Router folders, and `entities`/`features`/`widgets` boundaries would be fuzzy here. FSD-lite keeps the useful parts — grouping by domain, a public API per feature, one-way dependencies — without the extra layers. Revisit full FSD if the team grows to 3+ developers or code must be shared with another app (admin panel, React Native).
+
+```
+app/                      # Next.js routing only (thin page.tsx / layout.tsx)
+features/
+  routines/
+    api/                  # reads (services) + writes (mutations)
+    model/                # types, zod schemas, query keys
+    hooks/                # useRoutines, useCreateRoutine
+    components/           # RoutineCard, routine modals
+    index.ts              # public API of the feature
+  workouts/
+  exercises/
+  schedule/
+  progress/
+  history/
+  ai/
+  auth/
+  subscription/
+shared/
+  ui/                     # Button, Tabs, Loader, form controls
+  lib/                    # firebase client, utils, result type, i18n helpers
+  config/
+server/                   # Admin SDK, server actions, AI guard ("server-only")
+```
+
+Dependency rules: `app` → `features` → `shared`; `server` → `shared`; features talk to each other only via `index.ts`.
+
+Decided against (for now): **fp-ts** (in maintenance, superseded by Effect) and **Effect** (no complex async orchestration in the app; TanStack Query + zod + a small `Result<T, E>` type cover the needs). Reconsider Effect only for a dedicated backend (payment webhooks, queues, background sync).
+
 ## Order
-Stage 1 can be done first in half a day, alongside the start of Stage 0. Stage 0 must be done before launching payments (4.1). Stage 2 should come before the big Stage 3 refactors so tests and CI act as a safety net.
+Stage 1 can be done first in half a day, alongside the start of Stage 0. Stage 0 must be done before launching payments (4.1). Stage 2 should come before the big Stage 3 refactors (especially 3.11) so tests and CI act as a safety net.

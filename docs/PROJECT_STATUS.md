@@ -76,6 +76,7 @@ _Updated: 2026-10-09. Detailed checklist plan — [ROADMAP.md](./ROADMAP.md)._
 | Query keys are inline strings across components | Easy to get invalidation wrong; needs a key factory |
 | Every page is `"use client"` | No server-rendering benefits; layout and static parts can be server components |
 | `MuscleSchema` — ~1800 lines of inline SVG | Hard to maintain; move paths into data |
+| Code is grouped by technical type (`types/`, `lib/schemas`, `lib/services`, `lib/actions`, `hooks/`, `components/`) | One change to a domain (e.g. routines) touches 6 folders; move to a feature-based structure (FSD-lite, roadmap 3.11) |
 
 ## 📋 Still to do
 
@@ -101,7 +102,7 @@ _Updated: 2026-10-09. Detailed checklist plan — [ROADMAP.md](./ROADMAP.md)._
 1. **Stage 1 — bugs** (~0.5 day), alongside the start of Stage 0
 2. **Stage 0 — security & monetization** (~3–4 days), required before launching payments
 3. **Stage 2 — packages & tooling** (~1–2 days), to have tests and CI before refactoring
-4. **Stage 3 — architecture** (~1–2 weeks, incremental)
+4. **Stage 3 — architecture** (~1–2 weeks, incremental), including the FSD-lite migration
 5. **Stage 4 — new features**
 
 ## 🤖 Claude skills in the repo
