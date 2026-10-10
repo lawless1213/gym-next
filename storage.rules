@@ -1,0 +1,32 @@
+rules_version = '2';
+
+// Gym Next — Cloud Storage security rules.
+// Files are served to the UI via getDownloadURL() tokens, which bypass these read rules.
+service firebase.storage {
+  match /b/{bucket}/o {
+
+    function isOwner(uid) {
+      return request.auth != null && request.auth.uid == uid;
+    }
+
+    function isImageUnder5MB() {
+      return request.resource.size < 5 * 1024 * 1024
+        && request.resource.contentType.matches('image/.*');
+    }
+
+    // Avatars: users/{uid}/{file}; exercise photos: users/{uid}/exercises/{file}
+    match /users/{uid}/{allPaths=**} {
+      allow read, delete: if isOwner(uid);
+      allow create, update: if isOwner(uid) && isImageUnder5MB();
+    }
+
+    // Public exercise catalog images (referenced from the `exercises` collection).
+    // Uploaded via the console/Admin SDK only.
+    match /preview/{allPaths=**} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    // Everything else is denied by default.
+  }
+}

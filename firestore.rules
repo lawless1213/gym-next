@@ -1,0 +1,43 @@
+rules_version = '2';
+
+// Gym Next — Firestore security rules.
+// Server code (Admin SDK) bypasses these rules; they only constrain the client SDK.
+service cloud.firestore {
+  match /databases/{database}/documents {
+
+    function signedIn() {
+      return request.auth != null;
+    }
+
+    function isOwner(uid) {
+      return signedIn() && request.auth.uid == uid;
+    }
+
+    // Fields only the server may write (see lib/server/actions/user.ts).
+    function touchesServerOnlyFields() {
+      return request.resource.data.diff(resource.data).affectedKeys()
+        .hasAny(['subscribed', 'createdAt']);
+    }
+
+    // Public exercise catalog: readable by anyone, written only by the server/console.
+    match /exercises/{exerciseId} {
+      allow read: if true;
+      allow write: if false;
+    }
+
+    match /users/{uid} {
+      allow read: if isOwner(uid);
+      // Created by initUserDoc (Admin SDK) and deleted by deleteUserData (Admin SDK).
+      // Client create/delete would let a user reset subscription and free AI tries.
+      allow create, delete: if false;
+      allow update: if isOwner(uid) && !touchesServerOnlyFields();
+
+      // exercises, routines, stats, workoutHistory, ...
+      match /{subPath=**} {
+        allow read, write: if isOwner(uid);
+      }
+    }
+
+    // Everything else is denied by default.
+  }
+}

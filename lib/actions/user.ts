@@ -1,7 +1,7 @@
 import { db, storage, auth } from "@/lib/config/firebaseConfig";
-import { collection, deleteDoc, doc, getDocs, setDoc, writeBatch } from "firebase/firestore";
+import { doc, setDoc } from "firebase/firestore";
 import type { UserParams } from "@/lib/services/user";
-import { deleteObject, getDownloadURL, listAll, ref, uploadBytes } from "firebase/storage";
+import { deleteObject, getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { updateProfile } from "firebase/auth";
 
 /** Fields the client may write. `subscribed` and `createdAt` are server-only. */
@@ -78,39 +78,3 @@ export const updateUserProfile = async (
     await setDoc(userDocRef, updateData, { merge: true });
   }
 };
-
-async function deleteStorageFolder(path: string) {
-  const folderRef = ref(storage, path);
-  const res = await listAll(folderRef);
-
-  const deleteFilesPromises = res.items.map((itemRef) => deleteObject(itemRef));
-  const deleteSubFoldersPromises = res.prefixes.map((prefixRef) =>
-    deleteStorageFolder(prefixRef.fullPath)
-  );
-
-  await Promise.all([...deleteFilesPromises, ...deleteSubFoldersPromises]);
-}
-
-export async function deleteUserData(userId: string) {
-  const subcollections = ["exercises", "routines", "stats"];
-  
-  for (const subcol of subcollections) {
-    const subColRef = collection(db, "users", userId, subcol);
-    const snapshot = await getDocs(subColRef);
-    
-    if (!snapshot.empty) {
-      const batch = writeBatch(db);
-      snapshot.docs.forEach((docSnap) => batch.delete(docSnap.ref));
-      await batch.commit();
-    }
-  }
-
-  const userDocRef = doc(db, "users", userId);
-  await deleteDoc(userDocRef);
-
-  try {
-    await deleteStorageFolder(`users/${userId}`);
-  } catch (error) {
-    console.error("Помилка видалення файлів зі Storage:", error);
-  }
-}

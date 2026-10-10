@@ -18,8 +18,7 @@ import {
   signInWithPopup 
 } from "firebase/auth";
 import { auth } from "@/lib/config/firebaseConfig";
-import { deleteUserData } from "@/lib/actions/user";
-import { initUserDoc } from "@/lib/server/actions/user";
+import { deleteUserData, initUserDoc } from "@/lib/server/actions/user";
 
 type AuthContextValue = {
   user: User | null;
@@ -145,9 +144,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       await reauthenticate(password);
     }
 
-    const userId = currentUser.uid;
+    // Force a fresh token so the server sees the auth_time of the re-authentication above.
+    const result = await deleteUserData(await currentUser.getIdToken(true));
+    if (!result.ok) throw new Error(result.error);
 
-    await deleteUserData(userId);
     await deleteUser(currentUser);
   };
 

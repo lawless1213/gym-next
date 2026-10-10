@@ -12,7 +12,8 @@ Order inside the stage: 0.4 (schema) → 0.3 → 0.1 → 0.2 → the rest. Rules
   - Done: `lib/subscription.ts` (`parseSubscription`, `isSubscriptionActive`, `toUserSubscription`) + `lib/schemas/subscription.schema.ts`; used by the AI guard and `getUserParams`.
 - [x] 0.3 Create the user document with `subscribed` on the server (Cloud Function `beforeUserCreated`/`onCreate` or a server action with the Admin SDK). Remove `subscribed` from `ensureUserDoc`.
   - Done: server action `initUserDoc(idToken)` in `lib/server/actions/user.ts` (Admin SDK, idempotent transaction), called from `ensureUserDoc` after every sign-in. `setUserParams` can no longer write `subscribed`/`createdAt` (type + runtime check); rules in 0.1 enforce it.
-- [ ] 0.1 Add `firestore.rules` + `storage.rules` to the repo and wire them into `firebase.json`; owners read/write only `users/{uid}/**`; `subscribed` is read-only for the client; `exercises` is read-only.
+- [x] 0.1 Add `firestore.rules` + `storage.rules` to the repo and wire them into `firebase.json`; owners read/write only `users/{uid}/**`; `subscribed` is read-only for the client; `exercises` is read-only.
+  - Done: client can't create/delete `users/{uid}` or touch `subscribed`/`createdAt`; `exercises` is public read-only; Storage allows owner-only images < 5 MB under `users/{uid}/`, `preview/` (catalog images) is public read-only. Account data deletion moved to the `deleteUserData` server action (`recursiveDelete` + Storage prefix delete, requires login < 5 min) — part of 3.2 pulled forward; it now also deletes `workoutHistory`. Deploy: `firebase deploy --only firestore:rules,storage`.
 - [ ] 0.2 Firebase Emulator + rules tests (`@firebase/rules-unit-testing`): foreign uid, changing `subscribed`, writing to `exercises`.
 - [ ] 0.5 Gemini server actions read data only via `adminDb` (separate `lib/server/*` modules with `import "server-only"`).
 - [ ] 0.6 AI limits: charge a try only after a successful response (or refund on failure), decrementing `freeAiTries` inside a Firestore transaction so parallel requests cannot bypass the limit; rate limit premium users too (e.g. N/day); cap message and history length; validate client-sent history with zod.
@@ -44,7 +45,7 @@ Order inside the stage: 0.4 (schema) → 0.3 → 0.1 → 0.2 → the rest. Rules
 No users yet, so this is the cheapest time to do it — start right after Stage 2 instead of postponing.
 
 - [ ] 3.1 `lib/actions` (client-side writes) → `lib/mutations`; real server actions → `lib/server/actions`.
-- [ ] 3.2 Move critical writes to the server: account deletion, records, subscription. Decide and document which writes stay client-side (and can work offline — workout sets, notes) vs server-only (subscription, AI tries, account) — this defines the scope of 4.2.
+- [ ] 3.2 Move critical writes to the server: ~~account deletion~~ (done in 0.1), records, subscription. Decide and document which writes stay client-side (and can work offline — workout sets, notes) vs server-only (subscription, AI tries, account) — this defines the scope of 4.2.
 - [ ] 3.3 Return error codes (`NO_FREE_TRIES`, `AI_RATE_LIMIT`) and translate them via next-intl.
 - [ ] 3.4 Naming: `shedule.ts`→`schedule.ts`, `navManu.tsx`→`navMenu.tsx`, `TypewritterText`→`TypewriterText`; one `_components` convention and one file-casing convention.
 - [ ] 3.5 `useAuth.tsx` (a provider) → `providers/auth-provider.tsx`, hook separately.

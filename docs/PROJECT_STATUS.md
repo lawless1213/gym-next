@@ -34,7 +34,7 @@ _Updated: 2026-10-09. Detailed checklist plan — [ROADMAP.md](./ROADMAP.md)._
 ### Critical (security & revenue)
 | What | Why | How |
 |---|---|---|
-| No Firestore/Storage rules in the repo | It's unclear what is protected; if rules are open, anyone can read/write other users' data | `firestore.rules` + `storage.rules` in the repo, deployed via `firebase.json`, tested on the emulator |
+| ✅ ~~No Firestore/Storage rules in the repo~~ | Fixed in roadmap 0.1 (emulator tests pending in 0.2) | `firestore.rules` + `storage.rules` in the repo, deployed via `firebase.json` |
 | ✅ ~~`subscribed` is created from the client (`ensureUserDoc`)~~ | Fixed in roadmap 0.3 (client code); fully closed once Firestore rules (0.1) deny client writes to `subscribed` | User doc is created by the `initUserDoc` server action (Admin SDK); the client only reads `subscribed` |
 | ✅ ~~UI checks `subscribed.isActive`, the guard checks `subscribed.type`~~ | Fixed in roadmap 0.4 | One model `{ plan, status, expiresAt, freeAiTries }`; `isSubscriptionActive()` in `lib/subscription.ts` is used by both the guard and the UI |
 | AI server actions read data with the client SDK (`getUserRoutines`, `getCommonExercises`) | The client SDK is unauthenticated on the server: either rules are open or the queries fail | Use only `adminDb` in server actions |
