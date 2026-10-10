@@ -8,7 +8,8 @@ Estimates are rough, for a single developer. The "why" behind each item is in [P
 ## Stage 0 — Security & monetization (P0, ~3–4 days)
 Order inside the stage: 0.4 (schema) → 0.3 → 0.1 → 0.2 → the rest. Rules and server-side user creation both depend on the shape of `subscribed`.
 
-- [ ] 0.4 Single source of truth for subscriptions: `subscribed: { plan, status, expiresAt, freeAiTries }`; `isActive` is computed on the server; the guard and the UI read the same thing. No migration needed — wipe existing test user docs.
+- [x] 0.4 Single source of truth for subscriptions: `subscribed: { plan, status, expiresAt, freeAiTries }`; `isActive` is computed on the server; the guard and the UI read the same thing. No migration needed — wipe existing test user docs.
+  - Done: `lib/subscription.ts` (`parseSubscription`, `isSubscriptionActive`, `toUserSubscription`) + `lib/schemas/subscription.schema.ts`; used by the AI guard and `getUserParams`.
 - [ ] 0.3 Create the user document with `subscribed` on the server (Cloud Function `beforeUserCreated`/`onCreate` or a server action with the Admin SDK). Remove `subscribed` from `ensureUserDoc`.
 - [ ] 0.1 Add `firestore.rules` + `storage.rules` to the repo and wire them into `firebase.json`; owners read/write only `users/{uid}/**`; `subscribed` is read-only for the client; `exercises` is read-only.
 - [ ] 0.2 Firebase Emulator + rules tests (`@firebase/rules-unit-testing`): foreign uid, changing `subscribed`, writing to `exercises`.
@@ -19,7 +20,7 @@ Order inside the stage: 0.4 (schema) → 0.3 → 0.1 → 0.2 → the rest. Rules
 - [ ] 0.9 Verify `.env.local` was never committed (`git log --all -- .env.local`). If it was — rotate all keys (Gemini, Firebase service account), not just purge history. App Hosting secrets via Secret Manager in `apphosting.yaml`.
 
 ## Stage 1 — Bugs (P1, ~0.5 day)
-- [ ] 1.1 `hooks/useAuth.tsx`: remove `import { subscribe } from "diagnostics_channel"`.
+- [x] 1.1 `hooks/useAuth.tsx`: remove `import { subscribe } from "diagnostics_channel"`.
 - [ ] 1.2 `Plans/index.tsx`: move `useTranslations` out of `.map()` to the top level.
 - [ ] 1.3 `layout.tsx`: `lang={locale}` from `getLocale()`; `Inter({ subsets: ["latin", "cyrillic"] })`; remove `maximumScale: 1`.
 - [ ] 1.4 `tsconfig.json`: remove `"data/navManu.еs"` and `"lib/schemas/schedule.schema/ts"` from `include`.

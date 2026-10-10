@@ -61,7 +61,7 @@ export const QueryProvider = ({ children }: { children: React.ReactNode }) => {
       persistOptions={{
         persister: idbPersister,
         maxAge: 1000 * 60 * 60 * 24 * 7,
-        buster: "v1",
+        buster: "v2",
       }}
       onSuccess={() => {
         queryClient.resumePausedMutations();

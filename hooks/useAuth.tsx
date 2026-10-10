@@ -20,7 +20,7 @@ import {
 import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
 import { auth, db } from "@/lib/config/firebaseConfig";
 import { deleteUserData } from "@/lib/actions/user";
-import { subscribe } from "diagnostics_channel";
+import { DEFAULT_SUBSCRIPTION } from "@/lib/subscription";
 
 type AuthContextValue = {
   user: User | null;
@@ -51,10 +51,8 @@ async function ensureUserDoc(user: User) {
       displayName: user.displayName || "",
       avatarUrl: user.photoURL || "",
       createdAt: serverTimestamp(),
-      subscribed: {
-        type: null,
-        freeAiTries: 5,
-      },
+      // TODO(0.3): move user doc creation to the server; client must not write `subscribed`.
+      subscribed: DEFAULT_SUBSCRIPTION,
     }, { merge: true });
   }
 }

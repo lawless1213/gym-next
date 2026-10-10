@@ -1,4 +1,5 @@
-import { adminAuth, adminDb } from "@/lib/firebase/firebase-admin"; // ← підправ шлях під свій
+import { adminAuth, adminDb } from "@/lib/firebase/firebase-admin";
+import { isSubscriptionActive, parseSubscription } from "@/lib/subscription";
 import { FieldValue } from "firebase-admin/firestore";
 
 export type GuardResult =
@@ -21,15 +22,15 @@ export async function requireFreeTry(idToken: string): Promise<GuardResult> {
   try {
     await adminDb.runTransaction(async (tx) => {
       const snap = await tx.get(userRef);
-      const subscribed = snap.data()?.subscribed ?? {};
+      const subscribed = parseSubscription(snap.data()?.subscribed);
 
-      if (subscribed.type) {
+      if (isSubscriptionActive(subscribed)) {
         isPremium = true;
-        remainingTries = subscribed.freeAiTries ?? 0;
+        remainingTries = subscribed.freeAiTries;
         return;
       }
 
-      const tries = subscribed.freeAiTries ?? 0;
+      const tries = subscribed.freeAiTries;
       if (tries <= 0) {
         remainingTries = 0;
         throw new Error("NO_FREE_TRIES");

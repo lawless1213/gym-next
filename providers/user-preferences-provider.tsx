@@ -6,6 +6,7 @@ import { getUserParams, type UserParams } from "@/lib/services/user";
 import { setUserParams } from "@/lib/actions/user";
 import { useAuth } from "@/hooks/useAuth";
 import { useUserParams } from "@/hooks/useServices/useUserParams";
+import { DEFAULT_SUBSCRIPTION } from "@/lib/subscription";
 
 export const defaultUserParams: UserParams = {
   theme: "system",
@@ -16,9 +17,8 @@ export const defaultUserParams: UserParams = {
   height: null,
   avatarUrl: null,
   subscribed: {
-    type: null,
+    ...DEFAULT_SUBSCRIPTION,
     isActive: false,
-    freeAiTries: 5,
   },
 };
 

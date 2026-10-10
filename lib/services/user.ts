@@ -1,12 +1,8 @@
 // lib/services/user.ts
 import { doc, getDoc } from "firebase/firestore";
 import { db } from "@/lib/config/firebaseConfig";
-
-type UserSubscribe = {
-  type: 'monthly' | 'yearly' | 'lifetime' | null;
-  isActive: Boolean;
-  freeAiTries: number;
-}
+import type { UserSubscription } from "@/types/subscribe";
+import { toUserSubscription } from "@/lib/subscription";
 
 export type UserParams = {
   theme: "light" | "dark" | "system";
@@ -17,7 +13,7 @@ export type UserParams = {
   height: number | null;
   avatarUrl: string | null;
   createdAt?: number | null; 
-  subscribed: UserSubscribe;
+  subscribed: UserSubscription;
 };
 
 export async function getUserParams(
@@ -34,5 +30,6 @@ export async function getUserParams(
   return {
     ...rest,
     createdAt: rest.createdAt?.toMillis?.() ?? null,
+    subscribed: toUserSubscription(rest.subscribed),
   } as Partial<UserParams>;
 }

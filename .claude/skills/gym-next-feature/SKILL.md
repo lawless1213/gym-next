@@ -19,6 +19,7 @@ Stack: Next.js 16 (App Router), React 19, Firebase (client SDK + firebase-admin)
 ## Rules
 - Never write `users/{uid}.subscribed` from the client — subscription state is server-only (Admin SDK).
 - Premium gating in UI uses `params.subscribed.isActive` from `UserPreferencesProvider`; the server must re-check.
+- Subscription logic lives only in `lib/subscription.ts`: read raw data with `parseSubscription()`, decide access with `isSubscriptionActive()`. Never compare `plan`/`status`/`expiresAt` by hand.
 - Anything with `"use server"` must use `adminDb`/`adminAuth` from `lib/firebase/firebase-admin.ts`, never the client `db`, and must verify the idToken.
 - No `console.log`, no `any`, no `@ts-ignore` in committed code.
 - Firestore rules change? Update `firestore.rules` and its emulator tests in the same change.
