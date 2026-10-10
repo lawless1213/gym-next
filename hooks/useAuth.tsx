@@ -17,10 +17,9 @@ import {
   GithubAuthProvider, 
   signInWithPopup 
 } from "firebase/auth";
-import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
-import { auth, db } from "@/lib/config/firebaseConfig";
+import { auth } from "@/lib/config/firebaseConfig";
 import { deleteUserData } from "@/lib/actions/user";
-import { DEFAULT_SUBSCRIPTION } from "@/lib/subscription";
+import { initUserDoc } from "@/lib/server/actions/user";
 
 type AuthContextValue = {
   user: User | null;
@@ -40,21 +39,10 @@ type AuthContextValue = {
 
 const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
-// Допоміжна функція для ініціалізації документа в Firestore
+// Creates the Firestore user doc on the server (Admin SDK). Idempotent.
 async function ensureUserDoc(user: User) {
-  const userRef = doc(db, "users", user.uid);
-  const userSnap = await getDoc(userRef);
-
-  // Створюємо базовий документ тільки якщо його ще немає
-  if (!userSnap.exists()) {
-    await setDoc(userRef, {
-      displayName: user.displayName || "",
-      avatarUrl: user.photoURL || "",
-      createdAt: serverTimestamp(),
-      // TODO(0.3): move user doc creation to the server; client must not write `subscribed`.
-      subscribed: DEFAULT_SUBSCRIPTION,
-    }, { merge: true });
-  }
+  const result = await initUserDoc(await user.getIdToken());
+  if (!result.ok) console.error("initUserDoc failed:", result.error);
 }
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {

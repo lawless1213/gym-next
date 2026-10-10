@@ -4,7 +4,11 @@ import type { UserParams } from "@/lib/services/user";
 import { deleteObject, getDownloadURL, listAll, ref, uploadBytes } from "firebase/storage";
 import { updateProfile } from "firebase/auth";
 
-type UserParamKey = keyof UserParams;
+/** Fields the client may write. `subscribed` and `createdAt` are server-only. */
+export type EditableUserParamKey = Exclude<keyof UserParams, "subscribed" | "createdAt">;
+const SERVER_ONLY_PARAMS: ReadonlySet<string> = new Set(["subscribed", "createdAt"]);
+
+type UserParamKey = EditableUserParamKey;
 
 type SetUserParamsArgs<K extends UserParamKey> = {
   param: K;
@@ -16,6 +20,10 @@ export async function setUserParams<K extends UserParamKey>({ param, value, user
   if (!userId) {
     console.error("setUserParams: userId is missing");
     return;
+  }
+
+  if (SERVER_ONLY_PARAMS.has(param)) {
+    throw new Error(`setUserParams: "${param}" is server-only`);
   }
 
   const userRef = doc(db, "users", userId);

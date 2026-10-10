@@ -10,7 +10,8 @@ Order inside the stage: 0.4 (schema) → 0.3 → 0.1 → 0.2 → the rest. Rules
 
 - [x] 0.4 Single source of truth for subscriptions: `subscribed: { plan, status, expiresAt, freeAiTries }`; `isActive` is computed on the server; the guard and the UI read the same thing. No migration needed — wipe existing test user docs.
   - Done: `lib/subscription.ts` (`parseSubscription`, `isSubscriptionActive`, `toUserSubscription`) + `lib/schemas/subscription.schema.ts`; used by the AI guard and `getUserParams`.
-- [ ] 0.3 Create the user document with `subscribed` on the server (Cloud Function `beforeUserCreated`/`onCreate` or a server action with the Admin SDK). Remove `subscribed` from `ensureUserDoc`.
+- [x] 0.3 Create the user document with `subscribed` on the server (Cloud Function `beforeUserCreated`/`onCreate` or a server action with the Admin SDK). Remove `subscribed` from `ensureUserDoc`.
+  - Done: server action `initUserDoc(idToken)` in `lib/server/actions/user.ts` (Admin SDK, idempotent transaction), called from `ensureUserDoc` after every sign-in. `setUserParams` can no longer write `subscribed`/`createdAt` (type + runtime check); rules in 0.1 enforce it.
 - [ ] 0.1 Add `firestore.rules` + `storage.rules` to the repo and wire them into `firebase.json`; owners read/write only `users/{uid}/**`; `subscribed` is read-only for the client; `exercises` is read-only.
 - [ ] 0.2 Firebase Emulator + rules tests (`@firebase/rules-unit-testing`): foreign uid, changing `subscribed`, writing to `exercises`.
 - [ ] 0.5 Gemini server actions read data only via `adminDb` (separate `lib/server/*` modules with `import "server-only"`).

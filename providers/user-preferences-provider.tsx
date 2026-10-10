@@ -3,7 +3,7 @@
 import { createContext, useContext } from "react";
 import { useQueryClient } from "@tanstack/react-query";
 import { getUserParams, type UserParams } from "@/lib/services/user";
-import { setUserParams } from "@/lib/actions/user";
+import { setUserParams, type EditableUserParamKey } from "@/lib/actions/user";
 import { useAuth } from "@/hooks/useAuth";
 import { useUserParams } from "@/hooks/useServices/useUserParams";
 import { DEFAULT_SUBSCRIPTION } from "@/lib/subscription";
@@ -25,7 +25,7 @@ export const defaultUserParams: UserParams = {
 type UserPreferencesContextValue = {
   params: UserParams;
   isLoading: boolean;
-  updateParam: <K extends keyof UserParams>(param: K, value: UserParams[K]) => Promise<void>;
+  updateParam: <K extends EditableUserParamKey>(param: K, value: UserParams[K]) => Promise<void>;
 };
 
 const UserPreferencesContext = createContext<UserPreferencesContextValue | null>(null);
@@ -40,7 +40,7 @@ export function UserPreferencesProvider({ children }: { children: React.ReactNod
     ...data,
   };
 
-  async function updateParam<K extends keyof UserParams>(param: K, value: UserParams[K]) {
+  async function updateParam<K extends EditableUserParamKey>(param: K, value: UserParams[K]) {
     if (!user?.uid) return;
 
     await setUserParams({

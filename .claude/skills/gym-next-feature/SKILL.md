@@ -17,7 +17,7 @@ Stack: Next.js 16 (App Router), React 19, Firebase (client SDK + firebase-admin)
 7. **i18n** — add every new key to BOTH `messages/uk.json` and `messages/en.json` under the matching top-level namespace (app, home, library, history, stats, settings, common, notification, schedule, exercise, routine, ai, workout, measurements…). Call `useTranslations("ns")` only at component top level, never inside loops or callbacks.
 
 ## Rules
-- Never write `users/{uid}.subscribed` from the client — subscription state is server-only (Admin SDK).
+- Never write `users/{uid}.subscribed` or `createdAt` from the client — they are server-only (Admin SDK). The user doc is created by the `initUserDoc` server action (`lib/server/actions/user.ts`); new server actions go to `lib/server/actions/`.
 - Premium gating in UI uses `params.subscribed.isActive` from `UserPreferencesProvider`; the server must re-check.
 - Subscription logic lives only in `lib/subscription.ts`: read raw data with `parseSubscription()`, decide access with `isSubscriptionActive()`. Never compare `plan`/`status`/`expiresAt` by hand.
 - Anything with `"use server"` must use `adminDb`/`adminAuth` from `lib/firebase/firebase-admin.ts`, never the client `db`, and must verify the idToken.
