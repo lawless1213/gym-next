@@ -33,7 +33,10 @@ service cloud.firestore {
       allow update: if isOwner(uid) && !touchesServerOnlyFields();
 
       // exercises, routines, stats, workoutHistory, ...
-      match /{subPath=**} {
+      // NB: `/{subcollection}/{rest=**}` requires at least one segment below the user doc.
+      // A bare `/{path=**}` also matches users/{uid} itself (zero segments) and would
+      // bypass the restrictions above.
+      match /{subcollection}/{rest=**} {
         allow read, write: if isOwner(uid);
       }
     }

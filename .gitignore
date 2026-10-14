@@ -46,3 +46,10 @@ public/sw.js.map
 public/workbox-*.js
 public/workbox-*.js.map
 public/fallback-*.js
+
+# firebase emulators
+firebase-debug.log*
+firestore-debug.log*
+storage-debug.log*
+ui-debug.log*
+.firebase/

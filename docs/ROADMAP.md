@@ -14,7 +14,8 @@ Order inside the stage: 0.4 (schema) → 0.3 → 0.1 → 0.2 → the rest. Rules
   - Done: server action `initUserDoc(idToken)` in `lib/server/actions/user.ts` (Admin SDK, idempotent transaction), called from `ensureUserDoc` after every sign-in. `setUserParams` can no longer write `subscribed`/`createdAt` (type + runtime check); rules in 0.1 enforce it.
 - [x] 0.1 Add `firestore.rules` + `storage.rules` to the repo and wire them into `firebase.json`; owners read/write only `users/{uid}/**`; `subscribed` is read-only for the client; `exercises` is read-only.
   - Done: client can't create/delete `users/{uid}` or touch `subscribed`/`createdAt`; `exercises` is public read-only; Storage allows owner-only images < 5 MB under `users/{uid}/`, `preview/` (catalog images) is public read-only. Account data deletion moved to the `deleteUserData` server action (`recursiveDelete` + Storage prefix delete, requires login < 5 min) — part of 3.2 pulled forward; it now also deletes `workoutHistory`. Deploy: `firebase deploy --only firestore:rules,storage`.
-- [ ] 0.2 Firebase Emulator + rules tests (`@firebase/rules-unit-testing`): foreign uid, changing `subscribed`, writing to `exercises`.
+- [x] 0.2 Firebase Emulator + rules tests (`@firebase/rules-unit-testing`): foreign uid, changing `subscribed`, writing to `exercises`.
+  - Done: `tests/rules/*.test.ts` (Firestore + Storage, Vitest), emulators in `firebase.json`, `pnpm test:rules` runs them on a `demo-` project (no real resources). Requires Java 21+ (`brew install openjdk@21`); firebase-tools is a devDependency. Will run in CI in 2.8.
 - [ ] 0.5 Gemini server actions read data only via `adminDb` (separate `lib/server/*` modules with `import "server-only"`).
 - [ ] 0.6 AI limits: charge a try only after a successful response (or refund on failure), decrementing `freeAiTries` inside a Firestore transaction so parallel requests cannot bypass the limit; rate limit premium users too (e.g. N/day); cap message and history length; validate client-sent history with zod.
 - [ ] 0.7 Validate Gemini responses with zod `safeParse`; generate Gemini schemas with `z.toJSONSchema()`.
@@ -26,7 +27,7 @@ Order inside the stage: 0.4 (schema) → 0.3 → 0.1 → 0.2 → the rest. Rules
 - [ ] 1.2 `Plans/index.tsx`: move `useTranslations` out of `.map()` to the top level.
 - [ ] 1.3 `layout.tsx`: `lang={locale}` from `getLocale()`; `Inter({ subsets: ["latin", "cyrillic"] })`; remove `maximumScale: 1`.
 - [ ] 1.4 `tsconfig.json`: remove `"data/navManu.еs"` and `"lib/schemas/schedule.schema/ts"` from `include`.
-- [ ] 1.5 `pnpm-workspace.yaml`: `'@google/genai': false` (or true).
+- [x] 1.5 `pnpm-workspace.yaml`: `'@google/genai': false` (or true). Also `re2: false` (optional native dep of firebase-tools).
 - [ ] 1.6 On logout: `queryClient.clear()` + `del("REACT_QUERY_OFFLINE_CACHE")` (otherwise the next user on the same device sees cached data — must be done before launch).
 - [ ] 1.7 `themeColor` as an array for light/dark.
 
