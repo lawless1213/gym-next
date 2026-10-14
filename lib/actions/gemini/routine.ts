@@ -3,7 +3,7 @@
 import { randomUUID } from "crypto";
 import { generateStructured } from "./client";
 import { requireFreeTry } from "./guard";
-import { getCommonExercises, getUserExercises } from "@/lib/services/exercises";
+import { getAllExercises } from "@/lib/server/data/exercises";
 import { MUSCLE_GROUPS } from "@/data/exercise";
 import type { Exercise } from "@/types";
 import { getLocalizedText, toLocalizedText } from "@/lib/utils";
@@ -138,10 +138,6 @@ export async function generateAiRoutine(
   };
 }
 
-async function getAllExercises(userId: string): Promise<Exercise[]> {
-  const [common, user] = await Promise.all([getCommonExercises(), getUserExercises(userId)]);
-  return [...common, ...user];
-}
 
 function filterRelevantExercises(exercises: Exercise[], groups: string[]): Exercise[] {
   if (groups.length === 0) return exercises;

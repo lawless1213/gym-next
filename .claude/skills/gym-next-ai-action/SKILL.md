@@ -13,7 +13,7 @@ Files live in `lib/actions/gemini/`. Shared pieces:
 1. File starts with `"use server";`.
 2. First line of the action: `const guard = await requireFreeTry(input.idToken); if (!guard.ok) return { success: false, error: guard.error, freeAiTries: guard.freeAiTries };`
 3. Validate input with a zod schema from `lib/schemas/ai.schema.ts`; cap free-text lengths (message, comment) and history size.
-4. Load user data ONLY via `adminDb` (Admin SDK). Never import `lib/services/*` (client SDK) into a server action.
+4. Load user data ONLY via `adminDb` (Admin SDK) — use or extend `lib/server/data/*` (`getAllExercises`, `getUserRoutines`; `import "server-only"`, values passed through `toPlain`). Never import `lib/services/*` (client SDK) into a server action. Admin SDK bypasses rules: never follow a user-supplied path/ref outside `exercises/*` or the caller's own `users/{uid}/**`.
 5. Define the response shape once as a zod schema; pass `z.toJSONSchema(schema)` as `responseSchema`; after the call run `schema.safeParse` on the result and return an error code on failure.
 6. Map AI names to existing exercises/routines; new items get a `temp-` id so `createAiUserRoutine` creates them.
 7. Return `{ success, data | error, freeAiTries: guard.freeAiTries }`. Prefer error codes (e.g. `NO_FREE_TRIES`, `AI_INVALID_RESPONSE`) translated on the client via next-intl.

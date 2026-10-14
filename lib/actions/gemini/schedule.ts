@@ -3,8 +3,8 @@
 import { randomUUID } from "crypto";
 import { generateStructured } from "./client";
 import { requireFreeTry } from "./guard";
-import { getCommonExercises, getUserExercises } from "@/lib/services/exercises";
-import { getUserRoutines } from "@/lib/services/routines";
+import { getAllExercises } from "@/lib/server/data/exercises";
+import { getUserRoutines } from "@/lib/server/data/routines";
 import { MUSCLE_GROUPS } from "@/data/exercise";
 import { weekDays } from "@/types";
 import type { Exercise, Routine, ScheduleMap } from "@/types";
@@ -190,10 +190,6 @@ function createEmptySchedule(): ScheduleMap {
   }, {} as ScheduleMap);
 }
 
-async function getAllExercises(userId: string): Promise<Exercise[]> {
-  const [common, user] = await Promise.all([getCommonExercises(), getUserExercises(userId)]);
-  return [...common, ...user];
-}
 
 function filterRelevantExercises(exercises: Exercise[], groups: string[]): Exercise[] {
   if (groups.length === 0) return exercises;
