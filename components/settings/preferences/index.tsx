@@ -1,6 +1,5 @@
 "use client";
 
-import { useAuth } from "@/hooks/useAuth";
 import { useTranslations } from "next-intl";
 import SettingsSection from "../SettingsSection";
 import Appearance from "./contents/Appearance";
@@ -10,9 +9,6 @@ import Notifications from "./contents/Notifications";
 
 export default function Profile() {
   const t = useTranslations("settings.preferences");
-
-  const { user } = useAuth();
-  const userId = user?.uid;
 
   const sectionItems = [
     {

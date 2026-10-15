@@ -10,25 +10,16 @@ import { getNextPendingRoutine } from "@/lib/services/schedule";
 import { Routine } from "@/types";
 import { IconUser } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
-import { useEffect, useState } from "react";
 
 export function WorkoutCardSection() {
   const t = useTranslations("home");
-  const [nextRoutine, setNextRoutine] = useState<Routine | null>(null);
   const { user, loading: isUserLoading } = useAuth();
   const userId = user?.uid;
 
   const { data: scheduleMap, isLoading: isLoading } = useSchedule(userId);
   const isLoadingPendingRoutine = isUserLoading || isLoading || (!!userId && !scheduleMap);
 
-  useEffect(() => {
-    if (!userId || !scheduleMap) {
-      setNextRoutine(null);
-      return;
-    }
-    const routine = getNextPendingRoutine(scheduleMap);
-    setNextRoutine(routine);
-  }, [userId, scheduleMap]);
+  const nextRoutine: Routine | null = userId && scheduleMap ? getNextPendingRoutine(scheduleMap) : null;
 
   return (
     <SkeletonSwitcher

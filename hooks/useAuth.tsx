@@ -165,6 +165,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       deleteAccount,
       reauthenticate,
     }),
+    // eslint-disable-next-line react-hooks/exhaustive-deps -- actions only close over `auth`, not render state
     [user, loading],
   );
 

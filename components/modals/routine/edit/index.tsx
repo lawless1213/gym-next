@@ -3,15 +3,11 @@
 import { ModalWrapper } from "../../modal-wrapper";
 import { Controller, useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { Button } from "@/components/ui/Button";
 import { useAuth } from "@/hooks/useAuth";
 import { Input } from "@/components/ui/form/input";
-import { AUTH_ERRORS } from "@/lib/errors/auth";
-import { useModal } from "@/components/modals/modal-store";
 import { IconGridDots, IconPlus, IconSearch, IconTrash, IconX } from "@tabler/icons-react";
 import { useEffect, useMemo, useState } from "react";
-import { RoutinesExercise } from "@/types";
 import { useAllExercises } from "@/hooks/useServices/useExercises";
 import { toast } from "sonner";
 import { editUserRoutine } from "@/lib/actions/routine";
@@ -60,7 +56,6 @@ export function RoutineEditModal() {
     handleSubmit,
     reset,
     control,
-    setError,
     formState: { errors, isSubmitting, isValid, isDirty },
   } = useForm<RoutineFormData>({
     resolver: zodResolver(routineSchema),

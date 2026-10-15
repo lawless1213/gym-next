@@ -1,6 +1,5 @@
 "use client";
 
-import { useTranslations } from "next-intl";
 import { WeeklyCalendar } from "@/components/shared/WeeklyCalendar";
 import { MotivationalBanner } from "@/components/home/MotivationalBanner";
 import { useAuth } from "@/hooks/useAuth";
@@ -13,12 +12,11 @@ import ConfirmEmail from "../components/shared/ConfirmEmail";
 import SubscribeBanner from "@/components/shared/SubscribeBanner";
 
 export default function Home() {
-  const t = useTranslations("home");
   const { user } = useAuth();
 
   const userId = user?.uid;
 
-  const { data: lastWeekHistory = [], isLoading: isLoadingLastWeekHistory } = useHistory(userId, { period: "week" });
+  const { data: lastWeekHistory = [] } = useHistory(userId, { period: "week" });
   const { data: prevWeekHistory = [], isLoading: isLoadingPrevWeekHistory } = useHistory(userId, {
     period: "prev-week",
   });

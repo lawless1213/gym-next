@@ -1,6 +1,5 @@
 "use client";
 
-import { useModal } from "@/components/modals/modal-store";
 import { Button } from "@/components/ui/Button";
 import { useAuth } from "@/hooks/useAuth";
 import { useReauthModal } from "@/hooks/useModals/useReauthModal";

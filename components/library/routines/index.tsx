@@ -1,8 +1,7 @@
 "use client";
 
-import { IconUser, IconPlus } from "@tabler/icons-react";
+import { IconUser } from "@tabler/icons-react";
 import { useAuth } from "@/hooks/useAuth";
-import RoutineCard from "../../shared/cards/RoutineCard";
 import { useRoutines } from "@/hooks/useServices/useRoutines";
 import SkeletonBone from "@/components/ui/Skeleton/SkeletonBone";
 import SkeletonSwitcher from "@/components/ui/Skeleton/SkeletonSwitcher";

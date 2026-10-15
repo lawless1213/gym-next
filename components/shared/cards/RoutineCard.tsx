@@ -188,7 +188,7 @@ export default function RoutineCard({ routine, isOpen: controlledIsOpen, onToggl
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.25, ease: "easeInOut" }}>
-            {routine.exercises.map((exercise, exerciseIndex) => (
+            {routine.exercises.map((exercise) => (
               <ExerciseCard
                 key={exercise.id}
                 exercise={exercise}

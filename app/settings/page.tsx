@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState } from "react";
 import { IconAdjustmentsHorizontal, IconCarambolaFilled, IconUser } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
 import { Tabs } from "@/components/ui/Tabs";
@@ -20,13 +20,12 @@ export default function Setting() {
     tab === "subscribe" || tab === "preferences" || tab === "profile" ? tab : "profile",
   );
 
-  useEffect(() => {
-    const requestedTab = searchParams.get("tab");
-
-    if (requestedTab === "subscribe" || requestedTab === "preferences" || requestedTab === "profile") {
-      setActiveTab(requestedTab);
-    }
-  }, [searchParams]);
+  // Follow ?tab= when the URL changes (adjust state while rendering, no effect).
+  const [lastRequestedTab, setLastRequestedTab] = useState(tab);
+  if (tab !== lastRequestedTab) {
+    setLastRequestedTab(tab);
+    if (tab === "subscribe" || tab === "preferences" || tab === "profile") setActiveTab(tab);
+  }
 
   const tabItems = [
     {

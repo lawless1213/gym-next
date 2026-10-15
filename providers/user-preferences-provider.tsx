@@ -2,7 +2,7 @@
 
 import { createContext, useContext } from "react";
 import { useQueryClient } from "@tanstack/react-query";
-import { getUserParams, type UserParams } from "@/lib/services/user";
+import { type UserParams } from "@/lib/services/user";
 import { setUserParams, type EditableUserParamKey } from "@/lib/actions/user";
 import { useAuth } from "@/hooks/useAuth";
 import { useUserParams } from "@/hooks/useServices/useUserParams";

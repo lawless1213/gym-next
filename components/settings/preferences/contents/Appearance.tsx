@@ -1,13 +1,9 @@
 "use client";
 
-import { Button } from "@/components/ui/Button";
 import { Select } from "@/components/ui/form/select";
 import { AppTheme, useAppTheme } from "@/hooks/useAppTheme";
-import { useAuth } from "@/hooks/useAuth";
 import { setUserLocale } from "@/i18n/i18n-action";
-import { setUserParams } from "@/lib/actions/user";
 import { useUserPreferences } from "@/providers/user-preferences-provider";
-import { IconEdit } from "@tabler/icons-react";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";
@@ -18,11 +14,9 @@ export default function Appearance() {
   const tNotification = useTranslations("notification");
   const { updateParam } = useUserPreferences();
   const { setTheme, theme } = useAppTheme();
-  const [pendingLocaleChange, setPendingLocaleChange] = useState(false);
+  // Locale we switched to; the toast is shown once it has actually been applied.
+  const [requestedLocale, setRequestedLocale] = useState<string | null>(null);
   const locale = useLocale();
-
-  const { user } = useAuth();
-  const userId = user?.uid;
 
   const handleLanguageChange = async (newLocale: string) => {
     if (newLocale !== "en" && newLocale !== "uk") return;
@@ -30,18 +24,17 @@ export default function Appearance() {
     try {
       await updateParam("language", newLocale);
       await setUserLocale(newLocale);
-      setPendingLocaleChange(true);
+      setRequestedLocale(newLocale);
     } catch (error) {
       console.error("Failed to save language:", error);
     }
   };
 
   useEffect(() => {
-    if (pendingLocaleChange) {
+    if (requestedLocale && requestedLocale === locale) {
       toast.info(tNotification("language.successChange"));
-      setPendingLocaleChange(false);
     }
-  }, [locale, pendingLocaleChange, tNotification]);
+  }, [locale, requestedLocale, tNotification]);
 
   return (
     <div className="w-full space-y-2">

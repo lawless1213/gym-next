@@ -23,7 +23,8 @@ export async function getUserParams(userId: string): Promise<Partial<UserParams>
     return {};
   }
 
-  const { schedule, ...rest } = snapshot.data();
+  // `schedule` is loaded separately (useSchedule); keep it out of params.
+  const { schedule: _schedule, ...rest } = snapshot.data();
 
   return {
     ...rest,

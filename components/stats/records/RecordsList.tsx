@@ -34,7 +34,7 @@ function toMillis(d: unknown): number {
 export default function RecordsList({ records, loading }: RecordsListProps) {
   const t = useTranslations("stats.records");
   const tNotification = useTranslations("notification");
-  const { open, confirm } = useModal();
+  const { open } = useModal();
   const { user } = useAuth();
 
   const isVerified = user?.emailVerified;

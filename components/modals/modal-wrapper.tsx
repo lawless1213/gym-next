@@ -101,7 +101,7 @@ export function ModalWrapper({
                   "transform-gpu will-change-transform",
                   contentClasses,
                 )}
-                onScroll={(e) => {
+                onScroll={() => {
                   const activeElement = document.activeElement as HTMLElement;
                   if (activeElement && (activeElement.tagName === "INPUT" || activeElement.tagName === "TEXTAREA")) {
                     activeElement.blur();

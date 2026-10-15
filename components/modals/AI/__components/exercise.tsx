@@ -2,18 +2,13 @@
 
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { Button } from "@/components/ui/Button";
 import { TextArea } from "@/components/ui/form/textarea";
-import { AUTH_ERRORS } from "@/lib/errors/auth";
 import { useModal } from "@/components/modals/modal-store";
-import { IconBarbell, IconCheck, IconUpload } from "@tabler/icons-react";
-import { useState } from "react";
 import { toast } from "sonner";
 import { createUserExercise } from "@/lib/actions/exercise";
 import { useAuth } from "@/hooks/useAuth";
 import { useQueryClient } from "@tanstack/react-query";
-import { Label } from "@/components/ui/form/label";
 import { DIFFICULTY, EQUIPMENT_GROUPS, GOALS, MUSCLE_GROUPS } from "@/data/exercise";
 import { Select } from "@/components/ui/form/select";
 import { ChipGroup } from "@/components/ui/form/chipGroup";
@@ -22,7 +17,7 @@ import { ExerciseCard } from "@/components/shared/cards/ExerciseCard";
 import { useLocale, useTranslations } from "next-intl";
 import { TypewriterText } from "@/components/ui/TypewritterText";
 import { AIExerciseFormData, AIExerciseSchema } from "@/lib/schemas";
-import { getLocalizedText, toLocalizedText, type Locale } from "@/types/common";
+import { getLocalizedText, type Locale } from "@/types/common";
 
 export function AiExerciseContent() {
   const locale = useLocale() as Locale;
@@ -36,7 +31,6 @@ export function AiExerciseContent() {
     register,
     handleSubmit,
     control,
-    setError,
     formState: { errors, isSubmitting, isValid, isDirty },
   } = useForm<AIExerciseFormData>({
     resolver: zodResolver(AIExerciseSchema),

@@ -3,7 +3,6 @@
 import { ModalWrapper } from "../modal-wrapper";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/form/input";
 import { useModal } from "@/components/modals/modal-store";
@@ -35,7 +34,7 @@ export function ProgressModal() {
   const {
     register,
     handleSubmit,
-    formState: { errors, isSubmitting, isValid, isDirty },
+    formState: { errors, isSubmitting, isDirty },
   } = useForm<ProgressFormData>({
     resolver: zodResolver(progressSchema),
     mode: "onChange",

@@ -7,7 +7,6 @@ import {
   IconRuler,
   IconSchool,
   IconTrendingUp,
-  type Icon as TablerIcon,
 } from "@tabler/icons-react";
 
 export const DEFAULT_PLANS: Plan[] = [

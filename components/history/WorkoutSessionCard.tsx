@@ -9,7 +9,6 @@ import { useUserPreferences } from "@/providers/user-preferences-provider";
 export default function WorkoutSessionCard(workout: WorkoutSessionType) {
   const { params } = useUserPreferences();
 
-  const t = useTranslations("history");
   const tMonth = useTranslations("components.month");
   const tMeasurement = useTranslations("components.measurement");
   const locale = useLocale() as Locale;

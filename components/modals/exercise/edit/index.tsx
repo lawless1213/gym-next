@@ -3,7 +3,6 @@
 import { ModalWrapper } from "../../modal-wrapper";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/form/input";
 import { IconBarbell, IconUpload } from "@tabler/icons-react";
@@ -18,7 +17,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { ChipGroup } from "@/components/ui/form/chipGroup";
 import { ExerciseFormData, exerciseSchema } from "@/lib/schemas";
 import MuscleSchema from "@/components/shared/MuscleSchema";
-import { getLocalizedText, toLocalizedText, type Locale } from "@/types/common";
+import { getLocalizedText, type Locale } from "@/types/common";
 
 export function ExerciseEditModal() {
   const tComponents = useTranslations("components");
@@ -33,7 +32,6 @@ export function ExerciseEditModal() {
     handleSubmit,
     control,
     reset,
-    setError,
     formState: { errors, isSubmitting, isValid, isDirty },
   } = useForm<ExerciseFormData>({
     resolver: zodResolver(exerciseSchema),
@@ -57,7 +55,6 @@ export function ExerciseEditModal() {
         : [],
     });
   }, [exercise, locale, reset]);
-
 
   const { ref: titleRef, ...titleRest } = register("title");
   const { ref: descriptionRef, ...descriptionRest } = register("description");

@@ -20,7 +20,7 @@ type InputProps = {
 
 export const Input = forwardRef<HTMLInputElement, InputProps>(({ input }, ref) => {
   const [isVisible, setIsVisible] = useState(false);
-  const { label, error, classes, icon, className, withoutError, ...rest } = input;
+  const { label, error, classes, icon: _icon, className, withoutError, ...rest } = input;
 
   const isPasswordInput = rest.type === "password";
 

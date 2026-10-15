@@ -1,7 +1,6 @@
 "use client";
 
 import { Select } from "@/components/ui/form/select";
-import { useAuth } from "@/hooks/useAuth";
 import { useUserPreferences } from "@/providers/user-preferences-provider";
 import { useTranslations } from "next-intl";
 
@@ -9,9 +8,6 @@ export default function UserPreferences() {
   const { params, updateParam } = useUserPreferences();
   const t = useTranslations("settings.preferences.user");
   const tComponents = useTranslations("components");
-
-  const { user } = useAuth();
-  const userId = user?.uid;
 
   const handleGenderChange = async (gender: string) => {
     if (gender !== "male" && gender !== "female") return;

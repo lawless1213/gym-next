@@ -3,7 +3,6 @@
 import { ModalWrapper } from "../modal-wrapper";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { Button } from "@/components/ui/Button";
 import { useAuth } from "@/hooks/useAuth";
 import { IconCheck } from "@tabler/icons-react";
@@ -26,16 +25,14 @@ export function ScheduleEditModal() {
   const userId = user?.uid;
   const queryClient = useQueryClient();
 
-  const { data: routines = [], isLoading: loading } = useRoutines(userId);
+  const { data: routines = [] } = useRoutines(userId);
   const { confirm, close, dayIndex, routineList } = useScheduleModal();
 
   const {
-    register,
     handleSubmit,
     reset,
     control,
-    setError,
-    formState: { errors, isSubmitting, isValid, isDirty },
+    formState: { isSubmitting, isValid, isDirty },
   } = useForm<ScheduleFormData>({
     resolver: zodResolver(scheduleSchema),
     mode: "onChange",
@@ -50,7 +47,7 @@ export function ScheduleEditModal() {
         routines: routineList.map((r) => ({ routineId: r.id })),
       });
     }
-  }, [routineList]);
+  }, [routineList, reset]);
 
   const { fields, append, remove } = useFieldArray({
     control,

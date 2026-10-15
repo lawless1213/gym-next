@@ -2,7 +2,6 @@
 
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { Button } from "@/components/ui/Button";
 import { useModal } from "@/components/modals/modal-store";
 import { toast } from "sonner";
@@ -15,7 +14,7 @@ import { ChipGroup } from "@/components/ui/form/chipGroup";
 import { Select } from "@/components/ui/form/select";
 import { generateAiRoutine } from "@/lib/actions/gemini/routine";
 import RoutineCard from "@/components/shared/cards/RoutineCard";
-import { createAiUserRoutine, createUserRoutine } from "@/lib/actions/routine";
+import { createAiUserRoutine } from "@/lib/actions/routine";
 import { useLocale, useTranslations } from "next-intl";
 import { TypewriterText } from "@/components/ui/TypewritterText";
 import { AIRoutineAFormData, AIRoutineSchema } from "@/lib/schemas";
@@ -32,7 +31,6 @@ export function AiRoutineContent() {
     register,
     handleSubmit,
     control,
-    setError,
     formState: { errors, isSubmitting, isValid, isDirty },
   } = useForm<AIRoutineAFormData>({
     resolver: zodResolver(AIRoutineSchema),

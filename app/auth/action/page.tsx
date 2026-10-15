@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import { useSearchParams, useRouter } from "next/navigation";
+import { useSearchParams } from "next/navigation";
 import { applyActionCode } from "firebase/auth";
 import { auth } from "@/lib/config/firebaseConfig";
 import { Button } from "@/components/ui/Button";
@@ -12,15 +12,13 @@ export default function AuthActionPage() {
   const t = useTranslations("auth.page");
   const { open } = useModal();
   const searchParams = useSearchParams();
-  const [status, setStatus] = useState<"loading" | "success" | "error">("loading");
   const mode = searchParams.get("mode");
   const oobCode = searchParams.get("oobCode");
+  const isValidLink = !!oobCode && mode === "verifyAndChangeEmail";
+  const [status, setStatus] = useState<"loading" | "success" | "error">(isValidLink ? "loading" : "error");
 
   useEffect(() => {
-    if (!oobCode || mode !== "verifyAndChangeEmail") {
-      setStatus("error");
-      return;
-    }
+    if (!oobCode || !isValidLink) return; // initial state is already "error"
 
     const verifyEmailChange = async () => {
       try {
@@ -38,7 +36,7 @@ export default function AuthActionPage() {
     };
 
     verifyEmailChange();
-  }, [mode, oobCode]);
+  }, [isValidLink, oobCode]);
 
   if (status === "loading") {
     return (

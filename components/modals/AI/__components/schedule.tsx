@@ -2,7 +2,6 @@
 
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/form/input";
 import { useModal } from "@/components/modals/modal-store";
@@ -10,7 +9,6 @@ import { toast } from "sonner";
 import { useAuth } from "@/hooks/useAuth";
 import { useQueryClient } from "@tanstack/react-query";
 import { DIFFICULTY, EQUIPMENT_GROUPS, GOALS, MUSCLE_GROUPS, SPLIT_TYPES } from "@/data/exercise";
-import { Label } from "@/components/ui/form/label";
 import { TextArea } from "@/components/ui/form/textarea";
 import { weekDays } from "@/types";
 import { generateAiSchedule } from "@/lib/actions/gemini/schedule";

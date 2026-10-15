@@ -4,7 +4,6 @@ import {
   addDoc,
   serverTimestamp,
   doc,
-  deleteDoc,
   getDocs,
   arrayRemove,
   writeBatch,

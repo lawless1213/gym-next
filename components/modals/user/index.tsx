@@ -5,7 +5,7 @@ import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/form/input";
-import { IconBarbell, IconUpload } from "@tabler/icons-react";
+import { IconUpload } from "@tabler/icons-react";
 import { toast } from "sonner";
 import { useAuth } from "@/hooks/useAuth";
 import { useQueryClient } from "@tanstack/react-query";
@@ -27,8 +27,6 @@ export function UserEditModal() {
     register,
     handleSubmit,
     control,
-    reset,
-    setError,
     formState: { errors, isSubmitting, isValid, isDirty },
   } = useForm<userFormData>({
     resolver: zodResolver(userSchema),

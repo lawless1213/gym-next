@@ -1,13 +1,9 @@
 import { useState } from "react";
 import { IconScale, IconActivity } from "@tabler/icons-react";
-import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { useLastProgress } from "@/hooks/useServices/useProgress";
 import { useAuth } from "@/hooks/useAuth";
 import { BodyProgress } from "@/types";
-import SkeletonBone from "@/components/ui/Skeleton/SkeletonBone";
-import SkeletonSwitcher from "@/components/ui/Skeleton/SkeletonSwitcher";
-import { useModal } from "@/components/modals/modal-store";
 import NewMeasurements from "./NewMeasurements";
 import MeasurementsList from "./MeasurementsList";
 import MeasurementsGrid from "./MeasurementsGrid";
@@ -16,7 +12,6 @@ import { useUserPreferences } from "@/providers/user-preferences-provider";
 
 export default function Progress() {
   const { params } = useUserPreferences();
-  const locale = useLocale();
   const t = useTranslations("stats");
   const tMeasurement = useTranslations("components.measurement");
   const { user } = useAuth();
@@ -25,13 +20,6 @@ export default function Progress() {
   const { data: progress, isLoading: loading } = useLastProgress(userId);
 
   const [selectedMetric, setSelectedMetric] = useState<keyof BodyProgress>("weight");
-
-  const chartData =
-    progress &&
-    progress[selectedMetric].map((m) => ({
-      date: m.date.toLocaleDateString(locale, { month: "short", day: "numeric" }),
-      value: m.value,
-    }));
 
   const weightChange =
     progress?.weight && progress.weight.length >= 2 ? progress.weight.at(-1)!.value - progress.weight.at(-2)!.value : 0;

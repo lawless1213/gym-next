@@ -24,7 +24,8 @@ export function Header({ page }: HeaderProps) {
   const locale = useLocale();
   const { user, logout } = useAuth();
   const { mounted, isDark, toggleTheme } = useAppTheme();
-  const [pendingLocaleChange, setPendingLocaleChange] = useState(false);
+  // Locale we switched to; the toast is shown once it has actually been applied.
+  const [requestedLocale, setRequestedLocale] = useState<string | null>(null);
 
   const userId = user?.uid;
 
@@ -47,18 +48,17 @@ export function Header({ page }: HeaderProps) {
       });
 
       await setUserLocale(newLocale);
-      setPendingLocaleChange(true);
+      setRequestedLocale(newLocale);
     } catch (error) {
       console.error("Failed to save language:", error);
     }
   };
 
   useEffect(() => {
-    if (pendingLocaleChange) {
+    if (requestedLocale && requestedLocale === locale) {
       toast.info(tNotification("language.successChange"));
-      setPendingLocaleChange(false);
     }
-  }, [locale, pendingLocaleChange, tNotification]);
+  }, [locale, requestedLocale, tNotification]);
 
   const actions = [
     {

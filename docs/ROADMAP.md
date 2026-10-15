@@ -46,8 +46,8 @@ Order inside the stage: 0.4 (schema) → 0.3 → 0.1 → 0.2 → the rest. Rules
 - [x] 2.2 `@types/node` → 22+.
 - [x] 2.3 Prettier (+ `prettier-plugin-tailwindcss`), Husky + lint-staged.
   - `.prettierrc.json` (printWidth 120, matches existing style), `pnpm format` / `format:check`; pre-commit runs Prettier on staged files. ESLint joins lint-staged in 2.4 after the cleanup.
-- [ ] 2.4 ESLint: `no-console` (warn, allow error), `@typescript-eslint/no-explicit-any`, `react-hooks/rules-of-hooks` (error). Clean up ~51 `console.log` / `any` / `@ts-ignore`.
-  - Part 1 done: rules added (`no-console` warn w/ warn/error allowed, `no-explicit-any` error, `ban-ts-comment`, `rules-of-hooks` error); all `any`, `console.log` and `@ts-ignore` removed; fixed conditional hook in AI chat, missing `key`, impure render, module-level state in AppShell, unrendered `t("emptyEmail")`. Remaining: ~97 unused vars, 9 `set-state-in-effect`, memo/deps warnings; then add ESLint to lint-staged.
+- [x] 2.4 ESLint: `no-console` (warn, allow error), `@typescript-eslint/no-explicit-any`, `react-hooks/rules-of-hooks` (error). Clean up ~51 `console.log` / `any` / `@ts-ignore`.
+  - Part 1 done: rules added (`no-console` warn w/ warn/error allowed, `no-explicit-any` error, `ban-ts-comment`, `rules-of-hooks` error); all `any`, `console.log` and `@ts-ignore` removed; fixed conditional hook in AI chat, missing `key`, impure render, module-level state in AppShell, unrendered `t("emptyEmail")`. Part 2: removed ~97 unused imports/vars and dead code, replaced setState-in-effect with derived state / render-time adjustment (documented disables only for mount-only browser reads and DOM measurement). `pnpm lint`: 0 errors, 5 `<img>` warnings (blob previews, Storage URLs). ESLint runs in lint-staged.
 - [ ] 2.5 Scripts: `typecheck`, `test`, `test:e2e`, `format`.
 - [ ] 2.6 Vitest + Testing Library: records, volume, weekly periods, guard, zod schemas.
 - [ ] 2.7 Playwright e2e smoke (moved from 4.7): login → workout → history → stats. Main safety net for the Stage 3 refactors.

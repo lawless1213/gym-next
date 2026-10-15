@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { WorkoutExercise, WorkoutSet, PersonalRecord, QuickWorkoutExercise } from "@/types";
+import { WorkoutSet, PersonalRecord, QuickWorkoutExercise } from "@/types";
 import { cn } from "@/lib/utils";
 import {
   IconBarbell,

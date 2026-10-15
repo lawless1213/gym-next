@@ -8,7 +8,6 @@ import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useReauthModal } from "@/hooks/useModals/useReauthModal";
 import { useTranslations } from "next-intl";
-import { useState } from "react";
 import { toast } from "sonner";
 
 export default function ChangeEmail() {
@@ -17,7 +16,6 @@ export default function ChangeEmail() {
   const { requestReauth } = useReauthModal();
   const { changeEmail } = useAuth();
   const { user } = useAuth();
-  const userId = user?.uid;
 
   const {
     register,

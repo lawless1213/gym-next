@@ -1,7 +1,7 @@
 import { db } from "@/lib/config/firebaseConfig";
 import { getDoc, doc } from "firebase/firestore";
 import { weekDay, weekDays, ScheduleMap, Routine, RegularWorkoutSession } from "@/types";
-import { toDocRef, resolveRoutines } from "./firestoreUtils";
+import { resolveRoutines } from "./firestoreUtils";
 import { getUserHistory } from "./history";
 
 function getWeekDayFromDate(date: Date): weekDay {

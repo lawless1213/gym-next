@@ -1,13 +1,10 @@
 "use client";
 
-import { IconMoodPuzzled, IconPlus } from "@tabler/icons-react";
-import { useAuth } from "@/hooks/useAuth";
+import { IconMoodPuzzled } from "@tabler/icons-react";
 import RoutineCard from "../../shared/cards/RoutineCard";
-import { useModal } from "@/components/modals/modal-store";
 import { useTranslations } from "next-intl";
 import { Routine } from "@/types";
 import { useState } from "react";
-import { toast } from "sonner";
 
 interface RoutinesListProps {
   routines: Routine[];
@@ -15,22 +12,8 @@ interface RoutinesListProps {
 
 export default function RoutinesList({ routines }: RoutinesListProps) {
   const t = useTranslations("library.routines");
-  const tNotification = useTranslations("notification");
 
-  const { user } = useAuth();
-  const { open } = useModal();
   const [openRoutineId, setOpenRoutineId] = useState<string | null>(null);
-
-  const isVerified = user?.emailVerified;
-
-  const handleClick = () => {
-    if (!isVerified) {
-      toast.warning(tNotification("verifyRequiredWarning"));
-      return;
-    }
-
-    open("routine");
-  };
 
   const toggleRoutine = (id: string) => {
     setOpenRoutineId((prev) => (prev === id ? null : id));

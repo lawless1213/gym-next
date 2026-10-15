@@ -105,6 +105,7 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>(({ input }, _ref) 
     const spaceAbove = rect.top;
     const menuHeight = searchable ? MENU_MAX_HEIGHT : MENU_MAX_HEIGHT_COMPACT;
 
+    // eslint-disable-next-line react-hooks/set-state-in-effect -- positioning needs a DOM measurement
     setOpenUpward(spaceBelow < menuHeight && spaceAbove > spaceBelow);
   }, [isOpen, searchable]);
 

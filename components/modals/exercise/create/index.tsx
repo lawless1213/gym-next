@@ -3,17 +3,16 @@
 import { ModalWrapper } from "../../modal-wrapper";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { z } from "zod";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/form/input";
 import { useModal } from "@/components/modals/modal-store";
-import { IconBarbell, IconCheck, IconUpload } from "@tabler/icons-react";
+import { IconBarbell, IconUpload } from "@tabler/icons-react";
 import { toast } from "sonner";
 import { createUserExercise } from "@/lib/actions/exercise";
 import { useAuth } from "@/hooks/useAuth";
 import { useQueryClient } from "@tanstack/react-query";
 import { MUSCLE_GROUPS } from "@/data/exercise";
-import { useLocale, useTranslations } from "next-intl";
+import { useTranslations } from "next-intl";
 import { ChipGroup } from "@/components/ui/form/chipGroup";
 import { ExerciseFormData, exerciseSchema } from "@/lib/schemas";
 import MuscleSchema from "@/components/shared/MuscleSchema";
@@ -29,7 +28,6 @@ export function ExerciseCreateModal() {
     register,
     handleSubmit,
     control,
-    setError,
     formState: { errors, isSubmitting, isValid, isDirty },
   } = useForm<ExerciseFormData>({
     resolver: zodResolver(exerciseSchema),

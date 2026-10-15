@@ -5,10 +5,7 @@ import { IconBarbell, IconFolderOpen } from "@tabler/icons-react";
 import Exercises from "@/components/library/exercises";
 import Routines from "@/components/library/routines";
 import { useTranslations } from "next-intl";
-import { Header } from "@/components/shared/Header";
 import { Tabs } from "@/components/ui/Tabs";
-import { useModal } from "@/components/modals/modal-store";
-import { useAuth } from "../../hooks/useAuth";
 
 type LibraryTab = "exercise" | "routine";
 

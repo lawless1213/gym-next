@@ -1,6 +1,5 @@
 "use client";
 
-import { useAuth } from "@/hooks/useAuth";
 import { useTranslations } from "next-intl";
 import DeleteUser from "./contents/DeleteUser";
 import Personal from "./Personal";
@@ -12,9 +11,6 @@ import { IconAt, IconLock, IconTrash } from "@tabler/icons-react";
 
 export default function Profile() {
   const t = useTranslations("settings.profile");
-
-  const { user } = useAuth();
-  const userId = user?.uid;
 
   const sectionItems = [
     {

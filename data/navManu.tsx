@@ -1,4 +1,3 @@
-import { ModalType } from "@/components/modals/modal-renderer";
 import { NavItem } from "@/types/navMenu";
 import { IconHome, IconBarbell, IconHistory, IconChartBar, IconAi, IconSettings } from "@tabler/icons-react";
 

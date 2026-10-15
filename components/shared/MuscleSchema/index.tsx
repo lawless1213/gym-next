@@ -30,7 +30,7 @@ export default function MuscleSchema({
   selectedMuscles,
   onToggleMuscle,
 }: MuscleSchemaProps) {
-  const { params, updateParam } = useUserPreferences();
+  const { params } = useUserPreferences();
   const isMale = params.gender === "male";
 
   return (

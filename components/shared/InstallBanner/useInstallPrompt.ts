@@ -21,6 +21,7 @@ export function useInstallPrompt(): UseInstallPromptResult {
     if (isDismissed()) return;
 
     if (isIos()) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect -- reads browser-only state after mount (SSR-safe)
       setIos(true);
       setVisible(true);
       return;

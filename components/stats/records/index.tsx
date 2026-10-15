@@ -2,13 +2,10 @@
 
 import { useAuth } from "@/hooks/useAuth";
 import { useRecords } from "@/hooks/useServices/useRecords";
-import { useTranslations } from "next-intl";
 import TotalRecords from "./TotalRecords";
 import RecordsList from "./RecordsList";
 
 export default function Records() {
-  const t = useTranslations("stats.records");
-
   const { user } = useAuth();
   const userId = user?.uid;
 

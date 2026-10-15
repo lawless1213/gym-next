@@ -1,6 +1,5 @@
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 import { useLocale, useTranslations } from "next-intl";
-import { useAuth } from "@/hooks/useAuth";
 import { BodyProgress } from "@/types";
 import SkeletonBone from "@/components/ui/Skeleton/SkeletonBone";
 import SkeletonSwitcher from "@/components/ui/Skeleton/SkeletonSwitcher";
@@ -18,7 +17,6 @@ export default function MeasurementsChart({ progress, selectedMetric, loading }:
   const locale = useLocale();
   const t = useTranslations("stats");
   const tMeasurement = useTranslations("components.measurement");
-  const { user } = useAuth();
 
   const chartData =
     progress &&
