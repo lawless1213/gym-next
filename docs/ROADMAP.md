@@ -22,7 +22,8 @@ Order inside the stage: 0.4 (schema) → 0.3 → 0.1 → 0.2 → the rest. Rules
   - Done: `withAiTry(idToken, run)` in `guard.ts` — atomic reserve → run → refund on failure/throw. Premium: `PREMIUM_DAILY_AI_LIMIT = 50`/UTC day in server-only `users/{uid}.aiUsage` (protected by rules + test). Inputs validated with `AI*RequestSchema` before charging (comment ≤ 500, chat message ≤ 2000, history ≤ 10 × 8000). Fixed: chat sent the new message twice.
 - [x] 0.7 Validate Gemini responses with zod `safeParse`; generate Gemini schemas with `z.toJSONSchema()`.
   - Done: response schemas in `lib/schemas/ai-response.schema.ts`; `generateStructured({ prompt, schema })` sends `responseJsonSchema` generated from zod and returns `safeParse` data (invalid JSON/shape → error, try refunded by `withAiTry`). Removed `any` from `client.ts`.
-- [ ] 0.8 Validate the `locale` cookie against `i18n/locales.ts`, fall back to `uk`.
+- [x] 0.8 Validate the `locale` cookie against `i18n/locales.ts`, fall back to `uk`.
+  - Done: `isLocale` / `DEFAULT_LOCALE` in `i18n/locales.ts`; used in `i18n/request.ts` and `setUserLocale` (ignores unknown values).
 - [ ] 0.9 Verify `.env.local` was never committed (`git log --all -- .env.local`). If it was — rotate all keys (Gemini, Firebase service account), not just purge history. App Hosting secrets via Secret Manager in `apphosting.yaml`.
 
 ## Stage 1 — Bugs (P1, ~0.5 day)

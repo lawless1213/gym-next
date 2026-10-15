@@ -40,7 +40,7 @@ _Updated: 2026-10-09. Detailed checklist plan — [ROADMAP.md](./ROADMAP.md)._
 | ✅ ~~AI server actions read data with the client SDK (`getUserRoutines`, `getCommonExercises`)~~ | Fixed in roadmap 0.5 | Server-side readers in `lib/server/data/*` (Admin SDK, `server-only`) |
 | ✅ ~~A try is charged before the Gemini call; premium has no limits; message/history length is unbounded~~ | Fixed in roadmap 0.6 | `withAiTry`: reserve + refund on failure, premium daily limit, zod input validation |
 | ✅ ~~`JSON.parse(...) as T` for AI responses~~ | Fixed in roadmap 0.7 | `generateStructured` validates with zod `safeParse`; Gemini schema generated via `z.toJSONSchema` |
-| `locale` cookie goes into `import()` unchecked | An arbitrary value breaks rendering | Check against `i18n/locales.ts`, fall back to `uk` |
+| ✅ ~~`locale` cookie goes into `import()` unchecked~~ | Fixed in roadmap 0.8 | `isLocale()` check, fallback to `DEFAULT_LOCALE` (`uk`) |
 
 ### Bugs
 | What | Why |

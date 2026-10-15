@@ -1,12 +1,15 @@
-import {cookies} from 'next/headers';
-import {getRequestConfig} from 'next-intl/server';
- 
+import { cookies } from 'next/headers';
+import { getRequestConfig } from 'next-intl/server';
+import { DEFAULT_LOCALE, isLocale, LOCALE_COOKIE } from './locales';
+
 export default getRequestConfig(async () => {
   const store = await cookies();
-  const locale = store.get('locale')?.value || 'uk';
- 
+  const fromCookie = store.get(LOCALE_COOKIE)?.value;
+  // Only known locales may reach the dynamic import below.
+  const locale = isLocale(fromCookie) ? fromCookie : DEFAULT_LOCALE;
+
   return {
     locale,
-    messages: (await import(`../messages/${locale}.json`)).default
+    messages: (await import(`../messages/${locale}.json`)).default,
   };
 });
