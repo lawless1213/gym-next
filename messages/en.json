@@ -326,7 +326,8 @@
           "period": "one-time",
           "button": "Get Lifetime Access",
           "footnote": "No recurring charges."
-        }
+        },
+        "ariaLabel": "Choose a plan"
       }
     },
     "profile": {

@@ -36,13 +36,19 @@ export default function FaviconSwitcher() {
       document.head.appendChild(link);
     }
 
-    let metaThemeColor = document.querySelector("meta[name='theme-color']");
-    if (!metaThemeColor) {
-      metaThemeColor = document.createElement("meta");
-      metaThemeColor.setAttribute("name", "theme-color");
-      document.head.appendChild(metaThemeColor);
+    // The layout renders one meta per prefers-color-scheme. The user may pick a theme that
+    // differs from the OS one, so drop the media query and force the chosen colour on all of them.
+    const metas = document.querySelectorAll<HTMLMetaElement>("meta[name='theme-color']");
+    if (metas.length === 0) {
+      const meta = document.createElement("meta");
+      meta.name = "theme-color";
+      meta.content = themeColor;
+      document.head.appendChild(meta);
     }
-    metaThemeColor.setAttribute("content", themeColor);
+    metas.forEach((meta) => {
+      meta.removeAttribute("media");
+      meta.content = themeColor;
+    });
   }, [resolvedTheme]);
 
   return null;

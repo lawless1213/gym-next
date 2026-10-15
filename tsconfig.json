@@ -29,6 +29,6 @@
     ".next/types/**/*.ts",
     ".next/dev/types/**/*.ts",
     "**/*.mts"
-, "data/navManu.еs", "lib/schemas/schedule.schema/ts"  ],
+  ],
   "exclude": ["node_modules"]
 }

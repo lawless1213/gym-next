@@ -2,23 +2,26 @@
 
 import { QueryClient } from "@tanstack/react-query";
 import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client";
-import { useState, useEffect } from "react";
+import { useState, useEffect, useRef } from "react";
 import { get, set, del } from "idb-keyval";
+import { useAuth } from "@/hooks/useAuth";
+
+const PERSIST_KEY = "REACT_QUERY_OFFLINE_CACHE";
 
 const idbPersister = {
   persistClient: async (client: unknown) => {
-    await set("REACT_QUERY_OFFLINE_CACHE", client);
+    await set(PERSIST_KEY, client);
   },
   restoreClient: async () => {
     try {
-      const cache = await get("REACT_QUERY_OFFLINE_CACHE");
+      const cache = await get(PERSIST_KEY);
       return cache ?? undefined;
     } catch {
       return undefined;
     }
   },
   removeClient: async () => {
-    await del("REACT_QUERY_OFFLINE_CACHE");
+    await del(PERSIST_KEY);
   },
 };
 
@@ -37,6 +40,21 @@ export const QueryProvider = ({ children }: { children: React.ReactNode }) => {
         },
       })
   );
+
+  // Drop all cached (and persisted) data when the signed-in user changes: logout,
+  // account deletion or switching accounts. Otherwise the next person on the same
+  // device would see the previous user's data from the offline cache.
+  const { user, loading } = useAuth();
+  const previousUid = useRef<string | null | undefined>(undefined);
+  useEffect(() => {
+    if (loading) return;
+    const uid = user?.uid ?? null;
+    if (previousUid.current && previousUid.current !== uid) {
+      queryClient.clear();
+      del(PERSIST_KEY).catch((error) => console.error("Failed to clear persisted query cache:", error));
+    }
+    previousUid.current = uid;
+  }, [user?.uid, loading, queryClient]);
 
   useEffect(() => {
     const handleOnline = () => {

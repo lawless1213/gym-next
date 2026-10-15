@@ -30,12 +30,13 @@ Order inside the stage: 0.4 (schema) → 0.3 → 0.1 → 0.2 → the rest. Rules
 
 ## Stage 1 — Bugs (P1, ~0.5 day)
 - [x] 1.1 `hooks/useAuth.tsx`: remove `import { subscribe } from "diagnostics_channel"`.
-- [ ] 1.2 `Plans/index.tsx`: move `useTranslations` out of `.map()` to the top level.
-- [ ] 1.3 `layout.tsx`: `lang={locale}` from `getLocale()`; `Inter({ subsets: ["latin", "cyrillic"] })`; remove `maximumScale: 1`.
-- [ ] 1.4 `tsconfig.json`: remove `"data/navManu.еs"` and `"lib/schemas/schedule.schema/ts"` from `include`.
+- [x] 1.2 `Plans/index.tsx`: move `useTranslations` out of `.map()` to the top level.
+- [x] 1.3 `layout.tsx`: `lang={locale}` from `getLocale()`; `Inter({ subsets: ["latin", "cyrillic"] })`; remove `maximumScale: 1`.
+- [x] 1.4 `tsconfig.json`: remove `"data/navManu.еs"` and `"lib/schemas/schedule.schema/ts"` from `include`.
 - [x] 1.5 `pnpm-workspace.yaml`: `'@google/genai': false` (or true). Also `re2: false` (optional native dep of firebase-tools).
-- [ ] 1.6 On logout: `queryClient.clear()` + `del("REACT_QUERY_OFFLINE_CACHE")` (otherwise the next user on the same device sees cached data — must be done before launch).
-- [ ] 1.7 `themeColor` as an array for light/dark.
+- [x] 1.6 On logout: `queryClient.clear()` + `del("REACT_QUERY_OFFLINE_CACHE")` (otherwise the next user on the same device sees cached data — must be done before launch).
+  - Done in `QueryProvider`: clears the query cache and the IndexedDB copy whenever the signed-in uid changes (logout, account deletion, account switch).
+- [x] 1.7 `themeColor` as an array for light/dark.
 
 ## Stage 2 — Packages, tooling & safety net (P2, ~2–3 days)
 - [ ] 2.1 Remove `@headlessui/react`, `@tailwindplus/elements`, `@tanstack/query-sync-storage-persister`, `@vercel/speed-insights`, `package-lock.json`. Add `"packageManager": "pnpm@…"`.

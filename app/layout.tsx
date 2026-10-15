@@ -4,7 +4,7 @@ import { Inter } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "../hooks/useAuth";
 import { NextIntlClientProvider } from "next-intl";
-import { getTranslations } from "next-intl/server";
+import { getLocale, getTranslations } from "next-intl/server";
 import FaviconSwitcher, { ThemeProvider } from "@/providers/theme-provider";
 import { QueryProvider } from "@/providers/QueryProvider";
 import AppShell from "@/components/shared/AppShell";
@@ -14,15 +14,18 @@ import { UserPreferencesProvider } from "@/providers/user-preferences-provider";
 import { CookieBanner } from "@/components/shared/CookieBanner";
 
 const inter = Inter({
-  subsets: ["latin"],
+  subsets: ["latin", "cyrillic"],
   variable: "--font-inter",
 });
 
 export const viewport: Viewport = {
-  themeColor: "#ffffff",
+  // Initial colour before hydration; FaviconSwitcher syncs it with the chosen theme.
+  themeColor: [
+    { media: "(prefers-color-scheme: light)", color: "#ffffff" },
+    { media: "(prefers-color-scheme: dark)", color: "#020202" },
+  ],
   width: "device-width",
   initialScale: 1,
-  maximumScale: 1,
 };
 
 export async function generateMetadata(): Promise<Metadata> {
@@ -42,14 +45,16 @@ export async function generateMetadata(): Promise<Metadata> {
   };
 }
 
-export default function RootLayout({
+export default async function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
 }>) {
+  const locale = await getLocale();
+
   return (
     <html
-      lang="en"
+      lang={locale}
       suppressHydrationWarning>
       <body className={`${inter.variable} antialiased flex min-h-screen flex-col bg-background`}>
         <SpeedInsights />

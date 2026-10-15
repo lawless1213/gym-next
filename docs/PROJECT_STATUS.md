@@ -46,14 +46,14 @@ _Updated: 2026-10-09. Detailed checklist plan — [ROADMAP.md](./ROADMAP.md)._
 | What | Why |
 |---|---|
 | ✅ ~~`import { subscribe } from "diagnostics_channel"` in `hooks/useAuth.tsx`~~ | Fixed in roadmap 1.1 |
-| `useTranslations` inside `.map()` in `settings/subscribe/Plans` | Violates the rules of hooks |
+| ✅ ~~`useTranslations` inside `.map()` in `settings/subscribe/Plans`~~ | Fixed in roadmap 1.2 |
 | `handleSubscribe` only does `console.log` | Payments not implemented |
-| Hardcoded `<html lang="en">` | Default locale is `uk`; bad for accessibility and SEO |
-| `Inter({ subsets: ["latin"] })` | Cyrillic renders in a fallback font |
-| `maximumScale: 1` | Blocks zoom, hurts accessibility |
-| Junk in `tsconfig.json` `include` (`data/navManu.еs`, `lib/schemas/schedule.schema/ts`) | Non-existent paths, one with a Cyrillic "е" |
-| `pnpm-workspace.yaml`: `'@google/genai': set this to true or false` | Invalid value |
-| IndexedDB cache isn't cleared on logout | The next user on the device sees the previous user's cached data |
+| ✅ ~~Hardcoded `<html lang="en">`~~ | Fixed in roadmap 1.3 |
+| ✅ ~~`Inter({ subsets: ["latin"] })`~~ | Fixed in roadmap 1.3 |
+| ✅ ~~`maximumScale: 1`~~ | Fixed in roadmap 1.3 |
+| ✅ ~~Junk in `tsconfig.json` `include` (`data/navManu.еs`, `lib/schemas/schedule.schema/ts`)~~ | Fixed in roadmap 1.4 |
+| ✅ ~~`pnpm-workspace.yaml`: `'@google/genai': set this to true or false`~~ | Fixed in roadmap 1.5 |
+| ✅ ~~IndexedDB cache isn't cleared on logout~~ | Fixed in roadmap 1.6 |
 
 ### Packages
 | What | Why |

@@ -29,11 +29,10 @@ export default function Plans() {
     <>
       <div
         role="radiogroup"
-        aria-label="Оберіть план"
+        aria-label={t("ariaLabel")}
         className="mt-6 flex max-md:flex-col gap-3">
         {DEFAULT_PLANS.map((plan) => {
           const isSelected = plan.id === selectedId;
-          const t = useTranslations(`settings.subscribe.plans.${plan.id}`);
 
           return (
             <button
@@ -56,16 +55,16 @@ export default function Plans() {
 
               <span className="min-w-0 flex-1 md:flex md:flex-col md:items-center">
                 <span className="flex flex-wrap items-center gap-x-2 gap-y-1">
-                  <span className="font-semibold">{t("title")}</span>
-                  {plan.id === "yearly" && <span className="rounded-full bg-primary px-2 py-0.5 text-xs font-semibold text-primary-foreground">{t("top")}</span>}
+                  <span className="font-semibold">{t(`${plan.id}.title`)}</span>
+                  {plan.id === "yearly" && <span className="rounded-full bg-primary px-2 py-0.5 text-xs font-semibold text-primary-foreground">{t(`${plan.id}.top`)}</span>}
                 </span>
-                <span className="mt-0.5 block text-sm text-muted-foreground">{t("note")}</span>
-                {plan.id === "yearly" && <span className="mt-0.5 block text-sm font-medium text-success">{t("trial")}</span>}
+                <span className="mt-0.5 block text-sm text-muted-foreground">{t(`${plan.id}.note`)}</span>
+                {plan.id === "yearly" && <span className="mt-0.5 block text-sm font-medium text-success">{t(`${plan.id}.trial`)}</span>}
               </span>
 
               <span className="shrink-0 max-md:text-right">
                 <span className="block text-lg font-bold tabular-nums">${plan.price}</span>
-                <span className="block text-xs text-muted-foreground">{t("period")}</span>
+                <span className="block text-xs text-muted-foreground">{t(`${plan.id}.period`)}</span>
               </span>
             </button>
           );
