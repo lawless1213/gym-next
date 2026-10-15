@@ -100,6 +100,7 @@ export function Header({ page }: HeaderProps) {
                 <Button
                   size="icon-lg"
                   variant="outline"
+                  aria-label={action.tooltip}
                   onClick={action.onClick}>
                   {action.icon}
                 </Button>

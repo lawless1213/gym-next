@@ -53,3 +53,8 @@ firestore-debug.log*
 storage-debug.log*
 ui-debug.log*
 .firebase/
+
+# playwright
+/test-results/
+/playwright-report/
+/playwright/.cache/

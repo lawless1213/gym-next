@@ -1,8 +1,8 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
-import { getAuth } from "firebase/auth";
-import { getFirestore } from "firebase/firestore";
-import { getStorage } from "firebase/storage";
+import { connectAuthEmulator, getAuth } from "firebase/auth";
+import { connectFirestoreEmulator, getFirestore } from "firebase/firestore";
+import { connectStorageEmulator, getStorage } from "firebase/storage";
 
 const firebaseConfig = {
   apiKey: process.env.NEXT_PUBLIC_FIREBASE_API_KEY,
@@ -17,3 +17,11 @@ const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
 export const db = getFirestore(app);
 export const storage = getStorage(app);
+
+// Local emulators (e2e tests / offline dev). Never set this in production.
+if (process.env.NEXT_PUBLIC_USE_FIREBASE_EMULATORS === "true") {
+  const host = process.env.NEXT_PUBLIC_FIREBASE_EMULATOR_HOST ?? "127.0.0.1";
+  connectAuthEmulator(auth, `http://${host}:9099`, { disableWarnings: true });
+  connectFirestoreEmulator(db, host, 8080);
+  connectStorageEmulator(storage, host, 9199);
+}

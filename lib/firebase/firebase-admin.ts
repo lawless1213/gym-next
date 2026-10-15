@@ -7,6 +7,12 @@ function getAdminApp(): App {
   const apps = getApps();
   if (apps.length > 0) return apps[0];
 
+  // Emulators (FIRESTORE_EMULATOR_HOST / FIREBASE_AUTH_EMULATOR_HOST are set by `firebase emulators:exec`)
+  // need no service-account credentials.
+  if (process.env.FIRESTORE_EMULATOR_HOST || process.env.FIREBASE_AUTH_EMULATOR_HOST) {
+    return initializeApp({ projectId: process.env.FIREBASE_PROJECT_ID ?? process.env.GCLOUD_PROJECT });
+  }
+
   return initializeApp({
     credential: cert({
       projectId: process.env.FIREBASE_PROJECT_ID,

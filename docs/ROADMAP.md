@@ -52,7 +52,8 @@ Order inside the stage: 0.4 (schema) → 0.3 → 0.1 → 0.2 → the rest. Rules
   - Scripts: `typecheck`, `test` (unit), `test:watch`, `test:rules`, `format`. `test:e2e` comes with Playwright in 2.7.
 - [x] 2.6 Vitest + Testing Library: records, volume, weekly periods, guard, zod schemas.
   - Pure logic moved to `lib/domain/*` (records, volume, periods, schedule) and covered with Vitest (`vitest.config.mts`), plus `lib/subscription` and AI request/response schemas. Testing Library (component tests) and guard tests with mocked Admin SDK — later.
-- [ ] 2.7 Playwright e2e smoke (moved from 4.7): login → workout → history → stats. Main safety net for the Stage 3 refactors.
+- [x] 2.7 Playwright e2e smoke (moved from 4.7): login → workout → history → stats. Main safety net for the Stage 3 refactors.
+  - `pnpm test:e2e`: Playwright (Pixel 7 profile) against Auth/Firestore/Storage emulators on a `demo-` project; `tests/e2e/global-setup.ts` seeds a verified premium user with a routine on every weekday. Smoke: login → start workout → complete set → finish → history → stats. App connects to emulators only when `NEXT_PUBLIC_USE_FIREBASE_EMULATORS=true`; Admin SDK skips credentials when emulator hosts are set.
 - [ ] 2.8 GitHub Actions: lint + typecheck + test + build (+ e2e against the emulator) on every PR.
 - [ ] 2.9 Sentry (or Crashlytics) for the client and server actions.
 

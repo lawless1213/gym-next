@@ -112,11 +112,17 @@ export function QuickWorkoutModal() {
 
     if (ok) {
       if (!user) throw new Error("Not authenticated");
-      writeWorkoutSession(user.uid, finishedWorkout);
-      queryClient.invalidateQueries({ queryKey: ["history"] });
-      queryClient.invalidateQueries({ queryKey: ["records"] });
-      queryClient.invalidateQueries({ queryKey: ["schedule"] });
       close();
+      // Invalidate only after the write: refetching earlier caches the old list for staleTime.
+      try {
+        await writeWorkoutSession(user.uid, finishedWorkout);
+      } catch (error) {
+        console.error("Failed to save workout:", error);
+      } finally {
+        queryClient.invalidateQueries({ queryKey: ["history"] });
+        queryClient.invalidateQueries({ queryKey: ["records"] });
+        queryClient.invalidateQueries({ queryKey: ["schedule"] });
+      }
     }
   };
 
