@@ -3,6 +3,7 @@
 import { FieldValue } from "firebase-admin/firestore";
 import { adminAuth, adminBucket, adminDb } from "@/lib/firebase/firebase-admin";
 import { DEFAULT_SUBSCRIPTION } from "@/lib/subscription";
+import { reportError } from "@/lib/monitoring";
 
 export type InitUserDocResult = { ok: true; created: boolean } | { ok: false; error: "INVALID_SESSION" };
 
@@ -77,7 +78,7 @@ export async function deleteUserData(idToken: string): Promise<DeleteUserDataRes
   try {
     await adminBucket().deleteFiles({ prefix: `users/${uid}/` });
   } catch (error) {
-    console.error("deleteUserData: failed to delete Storage files", error);
+    reportError(error, "deleteUserData: failed to delete Storage files");
   }
 
   return { ok: true };

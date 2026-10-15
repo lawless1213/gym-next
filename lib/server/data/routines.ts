@@ -3,6 +3,7 @@ import { DocumentReference } from "firebase-admin/firestore";
 import { adminDb } from "@/lib/firebase/firebase-admin";
 import type { Exercise, Routine } from "@/types";
 import { toPlain } from "./serialize";
+import { reportError } from "@/lib/monitoring";
 
 type RoutineDoc = {
   name?: string;
@@ -60,7 +61,7 @@ export async function getUserRoutines(userId: string): Promise<Routine[]> {
       }),
     );
   } catch (error) {
-    console.error("getUserRoutines (admin) failed:", error);
+    reportError(error, "getUserRoutines (admin) failed:");
     return [];
   }
 }

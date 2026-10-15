@@ -1,6 +1,7 @@
 import { GoogleGenAI } from "@google/genai";
 import { z } from "zod";
 import { toGeminiJsonSchema } from "@/lib/schemas/ai-response.schema";
+import { reportError, reportIssue } from "@/lib/monitoring";
 
 export const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
@@ -49,13 +50,16 @@ export async function generateStructured<S extends z.ZodType>(params: {
   try {
     json = JSON.parse(text);
   } catch {
-    console.error("Gemini returned invalid JSON:", text.slice(0, 500));
+    reportIssue("Gemini returned invalid JSON", { model, sample: text.slice(0, 300) });
     return { success: false, error: INVALID_RESPONSE_ERROR };
   }
 
   const parsed = schema.safeParse(json);
   if (!parsed.success) {
-    console.error("Gemini response does not match schema:", z.prettifyError(parsed.error));
+    reportIssue("Gemini response does not match schema", {
+      model,
+      issues: z.prettifyError(parsed.error).slice(0, 1000),
+    });
     return { success: false, error: INVALID_RESPONSE_ERROR };
   }
 
@@ -89,9 +93,10 @@ export async function generateChatText(params: {
 }
 
 function handleError(err: unknown): { success: false; error: string } {
-  console.error("Gemini generation error:", err);
   const status =
     typeof err === "object" && err !== null && "status" in err ? (err as { status?: number }).status : undefined;
+  // 429 is expected under load; everything else is worth an alert.
+  if (status !== 429) reportError(err, "Gemini generation error", { status: status ?? null });
 
   if (status === 429) {
     return { success: false, error: "Сервіс тимчасово перевантажений. Спробуйте пізніше." };

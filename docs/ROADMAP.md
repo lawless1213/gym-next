@@ -56,7 +56,8 @@ Order inside the stage: 0.4 (schema) → 0.3 → 0.1 → 0.2 → the rest. Rules
   - `pnpm test:e2e`: Playwright (Pixel 7 profile) against Auth/Firestore/Storage emulators on a `demo-` project; `tests/e2e/global-setup.ts` seeds a verified premium user with a routine on every weekday. Smoke: login → start workout → complete set → finish → history → stats. App connects to emulators only when `NEXT_PUBLIC_USE_FIREBASE_EMULATORS=true`; Admin SDK skips credentials when emulator hosts are set.
 - [x] 2.8 GitHub Actions: lint + typecheck + test + build (+ e2e against the emulator) on every PR.
   - `.github/workflows/ci.yml` on PRs and pushes to `master`: job 1 — format check, lint, typecheck, unit tests, build (demo Firebase config, no secrets); job 2 — Java 21 + Playwright, `test:rules` and `test:e2e` on emulators, report uploaded on failure. Next: make both jobs required checks in GitHub branch protection.
-- [ ] 2.9 Sentry (or Crashlytics) for the client and server actions.
+- [x] 2.9 Sentry (or Crashlytics) for the client and server actions.
+  - `@sentry/nextjs`: `instrumentation.ts` (+ `onRequestError`), `instrumentation-client.ts`, `app/global-error.tsx`, `withSentryConfig` (tunnel `/monitoring`, source maps only with `SENTRY_AUTH_TOKEN`). Disabled without `NEXT_PUBLIC_SENTRY_DSN` (dev/CI/e2e). `lib/monitoring.ts` `reportError`/`reportIssue` used in AI guard/client, workout save, Admin data readers, account deletion; Sentry user = uid only, no replay, `sendDefaultPii: false`. Env template in `apphosting.yaml`.
 
 ## Stage 3 — Architecture & cleanup (P3, ~1–2 weeks, incremental)
 

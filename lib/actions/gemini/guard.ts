@@ -1,6 +1,7 @@
 import { adminAuth, adminDb } from "@/lib/firebase/firebase-admin";
 import { isSubscriptionActive, parseSubscription } from "@/lib/subscription";
 import { FieldValue } from "firebase-admin/firestore";
+import { reportError } from "@/lib/monitoring";
 
 /** Max AI requests per UTC day for premium users (protects the Gemini bill). */
 export const PREMIUM_DAILY_AI_LIMIT = 50;
@@ -85,7 +86,7 @@ async function refundAiTry(reservation: Reservation): Promise<void> {
       }
     });
   } catch (error) {
-    console.error("refundAiTry failed:", error);
+    reportError(error, "refundAiTry failed", { kind: reservation.kind });
   }
 }
 
@@ -114,7 +115,7 @@ export async function withAiTry<T extends { success: true } | Failure>(
     }
     return { ...result, freeAiTries: reserved.freeAiTries };
   } catch (error) {
-    console.error("AI action failed:", error);
+    reportError(error, "AI action failed");
     await refundAiTry(reservation);
     return { success: false, error: "Не вдалося обробити запит до AI", freeAiTries: refundedTries };
   }
