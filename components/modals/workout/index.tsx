@@ -14,6 +14,7 @@ import { WorkoutHeader } from "./_components/workoutHeader";
 import { WorkoutFooter } from "./_components/workoutFooter";
 import { useWorkoutSessionPersistence } from "@/hooks/workout/useWorkoutSessionPersistence";
 import { useTranslations } from "next-intl";
+import { reportError } from "@/lib/monitoring";
 
 export function WorkoutModal() {
   const t = useTranslations("workout");
@@ -69,7 +70,7 @@ export function WorkoutModal() {
       try {
         await writeWorkoutSession(user.uid, finishedWorkout);
       } catch (error) {
-        console.error("Failed to save workout:", error);
+        reportError(error, "Failed to save workout");
       } finally {
         queryClient.invalidateQueries({ queryKey: ["history"] });
         queryClient.invalidateQueries({ queryKey: ["records"] });

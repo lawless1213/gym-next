@@ -17,6 +17,7 @@ import { useWorkoutSessionPersistence } from "@/hooks/workout/useWorkoutSessionP
 import { cn } from "@/lib/utils";
 import { useLocale, useTranslations } from "next-intl";
 import { getLocalizedText, toLocalizedText, type Locale } from "@/types/common";
+import { reportError } from "@/lib/monitoring";
 
 export function QuickWorkoutModal() {
   const t = useTranslations("workout");
@@ -117,7 +118,7 @@ export function QuickWorkoutModal() {
       try {
         await writeWorkoutSession(user.uid, finishedWorkout);
       } catch (error) {
-        console.error("Failed to save workout:", error);
+        reportError(error, "Failed to save workout");
       } finally {
         queryClient.invalidateQueries({ queryKey: ["history"] });
         queryClient.invalidateQueries({ queryKey: ["records"] });

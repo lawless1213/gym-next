@@ -19,6 +19,8 @@ import {
 } from "firebase/auth";
 import { auth } from "@/lib/config/firebaseConfig";
 import { deleteUserData, initUserDoc } from "@/lib/server/actions/user";
+import { reportError } from "@/lib/monitoring";
+import * as Sentry from "@sentry/nextjs";
 
 type AuthContextValue = {
   user: User | null;
@@ -41,7 +43,7 @@ const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 // Creates the Firestore user doc on the server (Admin SDK). Idempotent.
 async function ensureUserDoc(user: User) {
   const result = await initUserDoc(await user.getIdToken());
-  if (!result.ok) console.error("initUserDoc failed:", result.error);
+  if (!result.ok) reportError(new Error(result.error), "initUserDoc failed");
 }
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
@@ -52,6 +54,8 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     const unsub = onAuthStateChanged(auth, async (firebaseUser) => {
       setUser(firebaseUser);
       setLoading(false);
+      // Only the uid (no email/name) so errors can be grouped per user.
+      Sentry.setUser(firebaseUser ? { id: firebaseUser.uid } : null);
     });
     return () => unsub();
   }, []);

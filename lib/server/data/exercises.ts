@@ -2,6 +2,7 @@ import "server-only";
 import { adminDb } from "@/lib/firebase/firebase-admin";
 import type { Exercise } from "@/types";
 import { toPlain } from "./serialize";
+import { reportError } from "@/lib/monitoring";
 
 /** Server-side (Admin SDK) counterpart of lib/services/exercises.ts. */
 export async function getCommonExercises(): Promise<Exercise[]> {
@@ -9,7 +10,7 @@ export async function getCommonExercises(): Promise<Exercise[]> {
     const snap = await adminDb.collection("exercises").orderBy("name").get();
     return snap.docs.map((d) => ({ ...toPlain<object>(d.data()), isCustom: false, id: d.id }) as Exercise);
   } catch (error) {
-    console.error("getCommonExercises (admin) failed:", error);
+    reportError(error, "getCommonExercises (admin) failed:");
     return [];
   }
 }
@@ -20,7 +21,7 @@ export async function getUserExercises(userId: string): Promise<Exercise[]> {
     const snap = await adminDb.collection("users").doc(userId).collection("exercises").orderBy("name").get();
     return snap.docs.map((d) => ({ ...toPlain<object>(d.data()), isCustom: true, id: d.id }) as Exercise);
   } catch (error) {
-    console.error("getUserExercises (admin) failed:", error);
+    reportError(error, "getUserExercises (admin) failed:");
     return [];
   }
 }
