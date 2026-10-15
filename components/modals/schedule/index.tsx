@@ -102,20 +102,30 @@ export function ScheduleEditModal() {
         className="flex flex-col gap-4 overflow-y-auto"
         onSubmit={handleSubmit(onSubmit)}>
         {routines.map((routine) => {
+          const selected = isSelected(routine.id);
+
           return (
             <div
               key={routine.id}
-              onClick={() => toggle(routine.id)}
-              className="group flex items-center justify-between gap-1 cursor-pointer">
-              <RoutineCard routine={{...routine}} />
-              <div className={`flex shrink-0 w-9 h-9 items-center justify-center rounded-full bg-card cursor-pointer border-2 border-solid ${isSelected(routine.id) ? "bg-primary" : "border-2 border-muted-foreground group-hover:border-primary transition-[0.2s]"}`}>
-                {isSelected(routine.id) && (
+              className="flex items-start gap-2">
+              {/* Clicking the card only expands it; selection is done with the circle. */}
+              <div className="flex-1 min-w-0">
+                <RoutineCard routine={routine} />
+              </div>
+              <button
+                type="button"
+                role="checkbox"
+                aria-checked={selected}
+                aria-label={t("select", { name: routine.name })}
+                onClick={() => toggle(routine.id)}
+                className={`mt-6 flex shrink-0 w-9 h-9 items-center justify-center rounded-full border-2 border-solid cursor-pointer transition-[0.2s] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${selected ? "bg-primary border-primary" : "bg-card border-muted-foreground hover:border-primary"}`}>
+                {selected && (
                   <IconCheck
                     stroke={3}
-                    className="h-4 w-4 text-muted-foreground"
+                    className="h-4 w-4 text-primary-foreground"
                   />
                 )}
-              </div>
+              </button>
             </div>
           );
         })}

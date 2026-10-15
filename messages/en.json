@@ -509,7 +509,8 @@
         "description": "Are you sure?",
         "confirm": "Yes",
         "cancel": "No"
-      }
+      },
+      "select": "Select “{name}”"
     }
   },
   "exercise": {
@@ -538,7 +539,6 @@
       "edit": {
         "title": "Edit Routine"
       },
-
       "picker": {
         "title": "Choose exercises",
         "added": "Added"
@@ -586,7 +586,6 @@
         "placeholder": "For example: How to do a proper warm-up?",
         "loading": "Thinking..."
       },
-
       "subscribe": {
         "subtitle": "Get personalized advice, form analysis, and smart insights for every workout.",
         "tries": "Free tries: {count}",

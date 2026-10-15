@@ -15,16 +15,25 @@ import { Button } from "../../ui/Button";
 
 interface RoutineListItemProps {
   routine: Routine;
+  /** Controlled mode (e.g. accordion in RoutinesList). Omit both to let the card manage its own state. */
   isOpen?: boolean;
   onToggle?: () => void;
 }
 
-export default function RoutineCard({routine, isOpen, onToggle}: RoutineListItemProps) {
+export default function RoutineCard({ routine, isOpen: controlledIsOpen, onToggle }: RoutineListItemProps) {
   const t = useTranslations("components.routineCard");
   const { confirm, open } = useModal();
   const { user } = useAuth();
   const queryClient = useQueryClient();
   const [isEditable, setIsEditable] = useState(false);
+  const [uncontrolledIsOpen, setUncontrolledIsOpen] = useState(false);
+
+  const isControlled = controlledIsOpen !== undefined;
+  const isOpen = isControlled ? controlledIsOpen : uncontrolledIsOpen;
+  const toggle = () => {
+    if (isControlled) onToggle?.();
+    else setUncontrolledIsOpen((prev) => !prev);
+  };
 
   const handlers = useSwipeable(
     routine.editable
@@ -81,10 +90,10 @@ export default function RoutineCard({routine, isOpen, onToggle}: RoutineListItem
       className="overflow-hidden md:rounded-xl">
       <div
         key={routine.id}
-         onClick={() => {
-          if (!isEditable && onToggle) onToggle();
+        onClick={() => {
+          if (!isEditable && routine.exercises.length > 0) toggle();
         }}
-        className="relative "
+        className={`relative ${routine.exercises.length > 0 ? "cursor-pointer" : ""}`}
         {...handlers}>
         <motion.div
           className="bg-card p-4 flex gap-2 w-full items-center"
@@ -104,7 +113,10 @@ export default function RoutineCard({routine, isOpen, onToggle}: RoutineListItem
           {routine.available && !routine.completed && (
             <Button
               size="icon-lg"
-              onClick={() => open("workout", routine)}
+              onClick={(e) => {
+                e.stopPropagation();
+                open("workout", routine);
+              }}
               className="shrink-0">
               <IconPlayerPlayFilled className="size-5" />
             </Button>
