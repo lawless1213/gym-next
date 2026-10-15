@@ -1,4 +1,3 @@
-import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata, Viewport } from "next";
 import { Exo_2 } from "next/font/google";
 import "./globals.css";
@@ -58,7 +57,6 @@ export default async function RootLayout({
       lang={locale}
       suppressHydrationWarning>
       <body className={`${exo2.variable} font-sans antialiased flex min-h-screen flex-col bg-background`}>
-        <SpeedInsights />
         <ThemeProvider>
           <FaviconSwitcher />
           <NextIntlClientProvider>

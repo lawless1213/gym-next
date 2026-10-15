@@ -39,7 +39,7 @@ Order inside the stage: 0.4 (schema) → 0.3 → 0.1 → 0.2 → the rest. Rules
 - [x] 1.7 `themeColor` as an array for light/dark.
 
 ## Stage 2 — Packages, tooling & safety net (P2, ~2–3 days)
-- [ ] 2.1 Remove `@headlessui/react`, `@tailwindplus/elements`, `@tanstack/query-sync-storage-persister`, `@vercel/speed-insights`, `package-lock.json`. Add `"packageManager": "pnpm@…"`.
+- [x] 2.1 Remove `@headlessui/react`, `@tailwindplus/elements`, `@tanstack/query-sync-storage-persister`, `@vercel/speed-insights`, `package-lock.json`. Add `"packageManager": "pnpm@…"`.
 - [ ] 2.2 `@types/node` → 22+.
 - [ ] 2.3 Prettier (+ `prettier-plugin-tailwindcss`), Husky + lint-staged.
 - [ ] 2.4 ESLint: `no-console` (warn, allow error), `@typescript-eslint/no-explicit-any`, `react-hooks/rules-of-hooks` (error). Clean up ~51 `console.log` / `any` / `@ts-ignore`.
