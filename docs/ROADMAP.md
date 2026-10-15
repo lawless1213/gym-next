@@ -48,8 +48,10 @@ Order inside the stage: 0.4 (schema) → 0.3 → 0.1 → 0.2 → the rest. Rules
   - `.prettierrc.json` (printWidth 120, matches existing style), `pnpm format` / `format:check`; pre-commit runs Prettier on staged files. ESLint joins lint-staged in 2.4 after the cleanup.
 - [x] 2.4 ESLint: `no-console` (warn, allow error), `@typescript-eslint/no-explicit-any`, `react-hooks/rules-of-hooks` (error). Clean up ~51 `console.log` / `any` / `@ts-ignore`.
   - Part 1 done: rules added (`no-console` warn w/ warn/error allowed, `no-explicit-any` error, `ban-ts-comment`, `rules-of-hooks` error); all `any`, `console.log` and `@ts-ignore` removed; fixed conditional hook in AI chat, missing `key`, impure render, module-level state in AppShell, unrendered `t("emptyEmail")`. Part 2: removed ~97 unused imports/vars and dead code, replaced setState-in-effect with derived state / render-time adjustment (documented disables only for mount-only browser reads and DOM measurement). `pnpm lint`: 0 errors, 5 `<img>` warnings (blob previews, Storage URLs). ESLint runs in lint-staged.
-- [ ] 2.5 Scripts: `typecheck`, `test`, `test:e2e`, `format`.
-- [ ] 2.6 Vitest + Testing Library: records, volume, weekly periods, guard, zod schemas.
+- [x] 2.5 Scripts: `typecheck`, `test`, `test:e2e`, `format`.
+  - Scripts: `typecheck`, `test` (unit), `test:watch`, `test:rules`, `format`. `test:e2e` comes with Playwright in 2.7.
+- [x] 2.6 Vitest + Testing Library: records, volume, weekly periods, guard, zod schemas.
+  - Pure logic moved to `lib/domain/*` (records, volume, periods, schedule) and covered with Vitest (`vitest.config.mts`), plus `lib/subscription` and AI request/response schemas. Testing Library (component tests) and guard tests with mocked Admin SDK — later.
 - [ ] 2.7 Playwright e2e smoke (moved from 4.7): login → workout → history → stats. Main safety net for the Stage 3 refactors.
 - [ ] 2.8 GitHub Actions: lint + typecheck + test + build (+ e2e against the emulator) on every PR.
 - [ ] 2.9 Sentry (or Crashlytics) for the client and server actions.

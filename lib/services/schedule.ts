@@ -1,37 +1,14 @@
 import { db } from "@/lib/config/firebaseConfig";
 import { getDoc, doc } from "firebase/firestore";
-import { weekDay, weekDays, ScheduleMap, Routine, RegularWorkoutSession } from "@/types";
+import { weekDay, weekDays, ScheduleMap, RegularWorkoutSession } from "@/types";
 import { resolveRoutines } from "./firestoreUtils";
 import { getUserHistory } from "./history";
 
+export { EMPTY_SCHEDULE, getNextPendingRoutine } from "@/lib/domain/schedule";
+import { EMPTY_SCHEDULE, weekDayIndex } from "@/lib/domain/schedule";
+
 function getWeekDayFromDate(date: Date): weekDay {
-  const dayIndex = date.getDay();
-  const normalizedIndex = dayIndex === 0 ? 6 : dayIndex - 1;
-  return weekDays[normalizedIndex];
-}
-
-export const EMPTY_SCHEDULE: ScheduleMap = weekDays.reduce((acc, day) => {
-  acc[day] = [];
-  return acc;
-}, {} as ScheduleMap);
-
-export function getNextPendingRoutine(scheduleMap: ScheduleMap, todayDate: Date = new Date()): Routine | null {
-  const jsDay = todayDate.getDay();
-  const todayIndex = jsDay === 0 ? 6 : jsDay - 1;
-
-  for (let offset = 0; offset < weekDays.length; offset += 1) {
-    const dayIndex = (todayIndex + offset) % weekDays.length;
-    const day = weekDays[dayIndex];
-
-    const nextRoutine = scheduleMap[day].find((routine) => !routine.completed);
-
-    if (nextRoutine) {
-      nextRoutine.available = dayIndex === todayIndex;
-      return nextRoutine;
-    }
-  }
-
-  return null;
+  return weekDays[weekDayIndex(date)];
 }
 
 export async function getUserSchedule(userId: string): Promise<ScheduleMap> {

@@ -1,6 +1,7 @@
 import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
 import { db } from "../config/firebaseConfig";
 import { PersonalRecord } from "@/types";
+import { isNewPersonalRecord } from "@/lib/domain/records";
 
 export async function writeExerciseRecord(userId: string, data: PersonalRecord) {
   const recordRef = doc(db, "users", userId, "stats", "records");
@@ -8,18 +9,7 @@ export async function writeExerciseRecord(userId: string, data: PersonalRecord) 
   const allRecords = existingDoc.exists() ? existingDoc.data() : {};
   const existing = allRecords[data.exerciseId] || null;
 
-  let shouldUpdate = false;
-
-  if (!existing) {
-    shouldUpdate = true;
-  } else {
-    const weightIsGreater = data.weight > existing.weight;
-    const repsAreGreaterWithSameWeight = data.weight === existing.weight && data.reps > existing.reps;
-
-    if (weightIsGreater || repsAreGreaterWithSameWeight) {
-      shouldUpdate = true;
-    }
-  }
+  const shouldUpdate = isNewPersonalRecord(data, existing);
 
   if (shouldUpdate) {
     await setDoc(

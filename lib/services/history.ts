@@ -1,16 +1,8 @@
 import { collection, query, orderBy, limit, where, getDocs, Timestamp } from "firebase/firestore";
 import { db } from "@/lib/config/firebaseConfig";
 import { WorkoutSession, HistoryOptions } from "@/types";
-
-function calculateWorkoutVolume(workout: WorkoutSession): number {
-  return workout.exercises.reduce((workoutTotal, exercise) => {
-    const exerciseVolume = exercise.sets.reduce((setTotal, set) => {
-      if (!set.completed) return setTotal;
-      return setTotal + set.reps * set.weight;
-    }, 0);
-    return workoutTotal + exerciseVolume;
-  }, 0);
-}
+import { calculateWorkoutVolume } from "@/lib/domain/volume";
+import { getHistoryRange } from "@/lib/domain/periods";
 
 export async function getUserHistory(userId: string, options: HistoryOptions): Promise<WorkoutSession[]> {
   let q;
@@ -18,24 +10,7 @@ export async function getUserHistory(userId: string, options: HistoryOptions): P
   if ("amount" in options) {
     q = query(collection(db, `users/${userId}/workoutHistory`), orderBy("startedAt", "desc"), limit(options.amount));
   } else {
-    const now = new Date();
-
-    const mondayOfCurrentWeek = (() => {
-      const jsDay = now.getDay(); // 0 = неділя
-      const offsetFromMonday = jsDay === 0 ? 6 : jsDay - 1;
-      return new Date(now.getFullYear(), now.getMonth(), now.getDate() - offsetFromMonday);
-    })();
-
-    const fromDate = {
-      week: new Date(now.getFullYear(), now.getMonth(), now.getDate() - 7),
-      "prev-week": new Date(now.getFullYear(), now.getMonth(), now.getDate() - 14),
-      "current-week": mondayOfCurrentWeek,
-      month: new Date(now.getFullYear(), now.getMonth(), 1),
-      year: new Date(now.getFullYear(), 0, 1),
-    }[options.period];
-
-    const toDate =
-      options.period === "prev-week" ? new Date(now.getFullYear(), now.getMonth(), now.getDate() - 7) : now;
+    const { from: fromDate, to: toDate } = getHistoryRange(options.period);
 
     q = query(
       collection(db, `users/${userId}/workoutHistory`),

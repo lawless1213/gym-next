@@ -1,6 +1,6 @@
 import { clsx, type ClassValue } from "clsx";
 import { twMerge } from "tailwind-merge";
-import { LocalizedText, WorkoutSession } from "../../types";
+import { LocalizedText } from "../../types";
 import { Locale } from "next-intl";
 import { LOCALES } from "@/i18n/locales";
 
@@ -8,9 +8,7 @@ export function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
 }
 
-export function totalHistoryVolume(data: WorkoutSession[]): number {
-  return data.reduce((total, item) => total + (item.volume ?? 0), 0);
-}
+export { totalHistoryVolume } from "@/lib/domain/volume";
 
 export function getLocalizedText(value: LocalizedText | string | undefined, locale: Locale = "uk"): string {
   if (!value) return "";
