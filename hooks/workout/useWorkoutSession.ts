@@ -106,10 +106,6 @@ export function useWorkoutSession<T extends SessionShape>(initialWorkout: T) {
         const hasCompletedSet = currentWorkout.exercises.some((ex) => ex.sets.some((set) => set.completed));
 
         if (!hasCompletedSet) {
-          if (process.env.NODE_ENV === "development") {
-            console.log(`[persistWorkoutDraft] пропущено (немає виконаних сетів), причина: ${reason}`);
-          }
-
           if (window.localStorage.getItem(storageKey)) {
             window.localStorage.removeItem(storageKey);
           }
@@ -117,10 +113,6 @@ export function useWorkoutSession<T extends SessionShape>(initialWorkout: T) {
         }
 
         window.localStorage.setItem(storageKey, JSON.stringify(payload));
-
-        if (process.env.NODE_ENV === "development") {
-          console.log(`[persistWorkoutDraft] збережено (причина: ${reason})`, payload);
-        }
       } catch (error) {
         console.error(`Не вдалося зберегти чернетку тренування (причина: ${reason}):`, error);
       }

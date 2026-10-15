@@ -19,7 +19,7 @@ export default function Plans() {
     if (pending) return;
     setPending(true);
     try {
-      console.log(selected.id);
+      // TODO(roadmap 4.1): start checkout for `selected.id` (Stripe/LemonSqueezy).
     } finally {
       setPending(false);
     }

@@ -39,8 +39,5 @@ export async function writeExerciseRecord(userId: string, data: PersonalRecord) 
       },
       { merge: true },
     );
-    console.log("New personal record saved!");
-  } else {
-    console.log("New data is not a personal record. Skip saving.");
   }
 }

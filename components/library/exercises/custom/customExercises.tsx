@@ -14,6 +14,7 @@ import { useModal } from "@/components/modals/modal-store";
 import { useUserPreferences } from "@/providers/user-preferences-provider";
 import { useRouter } from "next/navigation";
 import SubscribeBanner from "@/components/shared/SubscribeBanner";
+import type { Locale } from "@/types/common";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -37,7 +38,7 @@ export default function CustomExercises() {
 
     return exercises.filter(
       (ex) =>
-        getLocalizedText(ex.name, locale as any)
+        getLocalizedText(ex.name, locale as Locale)
           .toLowerCase()
           .includes(query) || ex.muscleGroup?.toLowerCase().includes(query),
     );

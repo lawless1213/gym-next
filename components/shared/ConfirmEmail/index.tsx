@@ -6,6 +6,7 @@ import { IconChevronRight, IconMailExclamation, IconReload } from "@tabler/icons
 import { useTranslations } from "next-intl";
 import { useState } from "react";
 import { toast } from "sonner";
+import { getErrorCode } from "@/lib/errors/auth";
 
 export default function ConfirmEmail() {
   const t = useTranslations("settings.profile.email.confirm");
@@ -26,8 +27,8 @@ export default function ConfirmEmail() {
       await sendVerificationEmail();
       toast.info(tNotifications("sent"));
       setIsSend(true);
-    } catch (error: any) {
-      if (error.code === "auth/too-many-requests") {
+    } catch (error) {
+      if (getErrorCode(error) === "auth/too-many-requests") {
         setIsSend(true);
         toast.info(tNotifications("wasSent"));
       } else {
@@ -51,7 +52,7 @@ export default function ConfirmEmail() {
       } else {
         toast.warning(tNotifications("notConfirmed"));
       }
-    } catch (error: any) {
+    } catch (error) {
       toast.error(tNotifications("error"));
     } finally {
       setLoading(false);

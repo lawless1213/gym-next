@@ -16,14 +16,17 @@ interface RecordsListProps {
   loading: boolean;
 }
 
-function toMillis(d: any): number {
+function toMillis(d: unknown): number {
   if (d == null) return 0;
   if (typeof d === "number") return d;
   if (typeof d === "string") return new Date(d).getTime();
   if (d instanceof Date) return d.getTime();
-  if (typeof d.toMillis === "function") return d.toMillis();
-  if (typeof d.seconds === "number") {
-    return d.seconds * 1000 + Math.floor((d.nanoseconds ?? 0) / 1e6);
+  if (typeof d === "object") {
+    const ts = d as { toMillis?: () => number; seconds?: number; nanoseconds?: number };
+    if (typeof ts.toMillis === "function") return ts.toMillis();
+    if (typeof ts.seconds === "number") {
+      return ts.seconds * 1000 + Math.floor((ts.nanoseconds ?? 0) / 1e6);
+    }
   }
   return 0;
 }
@@ -66,10 +69,10 @@ export default function RecordsList({ records, loading }: RecordsListProps) {
           <div className="space-y-3">
             {records
               .slice()
-              .sort((a: any, b: any) => toMillis(b.date) - toMillis(a.date))
-              .map((record: any) => (
+              .sort((a, b) => toMillis(b.date) - toMillis(a.date))
+              .map((record) => (
                 <RecordCard
-                  key={`${record.workoutId}-${toMillis(record.date)}`}
+                  key={`${record.exerciseId}-${toMillis(record.date)}`}
                   record={record}
                 />
               ))}

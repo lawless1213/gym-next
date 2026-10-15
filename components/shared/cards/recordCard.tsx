@@ -7,6 +7,7 @@ import { IconTrophy } from "@tabler/icons-react";
 import { AnimatePresence, motion } from "motion/react";
 import { useLocale, useTranslations } from "next-intl";
 import { useState } from "react";
+import type { Locale } from "@/types/common";
 
 export default function RecordCard({ record }: { record: PersonalRecord }) {
   const { params } = useUserPreferences();
@@ -16,8 +17,9 @@ export default function RecordCard({ record }: { record: PersonalRecord }) {
   const [isOpen, setIsOpen] = useState(false);
   const { exerciseName, date, weight, reps, prevWeight, prevReps } = record;
   const gain = prevWeight ? weight - prevWeight : null;
-  const isNew = Date.now() - date.toDate().getTime() < 7 * 24 * 60 * 60 * 1000;
-  const title = getLocalizedText(exerciseName, locale as any);
+  // Lazy initial state keeps render pure (Date.now is read once, on mount).
+  const [isNew] = useState(() => Date.now() - date.toDate().getTime() < 7 * 24 * 60 * 60 * 1000);
+  const title = getLocalizedText(exerciseName, locale as Locale);
 
   return (
     <div

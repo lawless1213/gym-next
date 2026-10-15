@@ -42,7 +42,7 @@ export default function Personal() {
         {user?.email ? (
           <div className="text-sm text-muted-foreground">{user.email}</div>
         ) : (
-          <div className="text-sm">t("emptyEmail")</div>
+          <div className="text-sm">{t("emptyEmail")}</div>
         )}
       </div>
 

@@ -23,8 +23,8 @@ export default function QuickWorkout() {
       if (ok) {
         open("quickWorkout");
       }
-    } catch (err: any) {
-      console.log(err);
+    } catch (err) {
+      console.error(err);
     }
   };
 

@@ -23,8 +23,6 @@ export function AiChatContent() {
   const messagesEndRef = useRef<HTMLDivElement>(null);
   const { user } = useAuth();
 
-  if (!user) return;
-
   const scrollToBottom = useCallback((smooth = false) => {
     messagesEndRef.current?.scrollIntoView({
       behavior: smooth ? "smooth" : "auto",
@@ -33,6 +31,7 @@ export function AiChatContent() {
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (!user) return;
     if (!input.trim() || isLoading) return;
 
     const userMessage: ChatMessage = {
@@ -76,6 +75,8 @@ export function AiChatContent() {
       alert(result.error);
     }
   };
+
+  if (!user) return null;
 
   return (
     <>

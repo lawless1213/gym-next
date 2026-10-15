@@ -15,8 +15,12 @@ export default function WorkoutSessionCard(workout: WorkoutSessionType) {
   const locale = useLocale() as Locale;
   const [isOpen, setIsOpen] = useState(false);
 
-  const seconds = (workout.startedAt as any)?.seconds;
-  const date = seconds ? new Date(seconds * 1000) : new Date(workout.startedAt as any);
+  const startedAt = workout.startedAt as unknown;
+  const seconds =
+    typeof startedAt === "object" && startedAt !== null && "seconds" in startedAt
+      ? (startedAt as { seconds: number }).seconds
+      : undefined;
+  const date = seconds ? new Date(seconds * 1000) : new Date(startedAt as string | number | Date);
   const volume = workout.volume ?? 0;
 
   return (

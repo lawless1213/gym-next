@@ -12,15 +12,16 @@ interface TabItem {
   tabsClasses?: string;
 }
 
-interface TabsProps {
+interface TabsProps<T extends string> {
+  /** Item ids must be values of T (the active tab type). */
   items: TabItem[];
-  activeTab: string;
-  onChange: (id: any) => void;
+  activeTab: T;
+  onChange: (id: T) => void;
   children: React.ReactNode;
   tabsClasses?: string;
 }
 
-export function Tabs({ items, activeTab, onChange, children, tabsClasses }: TabsProps) {
+export function Tabs<T extends string>({ items, activeTab, onChange, children, tabsClasses }: TabsProps<T>) {
   const layoutId = React.useId();
 
   return (
@@ -32,7 +33,7 @@ export function Tabs({ items, activeTab, onChange, children, tabsClasses }: Tabs
             <Button
               variant="link"
               key={item.id}
-              onClick={() => onChange(item.id)}
+              onClick={() => onChange(item.id as T)}
               className={cn(
                 "relative z-10 h-auto flex-1 hover:no-underline max-sm:flex-col",
                 isActive ? "text-foreground" : "text-muted-foreground hover:text-foreground",

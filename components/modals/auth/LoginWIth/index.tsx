@@ -6,6 +6,7 @@ import { useModal } from "@/components/modals/modal-store";
 import { Button } from "@/components/ui/Button";
 import { toast } from "sonner";
 import { IconBrandGithubFilled, IconBrandGoogleFilled } from "@tabler/icons-react";
+import { getErrorCode } from "@/lib/errors/auth";
 
 export default function LoginWith() {
   const { close } = useModal();
@@ -18,10 +19,11 @@ export default function LoginWith() {
       await loginFn();
       toast.success("Успішний вхід!");
       close();
-    } catch (error: any) {
-      if (error?.code === "auth/popup-closed-by-user") return;
+    } catch (error) {
+      const code = getErrorCode(error);
+      if (code === "auth/popup-closed-by-user") return;
 
-      if (error?.code === "auth/account-exists-with-different-credential") {
+      if (code === "auth/account-exists-with-different-credential") {
         toast.error("Ця пошта вже прив'язана до іншого способу входу (наприклад, Google).");
         return;
       }

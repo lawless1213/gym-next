@@ -54,7 +54,7 @@ export function ExerciseCreateModal() {
       queryClient.invalidateQueries({ queryKey: ["exercises", user.uid] });
       toast.success(t("success"));
       close();
-    } catch (err: any) {
+    } catch (err) {
       toast.error(t("error"));
     }
   };

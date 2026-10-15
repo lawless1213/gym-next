@@ -104,7 +104,7 @@ export function AiExerciseContent() {
         toast.success(t("success"));
         close();
       }
-    } catch (err: any) {
+    } catch (err) {
       toast.error(t("error"));
     }
   };

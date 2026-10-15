@@ -65,7 +65,7 @@ export const updateUserProfile = async (userId: string, data: UpdateProfileData)
 
   const userDocRef = doc(db, "users", userId);
 
-  const updateData: Record<string, any> = {};
+  const updateData: Record<string, unknown> = {};
 
   if (data.avatarFile) updateData.avatarUrl = avatarUrl;
   if (data.displayName !== undefined) updateData.displayName = data.displayName;

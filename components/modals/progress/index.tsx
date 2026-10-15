@@ -51,7 +51,7 @@ export function ProgressModal() {
       queryClient.invalidateQueries({ queryKey: ["lastProgress"] });
       toast.success(t("success"));
       close();
-    } catch (err: any) {
+    } catch (err) {
       toast.error(t("error"));
     }
   };

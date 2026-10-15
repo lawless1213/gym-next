@@ -7,6 +7,7 @@ import { useLocale, useTranslations } from "next-intl";
 import type { ReactNode, MouseEventHandler } from "react";
 import { Exercise } from "@/types";
 import { motion } from "motion/react";
+import type { Locale } from "@/types/common";
 
 export type ExerciseCardData = Pick<Exercise, "name" | "muscleGroup" | "description"> &
   Partial<Pick<Exercise, "imageUrl" | "isCustom">>;
@@ -35,7 +36,7 @@ export function ExerciseCard({
   const t = useTranslations("components.exerciseCard");
   const tGroups = useTranslations("components.muscleGroups");
   const locale = useLocale();
-  const title = getLocalizedText(exercise.name, locale as any);
+  const title = getLocalizedText(exercise.name, locale as Locale);
   const Component = as ?? (onClick ? "button" : "div");
   const isButton = Component === "button";
 

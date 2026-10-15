@@ -84,7 +84,7 @@ export async function deleteUserExercise(userId: string, exerciseId: string, ima
     try {
       await deleteObject(ref(storage, imageUrl));
     } catch {
-      console.log("Error during photo deletion");
+      console.error("Error during photo deletion");
     }
   }
 
@@ -96,7 +96,7 @@ export async function deleteUserExercise(userId: string, exerciseId: string, ima
   routinesSnap.docs
     .filter((routineDoc) => {
       const exercises = routineDoc.data().exercises ?? [];
-      return exercises.some((r: any) => r.path === exerciseRef.path);
+      return exercises.some((r: { path?: string }) => r.path === exerciseRef.path);
     })
     .forEach((routineDoc) => {
       batch.update(routineDoc.ref, { exercises: arrayRemove(exerciseRef) });

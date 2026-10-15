@@ -16,7 +16,7 @@ export type ProgressEntry = {
 
 export async function addUserProgress(userId: string, data: ProgressEntry) {
   const userRef = doc(db, "users", userId, "stats", "progress");
-  const updates: Record<string, any> = {};
+  const updates: Record<string, unknown> = {};
   const timestamp = Timestamp.fromDate(data.date);
 
   for (const field of PROGRESS_FIELDS) {

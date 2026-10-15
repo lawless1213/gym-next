@@ -63,9 +63,9 @@ export function UserEditModal() {
 
       toast.success(t("success"));
       close();
-    } catch (err: any) {
+    } catch (err) {
       toast.error(t("error"));
-      console.log(err);
+      console.error(err);
     }
   };
 

@@ -67,8 +67,8 @@ export function ExerciseListItem({ exercise, isOpen, onToggle }: ExerciseListIte
         queryClient.invalidateQueries({ queryKey: ["routines", user.uid] });
         toast.success(t("deleteSuccess"));
       }
-    } catch (err: any) {
-      console.log(err);
+    } catch (err) {
+      console.error(err);
     }
   };
 
@@ -77,8 +77,8 @@ export function ExerciseListItem({ exercise, isOpen, onToggle }: ExerciseListIte
       if (!user) throw new Error("Not authenticated");
       open("exerciseEdit", { exercise: exercise });
       setIsEditable(false);
-    } catch (err: any) {
-      console.log(err);
+    } catch (err) {
+      console.error(err);
     }
   };
 

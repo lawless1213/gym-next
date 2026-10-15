@@ -8,6 +8,7 @@ import { Input } from "@/components/ui/form/input";
 import { ModalWrapper } from "../modal-wrapper";
 import { reauthSchema, ReauthFormData } from "@/lib/schemas/reauth.schema";
 import { useReauthModal } from "@/hooks/useModals/useReauthModal";
+import { getErrorCode } from "@/lib/errors/auth";
 
 export function ReauthModal() {
   const tComponents = useTranslations("components");
@@ -39,10 +40,10 @@ export function ReauthModal() {
       }
       reset();
       close();
-    } catch (err: any) {
+    } catch (err) {
       const wrongPasswordCodes = ["auth/wrong-password", "auth/invalid-credential", "auth/invalid-password"];
 
-      if (wrongPasswordCodes.includes(err?.code)) {
+      if (wrongPasswordCodes.includes(getErrorCode(err) ?? "")) {
         setError("password", { message: "wrong_password" });
       } else {
         setError("password", { message: "error_occurred" });

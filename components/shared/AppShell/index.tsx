@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useMemo } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { usePathname, useRouter } from "next/navigation";
 import { useSwipeable } from "react-swipeable";
@@ -13,9 +13,6 @@ import { Header } from "../Header";
 import { NavItem } from "@/types/navMenu";
 import InstallBanner from "../InstallBanner";
 import { useUserPreferences } from "@/providers/user-preferences-provider";
-
-let prevPathname = "";
-let currentDir = 1;
 
 function getDirection(from: string, to: string, routes: string[]) {
   const fi = routes.indexOf(from);
@@ -47,10 +44,13 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
     }
   }, [loading, user, isProtectedRoute, router]);
 
-  if (prevPathname !== pathname) {
-    currentDir = prevPathname ? getDirection(prevPathname, pathname, routes) : 1;
-    prevPathname = pathname;
+  // Slide direction for page transitions, derived when the path changes
+  // ("adjusting state while rendering" pattern instead of module-level variables).
+  const [nav, setNav] = useState({ pathname, dir: 1 });
+  if (nav.pathname !== pathname) {
+    setNav({ pathname, dir: getDirection(nav.pathname, pathname, routes) });
   }
+  const currentDir = nav.pathname === pathname ? nav.dir : getDirection(nav.pathname, pathname, routes);
 
   function navigate(dir: 1 | -1) {
     const idx = routes.indexOf(pathname);

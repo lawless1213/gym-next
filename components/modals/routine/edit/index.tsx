@@ -45,7 +45,7 @@ export function RoutineEditModal() {
 
     return exercises.filter(
       (ex) =>
-        getLocalizedText(ex.name, locale as any)
+        getLocalizedText(ex.name, locale as Locale)
           .toLowerCase()
           .includes(query) || ex.muscleGroup?.toLowerCase().includes(query),
     );
@@ -103,7 +103,7 @@ export function RoutineEditModal() {
       queryClient.invalidateQueries({ queryKey: ["routines", user.uid] });
       toast.success(t("success"));
       close();
-    } catch (err: any) {
+    } catch (err) {
       toast.error(t("error"));
     }
   };

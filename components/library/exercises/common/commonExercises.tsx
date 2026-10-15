@@ -8,6 +8,7 @@ import SkeletonSwitcher from "@/components/ui/Skeleton/SkeletonSwitcher";
 import { getLocalizedText } from "@/lib/utils";
 import { ExercisesSkeleton } from "../exercisesSkeleton";
 import ExercisesList from "../exercisesList";
+import type { Locale } from "@/types/common";
 
 const ITEMS_PER_PAGE = 10;
 
@@ -26,7 +27,7 @@ export default function CommonExercises() {
 
     return exercises.filter(
       (ex) =>
-        getLocalizedText(ex.name, locale as any)
+        getLocalizedText(ex.name, locale as Locale)
           .toLowerCase()
           .includes(query) || ex.muscleGroup?.toLowerCase().includes(query),
     );

@@ -69,8 +69,8 @@ export default function RoutineCard({ routine, isOpen: controlledIsOpen, onToggl
         queryClient.invalidateQueries({ queryKey: ["routines", user.uid] });
         toast.success(t("deleteSuccess"));
       }
-    } catch (err: any) {
-      console.log(err);
+    } catch (err) {
+      console.error(err);
     }
   };
 
@@ -79,8 +79,8 @@ export default function RoutineCard({ routine, isOpen: controlledIsOpen, onToggl
       if (!user) throw new Error("Not authenticated");
       open("routineEdit", { routine: routine });
       setIsEditable(false);
-    } catch (err: any) {
-      console.log(err);
+    } catch (err) {
+      console.error(err);
     }
   };
 

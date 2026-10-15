@@ -89,7 +89,7 @@ export function ScheduleEditModal() {
         toast.success(`${tDays(`default.${weekDays[dayIndex]}`)} - ${t("success")}`);
         close();
       }
-    } catch (err: any) {
+    } catch (err) {
       toast.error(t("error"));
     }
   };

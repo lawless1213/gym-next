@@ -108,9 +108,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     if (!auth.currentUser) throw new Error("Користувач не авторизований");
 
     if (currentPassword && currentPassword === newPassword) {
-      const error = new Error("Новий пароль не може збігатися з поточним");
-      (error as any).code = "auth/same-password";
-      throw error;
+      throw Object.assign(new Error("Новий пароль не може збігатися з поточним"), { code: "auth/same-password" });
     }
 
     if (currentPassword) {

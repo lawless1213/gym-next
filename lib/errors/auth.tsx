@@ -5,3 +5,12 @@ export const AUTH_ERRORS: Record<string, string> = {
   "auth/network-request-failed": "Проблема з мережею. Перевірте з'єднання.",
   default: "Сталася помилка. Спробуйте ще раз.",
 };
+
+/** Safely reads `code` from an unknown error (FirebaseError and friends). */
+export function getErrorCode(error: unknown): string | undefined {
+  if (typeof error === "object" && error !== null && "code" in error) {
+    const { code } = error as { code: unknown };
+    return typeof code === "string" ? code : undefined;
+  }
+  return undefined;
+}

@@ -58,7 +58,6 @@ export function ExerciseEditModal() {
     });
   }, [exercise, locale, reset]);
 
-  console.log(exercise);
 
   const { ref: titleRef, ...titleRest } = register("title");
   const { ref: descriptionRef, ...descriptionRest } = register("description");
@@ -79,7 +78,7 @@ export function ExerciseEditModal() {
       queryClient.invalidateQueries({ queryKey: ["exercises", user.uid] });
       toast.success(t("success"));
       close();
-    } catch (err: any) {
+    } catch (err) {
       toast.error(t("error"));
     }
   };
