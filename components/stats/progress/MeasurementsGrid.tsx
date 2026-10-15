@@ -73,7 +73,7 @@ export default function MeasurementsGrid({ metrics, progress, loading, selectedM
               </div>
 
               {isLarge ? (
-                <div className="text-2xl font-bold text-foreground">
+                <div className="text-2xl font-bold text-foreground tabular-nums">
                   {!!progress?.[key].length && progress?.[key].at(-1)?.value + unit} 
                   {changeBlock}
                 </div>

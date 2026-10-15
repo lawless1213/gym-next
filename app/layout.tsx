@@ -1,6 +1,6 @@
 import { SpeedInsights } from "@vercel/speed-insights/next";
 import type { Metadata, Viewport } from "next";
-import { Inter } from "next/font/google";
+import { Exo_2 } from "next/font/google";
 import "./globals.css";
 import { AuthProvider } from "../hooks/useAuth";
 import { NextIntlClientProvider } from "next-intl";
@@ -13,9 +13,10 @@ import { TooltipProvider } from "@/components/ui/Tooltip";
 import { UserPreferencesProvider } from "@/providers/user-preferences-provider";
 import { CookieBanner } from "@/components/shared/CookieBanner";
 
-const inter = Inter({
+const exo2 = Exo_2({
   subsets: ["latin", "cyrillic"],
-  variable: "--font-inter",
+  variable: "--font-exo2",
+  display: "swap",
 });
 
 export const viewport: Viewport = {
@@ -56,7 +57,7 @@ export default async function RootLayout({
     <html
       lang={locale}
       suppressHydrationWarning>
-      <body className={`${inter.variable} antialiased flex min-h-screen flex-col bg-background`}>
+      <body className={`${exo2.variable} font-sans antialiased flex min-h-screen flex-col bg-background`}>
         <SpeedInsights />
         <ThemeProvider>
           <FaviconSwitcher />

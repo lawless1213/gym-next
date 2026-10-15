@@ -36,7 +36,7 @@ export default function RecordCard({ record }: { record: PersonalRecord }) {
 
           <span className="text-xs text-muted-foreground">{date.toDate().toLocaleDateString(locale, { month: "short", day: "numeric", year: "numeric" })}</span>
         </div>
-        <span className="text-xl font-bold text-primary shrink-0">{weight + tMeasurement(params.weight)}</span>
+        <span className="text-xl font-bold text-primary shrink-0 tabular-nums">{weight + tMeasurement(params.weight)}</span>
       </div>
 
       <AnimatePresence initial={false}>

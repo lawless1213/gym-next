@@ -34,11 +34,11 @@ export default function TotalRecords({records, loading}: TotalRecordsProps) {
         }>
         <div className="rounded-xl bg-card p-4 grid grid-cols-2 gap-4">
           <div>
-            <p className="text-2xl font-bold text-foreground">{records.length}</p>
+            <p className="text-2xl font-bold text-foreground tabular-nums">{records.length}</p>
             <p className="text-sm text-muted-foreground">{t("amount")}</p>
           </div>
           <div>
-            <p className="text-2xl font-bold text-foreground">
+            <p className="text-2xl font-bold text-foreground tabular-nums">
               {Math.max(...records.map((pr) => pr.weight))}
               {tMeasurement(params.weight)}
             </p>

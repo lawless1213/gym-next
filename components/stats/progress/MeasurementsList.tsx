@@ -57,7 +57,7 @@ export default function MeasurementsList({ progress, loading, increaseProfit, un
                   )}
                 </div>
 
-                <span className="text-xl font-bold text-foreground shrink-0">{measurement.value + (unit || "")}</span>
+                <span className="text-xl font-bold text-foreground shrink-0 tabular-nums">{measurement.value + (unit || "")}</span>
               </div>
             );
           })}
