@@ -24,7 +24,9 @@ Order inside the stage: 0.4 (schema) → 0.3 → 0.1 → 0.2 → the rest. Rules
   - Done: response schemas in `lib/schemas/ai-response.schema.ts`; `generateStructured({ prompt, schema })` sends `responseJsonSchema` generated from zod and returns `safeParse` data (invalid JSON/shape → error, try refunded by `withAiTry`). Removed `any` from `client.ts`.
 - [x] 0.8 Validate the `locale` cookie against `i18n/locales.ts`, fall back to `uk`.
   - Done: `isLocale` / `DEFAULT_LOCALE` in `i18n/locales.ts`; used in `i18n/request.ts` and `setUserLocale` (ignores unknown values).
-- [ ] 0.9 Verify `.env.local` was never committed (`git log --all -- .env.local`). If it was — rotate all keys (Gemini, Firebase service account), not just purge history. App Hosting secrets via Secret Manager in `apphosting.yaml`.
+- [x] 0.9 Verify `.env.local` was never committed (`git log --all -- .env.local`). If it was — rotate all keys (Gemini, Firebase service account), not just purge history. App Hosting secrets via Secret Manager in `apphosting.yaml`.
+  - Checked 2026-10-15: no `.env*` file in any of 282 commits (all branches); no private keys, service-account JSON or `AIza…` keys in history; `.gitignore` covers `.env*`. No rotation needed.
+  - `apphosting.yaml`: public `NEXT_PUBLIC_FIREBASE_*` (BUILD + RUNTIME) and `FIREBASE_PROJECT_ID` as values; `FIREBASE_CLIENT_EMAIL`, `FIREBASE_PRIVATE_KEY`, `GEMINI_API_KEY` as Secret Manager refs (`firebaseClientEmail`, `firebasePrivateKey`, `geminiApiKey`) — create them with `firebase apphosting:secrets:set`.
 
 ## Stage 1 — Bugs (P1, ~0.5 day)
 - [x] 1.1 `hooks/useAuth.tsx`: remove `import { subscribe } from "diagnostics_channel"`.

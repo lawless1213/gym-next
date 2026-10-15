@@ -8,17 +8,60 @@ runConfig:
   # memoryMiB: 512
 
 # Environment variables and secrets.
-# env:
-  # Configure environment variables.
-  # See https://firebase.google.com/docs/app-hosting/configure#user-defined-environment
-  # - variable: MESSAGE
-  #   value: Hello world!
-  #   availability:
-  #     - BUILD
-  #     - RUNTIME
+# See https://firebase.google.com/docs/app-hosting/configure
+# Local development uses .env.local (never committed); keep the variable names in sync.
+env:
+  # Public Firebase web config: shipped to the browser anyway, not secret.
+  # Needed at BUILD time because Next.js inlines NEXT_PUBLIC_* into the client bundle.
+  - variable: NEXT_PUBLIC_FIREBASE_API_KEY
+    value: "AIzaSyBCXY2bQkR7h71enf4wIVdi62zEo9g3fCQ"
+    availability:
+      - BUILD
+      - RUNTIME
+  - variable: NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN
+    value: "gym-app-com.firebaseapp.com"
+    availability:
+      - BUILD
+      - RUNTIME
+  - variable: NEXT_PUBLIC_FIREBASE_PROJECT_ID
+    value: "gym-app-com"
+    availability:
+      - BUILD
+      - RUNTIME
+  - variable: NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET
+    value: "gym-app-com.firebasestorage.app"
+    availability:
+      - BUILD
+      - RUNTIME
+  - variable: NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID
+    value: "810367146132"
+    availability:
+      - BUILD
+      - RUNTIME
+  - variable: NEXT_PUBLIC_FIREBASE_APP_ID
+    value: "1:810367146132:web:cd9e63ea9aa05dbd8c3c81"
+    availability:
+      - BUILD
+      - RUNTIME
 
-  # Grant access to secrets in Cloud Secret Manager.
-  # You can create secrets with the CLI command `firebase apphosting:secrets:set <secretName>`.
-  # See https://firebase.google.com/docs/app-hosting/configure#secret-parameters
-  # - variable: MY_SECRET
-  #   secret: mySecretRef
+  # Admin SDK project (server only).
+  - variable: FIREBASE_PROJECT_ID
+    value: "gym-app-com"
+    availability:
+      - RUNTIME
+
+  # Secrets live in Cloud Secret Manager. Create/rotate with:
+  #   firebase apphosting:secrets:set <secretName>
+  # and grant the backend access when prompted (or: firebase apphosting:secrets:grantaccess <secretName> --backend gym).
+  - variable: FIREBASE_CLIENT_EMAIL
+    secret: firebaseClientEmail
+    availability:
+      - RUNTIME
+  - variable: FIREBASE_PRIVATE_KEY
+    secret: firebasePrivateKey
+    availability:
+      - RUNTIME
+  - variable: GEMINI_API_KEY
+    secret: geminiApiKey
+    availability:
+      - RUNTIME
