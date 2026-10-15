@@ -30,13 +30,13 @@ export default function LibraryScreen() {
   ];
 
   return (
-      <div className="flex flex-col gap-2 pb-4">
-        <Tabs
-          items={tabItems}
-          activeTab={activeTab}
-          onChange={setActiveTab}>
-          {activeTab === "exercise" ? <Exercises /> : <Routines />}
-        </Tabs>
-      </div>
+    <div className="flex flex-col gap-2 pb-4">
+      <Tabs
+        items={tabItems}
+        activeTab={activeTab}
+        onChange={setActiveTab}>
+        {activeTab === "exercise" ? <Exercises /> : <Routines />}
+      </Tabs>
+    </div>
   );
 }

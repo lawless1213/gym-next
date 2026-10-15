@@ -8,9 +8,7 @@ export const GEMINI_MODEL = "gemini-3.1-flash-lite" as const;
 
 const INVALID_RESPONSE_ERROR = "AI повернув некоректну відповідь. Спробуйте ще раз.";
 
-export type GeminiResult<T> =
-  | { success: true; data: T }
-  | { success: false; error: string };
+export type GeminiResult<T> = { success: true; data: T } | { success: false; error: string };
 
 export type ChatMessagePart = {
   role: "user" | "model";
@@ -92,7 +90,8 @@ export async function generateChatText(params: {
 
 function handleError(err: unknown): { success: false; error: string } {
   console.error("Gemini generation error:", err);
-  const status = typeof err === "object" && err !== null && "status" in err ? (err as { status?: number }).status : undefined;
+  const status =
+    typeof err === "object" && err !== null && "status" in err ? (err as { status?: number }).status : undefined;
 
   if (status === 429) {
     return { success: false, error: "Сервіс тимчасово перевантажений. Спробуйте пізніше." };

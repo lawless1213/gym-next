@@ -17,27 +17,33 @@ export default function Personal() {
   const tMeasurement = useTranslations("components.measurement");
   const avatarUrl = user?.photoURL || params.avatarUrl;
   return (
-    <div className="flex justify-start w-full items-center gap-4 p-4 bg-secondary rounded-2xl">
+    <div className="flex w-full items-center justify-start gap-4 rounded-2xl bg-secondary p-4">
       {avatarUrl ? (
-        <div className="shrink-0 size-20 max-sm:size-15">
+        <div className="size-20 shrink-0 max-sm:size-15">
           <Image
             width={100}
             height={100}
             src={avatarUrl}
             alt={user?.displayName || "avatar"}
-            className="h-full w-full object-contain rounded-sm"
+            className="h-full w-full rounded-sm object-contain"
           />
         </div>
       ) : (
-        <div className="shrink-0 size-20 max-sm:size-15 bg-primary/60 rounded-[100%] flex items-center justify-center">
-          <span className="text-white font-bold text-2xl tracking-widest">{user?.displayName ? user?.displayName.slice(0, 1) : t("user").slice(0, 1)}</span>
+        <div className="flex size-20 shrink-0 items-center justify-center rounded-[100%] bg-primary/60 max-sm:size-15">
+          <span className="text-2xl font-bold tracking-widest text-white">
+            {user?.displayName ? user?.displayName.slice(0, 1) : t("user").slice(0, 1)}
+          </span>
         </div>
       )}
 
       <div className="flex-1">
         <div className="text-xl font-bold">{user?.displayName || t("user")}</div>
         {params.height && <div className="text-sm">{params.height + tMeasurement(params.distance)}</div>}
-        {user?.email ? <div className="text-sm text-muted-foreground">{user.email}</div> : <div className="text-sm">t("emptyEmail")</div>}
+        {user?.email ? (
+          <div className="text-sm text-muted-foreground">{user.email}</div>
+        ) : (
+          <div className="text-sm">t("emptyEmail")</div>
+        )}
       </div>
 
       <Tooltip>

@@ -56,7 +56,7 @@ export default async function RootLayout({
     <html
       lang={locale}
       suppressHydrationWarning>
-      <body className={`${exo2.variable} font-sans antialiased flex min-h-screen flex-col bg-background`}>
+      <body className={`${exo2.variable} flex min-h-screen flex-col bg-background font-sans antialiased`}>
         <ThemeProvider>
           <FaviconSwitcher />
           <NextIntlClientProvider>

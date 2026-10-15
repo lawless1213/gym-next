@@ -90,9 +90,7 @@ export function AiRoutineContent() {
               animationDelay: `${typingDuration}ms`,
               animationFillMode: "forwards",
             }}>
-            <RoutineCard
-              routine={{...result.data, id:"preview"}}
-            />
+            <RoutineCard routine={{ ...result.data, id: "preview" }} />
           </div>
         ),
         cancelLabel: t("confirm.cancel"),
@@ -121,8 +119,8 @@ export function AiRoutineContent() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-1 flex-col static">
-      <div className="flex-1 space-y-6 mb-10">
+      className="static flex flex-1 flex-col">
+      <div className="mb-10 flex-1 space-y-6">
         {selectFields.map(({ name, placeholder, options, key }) => (
           <Controller
             key={name}
@@ -160,7 +158,7 @@ export function AiRoutineContent() {
           )}
         />
 
-        <div className="flex items-center gap-2 w-full">
+        <div className="flex w-full items-center gap-2">
           <Input
             ref={durationRef}
             input={{
@@ -194,7 +192,7 @@ export function AiRoutineContent() {
         />
       </div>
 
-      {errors.root && <p className="text-sm text-red-500 mb-1">{errors.root.message}</p>}
+      {errors.root && <p className="mb-1 text-sm text-red-500">{errors.root.message}</p>}
 
       <Button
         type="submit"

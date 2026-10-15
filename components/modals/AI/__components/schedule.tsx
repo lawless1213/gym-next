@@ -5,7 +5,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/form/input";
-import { useModal } from  "@/components/modals/modal-store";
+import { useModal } from "@/components/modals/modal-store";
 import { toast } from "sonner";
 import { useAuth } from "@/hooks/useAuth";
 import { useQueryClient } from "@tanstack/react-query";
@@ -58,7 +58,13 @@ export function AiScheduleContent() {
 
   const chipFields = [
     { id: "groups", name: "groups", label: t("fields.muscleGroups"), items: MUSCLE_GROUPS, key: "muscleGroups" },
-    { id: "preferredRestDays", name: "preferredRestDays", label: t("fields.restDays"), items: weekDays, key: "day.default" },
+    {
+      id: "preferredRestDays",
+      name: "preferredRestDays",
+      label: t("fields.restDays"),
+      items: weekDays,
+      key: "day.default",
+    },
   ] as const;
 
   const onSubmit = async (formData: AIScheduleFormData) => {
@@ -94,7 +100,7 @@ export function AiScheduleContent() {
             <WeeklyCalendar schedule={result.data} />
           </div>
         ),
-        cancelLabel: t('confirm.cancel'),
+        cancelLabel: t("confirm.cancel"),
       });
 
       if (!ok) return;
@@ -121,8 +127,8 @@ export function AiScheduleContent() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-1 flex-col static">
-      <div className="flex-1 space-y-6 mb-10">
+      className="static flex flex-1 flex-col">
+      <div className="mb-10 flex-1 space-y-6">
         {selectFields.map(({ name, placeholder, options, key }) => (
           <Controller
             key={name}
@@ -184,7 +190,7 @@ export function AiScheduleContent() {
         />
       </div>
 
-      {errors.root && <p className="text-sm text-red-500 mb-1">{errors.root.message}</p>}
+      {errors.root && <p className="mb-1 text-sm text-red-500">{errors.root.message}</p>}
 
       <Button
         type="submit"

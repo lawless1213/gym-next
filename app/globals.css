@@ -1,5 +1,5 @@
-@import 'tailwindcss';
-@import 'tw-animate-css';
+@import "tailwindcss";
+@import "tw-animate-css";
 
 @custom-variant dark (&:is(.dark *));
 
@@ -35,7 +35,7 @@
   --chart-5: oklch(0.6 0.2 310);
   --radius: 0.75rem;
   --muscle: rgb(237, 97, 108);
-  
+
   /* IronStack specific */
   --surface: oklch(1 0 0);
   --volt: oklch(0.55 0.22 264);
@@ -78,7 +78,7 @@
   --chart-4: oklch(0.75 0.15 84);
   --chart-5: oklch(0.55 0.2 27);
   --muscle: rgb(215, 65, 80);
-  
+
   /* IronStack specific */
   --surface: oklch(0.13 0 0);
   --volt: oklch(0.88 0.17 110);
@@ -86,17 +86,17 @@
   /* Statuses */
   --success: oklch(0.72 0.2 162);
   --success-foreground: oklch(0.08 0 0);
-  --warning: oklch(0.80 0.18 84);
+  --warning: oklch(0.8 0.18 84);
   --warning-foreground: oklch(0.08 0 0);
   --info: oklch(0.88 0.17 110);
   --info-foreground: oklch(0.08 0 0);
-  --error: oklch(0.60 0.2 27);
+  --error: oklch(0.6 0.2 27);
   --error-foreground: oklch(1 0 0);
 }
 
 @theme inline {
   --font-sans: var(--font-exo2), system-ui, sans-serif;
-  --font-mono: 'Geist Mono', 'Geist Mono Fallback', monospace;
+  --font-mono: "Geist Mono", "Geist Mono Fallback", monospace;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --color-card: var(--card);
@@ -149,8 +149,12 @@
 }
 
 @keyframes fadeIn {
-  from { opacity: 0; }
-  to { opacity: 1; }
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
 }
 
 .animate-fade-in {
@@ -172,5 +176,3 @@
   background: var(--volt);
   border-radius: 3px;
 }
-
-

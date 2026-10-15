@@ -36,7 +36,13 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(({ input }, ref) =
           {...rest}
           id={rest.id || "input"}
           type={inputType}
-          className={clsx("w-full rounded-xl bg-secondary px-4 py-3 text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary flex-1 [appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none", isPasswordInput && "pr-12", error && "ring-2 ring-red-500", classes, className)}
+          className={clsx(
+            "w-full flex-1 [appearance:textfield] rounded-xl bg-secondary px-4 py-3 text-foreground placeholder:text-muted-foreground focus:ring-2 focus:ring-primary focus:outline-none [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none",
+            isPasswordInput && "pr-12",
+            error && "ring-2 ring-red-500",
+            classes,
+            className,
+          )}
         />
 
         {isPasswordInput && (
@@ -61,7 +67,7 @@ export const Input = forwardRef<HTMLInputElement, InputProps>(({ input }, ref) =
         )}
       </div>
 
-      {!withoutError && <p className="text-xs text-red-500 min-h-5 pl-3 pt-0.5">{error}</p>}
+      {!withoutError && <p className="min-h-5 pt-0.5 pl-3 text-xs text-red-500">{error}</p>}
     </div>
   );
 });

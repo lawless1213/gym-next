@@ -1,6 +1,6 @@
 "use client";
 
-import { useState} from "react";
+import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { useTranslations } from "next-intl";
 import { Tabs } from "@/components/ui/Tabs";

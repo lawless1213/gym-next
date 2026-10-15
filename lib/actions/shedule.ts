@@ -1,6 +1,15 @@
 import { db } from "@/lib/config/firebaseConfig";
 import { Routine, RoutinesExercise, ScheduleMap, weekDays } from "@/types";
-import { updateDoc, doc, writeBatch, arrayUnion, collection, serverTimestamp, setDoc, getDoc} from "firebase/firestore";
+import {
+  updateDoc,
+  doc,
+  writeBatch,
+  arrayUnion,
+  collection,
+  serverTimestamp,
+  setDoc,
+  getDoc,
+} from "firebase/firestore";
 
 export async function createAiUserSchedule(userId: string, schedule: ScheduleMap) {
   const batch = writeBatch(db);
@@ -51,7 +60,9 @@ function persistRoutine(batch: ReturnType<typeof writeBatch>, userId: string, ro
   const newRoutineRef = doc(collection(db, "users", userId, "routines"));
 
   const exerciseRefs = finalExercises.map((exercise) =>
-    exercise.isCustom ? doc(db, "users", userId, "exercises", exercise.exerciseId) : doc(db, "exercises", exercise.exerciseId)
+    exercise.isCustom
+      ? doc(db, "users", userId, "exercises", exercise.exerciseId)
+      : doc(db, "exercises", exercise.exerciseId),
   );
 
   batch.set(newRoutineRef, {
@@ -69,23 +80,17 @@ export async function editUserSchedule(
   data: {
     dayIndex: number;
     routineIds: string[];
-  }
+  },
 ) {
   const userRef = doc(db, "users", userId);
   const dayKey = weekDays[data.dayIndex];
 
-  const newDaySchedule = data.routineIds.map((routine) =>
-    doc(db, "users", userId, "routines", routine)
-  );
+  const newDaySchedule = data.routineIds.map((routine) => doc(db, "users", userId, "routines", routine));
 
   const userSnap = await getDoc(userRef);
   const existingSchedule = userSnap.exists() ? userSnap.data()?.schedule : null;
 
-  if (
-    !userSnap.exists() ||
-    !existingSchedule ||
-    typeof existingSchedule !== "object"
-  ) {
+  if (!userSnap.exists() || !existingSchedule || typeof existingSchedule !== "object") {
     await setDoc(
       userRef,
       {
@@ -93,7 +98,7 @@ export async function editUserSchedule(
           [dayKey]: newDaySchedule,
         },
       },
-      { merge: true }
+      { merge: true },
     );
 
     return;

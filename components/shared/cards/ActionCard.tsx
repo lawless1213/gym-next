@@ -12,25 +12,19 @@ export default function ActionCard({ title, icon: Icon, classNames, onClick }: A
   const interactive = Boolean(onClick);
 
   return (
-    <div
-      className={`rounded-xl p-4 flex gap-2 bg-card items-center justify-between ${classNames}`}>
+    <div className={`flex items-center justify-between gap-2 rounded-xl bg-card p-4 ${classNames}`}>
       <div>
-        <h3 className="font-semibold text-foreground transition-[0.2s]">
-          {title}
-        </h3>
+        <h3 className="font-semibold text-foreground transition-[0.2s]">{title}</h3>
       </div>
       {Icon && (
         <div
-					onClick={onClick}
+          onClick={onClick}
           className={cn(
-            "flex h-10 w-10 shrink-0 items-center justify-center rounded-full bg-secondary border-2 border-transparent border-solid transition-[0.2s]",
-            interactive && "group hover:border-primary cursor-pointer",
+            "flex h-10 w-10 shrink-0 items-center justify-center rounded-full border-2 border-solid border-transparent bg-secondary transition-[0.2s]",
+            interactive && "group cursor-pointer hover:border-primary",
           )}>
           <Icon
-            className={cn(
-              "h-5 w-5 text-muted-foreground transition-[0.2s]",
-              interactive && "group-hover:text-primary",
-            )} 
+            className={cn("h-5 w-5 text-muted-foreground transition-[0.2s]", interactive && "group-hover:text-primary")}
           />
         </div>
       )}

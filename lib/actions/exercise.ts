@@ -1,5 +1,15 @@
 import { db, storage } from "@/lib/config/firebaseConfig";
-import { collection, addDoc, serverTimestamp, doc, deleteDoc, getDocs, arrayRemove, writeBatch, updateDoc } from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  serverTimestamp,
+  doc,
+  deleteDoc,
+  getDocs,
+  arrayRemove,
+  writeBatch,
+  updateDoc,
+} from "firebase/firestore";
 import { ref, uploadBytes, getDownloadURL, deleteObject } from "firebase/storage";
 import type { LocalizedText } from "@/types/common";
 

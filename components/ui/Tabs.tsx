@@ -25,9 +25,7 @@ export function Tabs({ items, activeTab, onChange, children, tabsClasses }: Tabs
 
   return (
     <>
-      <div className={cn(
-        "flex gap-2 md:gap-4 rounded-xl bg-secondary p-1 relative", tabsClasses
-      )} >
+      <div className={cn("relative flex gap-2 rounded-xl bg-secondary p-1 md:gap-4", tabsClasses)}>
         {items.map((item) => {
           const isActive = activeTab === item.id;
           return (
@@ -36,24 +34,24 @@ export function Tabs({ items, activeTab, onChange, children, tabsClasses }: Tabs
               key={item.id}
               onClick={() => onChange(item.id)}
               className={cn(
-                "relative z-10 flex-1 hover:no-underline h-auto max-sm:flex-col",
-                isActive ? "text-foreground" : "text-muted-foreground hover:text-foreground"
-              )}
-            >
+                "relative z-10 h-auto flex-1 hover:no-underline max-sm:flex-col",
+                isActive ? "text-foreground" : "text-muted-foreground hover:text-foreground",
+              )}>
               {isActive && (
                 <motion.div
                   layoutId={layoutId}
-                  className="absolute inset-0 bg-card rounded-lg shadow-sm"
+                  className="absolute inset-0 rounded-lg bg-card shadow-sm"
                   transition={{ type: "spring", bounce: 0.2, duration: 0.4 }}
                 />
               )}
               {item.icon && <span className="z-20">{item.icon}</span>}
-              <span 
-              className={cn(
-                "z-20",
-                // (items.length > 2 && item.icon) && "hidden sm:block" 
-              )}
-              >{item.label}</span>
+              <span
+                className={cn(
+                  "z-20",
+                  // (items.length > 2 && item.icon) && "hidden sm:block"
+                )}>
+                {item.label}
+              </span>
             </Button>
           );
         })}
@@ -63,12 +61,11 @@ export function Tabs({ items, activeTab, onChange, children, tabsClasses }: Tabs
         <AnimatePresence mode="wait">
           <motion.div
             key={activeTab}
-            className="h-full flex flex-col gap-3"
+            className="flex h-full flex-col gap-3"
             initial={{ opacity: 0, y: 4 }}
             animate={{ opacity: 1, y: 0 }}
             exit={{ opacity: 0, y: -4 }}
-            transition={{ duration: 0.15, ease: "easeOut" }}
-          >
+            transition={{ duration: 0.15, ease: "easeOut" }}>
             {children}
           </motion.div>
         </AnimatePresence>

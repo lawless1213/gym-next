@@ -33,7 +33,7 @@ export default function LoginWith() {
   };
 
   return (
-    <div className="flex justify-center w-full gap-4">
+    <div className="flex w-full justify-center gap-4">
       <Button
         variant="secondary"
         size="icon-2xl"

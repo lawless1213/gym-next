@@ -1,7 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { getUserLastProgress } from "@/lib/services/progress";
 
-export const useLastProgress= (userId: string | undefined, amount: number = 10) => {
+export const useLastProgress = (userId: string | undefined, amount: number = 10) => {
   return useQuery({
     queryKey: ["lastProgress", { userId, amount }],
     queryFn: () => getUserLastProgress(userId!, amount),

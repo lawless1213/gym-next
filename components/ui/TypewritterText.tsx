@@ -10,12 +10,7 @@ type TypewriterTextProps = {
   onRender?: () => void;
 };
 
-export function TypewriterText({
-  text,
-  speed = 10,
-  className,
-  onRender,
-}: TypewriterTextProps) {
+export function TypewriterText({ text, speed = 10, className, onRender }: TypewriterTextProps) {
   const displayed = useTypewriter(text, speed);
   const ref = useRef<HTMLParagraphElement>(null);
 
@@ -35,7 +30,9 @@ export function TypewriterText({
   }, [text, onRender]);
 
   return (
-    <p ref={ref} className={className}>
+    <p
+      ref={ref}
+      className={className}>
       {displayed}
     </p>
   );

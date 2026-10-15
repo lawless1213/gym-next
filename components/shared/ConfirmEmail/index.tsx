@@ -61,14 +61,15 @@ export default function ConfirmEmail() {
   return (
     <div
       onClick={!isSend ? handleSendEmail : undefined}
-      className={`flex gap-x-2 gap-y-4 p-4 min-h-17 items-center justify-between bg-warning/10 text-warning rounded-2xl duration-200 select-none max-sm:flex-col ${!isSend && "hover:text-foreground cursor-pointer"}`}>
-      <div className="flex gap-2 self-center items-center flex-1">
+      className={`flex min-h-17 items-center justify-between gap-x-2 gap-y-4 rounded-2xl bg-warning/10 p-4 text-warning duration-200 select-none max-sm:flex-col ${!isSend && "cursor-pointer hover:text-foreground"}`}>
+      <div className="flex flex-1 items-center gap-2 self-center">
         <IconMailExclamation className="shrink-0" />
-        <div className="text-sm">{t("title")}</div>{!isSend && <IconChevronRight className="ml-auto shrink-0" />}
+        <div className="text-sm">{t("title")}</div>
+        {!isSend && <IconChevronRight className="ml-auto shrink-0" />}
       </div>
 
       {isSend && (
-        <div className="flex gap-2 items-center self-center">
+        <div className="flex items-center gap-2 self-center">
           <Button
             variant="outline"
             size="icon"

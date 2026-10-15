@@ -17,19 +17,21 @@ export default function SettingsSection({ label, labelColor, icon, text, content
   const IconComponent = icon;
 
   return (
-    <div className="bg-card rounded-2xl">
+    <div className="rounded-2xl bg-card">
       <div
-        className="p-4 flex items-center justify-between cursor-pointer select-none"
+        className="flex cursor-pointer items-center justify-between p-4 select-none"
         onClick={() => setIsOpen(!isOpen)}>
         <div>
-          <div className={`font-bold flex items-center gap-2 ${labelColor}`}>
+          <div className={`flex items-center gap-2 font-bold ${labelColor}`}>
             {IconComponent && <IconComponent className="size-5 shrink-0" />}
             <span>{label}</span>
           </div>
           <div className="text-sm text-muted-foreground">{text}</div>
         </div>
         <div>
-          <IconChevronDown className={`text-muted-foreground size-6 transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`} />
+          <IconChevronDown
+            className={`size-6 text-muted-foreground transition-transform duration-200 ${isOpen ? "rotate-180" : ""}`}
+          />
         </div>
       </div>
       <AnimatePresence initial={false}>
@@ -57,7 +59,7 @@ export default function SettingsSection({ label, labelColor, icon, text, content
             initial="closed"
             animate="open"
             exit="closed">
-            <div className="p-4 flex flex-col gap-3 items-center w-full">{content}</div>
+            <div className="flex w-full flex-col items-center gap-3 p-4">{content}</div>
           </motion.div>
         )}
       </AnimatePresence>

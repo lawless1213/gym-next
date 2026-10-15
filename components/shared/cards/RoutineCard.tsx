@@ -96,7 +96,7 @@ export default function RoutineCard({ routine, isOpen: controlledIsOpen, onToggl
         className={`relative ${routine.exercises.length > 0 ? "cursor-pointer" : ""}`}
         {...handlers}>
         <motion.div
-          className="bg-card p-4 flex gap-2 w-full items-center"
+          className="flex w-full items-center gap-2 bg-card p-4"
           animate={{ x: routine.editable && isEditable ? -72 : 0 }}
           transition={{ type: "spring", stiffness: 300, damping: 30 }}>
           <div className="mr-auto">
@@ -105,8 +105,16 @@ export default function RoutineCard({ routine, isOpen: controlledIsOpen, onToggl
               {t("amount")}: {routine.exercises.length}
             </p>
             <div className="mt-2 flex flex-wrap gap-1">
-              {!routine.exercises.length && <span className="rounded-md bg-secondary px-2 py-0.5 text-xs text-muted-foreground">{t("emptyExercises")}</span>}
-              {routine.exercises.length > 3 && <span className="rounded-md bg-secondary px-2 py-0.5 text-xs text-muted-foreground">+{routine.exercises.length - 3}</span>}
+              {!routine.exercises.length && (
+                <span className="rounded-md bg-secondary px-2 py-0.5 text-xs text-muted-foreground">
+                  {t("emptyExercises")}
+                </span>
+              )}
+              {routine.exercises.length > 3 && (
+                <span className="rounded-md bg-secondary px-2 py-0.5 text-xs text-muted-foreground">
+                  +{routine.exercises.length - 3}
+                </span>
+              )}
             </div>
           </div>
 
@@ -123,7 +131,7 @@ export default function RoutineCard({ routine, isOpen: controlledIsOpen, onToggl
           )}
 
           {routine.completed && (
-            <div className="px-2 shrink-0">
+            <div className="shrink-0 px-2">
               <IconChecks className="h-5 w-5 text-primary" />
             </div>
           )}
@@ -139,7 +147,11 @@ export default function RoutineCard({ routine, isOpen: controlledIsOpen, onToggl
                     setIsEditable(!isEditable);
                   }}
                   className="hrink-0">
-                  {isEditable ? <IconX className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-[0.2s]" /> : <IconMenu2 className="h-5 w-5 text-muted-foreground group-hover:text-primary transition-[0.2s]" />}
+                  {isEditable ? (
+                    <IconX className="h-5 w-5 text-muted-foreground transition-[0.2s] group-hover:text-primary" />
+                  ) : (
+                    <IconMenu2 className="h-5 w-5 text-muted-foreground transition-[0.2s] group-hover:text-primary" />
+                  )}
                 </Button>
               </TooltipTrigger>
               {!isEditable && <TooltipContent side="left">{t("options")}</TooltipContent>}
@@ -148,7 +160,7 @@ export default function RoutineCard({ routine, isOpen: controlledIsOpen, onToggl
         </motion.div>
         {routine.editable && (
           <motion.div
-            className="absolute top-0 right-0 h-full flex text-white"
+            className="absolute top-0 right-0 flex h-full text-white"
             initial={{ x: 80 }}
             animate={{ x: isEditable ? 0 : 80 }}
             transition={{ type: "spring", stiffness: 300, damping: 30 }}>
@@ -171,7 +183,7 @@ export default function RoutineCard({ routine, isOpen: controlledIsOpen, onToggl
       <AnimatePresence initial={false}>
         {isOpen && (
           <motion.div
-            className="overflow-hidden border-t border-dashed border-muted-foreground/20 flex flex-col"
+            className="flex flex-col overflow-hidden border-t border-dashed border-muted-foreground/20"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}

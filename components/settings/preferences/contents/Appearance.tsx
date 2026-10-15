@@ -46,7 +46,7 @@ export default function Appearance() {
   return (
     <div className="w-full space-y-2">
       {/* Theme */}
-      <div className="flex items-center gap-2 w-full justify-between">
+      <div className="flex w-full items-center justify-between gap-2">
         <span>{t("theme.title")}</span>
         <div className="flex items-center gap-2">
           <Select
@@ -62,7 +62,7 @@ export default function Appearance() {
       </div>
 
       {/* Language */}
-      <div className="flex items-center gap-2 w-full justify-between">
+      <div className="flex w-full items-center justify-between gap-2">
         <span>{t("language.title")}</span>
         <div className="flex items-center gap-2">
           <Select

@@ -32,11 +32,15 @@ const guest = () => env.unauthenticatedContext().storage();
 describe("users/{uid}/**", () => {
   it("owner can upload images under 5 MB (avatar and exercise photo)", async () => {
     await assertSucceeds(uploadBytes(ref(alice(), "users/alice/me.png"), png(), image));
-    await assertSucceeds(uploadBytes(ref(alice(), "users/alice/exercises/1.jpg"), png(), { contentType: "image/jpeg" }));
+    await assertSucceeds(
+      uploadBytes(ref(alice(), "users/alice/exercises/1.jpg"), png(), { contentType: "image/jpeg" }),
+    );
   });
 
   it("rejects non-images and files of 5 MB or more", async () => {
-    await assertFails(uploadBytes(ref(alice(), "users/alice/script.js"), png(), { contentType: "application/javascript" }));
+    await assertFails(
+      uploadBytes(ref(alice(), "users/alice/script.js"), png(), { contentType: "application/javascript" }),
+    );
     await assertFails(uploadBytes(ref(alice(), "users/alice/big.png"), png(5 * 1024 * 1024), image));
   });
 

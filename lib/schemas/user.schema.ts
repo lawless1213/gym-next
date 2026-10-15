@@ -6,10 +6,7 @@ const ACCEPTED_IMAGE_TYPES = ["image/jpeg", "image/png", "image/webp"];
 
 export const userSchema = z.object({
   photo: z
-    .union([
-      z.instanceof(File),
-      z.string().url(),
-    ])
+    .union([z.instanceof(File), z.string().url()])
     .optional()
     .refine((file) => {
       if (!file) return true;

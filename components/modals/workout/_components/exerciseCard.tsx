@@ -3,7 +3,15 @@
 import { useState } from "react";
 import { WorkoutExercise, WorkoutSet, PersonalRecord } from "@/types";
 import { cn } from "@/lib/utils";
-import { IconBarbell, IconCheck, IconChevronDown, IconChevronUp, IconMinus, IconPlus, IconTrophy } from "@tabler/icons-react";
+import {
+  IconBarbell,
+  IconCheck,
+  IconChevronDown,
+  IconChevronUp,
+  IconMinus,
+  IconPlus,
+  IconTrophy,
+} from "@tabler/icons-react";
 import { SetInput } from "./setInput";
 import { useLocale, useTranslations } from "next-intl";
 import { Button } from "@/components/ui/Button";
@@ -56,39 +64,51 @@ export function ExerciseCard({ workoutExercise, record, onUpdateSet, onAddSet, o
           </div>
         </div>
         <div className="flex items-center gap-2">
-          <span className={cn("rounded-full px-2.5 py-1 text-xs font-semibold", completedSets === totalSets ? "bg-primary/20 text-primary" : "bg-secondary text-muted-foreground")}>
+          <span
+            className={cn(
+              "rounded-full px-2.5 py-1 text-xs font-semibold",
+              completedSets === totalSets ? "bg-primary/20 text-primary" : "bg-secondary text-muted-foreground",
+            )}>
             {completedSets}/{totalSets}
           </span>
-          {expanded ? <IconChevronUp className="h-5 w-5 text-muted-foreground" /> : <IconChevronDown className="h-5 w-5 text-muted-foreground" />}
+          {expanded ? (
+            <IconChevronUp className="h-5 w-5 text-muted-foreground" />
+          ) : (
+            <IconChevronDown className="h-5 w-5 text-muted-foreground" />
+          )}
         </div>
       </div>
 
       {expanded && (
-        <div className="flex flex-col gap-2 mt-3">
+        <div className="mt-3 flex flex-col gap-2">
           {record && (
             <>
-              <div className="flex items-center gap-2 rounded-xl p-3 bg-secondary">
+              <div className="flex items-center gap-2 rounded-xl bg-secondary p-3">
                 <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-sm font-bold text-muted-foreground">
-                  <IconTrophy className="w-5 h-5 text-primary" />
+                  <IconTrophy className="h-5 w-5 text-primary" />
                 </div>
                 <div className="flex flex-1 flex-col gap-1">
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-medium uppercase text-muted-foreground">{t("weightRecord")}</span>
+                    <span className="text-[10px] font-medium text-muted-foreground uppercase">{t("weightRecord")}</span>
                   </div>
-                  <div className="flex items-center justify-center h-8 w-10 sm:w16 rounded-lg bg-background text-center text-sm font-semibold text-foreground ring-1 ring-border">{record?.weight}</div>
+                  <div className="sm:w16 flex h-8 w-10 items-center justify-center rounded-lg bg-background text-center text-sm font-semibold text-foreground ring-1 ring-border">
+                    {record?.weight}
+                  </div>
                 </div>
                 <div className="flex flex-1 flex-col gap-1">
                   <div className="flex items-center justify-between">
-                    <span className="text-[10px] font-medium uppercase text-muted-foreground">{t("repsRecord")}</span>
+                    <span className="text-[10px] font-medium text-muted-foreground uppercase">{t("repsRecord")}</span>
                   </div>
-                  <div className="flex items-center justify-center h-8 w-10 sm:w16 rounded-lg bg-background text-center text-sm font-semibold text-foreground ring-1 ring-border">{record?.reps}</div>
+                  <div className="sm:w16 flex h-8 w-10 items-center justify-center rounded-lg bg-background text-center text-sm font-semibold text-foreground ring-1 ring-border">
+                    {record?.reps}
+                  </div>
                 </div>
                 <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl">
                   <IconCheck className="h-5 w-5 text-primary" />
                 </div>
               </div>
 
-              <div className="border-b border border-dashed border-muted-foreground/40 my-2"></div>
+              <div className="my-2 border border-b border-dashed border-muted-foreground/40"></div>
             </>
           )}
 

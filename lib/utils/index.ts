@@ -1,11 +1,11 @@
-import { clsx, type ClassValue } from 'clsx'
-import { twMerge } from 'tailwind-merge'
-import { LocalizedText, WorkoutSession } from '../../types'
-import { Locale } from 'next-intl';
-import { LOCALES } from '@/i18n/locales';
+import { clsx, type ClassValue } from "clsx";
+import { twMerge } from "tailwind-merge";
+import { LocalizedText, WorkoutSession } from "../../types";
+import { Locale } from "next-intl";
+import { LOCALES } from "@/i18n/locales";
 
 export function cn(...inputs: ClassValue[]) {
-  return twMerge(clsx(inputs))
+  return twMerge(clsx(inputs));
 }
 
 export function totalHistoryVolume(data: WorkoutSession[]): number {

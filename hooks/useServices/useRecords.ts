@@ -5,7 +5,7 @@ import { Period } from "@/types";
 export const useRecords = ({
   userId,
   period = "all",
-  exerciseIds
+  exerciseIds,
 }: {
   userId: string | undefined;
   period?: Period;

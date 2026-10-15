@@ -23,12 +23,25 @@ export interface MuscleViewProps {
   onToggleMuscle?: (muscle: MuscleGroup) => void;
 }
 
-export default function MuscleSchema({ clickable = true, size = "md", side, selectedMuscles, onToggleMuscle }: MuscleSchemaProps) {
+export default function MuscleSchema({
+  clickable = true,
+  size = "md",
+  side,
+  selectedMuscles,
+  onToggleMuscle,
+}: MuscleSchemaProps) {
   const { params, updateParam } = useUserPreferences();
-  const isMale = params.gender === 'male';
-  
+  const isMale = params.gender === "male";
+
   return (
-    <div className={cn("w-full flex gap-2 aspect-1/2 justify-center", !clickable && 'pointer-events-none', size === "sm" && "max-h-[200px]", size === "md" && "max-h-[400px]", size === "xl" && "max-h-[600px]")}>
+    <div
+      className={cn(
+        "flex aspect-1/2 w-full justify-center gap-2",
+        !clickable && "pointer-events-none",
+        size === "sm" && "max-h-[200px]",
+        size === "md" && "max-h-[400px]",
+        size === "xl" && "max-h-[600px]",
+      )}>
       {side !== "back" &&
         (isMale ? (
           <ManFrontView

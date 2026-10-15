@@ -56,7 +56,11 @@ export function UserPreferencesProvider({ children }: { children: React.ReactNod
     }));
   }
 
-  return <UserPreferencesContext.Provider value={{ params, isLoading, updateParam }}>{children}</UserPreferencesContext.Provider>;
+  return (
+    <UserPreferencesContext.Provider value={{ params, isLoading, updateParam }}>
+      {children}
+    </UserPreferencesContext.Provider>
+  );
 }
 
 export function useUserPreferences() {

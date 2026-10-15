@@ -1,4 +1,4 @@
-import { useModal } from  "@/components/modals/modal-store";
+import { useModal } from "@/components/modals/modal-store";
 import { Routine } from "@/types";
 
 type RoutineEditModalData = {
@@ -8,7 +8,7 @@ type RoutineEditModalData = {
 export function useRoutineEditModal() {
   const modal = useModal();
   const data = modal.data as RoutineEditModalData;
-	
+
   return {
     ...modal,
     routine: data?.routine,

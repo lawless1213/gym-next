@@ -2,20 +2,20 @@
 
 import { createContext, useContext, useEffect, useMemo, useState } from "react";
 import type { User } from "firebase/auth";
-import { 
-  onAuthStateChanged, 
-  signInWithEmailAndPassword, 
-  createUserWithEmailAndPassword, 
-  signOut, 
-  sendEmailVerification, 
-  updatePassword, 
-  verifyBeforeUpdateEmail, 
-  deleteUser, 
-  reauthenticateWithCredential, 
-  EmailAuthProvider, 
-  GoogleAuthProvider, 
-  GithubAuthProvider, 
-  signInWithPopup 
+import {
+  onAuthStateChanged,
+  signInWithEmailAndPassword,
+  createUserWithEmailAndPassword,
+  signOut,
+  sendEmailVerification,
+  updatePassword,
+  verifyBeforeUpdateEmail,
+  deleteUser,
+  reauthenticateWithCredential,
+  EmailAuthProvider,
+  GoogleAuthProvider,
+  GithubAuthProvider,
+  signInWithPopup,
 } from "firebase/auth";
 import { auth } from "@/lib/config/firebaseConfig";
 import { deleteUserData, initUserDoc } from "@/lib/server/actions/user";

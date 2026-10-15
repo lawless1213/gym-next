@@ -55,7 +55,7 @@ export default function ChangeEmail() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="space-y-4 w-full">
+      className="w-full space-y-4">
       <Input
         ref={emailRef}
         input={{

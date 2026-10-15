@@ -12,13 +12,11 @@ export type UserParams = {
   weight: "kg" | "lb";
   height: number | null;
   avatarUrl: string | null;
-  createdAt?: number | null; 
+  createdAt?: number | null;
   subscribed: UserSubscription;
 };
 
-export async function getUserParams(
-  userId: string,
-): Promise<Partial<UserParams>> {
+export async function getUserParams(userId: string): Promise<Partial<UserParams>> {
   const snapshot = await getDoc(doc(db, "users", userId));
 
   if (!snapshot.exists()) {

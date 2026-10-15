@@ -41,10 +41,13 @@ export function AiModal() {
       modalType="ai"
       size="high"
       title={tabItems.find((tab) => tab.id === activeTab)?.title}>
-      <div className="flex flex-1 flex-col gap-4 justify-center">
-        {
-          (!isPreview && !params.subscribed.isActive) && <ActionCard classNames="bg-secondary text-sm text-center" title={t('subscribe.tries', { count: params.subscribed.freeAiTries })}/>
-        }
+      <div className="flex flex-1 flex-col justify-center gap-4">
+        {!isPreview && !params.subscribed.isActive && (
+          <ActionCard
+            classNames="bg-secondary text-sm text-center"
+            title={t("subscribe.tries", { count: params.subscribed.freeAiTries })}
+          />
+        )}
         {isPreview ? (
           <Preview onChange={setIsPreview} />
         ) : (

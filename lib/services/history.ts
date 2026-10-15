@@ -34,9 +34,16 @@ export async function getUserHistory(userId: string, options: HistoryOptions): P
       year: new Date(now.getFullYear(), 0, 1),
     }[options.period];
 
-    const toDate = options.period === "prev-week" ? new Date(now.getFullYear(), now.getMonth(), now.getDate() - 7) : now;
+    const toDate =
+      options.period === "prev-week" ? new Date(now.getFullYear(), now.getMonth(), now.getDate() - 7) : now;
 
-    q = query(collection(db, `users/${userId}/workoutHistory`), where("startedAt", ">=", Timestamp.fromDate(fromDate)), where("startedAt", "<=", Timestamp.fromDate(toDate)), orderBy("startedAt", "desc"), ...(options.limit ? [limit(options.limit)] : []));
+    q = query(
+      collection(db, `users/${userId}/workoutHistory`),
+      where("startedAt", ">=", Timestamp.fromDate(fromDate)),
+      where("startedAt", "<=", Timestamp.fromDate(toDate)),
+      orderBy("startedAt", "desc"),
+      ...(options.limit ? [limit(options.limit)] : []),
+    );
   }
 
   const snapshot = await getDocs(q);

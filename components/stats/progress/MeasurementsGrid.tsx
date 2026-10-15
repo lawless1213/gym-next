@@ -20,7 +20,13 @@ interface MetricsGridProps {
   setSelectedMetric: (key: keyof BodyProgress) => void;
 }
 
-export default function MeasurementsGrid({ metrics, progress, loading, selectedMetric, setSelectedMetric }: MetricsGridProps) {
+export default function MeasurementsGrid({
+  metrics,
+  progress,
+  loading,
+  selectedMetric,
+  setSelectedMetric,
+}: MetricsGridProps) {
   return (
     <SkeletonSwitcher
       isLoading={loading}
@@ -45,13 +51,9 @@ export default function MeasurementsGrid({ metrics, progress, loading, selectedM
             <span
               className={cn(
                 "flex items-center justify-center gap-1 text-sm",
-                isNegative ? "text-primary" : "text-destructive"
+                isNegative ? "text-primary" : "text-destructive",
               )}>
-              {change < 0 ? (
-                <IconTrendingDown className="h-3.5 w-3.5" />
-              ) : (
-                <IconTrendingUp className="h-3.5 w-3.5" />
-              )}
+              {change < 0 ? <IconTrendingDown className="h-3.5 w-3.5" /> : <IconTrendingUp className="h-3.5 w-3.5" />}
               <span>
                 {Math.abs(change)} {unit}
               </span>
@@ -63,9 +65,9 @@ export default function MeasurementsGrid({ metrics, progress, loading, selectedM
               key={key}
               onClick={() => setSelectedMetric(key)}
               className={cn(
-                "rounded-xl p-4 text-center transition-all cursor-pointer",
+                "cursor-pointer rounded-xl p-4 text-center transition-all",
                 isLarge ? "col-span-3" : "col-span-2",
-                selectedMetric === key ? "bg-primary/10 ring-2 ring-primary" : "bg-card"
+                selectedMetric === key ? "bg-primary/10 ring-2 ring-primary" : "bg-card",
               )}>
               <div className="flex items-center justify-center gap-2">
                 <Icon className="h-4 w-4 text-muted-foreground" />
@@ -74,12 +76,12 @@ export default function MeasurementsGrid({ metrics, progress, loading, selectedM
 
               {isLarge ? (
                 <div className="text-2xl font-bold text-foreground tabular-nums">
-                  {!!progress?.[key].length && progress?.[key].at(-1)?.value + unit} 
+                  {!!progress?.[key].length && progress?.[key].at(-1)?.value + unit}
                   {changeBlock}
                 </div>
               ) : (
                 <div className="text-md font-bold text-foreground">
-                  {!!progress?.[key].length && progress?.[key].at(-1)?.value + unit} 
+                  {!!progress?.[key].length && progress?.[key].at(-1)?.value + unit}
                   {changeBlock}
                 </div>
               )}
@@ -89,5 +91,4 @@ export default function MeasurementsGrid({ metrics, progress, loading, selectedM
       </div>
     </SkeletonSwitcher>
   );
-
 }

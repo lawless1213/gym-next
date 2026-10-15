@@ -4,7 +4,7 @@ import { Routine } from "@/types";
 import { IconPlayerPlayFilled, IconBarbell } from "@tabler/icons-react";
 import { Button } from "@/components/ui/Button";
 import { useLocale, useTranslations } from "next-intl";
-import { useModal } from  "@/components/modals/modal-store";
+import { useModal } from "@/components/modals/modal-store";
 import { getLocalizedText, type Locale } from "@/types/common";
 
 interface WorkoutCardProps {
@@ -44,7 +44,11 @@ export function WorkoutCard({ routine }: WorkoutCardProps) {
                 {getLocalizedText(ex.name, locale)}
               </span>
             ))}
-            {routine.exercises.length > 3 && <span className="rounded-md bg-secondary px-2 py-0.5 text-xs text-muted-foreground">+{routine.exercises.length - 3} more</span>}
+            {routine.exercises.length > 3 && (
+              <span className="rounded-md bg-secondary px-2 py-0.5 text-xs text-muted-foreground">
+                +{routine.exercises.length - 3} more
+              </span>
+            )}
           </div>
         </div>
       </div>
@@ -52,7 +56,7 @@ export function WorkoutCard({ routine }: WorkoutCardProps) {
         <div className="p-4 pt-3">
           <Button
             onClick={() => open("workout", routine)}
-            className="w-full gap-2 bg-primary cursor-pointer text-primary-foreground hover:bg-primary/90"
+            className="w-full cursor-pointer gap-2 bg-primary text-primary-foreground hover:bg-primary/90"
             size="lg">
             <IconPlayerPlayFilled className="h-5 w-5 fill-current" />
             {t("startButton")}

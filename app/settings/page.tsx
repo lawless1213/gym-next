@@ -16,7 +16,9 @@ export default function Setting() {
   const searchParams = useSearchParams();
 
   const tab = searchParams.get("tab");
-  const [activeTab, setActiveTab] = useState<SettingsTab>(tab === "subscribe" || tab === "preferences" || tab === "profile" ? tab : "profile");
+  const [activeTab, setActiveTab] = useState<SettingsTab>(
+    tab === "subscribe" || tab === "preferences" || tab === "profile" ? tab : "profile",
+  );
 
   useEffect(() => {
     const requestedTab = searchParams.get("tab");

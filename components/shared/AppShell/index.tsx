@@ -31,7 +31,13 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const router = useRouter();
   const pageKey = pathname.split("/")[1] || "home";
 
-  const routes = useMemo(() => getNavLinks(!!user).map((n: NavItem) => n.link).filter((l): l is string => !!l), [user]);
+  const routes = useMemo(
+    () =>
+      getNavLinks(!!user)
+        .map((n: NavItem) => n.link)
+        .filter((l): l is string => !!l),
+    [user],
+  );
 
   const isProtectedRoute = navLinks.some((item: NavItem) => item.link === pathname && item.loginRequired);
 
@@ -66,7 +72,7 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
       ) : (
         <div
           key="app"
-          className="flex min-h-screen flex-col max-w-[1920px] w-full mx-auto">
+          className="mx-auto flex min-h-screen w-full max-w-[1920px] flex-col">
           <InstallBanner />
           <Header page={pageKey} />
           <Toaster />
@@ -74,18 +80,16 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
           <main
             {...handlers}
             style={{ touchAction: "pan-y" }}
-            className="min-h-0 flex-1 overflow-y-auto pt-4 px-4 pb-18 flex flex-col gap-3 relative">
+            className="relative flex min-h-0 flex-1 flex-col gap-3 overflow-y-auto px-4 pt-4 pb-18">
             <motion.div
               key={pathname}
               initial={{ x: `${30 * currentDir}%`, opacity: 0 }}
               animate={{ x: 0, opacity: 1 }}
               exit={{ x: `${-30 * currentDir}%`, opacity: 0 }}
-              transition={{ type: "tween", duration: 0.18, ease: "easeOut" }}
-              >
+              transition={{ type: "tween", duration: 0.18, ease: "easeOut" }}>
               {children}
             </motion.div>
           </main>
-          
         </div>
       )}
     </AnimatePresence>

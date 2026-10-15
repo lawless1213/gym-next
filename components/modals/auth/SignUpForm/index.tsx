@@ -6,7 +6,7 @@ import { Button } from "@/components/ui/Button";
 import { useAuth } from "@/hooks/useAuth";
 import { Input } from "@/components/ui/form/input";
 import { AUTH_ERRORS } from "@/lib/errors/auth";
-import { useModal } from  "@/components/modals/modal-store";
+import { useModal } from "@/components/modals/modal-store";
 import { useTranslations } from "next-intl";
 import { AuthFormData, authSchema } from "@/lib/schemas";
 
@@ -16,7 +16,7 @@ export default function SignUpForm() {
   const { close } = useModal();
   const { signup } = useAuth();
 
-   const {
+  const {
     register,
     handleSubmit,
     setError,
@@ -44,7 +44,7 @@ export default function SignUpForm() {
     <form
       onSubmit={handleSubmit(onSubmit)}
       className="flex flex-1 flex-col">
-      <div className="flex-1 space-y-2 mb-10">
+      <div className="mb-10 flex-1 space-y-2">
         <Input
           ref={emailRef}
           input={{
@@ -66,7 +66,7 @@ export default function SignUpForm() {
         />
       </div>
 
-      {errors.root && <p className="text-sm text-red-500 mb-1">{errors.root.message}</p>}
+      {errors.root && <p className="mb-1 text-sm text-red-500">{errors.root.message}</p>}
 
       <Button
         type="submit"

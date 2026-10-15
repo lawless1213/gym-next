@@ -61,29 +61,29 @@ export const AIRoutineSchema = z.object({
 });
 
 export const AIScheduleSchema = z.object({
-	comment: aiComment.optional(),
-	groups: z.array(z.enum(MUSCLE_GROUPS)).min(1, "at_least_one_checked"),
-	equipment: z.enum(EQUIPMENT_GROUPS, {
-		message: "at_least_one_checked",
-	}),
-	difficulty: z.enum(DIFFICULTY, {
-		message: "at_least_one_checked",
-	}),
-	goal: z.enum(GOALS, {
-		message: "at_least_one_checked",
-	}),
-	splitType: z.enum(SPLIT_TYPES, {
-		message: "at_least_one_checked",
-	}),
-	preferredRestDays: z.array(z.enum(weekDays)).optional(),
-	dayPerWeek: z.string().refine(
-		(val) => {
-			if (!val) return true;
-			const num = Number(val);
-			return !isNaN(num) && num > 0 && num <= 7;
-		},
-		{ message: "value_too_large" },
-	),
+  comment: aiComment.optional(),
+  groups: z.array(z.enum(MUSCLE_GROUPS)).min(1, "at_least_one_checked"),
+  equipment: z.enum(EQUIPMENT_GROUPS, {
+    message: "at_least_one_checked",
+  }),
+  difficulty: z.enum(DIFFICULTY, {
+    message: "at_least_one_checked",
+  }),
+  goal: z.enum(GOALS, {
+    message: "at_least_one_checked",
+  }),
+  splitType: z.enum(SPLIT_TYPES, {
+    message: "at_least_one_checked",
+  }),
+  preferredRestDays: z.array(z.enum(weekDays)).optional(),
+  dayPerWeek: z.string().refine(
+    (val) => {
+      if (!val) return true;
+      const num = Number(val);
+      return !isNaN(num) && num > 0 && num <= 7;
+    },
+    { message: "value_too_large" },
+  ),
 });
 
 export type AIRoutineAFormData = z.infer<typeof AIRoutineSchema>;

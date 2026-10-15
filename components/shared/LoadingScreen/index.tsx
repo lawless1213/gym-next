@@ -12,7 +12,7 @@ export default function LoadingScreen() {
       initial={{ opacity: 1 }}
       exit={{ opacity: 0, scale: 1.05 }}
       transition={{ duration: 0.35, ease: "easeIn" }}>
-      <div className="relative flex items-center justify-center mb-4">
+      <div className="relative mb-4 flex items-center justify-center">
         {[0, 0.5, 1].map((delay) => (
           <motion.div
             key={delay}
@@ -30,10 +30,10 @@ export default function LoadingScreen() {
         ))}
 
         <motion.div
-          className="relative z-10 w-16 h-16 bg-primary rounded-[18px] flex items-center justify-center"
+          className="relative z-10 flex h-16 w-16 items-center justify-center rounded-[18px] bg-primary"
           animate={{ scale: [1, 1.06, 1] }}
           transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}>
-          <IconBarbellFilled className="w-8 h-8 text-background" />
+          <IconBarbellFilled className="h-8 w-8 text-background" />
         </motion.div>
       </div>
 
@@ -43,7 +43,7 @@ export default function LoadingScreen() {
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.4 }}>
         <div className="text-2xl font-bold tracking-[4px]">{t("title")}</div>
-        <div className="text-xs tracking-[2px] text-muted-foreground uppercase mt-1">{t("subtitle")}</div>
+        <div className="mt-1 text-xs tracking-[2px] text-muted-foreground uppercase">{t("subtitle")}</div>
       </motion.span>
     </motion.div>
   );

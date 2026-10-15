@@ -1,4 +1,4 @@
-import { useModal } from  "@/components/modals/modal-store";
+import { useModal } from "@/components/modals/modal-store";
 import { Exercise } from "@/types";
 
 type ExerciseEditModalData = {
@@ -8,7 +8,7 @@ type ExerciseEditModalData = {
 export function useExerciseEditModal() {
   const modal = useModal();
   const data = modal.data as ExerciseEditModalData;
-	
+
   return {
     ...modal,
     exercise: data?.exercise,

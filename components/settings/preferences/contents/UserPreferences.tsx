@@ -55,7 +55,7 @@ export default function UserPreferences() {
   return (
     <div className="w-full space-y-2">
       {listItems.map((item) => (
-        <div className="flex items-center gap-2 w-full justify-between">
+        <div className="flex w-full items-center justify-between gap-2">
           <span>{t(`${item.title}.title`)}</span>
           <div className="flex items-center gap-2">
             <Select

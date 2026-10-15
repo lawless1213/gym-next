@@ -143,17 +143,23 @@ export function ExerciseListItem({ exercise, isOpen, onToggle }: ExerciseListIte
       <AnimatePresence initial={false}>
         {isOpen && (
           <motion.div
-            className="overflow-hidden flex flex-col bg-card rounded-b-xl"
+            className="flex flex-col overflow-hidden rounded-b-xl bg-card"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.25, ease: "easeInOut" }}>
-            <div className="pb-3 px-3 flex flex-col items-center gap-4">
-              <p className="text-xs text-muted-foreground text-center">{getLocalizedText(exercise.description, locale)}</p>
+            <div className="flex flex-col items-center gap-4 px-3 pb-3">
+              <p className="text-center text-xs text-muted-foreground">
+                {getLocalizedText(exercise.description, locale)}
+              </p>
               <MuscleSchema
                 size="sm"
                 clickable={false}
-                selectedMuscles={exercise.muscleGroup ? (exercise.muscleGroup.split(",").filter(Boolean) as (typeof MUSCLE_GROUPS)[number][]) : []}
+                selectedMuscles={
+                  exercise.muscleGroup
+                    ? (exercise.muscleGroup.split(",").filter(Boolean) as (typeof MUSCLE_GROUPS)[number][])
+                    : []
+                }
               />
             </div>
           </motion.div>

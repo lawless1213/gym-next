@@ -1,8 +1,8 @@
 allowBuilds:
-  '@firebase/util': false
-  '@google/genai': false
-  '@parcel/watcher': false
-  '@swc/core': false
+  "@firebase/util": false
+  "@google/genai": false
+  "@parcel/watcher": false
+  "@swc/core": false
   protobufjs: false
   re2: false
   sharp: false

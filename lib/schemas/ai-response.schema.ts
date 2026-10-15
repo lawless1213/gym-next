@@ -36,7 +36,9 @@ const AiScheduleDaySchema = z.object({
   day: z.enum(weekDays),
   isNewRoutine: z
     .boolean()
-    .describe("false, якщо на цей день можна перевикористати ІСНУЮЧУ рутину користувача (тоді вкажи її точну назву в routineName)"),
+    .describe(
+      "false, якщо на цей день можна перевикористати ІСНУЮЧУ рутину користувача (тоді вкажи її точну назву в routineName)",
+    ),
   routineName: z
     .string()
     .min(1)

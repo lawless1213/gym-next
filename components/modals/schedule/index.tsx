@@ -109,7 +109,7 @@ export function ScheduleEditModal() {
               key={routine.id}
               className="flex items-start gap-2">
               {/* Clicking the card only expands it; selection is done with the circle. */}
-              <div className="flex-1 min-w-0">
+              <div className="min-w-0 flex-1">
                 <RoutineCard routine={routine} />
               </div>
               <button
@@ -118,7 +118,7 @@ export function ScheduleEditModal() {
                 aria-checked={selected}
                 aria-label={t("select", { name: routine.name })}
                 onClick={() => toggle(routine.id)}
-                className={`mt-6 flex shrink-0 w-9 h-9 items-center justify-center rounded-full border-2 border-solid cursor-pointer transition-[0.2s] focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-ring ${selected ? "bg-primary border-primary" : "bg-card border-muted-foreground hover:border-primary"}`}>
+                className={`mt-6 flex h-9 w-9 shrink-0 cursor-pointer items-center justify-center rounded-full border-2 border-solid transition-[0.2s] focus-visible:ring-2 focus-visible:ring-ring focus-visible:outline-none ${selected ? "border-primary bg-primary" : "border-muted-foreground bg-card hover:border-primary"}`}>
                 {selected && (
                   <IconCheck
                     stroke={3}

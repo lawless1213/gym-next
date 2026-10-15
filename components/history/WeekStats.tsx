@@ -52,8 +52,12 @@ export default function WeekStats({ history, loading }: WeekStatsProps) {
             <IconTrendingUp className="h-4 w-4 text-primary" />
             <span className="text-sm">{t("summary.volume")}</span>
           </div>
-          <p className="mt-1 text-2xl font-bold text-foreground tabular-nums">{weeklyVolume >= 1000 ? `${(weeklyVolume / 1000).toFixed(1)}K` : weeklyVolume}</p>
-          <p className="text-xs text-muted-foreground">{tMeasurement(params.weight)} {t("summary.textVolume")}</p>
+          <p className="mt-1 text-2xl font-bold text-foreground tabular-nums">
+            {weeklyVolume >= 1000 ? `${(weeklyVolume / 1000).toFixed(1)}K` : weeklyVolume}
+          </p>
+          <p className="text-xs text-muted-foreground">
+            {tMeasurement(params.weight)} {t("summary.textVolume")}
+          </p>
         </div>
       </SkeletonSwitcher>
     </div>

@@ -33,8 +33,11 @@ export default function ExercisesList({ visibleExercises, hasMore, handleLoadMor
           />
         ))
       ) : (
-        <div className="text-center text-sm text-muted-foreground flex flex-col items-center gap-5 mt-2">
-          <IconMoodPuzzled stroke={1.5}  className="size-25"/>
+        <div className="mt-2 flex flex-col items-center gap-5 text-center text-sm text-muted-foreground">
+          <IconMoodPuzzled
+            stroke={1.5}
+            className="size-25"
+          />
           <p>{t("notFound")}</p>
         </div>
       )}

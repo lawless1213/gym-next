@@ -66,7 +66,6 @@ export function UserEditModal() {
     } catch (err: any) {
       toast.error(t("error"));
       console.log(err);
-      
     }
   };
 
@@ -79,16 +78,21 @@ export function UserEditModal() {
       <div className="flex flex-col gap-4">
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-1 flex-col static">
-          <div className="flex-1 space-y-2 mb-10">
+          className="static flex flex-1 flex-col">
+          <div className="mb-10 flex-1 space-y-2">
             <Controller
               name="photo"
               control={control}
               render={({ field: { onChange, value } }) => {
-                const previewUrl = value instanceof File ? URL.createObjectURL(value) : typeof value === "string" ? value : avatarUrl || null;
+                const previewUrl =
+                  value instanceof File
+                    ? URL.createObjectURL(value)
+                    : typeof value === "string"
+                      ? value
+                      : avatarUrl || null;
                 return (
-                  <label className="group flex flex-col items-center cursor-pointer">
-                    <div className="flex h-24 w-24 items-center justify-center rounded-2xl bg-secondary overflow-hidden">
+                  <label className="group flex cursor-pointer flex-col items-center">
+                    <div className="flex h-24 w-24 items-center justify-center overflow-hidden rounded-2xl bg-secondary">
                       {previewUrl ? (
                         <img
                           src={previewUrl}
@@ -96,8 +100,10 @@ export function UserEditModal() {
                           className="h-full w-full object-contain"
                         />
                       ) : (
-                        <div className="w-full h-full bg-primary/60 flex items-center justify-center">
-                          <span className="text-white font-bold text-2xl tracking-widest">{user?.displayName ? user?.displayName.slice(0, 1) : t("user").slice(0, 1)}</span>
+                        <div className="flex h-full w-full items-center justify-center bg-primary/60">
+                          <span className="text-2xl font-bold tracking-widest text-white">
+                            {user?.displayName ? user?.displayName.slice(0, 1) : t("user").slice(0, 1)}
+                          </span>
                         </div>
                       )}
                     </div>
@@ -107,11 +113,11 @@ export function UserEditModal() {
                       className="hidden"
                       onChange={(e) => onChange(e.target.files?.[0])}
                     />
-                    <span className="flex items-center gap-2 text-sm font-medium group-hover:text-primary mt-1 transition-[0.2s]">
+                    <span className="mt-1 flex items-center gap-2 text-sm font-medium transition-[0.2s] group-hover:text-primary">
                       <IconUpload className="h-4 w-4" />
                       {value ? t("changePicture") : t("addPicture")}
                     </span>
-                    {errors.photo?.message && <p className="text-xs text-red-500 min-h-5">{errors.photo?.message}</p>}
+                    {errors.photo?.message && <p className="min-h-5 text-xs text-red-500">{errors.photo?.message}</p>}
                   </label>
                 );
               }}

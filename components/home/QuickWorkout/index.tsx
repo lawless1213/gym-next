@@ -29,10 +29,10 @@ export default function QuickWorkout() {
   };
 
   return (
-      <ButtonAdd
-        onClick={() => quickWorkoutConfirm()}
-        ariaLabel={t("buttonAdd")}
-        icon={<IconBolt className="size-6" />}
-      />
+    <ButtonAdd
+      onClick={() => quickWorkoutConfirm()}
+      ariaLabel={t("buttonAdd")}
+      icon={<IconBolt className="size-6" />}
+    />
   );
 }

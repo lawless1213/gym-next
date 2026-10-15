@@ -42,7 +42,7 @@ export default function AuthActionPage() {
 
   if (status === "loading") {
     return (
-      <div className="flex flex-col items-center justify-center ">
+      <div className="flex flex-col items-center justify-center">
         <p>{t("confirming")}</p>
       </div>
     );

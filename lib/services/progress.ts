@@ -1,4 +1,4 @@
-import {  doc, getDoc, Timestamp } from "firebase/firestore";
+import { doc, getDoc, Timestamp } from "firebase/firestore";
 import { db } from "@/lib/config/firebaseConfig";
 import { BodyProgress, Measurement } from "@/types";
 
@@ -12,19 +12,16 @@ function mapMeasurements(measurements: RawMeasurement[], limit: number): Measure
     .reverse();
 }
 
-export async function getUserLastProgress(
-  userId: string,
-  amount: number = 10
-): Promise<BodyProgress> {
-  const progressRef = doc(db, 'users', userId, 'stats', 'progress');
+export async function getUserLastProgress(userId: string, amount: number = 10): Promise<BodyProgress> {
+  const progressRef = doc(db, "users", userId, "stats", "progress");
   const snap = await getDoc(progressRef);
   const raw = snap.data() as Record<string, RawMeasurement[]>;
 
   return {
-    arms:    mapMeasurements(raw.arms ?? [], amount),
-    chest:   mapMeasurements(raw.chest ?? [], amount),
-    thighs:  mapMeasurements(raw.thighs ?? [], amount),
-    waist:   mapMeasurements(raw.waist ?? [], amount),
-    weight:  mapMeasurements(raw.weight ?? [], amount),
+    arms: mapMeasurements(raw.arms ?? [], amount),
+    chest: mapMeasurements(raw.chest ?? [], amount),
+    thighs: mapMeasurements(raw.thighs ?? [], amount),
+    waist: mapMeasurements(raw.waist ?? [], amount),
+    weight: mapMeasurements(raw.weight ?? [], amount),
   };
 }

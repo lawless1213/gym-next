@@ -23,7 +23,7 @@ export function ConfirmModal({
   confirmLabel,
   cancelLabel,
   variant = "default",
-  
+
   children,
   onConfirm,
   onCancel,
@@ -31,13 +31,14 @@ export function ConfirmModal({
   const t = useTranslations("confirm");
 
   return (
-    <div className="fixed inset-0 z-200 backdrop-blur-xs flex items-center justify-center">
-      <div className="absolute inset-0 bg-black/60" onClick={onCancel} />
-      <div className="relative z-10 bg-card border border-border rounded-xl p-6 shadow-xl max-w-xl w-full mx-4">
+    <div className="fixed inset-0 z-200 flex items-center justify-center backdrop-blur-xs">
+      <div
+        className="absolute inset-0 bg-black/60"
+        onClick={onCancel}
+      />
+      <div className="relative z-10 mx-4 w-full max-w-xl rounded-xl border border-border bg-card p-6 shadow-xl">
         {title && <h2 className="text-lg font-semibold text-foreground">{title}</h2>}
-        {description && (
-          <div className="mt-2 text-sm text-muted-foreground">{description}</div>
-        )}
+        {description && <div className="mt-2 text-sm text-muted-foreground">{description}</div>}
         {children && <div className="mt-4">{children}</div>}
         <div className="mt-6 flex flex-col gap-3">
           <Button
@@ -48,14 +49,14 @@ export function ConfirmModal({
                 ? "bg-destructive text-destructive-foreground hover:bg-destructive/90"
                 : "bg-primary text-primary-foreground hover:bg-primary/90"
             }`}>
-            {confirmLabel || t('confirm')}
+            {confirmLabel || t("confirm")}
           </Button>
           <Button
             onClick={onCancel}
             size="lg"
             variant="outline"
             className="w-full">
-            {cancelLabel || t('cancel')}
+            {cancelLabel || t("cancel")}
           </Button>
         </div>
       </div>

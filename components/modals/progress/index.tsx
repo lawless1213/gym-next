@@ -6,7 +6,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { z } from "zod";
 import { Button } from "@/components/ui/Button";
 import { Input } from "@/components/ui/form/input";
-import { useModal } from  "@/components/modals/modal-store";
+import { useModal } from "@/components/modals/modal-store";
 import { toast } from "sonner";
 import { useAuth } from "@/hooks/useAuth";
 import { useQueryClient } from "@tanstack/react-query";
@@ -14,7 +14,6 @@ import { addUserProgress } from "@/lib/actions/progress";
 import { useTranslations } from "next-intl";
 import { ProgressFormData, progressSchema } from "@/lib/schemas";
 import { useUserPreferences } from "@/providers/user-preferences-provider";
-
 
 export function ProgressModal() {
   const { params } = useUserPreferences();
@@ -26,11 +25,11 @@ export function ProgressModal() {
   const queryClient = useQueryClient();
 
   const FIELDS = [
-    { name: "weight", placeholder: `${t('fields.weight')} (${tComponents(`measurement.${params.weight}`)})` },
-    { name: "waist", placeholder: `${t('fields.waist')} (${tComponents(`measurement.${params.distance}`)})` },
-    { name: "chest", placeholder: `${t('fields.chest')} (${tComponents(`measurement.${params.distance}`)})` },
-    { name: "arms", placeholder: `${t('fields.arms')} (${tComponents(`measurement.${params.distance}`)})` },
-    { name: "thighs", placeholder: `${t('fields.thighs')} (${tComponents(`measurement.${params.distance}`)})` }
+    { name: "weight", placeholder: `${t("fields.weight")} (${tComponents(`measurement.${params.weight}`)})` },
+    { name: "waist", placeholder: `${t("fields.waist")} (${tComponents(`measurement.${params.distance}`)})` },
+    { name: "chest", placeholder: `${t("fields.chest")} (${tComponents(`measurement.${params.distance}`)})` },
+    { name: "arms", placeholder: `${t("fields.arms")} (${tComponents(`measurement.${params.distance}`)})` },
+    { name: "thighs", placeholder: `${t("fields.thighs")} (${tComponents(`measurement.${params.distance}`)})` },
   ] as const;
 
   const {
@@ -50,7 +49,7 @@ export function ProgressModal() {
       if (!user) throw new Error("Not authenticated");
       await addUserProgress(user.uid, data);
       queryClient.invalidateQueries({ queryKey: ["lastProgress"] });
-      toast.success(t('success'));
+      toast.success(t("success"));
       close();
     } catch (err: any) {
       toast.error(t("error"));
@@ -58,10 +57,14 @@ export function ProgressModal() {
   };
 
   return (
-    <ModalWrapper modalType="progress" title={t('title')}>
+    <ModalWrapper
+      modalType="progress"
+      title={t("title")}>
       <div className="flex flex-col gap-4">
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-1 flex-col">
-          <div className="flex-1 space-y-2 mb-4">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex flex-1 flex-col">
+          <div className="mb-4 flex-1 space-y-2">
             {FIELDS.map(({ name, placeholder }) => {
               const { ref, ...rest } = register(name, {
                 setValueAs: (v) => (v === "" || v === undefined ? undefined : Number(v)),
@@ -82,9 +85,7 @@ export function ProgressModal() {
             })}
           </div>
 
-          {errors.root?.message && (
-            <p className="text-sm text-red-500 mb-2">{errors.root.message}</p>
-          )}
+          {errors.root?.message && <p className="mb-2 text-sm text-red-500">{errors.root.message}</p>}
 
           <Button
             type="submit"

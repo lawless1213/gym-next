@@ -58,7 +58,9 @@ describe("users/{uid} document", () => {
   });
 
   it("owner cannot change subscribed (whole or nested), createdAt or aiUsage", async () => {
-    await assertFails(updateDoc(doc(alice(), "users/alice"), { subscribed: { ...subscribed, plan: "lifetime", status: "active" } }));
+    await assertFails(
+      updateDoc(doc(alice(), "users/alice"), { subscribed: { ...subscribed, plan: "lifetime", status: "active" } }),
+    );
     await assertFails(updateDoc(doc(alice(), "users/alice"), { "subscribed.freeAiTries": 999 }));
     await assertFails(setDoc(doc(alice(), "users/alice"), { subscribed: { status: "active" } }, { merge: true }));
     await assertFails(updateDoc(doc(alice(), "users/alice"), { createdAt: new Date(0) }));

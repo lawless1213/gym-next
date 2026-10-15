@@ -19,11 +19,13 @@ export default function SubscribeBanner() {
   return (
     <div
       onClick={() => router.push("/settings?tab=subscribe")}
-      className={"flex gap-x-2 gap-y-4 p-4 min-h-17 items-center justify-between bg-primary/10 text-primary rounded-2xl duration-200 select-none max-sm:flex-col cursor-pointer hover:text-foreground"}>
-      <div className="flex gap-2 self-center items-center flex-1">
+      className={
+        "flex min-h-17 cursor-pointer items-center justify-between gap-x-2 gap-y-4 rounded-2xl bg-primary/10 p-4 text-primary duration-200 select-none hover:text-foreground max-sm:flex-col"
+      }>
+      <div className="flex flex-1 items-center gap-2 self-center">
         <IconCarambolaFilled className="shrink-0" />
         <div className="text-sm">
-          <p className="font-bold">{t("title")}.</p> 
+          <p className="font-bold">{t("title")}.</p>
           <p>{t("subtitle")}</p>
         </div>
         <IconChevronRight className="ml-auto shrink-0" />

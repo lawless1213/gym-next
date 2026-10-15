@@ -25,17 +25,15 @@ export function CookieBanner() {
   if (!visible) return null;
 
   return (
-    <div className="fixed inset-x-0 bottom-16 z-50 p-4 bg-card border-t border-border shadow-lg flex flex-col sm:flex-row items-center justify-between gap-4">
-      <p className="text-sm text-muted-foreground text-center sm:text-left">
-        {t('text')}
-      </p>
-      <div className="flex items-center gap-2 shrink-0">
+    <div className="fixed inset-x-0 bottom-16 z-50 flex flex-col items-center justify-between gap-4 border-t border-border bg-card p-4 shadow-lg sm:flex-row">
+      <p className="text-center text-sm text-muted-foreground sm:text-left">{t("text")}</p>
+      <div className="flex shrink-0 items-center gap-2">
         <Button
           variant="outline"
           onClick={() => handleConsent(false)}>
-          {t('required')}
+          {t("required")}
         </Button>
-        <Button onClick={() => handleConsent(true)}>{t('all')}</Button>
+        <Button onClick={() => handleConsent(true)}>{t("all")}</Button>
       </div>
     </div>
   );

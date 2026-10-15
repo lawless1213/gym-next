@@ -20,7 +20,7 @@ export function ChipGroup<T extends string>({
 }) {
   return (
     <div className="space-y-1.5">
-      {label && ( <Label label={{ text: label, for: id || "select" }} /> )}
+      {label && <Label label={{ text: label, for: id || "select" }} />}
       <div className="flex flex-wrap gap-2">
         {items.map((item) => {
           const checked = value.includes(item);
@@ -31,10 +31,7 @@ export function ChipGroup<T extends string>({
               type="button"
               role="checkbox"
               aria-checked={checked}
-              onClick={() =>
-                onChange(checked ? value.filter((v) => v !== item) : [...value, item])
-              }
-            >
+              onClick={() => onChange(checked ? value.filter((v) => v !== item) : [...value, item])}>
               {formatLabel ? formatLabel(item) : item}
             </Button>
           );

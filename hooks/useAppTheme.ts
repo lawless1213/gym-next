@@ -28,12 +28,12 @@ export function useAppTheme() {
     () => ({
       setTheme: (nextTheme: AppTheme) => {
         setTheme(nextTheme);
-        updateParam("theme", nextTheme );
+        updateParam("theme", nextTheme);
       },
       toggleTheme: () => {
         const nextTheme = isDark ? "light" : "dark";
-        setTheme(nextTheme)
-        updateParam("theme", nextTheme );
+        setTheme(nextTheme);
+        updateParam("theme", nextTheme);
       },
     }),
     [isDark, setTheme],

@@ -36,18 +36,18 @@ export function BottomNav() {
   };
 
   return (
-    <nav className="fixed bottom-0 left-0 right-0 z-50 border-t border-border bg-card/95 backdrop-blur-lg">
+    <nav className="fixed right-0 bottom-0 left-0 z-50 border-t border-border bg-card/95 backdrop-blur-lg">
       <div className="mx-auto flex max-w-lg items-center justify-around">
         {getNavLinks(!!user).map((item: NavItem) => {
           const isActive = Boolean(item.link && pathname === item.link);
           const baseStyles = `flex-1 flex h-16 justify-center flex-col items-center gap-1 rounded-xl py-2 transition-all duration-200 ${isActive ? "text-primary pointer-events-none" : "text-muted-foreground hover:text-foreground cursor-pointer"}`;
 
           const content = (
-            <div className={`relative min-h-10 flex items-center transition-transform ${isActive ? "scale-125" : ""}`}>
+            <div className={`relative flex min-h-10 items-center transition-transform ${isActive ? "scale-125" : ""}`}>
               {item.icon}
-              {(item.subscribeRequired && !params.subscribed.isActive) && (
-                <div className="absolute top-0 left-[60%] bg-card/95 p-1 rounded-[100%]">
-                  <IconCarambolaFilled className="size-2 text-foreground " />
+              {item.subscribeRequired && !params.subscribed.isActive && (
+                <div className="absolute top-0 left-[60%] rounded-[100%] bg-card/95 p-1">
+                  <IconCarambolaFilled className="size-2 text-foreground" />
                 </div>
               )}
             </div>

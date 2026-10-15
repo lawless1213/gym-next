@@ -23,45 +23,57 @@ export default function RecordCard({ record }: { record: PersonalRecord }) {
     <div
       onClick={() => setIsOpen((prev) => !prev)}
       aria-expanded={isOpen}
-      className="bg-card rounded-2xl border border-white/5">
+      className="rounded-2xl border border-white/5 bg-card">
       <div className="flex items-center gap-3 p-3">
-        <div className="w-10 h-10 rounded-xl bg-secondary flex items-center justify-center shrink-0">
-          <IconTrophy className="w-5 h-5 text-primary" />
+        <div className="flex h-10 w-10 shrink-0 items-center justify-center rounded-xl bg-secondary">
+          <IconTrophy className="h-5 w-5 text-primary" />
         </div>
-        <div className="flex-1 min-w-0">
+        <div className="min-w-0 flex-1">
           <div className="flex items-center gap-2">
-            <span className="text-sm font-semibold truncate">{title}</span>
-            {isNew && <span className="text-[10px] font-semibold bg-primary/15 text-primary rounded px-1.5 py-0.5 shrink-0">{t("new")}</span>}
+            <span className="truncate text-sm font-semibold">{title}</span>
+            {isNew && (
+              <span className="shrink-0 rounded bg-primary/15 px-1.5 py-0.5 text-[10px] font-semibold text-primary">
+                {t("new")}
+              </span>
+            )}
           </div>
 
-          <span className="text-xs text-muted-foreground">{date.toDate().toLocaleDateString(locale, { month: "short", day: "numeric", year: "numeric" })}</span>
+          <span className="text-xs text-muted-foreground">
+            {date.toDate().toLocaleDateString(locale, { month: "short", day: "numeric", year: "numeric" })}
+          </span>
         </div>
-        <span className="text-xl font-bold text-primary shrink-0 tabular-nums">{weight + tMeasurement(params.weight)}</span>
+        <span className="shrink-0 text-xl font-bold text-primary tabular-nums">
+          {weight + tMeasurement(params.weight)}
+        </span>
       </div>
 
       <AnimatePresence initial={false}>
         {isOpen && (
           <motion.div
-            className="overflow-hidden flex border-t border-dashed border-muted-foreground/20"
+            className="flex overflow-hidden border-t border-dashed border-muted-foreground/20"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}
             transition={{ duration: 0.25, ease: "easeInOut" }}>
-            <div className="flex-1 flex flex-col gap-0.5 p-3">
-              <span className="text-[10px] text-muted-foreground uppercase tracking-wide">{t("current")}</span>
+            <div className="flex flex-1 flex-col gap-0.5 p-3">
+              <span className="text-[10px] tracking-wide text-muted-foreground uppercase">{t("current")}</span>
               <span className="text-sm font-semibold text-primary">
                 {weight + tMeasurement(params.weight)} × {reps}
               </span>
             </div>
 
-            <div className="flex-1 flex flex-col gap-0.5 border-l border-dashed border-muted-foreground/20 p-3">
-              <span className="text-[10px] text-muted-foreground uppercase tracking-wide">{t("previous")}</span>
-              <span className="text-sm font-semibold text-muted-foreground">{prevWeight ? `${prevWeight + tMeasurement(params.weight)} × ${prevReps}` : "—"}</span>
+            <div className="flex flex-1 flex-col gap-0.5 border-l border-dashed border-muted-foreground/20 p-3">
+              <span className="text-[10px] tracking-wide text-muted-foreground uppercase">{t("previous")}</span>
+              <span className="text-sm font-semibold text-muted-foreground">
+                {prevWeight ? `${prevWeight + tMeasurement(params.weight)} × ${prevReps}` : "—"}
+              </span>
             </div>
 
-            <div className="flex-1 flex flex-col gap-0.5 border-l border-dashed border-muted-foreground/20 p-3">
-              <span className="text-[10px] text-muted-foreground uppercase tracking-wide">{t("growth")}</span>
-              <span className="text-sm font-semibold text-primary">{gain ? `+${gain + tMeasurement(params.weight)}` : "—"}</span>
+            <div className="flex flex-1 flex-col gap-0.5 border-l border-dashed border-muted-foreground/20 p-3">
+              <span className="text-[10px] tracking-wide text-muted-foreground uppercase">{t("growth")}</span>
+              <span className="text-sm font-semibold text-primary">
+                {gain ? `+${gain + tMeasurement(params.weight)}` : "—"}
+              </span>
             </div>
           </motion.div>
         )}

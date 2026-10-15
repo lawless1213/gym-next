@@ -1,9 +1,9 @@
 export default function Loader() {
   return (
-    <div className="w-[100px] h-[100px]">
+    <div className="h-[100px] w-[100px]">
       <svg
         viewBox="0 0 24 24"
-				className="text-primary"
+        className="text-primary"
         fill="currentColor"
         xmlns="http://www.w3.org/2000/svg">
         <path

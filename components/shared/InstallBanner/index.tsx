@@ -21,14 +21,13 @@ export default function InstallBanner() {
         <p className="truncate text-xs text-neutral-400">{ios ? t("descriptionIOS") : t("description")}</p>
       </div>
 
-      {!ios && <Button onClick={install} >{t("install")}</Button>}
+      {!ios && <Button onClick={install}>{t("install")}</Button>}
 
       <Button
         variant="outline"
         size="icon"
         onClick={dismiss}
-        aria-label="Закрити"
-      >
+        aria-label="Закрити">
         <IconX className="size-6" />
       </Button>
     </div>

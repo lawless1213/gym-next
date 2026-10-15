@@ -64,16 +64,18 @@ export default function CustomExercises() {
       {!!visibleExercises.length && (
         <>
           <div className="relative">
-            <IconSearch className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
+            <IconSearch className="absolute top-1/2 left-3 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
             <input
               type="text"
               placeholder={t("searchPlaceholder")}
               value={searchQuery}
               onChange={handleSearchChange}
-              className="w-full rounded-xl bg-card py-3 pl-10 pr-4 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+              className="w-full rounded-xl bg-card py-3 pr-4 pl-10 text-sm text-foreground placeholder:text-muted-foreground focus:ring-2 focus:ring-primary focus:outline-none"
             />
           </div>
-          <div className="text-sm text-muted-foreground">{loading ? "..." : `${filteredExercises.length}/${exercises.length}`}</div>
+          <div className="text-sm text-muted-foreground">
+            {loading ? "..." : `${filteredExercises.length}/${exercises.length}`}
+          </div>
         </>
       )}
       <SkeletonSwitcher

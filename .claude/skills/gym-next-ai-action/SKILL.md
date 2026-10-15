@@ -6,11 +6,13 @@ description: Use when adding or changing a Gemini-powered server action in Gym N
 # Gym Next — Gemini server actions
 
 Files live in `lib/actions/gemini/`. Shared pieces:
+
 - `client.ts` — `ai`, `GEMINI_MODEL`, `generateStructured({ prompt, schema })` (zod schema in, validated `z.infer` data out), `generateChatText(...)`, `GeminiResult<T>`.
 - `lib/schemas/ai-response.schema.ts` — zod response schemas (`Ai*ResponseSchema`) + `toGeminiJsonSchema`.
 - `guard.ts` — `withAiTry(idToken, run)` verifies the ID token, atomically reserves a try (free: `freeAiTries - 1`; premium: daily `aiUsage` < `PREMIUM_DAILY_AI_LIMIT`), runs `run(userId)` and refunds if it returns `success: false` or throws. Adds `freeAiTries` to the result.
 
 ## Steps
+
 1. File starts with `"use server";`.
 2. Validate input FIRST with a request schema from `lib/schemas/ai.schema.ts` (`AI*RequestSchema`; cap free-text lengths and history size) — invalid input must never cost a try.
 3. Then `return withAiTry(input.idToken, async (userId) => { ... })`. Inside, return literals with `success: true as const` / `success: false as const`.
@@ -21,10 +23,12 @@ Files live in `lib/actions/gemini/`. Shared pieces:
 8. On the client, update cached user params (`subscribed.freeAiTries`) from the result, as `components/modals/AI/__components/chat.tsx` does.
 
 ## Prompting
+
 - Respond in the user's locale (`locale` param); pass existing routine/exercise names so the model reuses them.
 - Keep the prompt in one place per action; enums (`MUSCLE_GROUPS`, `weekDays`) come from `data/exercise.ts` and `types`.
 
 ## Checklist
+
 - [ ] Uses `withAiTry` (token, limits, refund on failure)
 - [ ] Input and output validated with zod
 - [ ] No client Firebase SDK on the server

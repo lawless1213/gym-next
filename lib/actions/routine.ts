@@ -1,6 +1,15 @@
 import { db } from "@/lib/config/firebaseConfig";
 import { Exercise, RoutinesExercise } from "@/types";
-import { collection, addDoc, serverTimestamp, doc, writeBatch, DocumentReference, getDoc, updateDoc} from "firebase/firestore";
+import {
+  collection,
+  addDoc,
+  serverTimestamp,
+  doc,
+  writeBatch,
+  DocumentReference,
+  getDoc,
+  updateDoc,
+} from "firebase/firestore";
 
 export async function createAiUserRoutine(
   userId: string,
@@ -8,7 +17,7 @@ export async function createAiUserRoutine(
     title: string;
     color: string;
     exercises: Exercise[];
-  }
+  },
 ) {
   const batch = writeBatch(db);
   const finalExercises: RoutinesExercise[] = [];
@@ -46,7 +55,7 @@ export async function createAiUserRoutine(
   const exerciseRefs = finalExercises.map((exercise) =>
     exercise.isCustom
       ? doc(db, "users", userId, "exercises", exercise.exerciseId)
-      : doc(db, "exercises", exercise.exerciseId)
+      : doc(db, "exercises", exercise.exerciseId),
   );
 
   batch.set(newRoutineRef, {
@@ -67,20 +76,20 @@ export async function createUserRoutine(
     title: string;
     color: string;
     exercises: RoutinesExercise[];
-  }
+  },
 ) {
   const routinesRef = collection(db, "users", userId, "routines");
 
-	const exerciseRefs = data.exercises.map((exercise) =>
+  const exerciseRefs = data.exercises.map((exercise) =>
     exercise.isCustom
       ? doc(db, "users", userId, "exercises", exercise.exerciseId)
-      : doc(db, "exercises", exercise.exerciseId)
+      : doc(db, "exercises", exercise.exerciseId),
   );
 
   const docRef = await addDoc(routinesRef, {
     name: data.title,
     color: data.color,
-		exercises: exerciseRefs,
+    exercises: exerciseRefs,
     createdAt: serverTimestamp(),
   });
 
@@ -94,15 +103,15 @@ export async function editUserRoutine(
     title: string;
     color: string;
     exercises: RoutinesExercise[];
-  }
+  },
 ) {
-	const exerciseRefs = await Promise.all(
+  const exerciseRefs = await Promise.all(
     data.exercises.map(async (exercise) => {
       const customRef = doc(db, "users", userId, "exercises", exercise.exerciseId);
       const customSnap = await getDoc(customRef);
       if (customSnap.exists()) return customRef;
       return doc(db, "exercises", exercise.exerciseId);
-    })
+    }),
   );
 
   const exerciseRef = doc(db, "users", userId, "routines", routineId);
@@ -110,7 +119,7 @@ export async function editUserRoutine(
   await updateDoc(exerciseRef, {
     name: data.title,
     color: data.color,
-		exercises: exerciseRefs,
+    exercises: exerciseRefs,
   });
 
   return { id: routineId };
@@ -128,9 +137,7 @@ export async function deleteUserRoutine(userId: string, routineId: string) {
   const updatedSchedule = { ...schedule };
   for (const day of Object.keys(updatedSchedule)) {
     const dayRefs = updatedSchedule[day] ?? [];
-    updatedSchedule[day] = dayRefs.filter(
-      (r: DocumentReference) => r.path !== routineRef.path
-    );
+    updatedSchedule[day] = dayRefs.filter((r: DocumentReference) => r.path !== routineRef.path);
   }
 
   batch.update(userRef, { schedule: updatedSchedule });

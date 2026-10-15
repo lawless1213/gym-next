@@ -2,10 +2,7 @@ import { useQuery } from "@tanstack/react-query";
 import { getUserHistory } from "@/lib/services/history";
 import { HistoryOptions } from "@/types";
 
-export const useHistory = (
-  userId: string | undefined,
-  options: HistoryOptions
-) => {
+export const useHistory = (userId: string | undefined, options: HistoryOptions) => {
   return useQuery({
     queryKey: ["history", { userId, ...options }],
     queryFn: () => getUserHistory(userId!, options),

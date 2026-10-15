@@ -38,10 +38,10 @@ export default function MeasurementsChart({ progress, selectedMetric, loading }:
         />
       }>
       <div className="w-full rounded-xl bg-card py-4 pr-4">
-        <h3 className="pl-4 mb-4 text-sm font-semibold text-muted-foreground">{t(`measurements.${selectedMetric}`)}</h3>
-        <div className="h-48 w-full min-w-0 flex items-center text-center justify-center">
+        <h3 className="mb-4 pl-4 text-sm font-semibold text-muted-foreground">{t(`measurements.${selectedMetric}`)}</h3>
+        <div className="flex h-48 w-full min-w-0 items-center justify-center text-center">
           {!chartData?.length || !chartData ? (
-            <div className="text-center text-sm text-muted-foreground flex flex-col items-center gap-5 mt-2">
+            <div className="mt-2 flex flex-col items-center gap-5 text-center text-sm text-muted-foreground">
               <IconEdit
                 stroke={1.5}
                 className="size-25"
@@ -73,9 +73,10 @@ export default function MeasurementsChart({ progress, selectedMetric, loading }:
                     if (!payload || !payload.length) return null;
                     const { value, date } = payload[0].payload;
                     return (
-                      <div className="bg-card border border-border rounded-xl p-2">
+                      <div className="rounded-xl border border-border bg-card p-2">
                         <div className="font-semibold">
-                          {value} {selectedMetric === "weight" ? tMeasurement(params.weight) : tMeasurement(params.distance)}
+                          {value}{" "}
+                          {selectedMetric === "weight" ? tMeasurement(params.weight) : tMeasurement(params.distance)}
                         </div>
                         <div className="text-xs text-muted-foreground">{date}</div>
                       </div>

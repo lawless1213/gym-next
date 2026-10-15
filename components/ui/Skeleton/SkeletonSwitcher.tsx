@@ -33,16 +33,14 @@ export default function SkeletonSwitcher({
         <motion.div
           key="skeleton"
           {...animationProps}
-          className={fluid ? "w-full" : ""}
-        >
+          className={fluid ? "w-full" : ""}>
           {skeleton}
         </motion.div>
       ) : (
         <motion.div
           key={contentKey}
           {...animationProps}
-          className={fluid ? "w-full" : ""}
-        >
+          className={fluid ? "w-full" : ""}>
           {children}
         </motion.div>
       )}

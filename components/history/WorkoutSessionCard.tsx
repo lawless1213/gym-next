@@ -23,10 +23,12 @@ export default function WorkoutSessionCard(workout: WorkoutSessionType) {
     <div
       onClick={() => setIsOpen((prev) => !prev)}
       aria-expanded={isOpen}
-      className="w-full rounded-xl bg-card text-left cursor-pointer transition-colors hover:bg-secondary">
+      className="w-full cursor-pointer rounded-xl bg-card text-left transition-colors hover:bg-secondary">
       <div className="flex w-full items-center gap-4 p-4">
         <div className="flex h-12 w-12 shrink-0 flex-col items-center justify-center rounded-xl bg-secondary">
-          <span className="text-xs font-medium text-muted-foreground">{tMonth(`short.${String(date.getMonth() + 1)}`)}</span>
+          <span className="text-xs font-medium text-muted-foreground">
+            {tMonth(`short.${String(date.getMonth() + 1)}`)}
+          </span>
           <span className="text-lg font-bold text-foreground">{date.getDate()}</span>
         </div>
 
@@ -54,7 +56,7 @@ export default function WorkoutSessionCard(workout: WorkoutSessionType) {
       <AnimatePresence initial={false}>
         {isOpen && (
           <motion.div
-            className="overflow-hidden px-4 border-t border-dashed border-muted-foreground/20 flex flex-col"
+            className="flex flex-col overflow-hidden border-t border-dashed border-muted-foreground/20 px-4"
             initial={{ opacity: 0, height: 0 }}
             animate={{ opacity: 1, height: "auto" }}
             exit={{ opacity: 0, height: 0 }}

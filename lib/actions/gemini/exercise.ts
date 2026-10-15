@@ -11,9 +11,6 @@ import { MUSCLE_GROUPS } from "@/data/exercise";
 import { getLocalizedText } from "@/lib/utils";
 import type { Locale } from "@/types/common";
 
-
-
-
 type ExerciseInput = {
   goal: string;
   difficulty: string;
@@ -42,7 +39,7 @@ export async function generateAiExercise(input: ExerciseInput) {
 
     for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
       const prompt = buildPrompt(input, existingNames, attempt > 0);
-    
+
       const result = await generateStructured({
         prompt,
         schema: AiExerciseResponseSchema,
@@ -51,7 +48,6 @@ export async function generateAiExercise(input: ExerciseInput) {
       if (!result.success) {
         return result;
       }
-
 
       if (!isDuplicate(result.data.exercise.name, existingNames)) {
         return {
@@ -65,7 +61,6 @@ export async function generateAiExercise(input: ExerciseInput) {
     return { success: false as const, error: "Не вдалося згенерувати унікальну вправу. Спробуйте ще раз." };
   });
 }
-
 
 function filterRelevantExercises(exercises: Exercise[], groups: string[]): Exercise[] {
   if (groups.length === 0) return exercises;
@@ -85,7 +80,6 @@ function isDuplicate(name: string, existing: string[]): boolean {
   });
 }
 
-
 function buildPrompt(input: ExerciseInput, existingNames: string[], isRetry: boolean): string {
   const exclusionBlock =
     existingNames.length > 0
@@ -94,7 +88,9 @@ function buildPrompt(input: ExerciseInput, existingNames: string[], isRetry: boo
 ${existingNames.map((n) => `- ${n}`).join("\n")}`
       : "";
 
-  const retryNote = isRetry ? "\n\nПопередня відповідь збіглася з існуючою вправою. Запропонуй іншу, унікальну вправу." : "";
+  const retryNote = isRetry
+    ? "\n\nПопередня відповідь збіглася з існуючою вправою. Запропонуй іншу, унікальну вправу."
+    : "";
 
   return `
 Ти — досвідчений фітнес-тренер. Створи одну конкретну вправу.

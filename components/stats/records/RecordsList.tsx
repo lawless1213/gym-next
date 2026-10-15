@@ -34,7 +34,7 @@ export default function RecordsList({ records, loading }: RecordsListProps) {
   const { open, confirm } = useModal();
   const { user } = useAuth();
 
-   const isVerified = user?.emailVerified;
+  const isVerified = user?.emailVerified;
 
   const handleClick = () => {
     if (!isVerified) {
@@ -42,7 +42,7 @@ export default function RecordsList({ records, loading }: RecordsListProps) {
       return;
     }
 
-    open("quickWorkout")
+    open("quickWorkout");
   };
 
   return (

@@ -5,44 +5,50 @@ import { useTranslations } from "next-intl";
 import SettingsSection from "../SettingsSection";
 import Appearance from "./contents/Appearance";
 import UserPreferences from "./contents/UserPreferences";
-import { IconSparkles, IconSettingsSpark, IconBell } from '@tabler/icons-react';
+import { IconSparkles, IconSettingsSpark, IconBell } from "@tabler/icons-react";
 import Notifications from "./contents/Notifications";
 
 export default function Profile() {
-	const t = useTranslations("settings.preferences");
+  const t = useTranslations("settings.preferences");
 
-	const { user } = useAuth();
-	const userId = user?.uid;
+  const { user } = useAuth();
+  const userId = user?.uid;
 
-	const sectionItems = [
-		{
+  const sectionItems = [
+    {
       id: "appearance",
       label: t("appearance.title"),
       icon: IconSparkles,
       text: t("appearance.text"),
-			content: <Appearance/>
+      content: <Appearance />,
     },
     {
       id: "userPreferences",
       label: t("user.title"),
       icon: IconSettingsSpark,
       text: t("user.text"),
-			content: <UserPreferences/>
+      content: <UserPreferences />,
     },
     {
       id: "notifications",
       label: t("notifications.title"),
       icon: IconBell,
       text: t("notifications.text"),
-			content: <Notifications/>
+      content: <Notifications />,
     },
   ];
 
-	return (
-		<div className="space-y-4">
-			{sectionItems.map(item => (
-				<SettingsSection key={item.label} icon={item.icon} label={item.label} text={item.text} content={item.content} />
-			))}
-		</div>
-	);
+  return (
+    <div className="space-y-4">
+      {sectionItems.map((item) => (
+        <SettingsSection
+          key={item.label}
+          icon={item.icon}
+          label={item.label}
+          text={item.text}
+          content={item.content}
+        />
+      ))}
+    </div>
+  );
 }

@@ -94,7 +94,7 @@ export function WeeklyCalendar({ schedule }: WeeklyCalendarProps = {}) {
   const editScheduleHandler = (openCardIndex: number) => {
     if (user) {
       if (!isVerified) {
-        toast.warning(t('editVerify'));
+        toast.warning(t("editVerify"));
         return;
       }
       open("schedule", { dayIndex: openCardIndex, routines: scheduleDays[weekDays[openCardIndex]] });
@@ -104,7 +104,7 @@ export function WeeklyCalendar({ schedule }: WeeklyCalendarProps = {}) {
   };
 
   const CalendarSkeleton = (
-    <div className="flex items-center justify-between gap-1 w-full">
+    <div className="flex w-full items-center justify-between gap-1">
       {Array.from({ length: 7 }).map((_, i) => (
         <SkeletonBone
           key={i}
@@ -122,7 +122,7 @@ export function WeeklyCalendar({ schedule }: WeeklyCalendarProps = {}) {
       <SkeletonSwitcher
         isLoading={isLoading}
         skeleton={CalendarSkeleton}>
-        <div className="flex items-center justify-between gap-1 -mb-px">
+        <div className="-mb-px flex items-center justify-between gap-1">
           {weekDays.map((day, index) => {
             const isToday = index === todayIndex;
             const workout = scheduleDays[day];
@@ -137,17 +137,23 @@ export function WeeklyCalendar({ schedule }: WeeklyCalendarProps = {}) {
                 onClick={() => canOpen && cardToggler(index)}
                 onMouseEnter={() => canOpen && setHoveredIndex(index)}
                 onMouseLeave={() => setHoveredIndex((prev) => (prev === index ? null : prev))}
-                className={`relative flex flex-1 flex-col items-center gap-1.5 py-2 rounded-t-md min-h-[72px] overflow-hidden ${isToday ? "border-primary border-t" : ""} ${canOpen ? "cursor-pointer" : "cursor-default"}`}>
+                className={`relative flex min-h-[72px] flex-1 flex-col items-center gap-1.5 overflow-hidden rounded-t-md py-2 ${isToday ? "border-t border-primary" : ""} ${canOpen ? "cursor-pointer" : "cursor-default"}`}>
                 <span
                   aria-hidden
-                  className={`absolute inset-0 bg-secondary/80 transition-[clip-path] duration-250 ease-in-out pointer-events-none`}
+                  className={`pointer-events-none absolute inset-0 bg-secondary/80 transition-[clip-path] duration-250 ease-in-out`}
                   style={{
                     clipPath: isActive ? "inset(0% 0 0% 0)" : "inset(0% 0 100% 0)",
                   }}
                 />
-                <span className="relative z-10 text-[12px] font-medium uppercase text-muted-foreground">{tDays(`${day}`)}</span>
+                <span className="relative z-10 text-[12px] font-medium text-muted-foreground uppercase">
+                  {tDays(`${day}`)}
+                </span>
                 <span className="relative z-10 text-sm font-bold">{weekDates[index]}</span>
-                {hasWorkout && <div className={`relative z-10 h-1.5 w-1.5 rounded-full ${isPast ? "bg-muted-foreground" : "bg-primary"}`} />}
+                {hasWorkout && (
+                  <div
+                    className={`relative z-10 h-1.5 w-1.5 rounded-full ${isPast ? "bg-muted-foreground" : "bg-primary"}`}
+                  />
+                )}
               </div>
             );
           })}
@@ -167,9 +173,7 @@ export function WeeklyCalendar({ schedule }: WeeklyCalendarProps = {}) {
             exit={{ opacity: 1, height: 0 }}
             transition={{ duration: 0.25, ease: "easeInOut" }}>
             <div
-              className={`overflow-hidden flex flex-col gap-3 py-3 bg-secondary/80 rounded-b-md md:p-3
-                ${openCardIndex === 0 ? "rounded-tl-none" : ""}
-                ${openCardIndex === weekDays.length - 1 ? "rounded-tr-none" : ""}`}>
+              className={`flex flex-col gap-3 overflow-hidden rounded-b-md bg-secondary/80 py-3 md:p-3 ${openCardIndex === 0 ? "rounded-tl-none" : ""} ${openCardIndex === weekDays.length - 1 ? "rounded-tr-none" : ""}`}>
               {scheduleDays[weekDays[openCardIndex]].map((routine) => (
                 <RoutineCard
                   key={routine.id}

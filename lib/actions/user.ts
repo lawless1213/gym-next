@@ -37,10 +37,7 @@ interface UpdateProfileData {
   avatarFile?: File | null;
 }
 
-export const updateUserProfile = async (
-  userId: string,
-  data: UpdateProfileData
-) => {
+export const updateUserProfile = async (userId: string, data: UpdateProfileData) => {
   const currentUser = auth.currentUser;
   if (!currentUser) throw new Error("User not authenticated");
 
@@ -67,7 +64,7 @@ export const updateUserProfile = async (
   });
 
   const userDocRef = doc(db, "users", userId);
-  
+
   const updateData: Record<string, any> = {};
 
   if (data.avatarFile) updateData.avatarUrl = avatarUrl;

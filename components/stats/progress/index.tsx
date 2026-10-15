@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { IconScale, IconActivity} from "@tabler/icons-react";
+import { IconScale, IconActivity } from "@tabler/icons-react";
 import { LineChart, Line, XAxis, YAxis, Tooltip, ResponsiveContainer } from "recharts";
 import { useLocale, useTranslations } from "next-intl";
 import { useLastProgress } from "@/hooks/useServices/useProgress";
@@ -33,22 +33,62 @@ export default function Progress() {
       value: m.value,
     }));
 
-  const weightChange = progress?.weight && progress.weight.length >= 2 ? progress.weight.at(-1)!.value - progress.weight.at(-2)!.value : 0;
-  const waistChange = progress?.waist && progress.waist.length >= 2 ? progress.waist.at(-1)!.value - progress.waist.at(-2)!.value : 0;
-  const chestChange = progress?.chest && progress.chest.length >= 2 ? progress.chest.at(-1)!.value - progress.chest.at(-2)!.value : 0;
-  const thighsChange = progress?.thighs && progress.thighs.length >= 2 ? progress.thighs.at(-1)!.value - progress.thighs.at(-2)!.value : 0;
-  const armsChange = progress?.arms && progress.arms.length >= 2 ? progress.arms.at(-1)!.value - progress.arms.at(-2)!.value : 0;
+  const weightChange =
+    progress?.weight && progress.weight.length >= 2 ? progress.weight.at(-1)!.value - progress.weight.at(-2)!.value : 0;
+  const waistChange =
+    progress?.waist && progress.waist.length >= 2 ? progress.waist.at(-1)!.value - progress.waist.at(-2)!.value : 0;
+  const chestChange =
+    progress?.chest && progress.chest.length >= 2 ? progress.chest.at(-1)!.value - progress.chest.at(-2)!.value : 0;
+  const thighsChange =
+    progress?.thighs && progress.thighs.length >= 2 ? progress.thighs.at(-1)!.value - progress.thighs.at(-2)!.value : 0;
+  const armsChange =
+    progress?.arms && progress.arms.length >= 2 ? progress.arms.at(-1)!.value - progress.arms.at(-2)!.value : 0;
 
   const metrics = [
-    { key: "weight" as keyof BodyProgress, label: t("measurements.weight"), unit: tMeasurement(params.weight), icon: IconScale, change: weightChange, increaseProfit: false },
-    { key: "waist" as keyof BodyProgress, label: t("measurements.waist"), unit: tMeasurement(params.distance), icon: IconActivity, change: waistChange, increaseProfit: false },
-    { key: "chest" as keyof BodyProgress, label: t("measurements.chest"), unit: tMeasurement(params.distance), icon: IconActivity, change: chestChange, increaseProfit: true },
-    { key: "arms" as keyof BodyProgress, label: t("measurements.arms"), unit: tMeasurement(params.distance), icon: IconActivity, change: armsChange, increaseProfit: true },
-    { key: "thighs" as keyof BodyProgress, label: t("measurements.thighs"), unit: tMeasurement(params.distance), icon: IconActivity, change: thighsChange, increaseProfit: true },
+    {
+      key: "weight" as keyof BodyProgress,
+      label: t("measurements.weight"),
+      unit: tMeasurement(params.weight),
+      icon: IconScale,
+      change: weightChange,
+      increaseProfit: false,
+    },
+    {
+      key: "waist" as keyof BodyProgress,
+      label: t("measurements.waist"),
+      unit: tMeasurement(params.distance),
+      icon: IconActivity,
+      change: waistChange,
+      increaseProfit: false,
+    },
+    {
+      key: "chest" as keyof BodyProgress,
+      label: t("measurements.chest"),
+      unit: tMeasurement(params.distance),
+      icon: IconActivity,
+      change: chestChange,
+      increaseProfit: true,
+    },
+    {
+      key: "arms" as keyof BodyProgress,
+      label: t("measurements.arms"),
+      unit: tMeasurement(params.distance),
+      icon: IconActivity,
+      change: armsChange,
+      increaseProfit: true,
+    },
+    {
+      key: "thighs" as keyof BodyProgress,
+      label: t("measurements.thighs"),
+      unit: tMeasurement(params.distance),
+      icon: IconActivity,
+      change: thighsChange,
+      increaseProfit: true,
+    },
   ];
 
   return (
-    <div className="space-y-2 min-w-0">
+    <div className="min-w-0 space-y-2">
       <MeasurementsGrid
         metrics={metrics}
         progress={progress}
@@ -57,7 +97,11 @@ export default function Progress() {
         setSelectedMetric={setSelectedMetric}
       />
 
-      <MeasurementsChart loading={loading} progress={progress} selectedMetric={selectedMetric} />
+      <MeasurementsChart
+        loading={loading}
+        progress={progress}
+        selectedMetric={selectedMetric}
+      />
       <MeasurementsList
         loading={loading}
         progress={progress?.[selectedMetric] ?? []}

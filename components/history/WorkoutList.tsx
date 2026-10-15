@@ -12,7 +12,7 @@ interface WorkoutListProps {
 }
 
 const HistorySkeleton = (
-  <div className="space-y-3 w-full">
+  <div className="w-full space-y-3">
     {Array.from({ length: 3 }).map((_, i) => (
       <SkeletonBone
         key={i}
@@ -26,7 +26,7 @@ const HistorySkeleton = (
 export default function WorkoutList({ history, loading }: WorkoutListProps) {
   const t = useTranslations("history");
 
-  if(!history.length) return;
+  if (!history.length) return;
 
   return (
     <div className="space-y-3">
@@ -34,7 +34,7 @@ export default function WorkoutList({ history, loading }: WorkoutListProps) {
       <SkeletonSwitcher
         isLoading={loading}
         skeleton={HistorySkeleton}>
-        <div className="space-y-3 w-full">
+        <div className="w-full space-y-3">
           {history.map((workout) => (
             <WorkoutSessionCard
               key={workout.id}

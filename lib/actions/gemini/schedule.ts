@@ -14,9 +14,6 @@ import { getLocalizedText, toLocalizedText, type Locale } from "@/types/common";
 
 type WeekDay = (typeof weekDays)[number];
 
-
-
-
 export type ScheduleInput = {
   goal: string;
   difficulty: string;
@@ -30,16 +27,12 @@ export type ScheduleInput = {
   locale: string;
 };
 
-
-
 /**
  * Генерує превʼю розкладу тренувань за допомогою ШІ. В базу нічого не пише.
  * Результат готовий для прямої передачі в <WeeklyCalendar schedule={data} />.
  * Нові рутини/вправи позначені id, що починається з "temp-".
  */
-export async function generateAiSchedule(
-  input: ScheduleInput
-) {
+export async function generateAiSchedule(input: ScheduleInput) {
   const parsed = AIScheduleRequestSchema.safeParse(input);
   if (!parsed.success) {
     return { success: false as const, error: "Некоректні дані запиту." };
@@ -47,10 +40,7 @@ export async function generateAiSchedule(
   input = { ...input, ...parsed.data };
 
   return withAiTry(input.idToken, async (userId) => {
-    const [allExercises, existingRoutines] = await Promise.all([
-      getAllExercises(userId),
-      getUserRoutines(userId),
-    ]);
+    const [allExercises, existingRoutines] = await Promise.all([getAllExercises(userId), getUserRoutines(userId)]);
 
     const relevantExercises = filterRelevantExercises(allExercises, input.groups);
     const restDays = input.preferredRestDays ?? [];
@@ -83,16 +73,23 @@ export async function generateAiSchedule(
   });
 }
 
-function resolveDay(aiDay: AiScheduleDay, allExercises: Exercise[], existingRoutines: Routine[], locale: Locale = "uk"): Routine {
+function resolveDay(
+  aiDay: AiScheduleDay,
+  allExercises: Exercise[],
+  existingRoutines: Routine[],
+  locale: Locale = "uk",
+): Routine {
   const routineMatch = !aiDay.isNewRoutine ? findRoutineMatch(aiDay.routineName, existingRoutines) : undefined;
 
   if (routineMatch) {
-    return JSON.parse(JSON.stringify({ 
-      ...routineMatch, 
-      available: false, 
-      completed: false, 
-      editable: false 
-    }));
+    return JSON.parse(
+      JSON.stringify({
+        ...routineMatch,
+        available: false,
+        completed: false,
+        editable: false,
+      }),
+    );
   }
 
   const exercises: Exercise[] = (aiDay.exercises ?? []).map((aiEx) => {
@@ -129,7 +126,6 @@ function createEmptySchedule(): ScheduleMap {
   }, {} as ScheduleMap);
 }
 
-
 function filterRelevantExercises(exercises: Exercise[], groups: string[]): Exercise[] {
   if (groups.length === 0) return exercises;
   return exercises.filter((ex) => groups.some((g) => ex.muscleGroup.toLowerCase().includes(g.toLowerCase())));
@@ -159,7 +155,7 @@ function buildPrompt(
   input: ScheduleInput,
   relevantExercises: Exercise[],
   existingRoutines: Routine[],
-  restDays: WeekDay[]
+  restDays: WeekDay[],
 ): string {
   const routinesBlock =
     existingRoutines.length > 0

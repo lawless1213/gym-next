@@ -52,12 +52,13 @@ export function ExerciseEditModal() {
       photo: exercise.imageUrl ?? undefined,
       title: getLocalizedText(exercise.name, locale),
       description: getLocalizedText(exercise.description, locale),
-      groups: exercise.muscleGroup ? (exercise.muscleGroup.split(", ").filter(Boolean) as (typeof MUSCLE_GROUPS)[number][]) : [],
+      groups: exercise.muscleGroup
+        ? (exercise.muscleGroup.split(", ").filter(Boolean) as (typeof MUSCLE_GROUPS)[number][])
+        : [],
     });
   }, [exercise, locale, reset]);
 
   console.log(exercise);
-  
 
   const { ref: titleRef, ...titleRest } = register("title");
   const { ref: descriptionRef, ...descriptionRest } = register("description");
@@ -90,16 +91,21 @@ export function ExerciseEditModal() {
       <div className="flex flex-col gap-4">
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-1 flex-col static">
-          <div className="flex-1 space-y-2 mb-10">
+          className="static flex flex-1 flex-col">
+          <div className="mb-10 flex-1 space-y-2">
             <Controller
               name="photo"
               control={control}
               render={({ field: { onChange, value } }) => {
-                const previewUrl = value instanceof File ? URL.createObjectURL(value) : typeof value === "string" ? value : exercise?.imageUrl || null;
+                const previewUrl =
+                  value instanceof File
+                    ? URL.createObjectURL(value)
+                    : typeof value === "string"
+                      ? value
+                      : exercise?.imageUrl || null;
                 return (
-                  <label className="group flex flex-col items-center cursor-pointer">
-                    <div className="flex h-24 w-24 items-center justify-center rounded-2xl bg-secondary overflow-hidden">
+                  <label className="group flex cursor-pointer flex-col items-center">
+                    <div className="flex h-24 w-24 items-center justify-center overflow-hidden rounded-2xl bg-secondary">
                       {previewUrl ? (
                         <img
                           src={previewUrl}
@@ -116,11 +122,11 @@ export function ExerciseEditModal() {
                       className="hidden"
                       onChange={(e) => onChange(e.target.files?.[0])}
                     />
-                    <span className="flex items-center gap-2 text-sm font-medium group-hover:text-primary mt-1 transition-[0.2s]">
+                    <span className="mt-1 flex items-center gap-2 text-sm font-medium transition-[0.2s] group-hover:text-primary">
                       <IconUpload className="h-4 w-4" />
                       {value ? t("changePicture") : t("addPicture")}
                     </span>
-                    {errors.photo?.message && <p className="text-xs text-red-500 min-h-5">{errors.photo?.message}</p>}
+                    {errors.photo?.message && <p className="min-h-5 text-xs text-red-500">{errors.photo?.message}</p>}
                   </label>
                 );
               }}
@@ -154,7 +160,9 @@ export function ExerciseEditModal() {
                   <MuscleSchema
                     selectedMuscles={field.value ?? []}
                     onToggleMuscle={(muscle) => {
-                      const next = field.value.includes(muscle) ? field.value.filter((item) => item !== muscle) : [...field.value, muscle];
+                      const next = field.value.includes(muscle)
+                        ? field.value.filter((item) => item !== muscle)
+                        : [...field.value, muscle];
 
                       field.onChange(next);
                     }}

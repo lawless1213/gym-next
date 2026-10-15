@@ -37,7 +37,7 @@ export default function RoutinesList({ routines }: RoutinesListProps) {
   };
 
   return routines.length === 0 ? (
-    <div className="text-center text-sm text-muted-foreground flex flex-col items-center gap-5 mt-5">
+    <div className="mt-5 flex flex-col items-center gap-5 text-center text-sm text-muted-foreground">
       <IconMoodPuzzled
         stroke={1.5}
         className="size-25"

@@ -37,7 +37,7 @@ export async function writeExerciseRecord(userId: string, data: PersonalRecord) 
           }),
         },
       },
-      { merge: true }
+      { merge: true },
     );
     console.log("New personal record saved!");
   } else {

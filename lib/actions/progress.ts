@@ -1,12 +1,5 @@
 import { db } from "@/lib/config/firebaseConfig";
-import {
-  updateDoc,
-  doc,
-  arrayUnion,
-  Timestamp,
-  getDoc,
-  setDoc,
-} from "firebase/firestore";
+import { updateDoc, doc, arrayUnion, Timestamp, getDoc, setDoc } from "firebase/firestore";
 
 const PROGRESS_FIELDS = ["weight", "waist", "chest", "arms", "thighs"] as const;
 

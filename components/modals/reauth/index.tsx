@@ -12,7 +12,7 @@ import { useReauthModal } from "@/hooks/useModals/useReauthModal";
 export function ReauthModal() {
   const tComponents = useTranslations("components");
   const t = useTranslations("reauth");
-  
+
   // Отримуємо дані з нашого хука
   const { close, title, description, onSuccess } = useReauthModal();
 
@@ -40,11 +40,7 @@ export function ReauthModal() {
       reset();
       close();
     } catch (err: any) {
-      const wrongPasswordCodes = [
-        "auth/wrong-password",
-        "auth/invalid-credential",
-        "auth/invalid-password",
-      ];
+      const wrongPasswordCodes = ["auth/wrong-password", "auth/invalid-credential", "auth/invalid-password"];
 
       if (wrongPasswordCodes.includes(err?.code)) {
         setError("password", { message: "wrong_password" });
@@ -57,14 +53,13 @@ export function ReauthModal() {
   return (
     <ModalWrapper
       modalType="reauth"
-      title={title || t("modal.title")}
-    >
+      title={title || t("modal.title")}>
       <div className="flex flex-col gap-4">
-        {description && (
-          <p className="text-sm text-muted-foreground">{description}</p>
-        )}
+        {description && <p className="text-sm text-muted-foreground">{description}</p>}
 
-        <form onSubmit={handleSubmit(onSubmit)} className="flex flex-col gap-6">
+        <form
+          onSubmit={handleSubmit(onSubmit)}
+          className="flex flex-col gap-6">
           <Input
             ref={passwordRef}
             input={{
@@ -72,9 +67,7 @@ export function ReauthModal() {
               type: "password",
               id: "currentPassword",
               placeholder: t("fields.password"),
-              error:
-                errors.password?.message &&
-                tComponents("forms." + errors.password?.message),
+              error: errors.password?.message && tComponents("forms." + errors.password?.message),
             }}
           />
 
@@ -83,16 +76,14 @@ export function ReauthModal() {
               type="button"
               variant="outline"
               onClick={close}
-              disabled={isSubmitting}
-            >
+              disabled={isSubmitting}>
               {t("modal.cancel")}
             </Button>
 
             <Button
               type="submit"
               disabled={isSubmitting}
-              className="bg-primary text-primary-foreground hover:bg-primary/90"
-            >
+              className="bg-primary text-primary-foreground hover:bg-primary/90">
               {isSubmitting ? t("modal.confirming") : t("modal.confirm")}
             </Button>
           </div>

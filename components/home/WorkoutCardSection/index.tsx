@@ -29,7 +29,6 @@ export function WorkoutCardSection() {
     const routine = getNextPendingRoutine(scheduleMap);
     setNextRoutine(routine);
   }, [userId, scheduleMap]);
-  
 
   return (
     <SkeletonSwitcher

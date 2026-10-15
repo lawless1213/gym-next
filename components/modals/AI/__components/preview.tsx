@@ -29,7 +29,7 @@ export function Preview({ onChange }: PreviewProps) {
   const allowedTries = params.subscribed.freeAiTries;
 
   return (
-    <div className="flex items-center flex-col">
+    <div className="flex flex-col items-center">
       <Image
         className="invert-50"
         src="/images/trainer.png"
@@ -37,8 +37,8 @@ export function Preview({ onChange }: PreviewProps) {
         width={200}
         height={200}
       />
-      <p className="text-foreground text-center my-7">{t("subtitle")}</p>
-      <div className="flex flex-col gap-4 w-full">
+      <p className="my-7 text-center text-foreground">{t("subtitle")}</p>
+      <div className="flex w-full flex-col gap-4">
         <Button
           variant="default"
           onClick={() => toSubscribeHandle()}>
@@ -60,7 +60,7 @@ export function Preview({ onChange }: PreviewProps) {
           </Button>
         )}
       </div>
-      <div className="text-muted-foreground text-xs text-center mt-2">{t("tries", { count: allowedTries })}</div>
+      <div className="mt-2 text-center text-xs text-muted-foreground">{t("tries", { count: allowedTries })}</div>
     </div>
   );
 }

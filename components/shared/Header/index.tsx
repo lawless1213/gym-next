@@ -5,7 +5,7 @@ import { setUserLocale } from "@/i18n/i18n-action";
 import { IconUser, IconLogout, IconMoon, IconSun } from "@tabler/icons-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useAppTheme } from "@/hooks/useAppTheme";
-import { useModal } from  "@/components/modals/modal-store";
+import { useModal } from "@/components/modals/modal-store";
 import { toast } from "sonner";
 import { useEffect, useState } from "react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/Tooltip";
@@ -28,24 +28,29 @@ export function Header({ page }: HeaderProps) {
 
   const userId = user?.uid;
 
-
-  const title = page === "home" ? (user && user.displayName ? tPages("home.header.user", { user: user.displayName }) : tPages("home.header.guest")) : tPages(`${page}.title`);
-  const subtitle = page === "home" ? (tPages(`home.header.welcome.${user ? "auth" : "unauth"}`)) : tPages(`${page}.subtitle`);
+  const title =
+    page === "home"
+      ? user && user.displayName
+        ? tPages("home.header.user", { user: user.displayName })
+        : tPages("home.header.guest")
+      : tPages(`${page}.title`);
+  const subtitle =
+    page === "home" ? tPages(`home.header.welcome.${user ? "auth" : "unauth"}`) : tPages(`${page}.subtitle`);
 
   const handleLanguageChange = async () => {
     const newLocale = locale === "uk" ? "en" : "uk";
     try {
-    await setUserParams({
-      param: "language",
-      value: newLocale,
-      userId
-    });
+      await setUserParams({
+        param: "language",
+        value: newLocale,
+        userId,
+      });
 
-    await setUserLocale(newLocale);
-    setPendingLocaleChange(true);
-  } catch (error) {
-    console.error("Failed to save language:", error);
-  }
+      await setUserLocale(newLocale);
+      setPendingLocaleChange(true);
+    } catch (error) {
+      console.error("Failed to save language:", error);
+    }
   };
 
   useEffect(() => {
@@ -61,38 +66,26 @@ export function Header({ page }: HeaderProps) {
       show: mounted,
       onClick: toggleTheme,
       tooltip: isDark ? t("lightTheme") : t("darkTheme"),
-      icon: isDark ? (
-        <IconSun className="size-5" />
-      ) : (
-        <IconMoon className="size-5" />
-      ),
+      icon: isDark ? <IconSun className="size-5" /> : <IconMoon className="size-5" />,
     },
     {
       id: "lang",
       show: true,
       onClick: handleLanguageChange,
       tooltip: t("changeLang"),
-      icon: (
-        <span className="text-sm font-bold">
-          {(locale === "uk" ? "en" : "uk").toUpperCase()}
-        </span>
-      ),
+      icon: <span className="text-sm font-bold">{(locale === "uk" ? "en" : "uk").toUpperCase()}</span>,
     },
     {
       id: "auth",
       show: true,
       onClick: user ? logout : () => open("auth"),
       tooltip: user ? t("logout") : t("login"),
-      icon: user ? (
-        <IconLogout className="size-5" />
-      ) : (
-        <IconUser className="size-5" />
-      ),
+      icon: user ? <IconLogout className="size-5" /> : <IconUser className="size-5" />,
     },
   ];
 
   return (
-    <header className="flex items-center justify-between gap-2 sticky top-0 z-30 border-b border-border bg-card/95 p-4">
+    <header className="sticky top-0 z-30 flex items-center justify-between gap-2 border-b border-border bg-card/95 p-4">
       <div className="space-y-1">
         <h1 className="text-md font-bold text-foreground sm:text-2xl">{title}</h1>
         <p className="text-xs text-muted-foreground sm:text-sm">{subtitle}</p>
@@ -104,7 +97,10 @@ export function Header({ page }: HeaderProps) {
           .map((action) => (
             <Tooltip key={action.id}>
               <TooltipTrigger asChild>
-                <Button size="icon-lg" variant="outline" onClick={action.onClick}>
+                <Button
+                  size="icon-lg"
+                  variant="outline"
+                  onClick={action.onClick}>
                   {action.icon}
                 </Button>
               </TooltipTrigger>

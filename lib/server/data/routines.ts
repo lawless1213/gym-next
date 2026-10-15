@@ -20,7 +20,8 @@ function toAllowedExercisePath(item: unknown, userId: string): string | null {
 
   const segments = path.split("/").filter(Boolean);
   const isCatalog = segments.length === 2 && segments[0] === "exercises";
-  const isOwn = segments.length === 4 && segments[0] === "users" && segments[1] === userId && segments[2] === "exercises";
+  const isOwn =
+    segments.length === 4 && segments[0] === "users" && segments[1] === userId && segments[2] === "exercises";
   return isCatalog || isOwn ? segments.join("/") : null;
 }
 
@@ -41,11 +42,14 @@ export async function getUserRoutines(userId: string): Promise<Routine[]> {
         const exerciseSnaps = paths.length > 0 ? await adminDb.getAll(...paths.map((p) => adminDb.doc(p))) : [];
         const exercises: Exercise[] = exerciseSnaps
           .filter((s) => s.exists)
-          .map((s) => ({
-            ...toPlain<object>(s.data()),
-            id: s.id,
-            isCustom: s.ref.path.startsWith("users/"),
-          }) as Exercise);
+          .map(
+            (s) =>
+              ({
+                ...toPlain<object>(s.data()),
+                id: s.id,
+                isCustom: s.ref.path.startsWith("users/"),
+              }) as Exercise,
+          );
 
         return {
           id: routineSnap.id,
@@ -53,7 +57,7 @@ export async function getUserRoutines(userId: string): Promise<Routine[]> {
           color: data.color ?? "#2563EB",
           exercises,
         } satisfies Routine;
-      })
+      }),
     );
   } catch (error) {
     console.error("getUserRoutines (admin) failed:", error);

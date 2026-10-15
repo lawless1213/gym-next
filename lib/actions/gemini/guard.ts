@@ -11,8 +11,7 @@ type AiUsage = { day: string; count: number };
 type Reservation = { userId: string; kind: "free" } | { userId: string; kind: "premium"; day: string };
 
 type ReserveResult =
-  | { ok: true; reservation: Reservation; freeAiTries: number }
-  | { ok: false; error: string; freeAiTries: number };
+  { ok: true; reservation: Reservation; freeAiTries: number } | { ok: false; error: string; freeAiTries: number };
 
 const utcDay = (date = new Date()) => date.toISOString().slice(0, 10);
 

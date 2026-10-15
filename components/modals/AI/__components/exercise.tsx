@@ -6,7 +6,7 @@ import { z } from "zod";
 import { Button } from "@/components/ui/Button";
 import { TextArea } from "@/components/ui/form/textarea";
 import { AUTH_ERRORS } from "@/lib/errors/auth";
-import { useModal } from  "@/components/modals/modal-store";
+import { useModal } from "@/components/modals/modal-store";
 import { IconBarbell, IconCheck, IconUpload } from "@tabler/icons-react";
 import { useState } from "react";
 import { toast } from "sonner";
@@ -90,8 +90,8 @@ export function AiExerciseContent() {
             <ExerciseCard exercise={result.data} />
           </div>
         ),
-        cancelLabel: t('confirm.cancel'),
-        confirmLabel: t('confirm.confirm'),
+        cancelLabel: t("confirm.cancel"),
+        confirmLabel: t("confirm.confirm"),
       });
 
       if (ok) {
@@ -112,8 +112,8 @@ export function AiExerciseContent() {
   return (
     <form
       onSubmit={handleSubmit(onSubmit)}
-      className="flex flex-1 flex-col static">
-      <div className="flex-1 space-y-6 mb-10">
+      className="static flex flex-1 flex-col">
+      <div className="mb-10 flex-1 space-y-6">
         {selectFields.map(({ name, placeholder, options, key }) => (
           <Controller
             key={name}
@@ -146,7 +146,7 @@ export function AiExerciseContent() {
               id="groups"
               label={t("fields.muscleGroups")}
               formatLabel={(item) => tComponents("muscleGroups." + item)}
-              error={errors.groups?.message && tComponents('forms.' + errors.groups?.message)}
+              error={errors.groups?.message && tComponents("forms." + errors.groups?.message)}
             />
           )}
         />
@@ -157,12 +157,12 @@ export function AiExerciseContent() {
             ...commentRest,
             id: "title",
             placeholder: t("fields.additionalComment"),
-            error: errors.comment?.message && tComponents('forms.' + errors.comment?.message),
+            error: errors.comment?.message && tComponents("forms." + errors.comment?.message),
           }}
         />
       </div>
 
-      {errors.root && <p className="text-sm text-red-500 mb-1">{errors.root.message}</p>}
+      {errors.root && <p className="mb-1 text-sm text-red-500">{errors.root.message}</p>}
 
       <Button
         type="submit"

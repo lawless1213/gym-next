@@ -11,9 +11,11 @@ type ModalStore = {
   confirm: (options: ConfirmOptions) => Promise<boolean>;
 };
 
-type ConfirmState = (ConfirmOptions & {
-  resolve: (value: boolean) => void;
-}) | null;
+type ConfirmState =
+  | (ConfirmOptions & {
+      resolve: (value: boolean) => void;
+    })
+  | null;
 
 const ModalContext = createContext<ModalStore | null>(null);
 

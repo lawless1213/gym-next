@@ -11,9 +11,6 @@ import type { Exercise } from "@/types";
 import { getLocalizedText, toLocalizedText } from "@/lib/utils";
 import { Locale } from "next-intl";
 
-
-
-
 export type RoutineInput = {
   goal: string;
   difficulty: string;
@@ -26,17 +23,13 @@ export type RoutineInput = {
   locale: string;
 };
 
-
-
 export type GeneratedRoutine = {
   name: string;
   color: string;
   exercises: Exercise[];
 };
 
-export async function generateAiRoutine(
-  input: RoutineInput
-) {
+export async function generateAiRoutine(input: RoutineInput) {
   const parsed = AIRoutineRequestSchema.safeParse(input);
   if (!parsed.success) {
     return { success: false as const, error: "Некоректні дані запиту." };
@@ -94,7 +87,6 @@ export async function generateAiRoutine(
     };
   });
 }
-
 
 function filterRelevantExercises(exercises: Exercise[], groups: string[]): Exercise[] {
   if (groups.length === 0) return exercises;

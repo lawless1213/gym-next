@@ -1,4 +1,4 @@
-import { useModal } from  "@/components/modals/modal-store";
+import { useModal } from "@/components/modals/modal-store";
 import { Routine } from "@/types";
 
 type ScheduleModalData = {
@@ -9,7 +9,7 @@ type ScheduleModalData = {
 export function useScheduleModal() {
   const modal = useModal();
   const data = modal.data as ScheduleModalData;
-	
+
   return {
     ...modal,
     dayIndex: data?.dayIndex,

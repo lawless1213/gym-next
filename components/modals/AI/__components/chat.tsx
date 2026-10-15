@@ -79,8 +79,8 @@ export function AiChatContent() {
 
   return (
     <>
-      <div className="flex-1 flex flex-col gap-4 overflow-y-auto">
-        {messages.length === 0 && <p className="text-center text-muted-foreground m-auto">{t("description")}</p>}
+      <div className="flex flex-1 flex-col gap-4 overflow-y-auto">
+        {messages.length === 0 && <p className="m-auto text-center text-muted-foreground">{t("description")}</p>}
 
         {messages.map((msg, index) => {
           const isLastMessage = index === messages.length - 1;
@@ -90,7 +90,8 @@ export function AiChatContent() {
             <div
               key={msg.id}
               className={`flex ${isModel ? "justify-start" : "justify-end"}`}>
-              <div className={`max-w-[80%] rounded-2xl px-4 py-2.5 whitespace-pre-wrap text-sm ${isModel ? "bg-muted text-foreground rounded-bl-none" : "bg-primary text-primary-foreground rounded-br-none"}`}>
+              <div
+                className={`max-w-[80%] rounded-2xl px-4 py-2.5 text-sm whitespace-pre-wrap ${isModel ? "rounded-bl-none bg-muted text-foreground" : "rounded-br-none bg-primary text-primary-foreground"}`}>
                 {isModel && isLastMessage ? (
                   <TypewriterText
                     text={msg.text}
@@ -106,18 +107,19 @@ export function AiChatContent() {
 
         {isLoading && (
           <div className="flex justify-start">
-            <div className="bg-muted text-muted-foreground rounded-2xl rounded-bl-none px-4 py-2 text-sm animate-pulse">{t("loading")}</div>
+            <div className="animate-pulse rounded-2xl rounded-bl-none bg-muted px-4 py-2 text-sm text-muted-foreground">
+              {t("loading")}
+            </div>
           </div>
         )}
         <div ref={messagesEndRef} />
       </div>
-      {
-        (!params.subscribed.isActive && params.subscribed.freeAiTries === 0) &&
-        <div className="text-center bg-secondary p-2 rounded-2xl">дальші треба купіть подпіську</div>
-      }
+      {!params.subscribed.isActive && params.subscribed.freeAiTries === 0 && (
+        <div className="rounded-2xl bg-secondary p-2 text-center">дальші треба купіть подпіську</div>
+      )}
       <form
         onSubmit={handleSubmit}
-        className="flex gap-2 mt-auto">
+        className="mt-auto flex gap-2">
         <Input
           input={{
             id: "chatInput",

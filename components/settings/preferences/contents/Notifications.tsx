@@ -4,14 +4,14 @@ import { useAuth } from "@/hooks/useAuth";
 import { useTranslations } from "next-intl";
 
 export default function Notifications() {
-	const t = useTranslations("settings.notifications");
+  const t = useTranslations("settings.notifications");
 
-	const { user } = useAuth();
-	const userId = user?.uid;
+  const { user } = useAuth();
+  const userId = user?.uid;
 
-	return (
-		<>
-			<div className="text-muted-foreground text-xs">Notifications will be available in future</div>	
-		</>
-	);
+  return (
+    <>
+      <div className="text-xs text-muted-foreground">Notifications will be available in future</div>
+    </>
+  );
 }

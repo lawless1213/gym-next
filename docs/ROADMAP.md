@@ -6,6 +6,7 @@ Estimates are rough, for a single developer. The "why" behind each item is in [P
 **Context:** the app has no real users yet. Data schemas can change freely, test data in Firestore can be wiped, and no migrations or backward compatibility are needed. This is the cheapest moment for breaking changes.
 
 ## Stage 0 — Security & monetization (P0, ~3–4 days)
+
 Order inside the stage: 0.4 (schema) → 0.3 → 0.1 → 0.2 → the rest. Rules and server-side user creation both depend on the shape of `subscribed`.
 
 - [x] 0.4 Single source of truth for subscriptions: `subscribed: { plan, status, expiresAt, freeAiTries }`; `isActive` is computed on the server; the guard and the UI read the same thing. No migration needed — wipe existing test user docs.
@@ -29,6 +30,7 @@ Order inside the stage: 0.4 (schema) → 0.3 → 0.1 → 0.2 → the rest. Rules
   - `apphosting.yaml`: public `NEXT_PUBLIC_FIREBASE_*` (BUILD + RUNTIME) and `FIREBASE_PROJECT_ID` as values; `FIREBASE_CLIENT_EMAIL`, `FIREBASE_PRIVATE_KEY`, `GEMINI_API_KEY` as Secret Manager refs (`firebaseClientEmail`, `firebasePrivateKey`, `geminiApiKey`) — create them with `firebase apphosting:secrets:set`.
 
 ## Stage 1 — Bugs (P1, ~0.5 day)
+
 - [x] 1.1 `hooks/useAuth.tsx`: remove `import { subscribe } from "diagnostics_channel"`.
 - [x] 1.2 `Plans/index.tsx`: move `useTranslations` out of `.map()` to the top level.
 - [x] 1.3 `layout.tsx`: `lang={locale}` from `getLocale()`; `Inter({ subsets: ["latin", "cyrillic"] })`; remove `maximumScale: 1`.
@@ -39,6 +41,7 @@ Order inside the stage: 0.4 (schema) → 0.3 → 0.1 → 0.2 → the rest. Rules
 - [x] 1.7 `themeColor` as an array for light/dark.
 
 ## Stage 2 — Packages, tooling & safety net (P2, ~2–3 days)
+
 - [x] 2.1 Remove `@headlessui/react`, `@tailwindplus/elements`, `@tanstack/query-sync-storage-persister`, `@vercel/speed-insights`, `package-lock.json`. Add `"packageManager": "pnpm@…"`.
 - [x] 2.2 `@types/node` → 22+.
 - [x] 2.3 Prettier (+ `prettier-plugin-tailwindcss`), Husky + lint-staged.
@@ -51,6 +54,7 @@ Order inside the stage: 0.4 (schema) → 0.3 → 0.1 → 0.2 → the rest. Rules
 - [ ] 2.9 Sentry (or Crashlytics) for the client and server actions.
 
 ## Stage 3 — Architecture & cleanup (P3, ~1–2 weeks, incremental)
+
 No users yet, so this is the cheapest time to do it — start right after Stage 2 instead of postponing.
 
 - [ ] 3.1 `lib/actions` (client-side writes) → `lib/mutations`; real server actions → `lib/server/actions`.
@@ -71,6 +75,7 @@ No users yet, so this is the cheapest time to do it — start right after Stage 
   - [ ] `app/` stays routing-only (thin `page.tsx`/`layout.tsx` composing features).
 
 ## Stage 4 — Product (P4, after stabilization)
+
 - [ ] 4.1 Payments: Stripe/LemonSqueezy + webhook → server-side `subscribed` update (depends on 0.3–0.4).
 - [ ] 4.2 Reliable offline workout logging with a sync queue — only for the client-side writes defined in 3.2.
 - [ ] 4.3 Rest timer (vibration, sound).
@@ -112,6 +117,7 @@ Dependency rules: `app` → `features` → `shared`; `server` → `shared`; feat
 Decided against (for now): **fp-ts** (in maintenance, superseded by Effect) and **Effect** (no complex async orchestration in the app; TanStack Query + zod + a small `Result<T, E>` type cover the needs). Reconsider Effect only for a dedicated backend (payment webhooks, queues, background sync).
 
 ## Order
+
 1. Stage 1 first (half a day), alongside the start of Stage 0.
 2. Stage 0 — in the order given above; must be done before launching payments (4.1).
 3. Stage 2 — tests, e2e and CI as a safety net.

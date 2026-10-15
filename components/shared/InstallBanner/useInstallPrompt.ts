@@ -12,8 +12,7 @@ interface UseInstallPromptResult {
 }
 
 export function useInstallPrompt(): UseInstallPromptResult {
-  const [deferredPrompt, setDeferredPrompt] =
-    useState<BeforeInstallPromptEvent | null>(null);
+  const [deferredPrompt, setDeferredPrompt] = useState<BeforeInstallPromptEvent | null>(null);
   const [visible, setVisible] = useState(false);
   const [ios, setIos] = useState(false);
 

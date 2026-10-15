@@ -20,7 +20,15 @@ type Props = {
   size?: "default" | "large" | "high";
 };
 
-export function ModalWrapper({ modalType, children, classes, contentClasses, size = "default", title, header = true }: Props) {
+export function ModalWrapper({
+  modalType,
+  children,
+  classes,
+  contentClasses,
+  size = "default",
+  title,
+  header = true,
+}: Props) {
   const { type, close } = useModal();
   const isOpen = type === modalType;
   useBodyScrollLock(isOpen);
@@ -54,7 +62,7 @@ export function ModalWrapper({ modalType, children, classes, contentClasses, siz
             className="fixed inset-0 z-50 bg-muted-foreground/5 backdrop-blur-sm"
           />
           <div
-            className="fixed inset-0 z-50 flex justify-center items-start pointer-events-none"
+            className="pointer-events-none fixed inset-0 z-50 flex items-start justify-center"
             onClick={close}>
             <motion.div
               key="modal"
@@ -67,10 +75,14 @@ export function ModalWrapper({ modalType, children, classes, contentClasses, siz
                 stiffness: 400,
                 damping: 30,
               }}
-              className={clsx("pointer-events-auto max-w-screen bg-card shadow-xl shadow-card rounded-b-xl flex flex-col max-h-dvh w-[600px]", classes, {
-                "h-dvh": size === "high",
-                "sm:h-[95dvh] sm:w-[90vw]": size === "large",
-              })}>
+              className={clsx(
+                "pointer-events-auto flex max-h-dvh w-[600px] max-w-screen flex-col rounded-b-xl bg-card shadow-xl shadow-card",
+                classes,
+                {
+                  "h-dvh": size === "high",
+                  "sm:h-[95dvh] sm:w-[90vw]": size === "large",
+                },
+              )}>
               {header && (
                 <div className="flex items-center justify-between border-b border-border p-3 sm:p-6">
                   <h2 className="text-xl font-bold text-foreground">{title}</h2>
@@ -85,7 +97,7 @@ export function ModalWrapper({ modalType, children, classes, contentClasses, siz
               )}
               <div
                 className={clsx(
-                  "p-3 flex flex-col flex-1 min-h-0 overflow-y-auto sm:p-6",
+                  "flex min-h-0 flex-1 flex-col overflow-y-auto p-3 sm:p-6",
                   "transform-gpu will-change-transform",
                   contentClasses,
                 )}
@@ -94,8 +106,7 @@ export function ModalWrapper({ modalType, children, classes, contentClasses, siz
                   if (activeElement && (activeElement.tagName === "INPUT" || activeElement.tagName === "TEXTAREA")) {
                     activeElement.blur();
                   }
-                }}
-                >
+                }}>
                 {children}
               </div>
             </motion.div>

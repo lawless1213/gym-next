@@ -11,15 +11,15 @@ interface TotalRecordsProps {
   loading: boolean;
 }
 
-export default function TotalRecords({records, loading}: TotalRecordsProps) {
+export default function TotalRecords({ records, loading }: TotalRecordsProps) {
   const { params } = useUserPreferences();
   const tMeasurement = useTranslations("components.measurement");
   const t = useTranslations("stats.records");
 
-  if(!records.length) return;
-  
+  if (!records.length) return;
+
   return (
-    <div className="space-y-3 mt-5">
+    <div className="mt-5 space-y-3">
       <h2 className="text-sm font-semibold text-muted-foreground">{t("title")}</h2>
 
       <SkeletonSwitcher
@@ -32,7 +32,7 @@ export default function TotalRecords({records, loading}: TotalRecordsProps) {
             />
           </div>
         }>
-        <div className="rounded-xl bg-card p-4 grid grid-cols-2 gap-4">
+        <div className="grid grid-cols-2 gap-4 rounded-xl bg-card p-4">
           <div>
             <p className="text-2xl font-bold text-foreground tabular-nums">{records.length}</p>
             <p className="text-sm text-muted-foreground">{t("amount")}</p>

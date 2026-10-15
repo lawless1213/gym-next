@@ -41,12 +41,18 @@ export function SetInput({ set, setNumber, onUpdate, onComplete }: SetInputProps
   };
 
   return (
-    <div className={cn("flex items-center gap-2 rounded-xl p-3 transition-all", set.completed ? "bg-primary/10 ring-1 ring-primary/30" : "bg-secondary")}>
-      <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-sm font-bold text-muted-foreground">{setNumber}</div>
+    <div
+      className={cn(
+        "flex items-center gap-2 rounded-xl p-3 transition-all",
+        set.completed ? "bg-primary/10 ring-1 ring-primary/30" : "bg-secondary",
+      )}>
+      <div className="flex h-6 w-6 shrink-0 items-center justify-center rounded-full text-sm font-bold text-muted-foreground">
+        {setNumber}
+      </div>
 
       <div className="flex flex-1 flex-col gap-1">
         <div className="flex items-center justify-between">
-          <span className="text-[10px] font-medium uppercase text-muted-foreground">{t("weight")}</span>
+          <span className="text-[10px] font-medium text-muted-foreground uppercase">{t("weight")}</span>
         </div>
         <div className="flex items-center gap-1">
           <Button
@@ -66,7 +72,7 @@ export function SetInput({ set, setNumber, onUpdate, onComplete }: SetInputProps
               onUpdate({ weight: val });
             }}
             disabled={set.completed}
-            className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none h-8 w-10 sm:w16 rounded-lg bg-background text-center text-sm font-semibold text-foreground outline-none ring-1 ring-border focus:ring-primary disabled:opacity-50"
+            className="sm:w16 h-8 w-10 [appearance:textfield] rounded-lg bg-background text-center text-sm font-semibold text-foreground ring-1 ring-border outline-none focus:ring-primary disabled:opacity-50 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
             placeholder={tMeasurement(params.weight)}
           />
           <Button
@@ -82,7 +88,7 @@ export function SetInput({ set, setNumber, onUpdate, onComplete }: SetInputProps
 
       <div className="flex flex-1 flex-col gap-1">
         <div className="flex items-center justify-between">
-          <span className="text-[10px] font-medium uppercase text-muted-foreground">{t("reps")}</span>
+          <span className="text-[10px] font-medium text-muted-foreground uppercase">{t("reps")}</span>
           {/* {set.lastReps !== undefined && (
             <span className="text-[10px] text-muted-foreground">
               Last: {set.lastReps}
@@ -107,7 +113,7 @@ export function SetInput({ set, setNumber, onUpdate, onComplete }: SetInputProps
               onUpdate({ reps: val });
             }}
             disabled={set.completed}
-            className="[appearance:textfield] [&::-webkit-outer-spin-button]:appearance-none [&::-webkit-inner-spin-button]:appearance-none h-8 w-10 sm:w16 rounded-lg bg-background text-center text-sm font-semibold text-foreground outline-none ring-1 ring-border focus:ring-primary disabled:opacity-50"
+            className="sm:w16 h-8 w-10 [appearance:textfield] rounded-lg bg-background text-center text-sm font-semibold text-foreground ring-1 ring-border outline-none focus:ring-primary disabled:opacity-50 [&::-webkit-inner-spin-button]:appearance-none [&::-webkit-outer-spin-button]:appearance-none"
             placeholder="#"
           />
           <Button

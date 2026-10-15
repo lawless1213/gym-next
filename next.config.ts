@@ -1,6 +1,6 @@
-import type { NextConfig } from 'next';
-import createNextIntlPlugin from 'next-intl/plugin';
-import withPWAInit from '@ducanh2912/next-pwa';
+import type { NextConfig } from "next";
+import createNextIntlPlugin from "next-intl/plugin";
+import withPWAInit from "@ducanh2912/next-pwa";
 
 const withNextIntl = createNextIntlPlugin();
 
@@ -45,16 +45,16 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [
       {
-        protocol: 'https',
-        hostname: 'lh3.googleusercontent.com', // Домен аватарів Google
+        protocol: "https",
+        hostname: "lh3.googleusercontent.com", // Домен аватарів Google
       },
       {
-        protocol: 'https',
-        hostname: 'avatars.githubusercontent.com', // Домен аватарів GitHub
+        protocol: "https",
+        hostname: "avatars.githubusercontent.com", // Домен аватарів GitHub
       },
       {
-        protocol: 'https',
-        hostname: 'firebasestorage.googleapis.com',
+        protocol: "https",
+        hostname: "firebasestorage.googleapis.com",
       },
     ],
   },

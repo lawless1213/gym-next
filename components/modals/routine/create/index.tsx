@@ -97,8 +97,8 @@ export function RoutineCreateModal() {
       <div className="flex flex-col gap-4">
         <form
           onSubmit={handleSubmit(onSubmit)}
-          className="flex flex-1 space-y-2 mb-10 flex-col">
-          <div className="flex flex-col flex-1 space-y-2 mb-10">
+          className="mb-10 flex flex-1 flex-col space-y-2">
+          <div className="mb-10 flex flex-1 flex-col space-y-2">
             <Controller
               name="color"
               control={control}
@@ -106,7 +106,7 @@ export function RoutineCreateModal() {
                 const currentValue = field.value || "";
 
                 return (
-                  <div className="space-y-2 py-2 mx-auto">
+                  <div className="mx-auto space-y-2 py-2">
                     <div className="flex gap-3">
                       {colors.map((colorItem) => {
                         const isSelected = currentValue === colorItem;
@@ -125,7 +125,9 @@ export function RoutineCreateModal() {
                         );
                       })}
                     </div>
-                    {errors.color?.message && <p className="text-sm text-red-500 text-center">{tForms(errors.color.message)}</p>}
+                    {errors.color?.message && (
+                      <p className="text-center text-sm text-red-500">{tForms(errors.color.message)}</p>
+                    )}
                   </div>
                 );
               }}
@@ -148,17 +150,21 @@ export function RoutineCreateModal() {
 
               <div className="space-y-2">
                 {fields.map((field, index) => {
-                  const groups = field.muscleGroup ? (field.muscleGroup.split(",").filter(Boolean) as (typeof MUSCLE_GROUPS)[number][]) : [];
+                  const groups = field.muscleGroup
+                    ? (field.muscleGroup.split(",").filter(Boolean) as (typeof MUSCLE_GROUPS)[number][])
+                    : [];
 
                   return (
                     <div
                       key={field.id}
                       className="flex items-center gap-3 rounded-xl bg-secondary p-3">
                       <IconGridDots className="h-5 w-5 text-muted-foreground" />
-                      <span className="flex h-6 w-6 items-center justify-center rounded-full bg-muted text-xs font-bold text-muted-foreground">{index + 1}</span>
+                      <span className="flex h-6 w-6 items-center justify-center rounded-full bg-muted text-xs font-bold text-muted-foreground">
+                        {index + 1}
+                      </span>
                       <div className="flex-1">
                         <p className="font-medium text-foreground">{getLocalizedText(field.name, locale)}</p>
-                        <div className="text-xs text-muted-foreground flex gap-1">
+                        <div className="flex gap-1 text-xs text-muted-foreground">
                           {groups.map((group) => (
                             <span key={group}>{tGroups(group.trim().toLowerCase())}</span>
                           ))}
@@ -176,7 +182,9 @@ export function RoutineCreateModal() {
                   );
                 })}
 
-                {errors.exercises?.message && <p className="text-sm text-red-500">{tForms(errors.exercises.message)}</p>}
+                {errors.exercises?.message && (
+                  <p className="text-sm text-red-500">{tForms(errors.exercises.message)}</p>
+                )}
 
                 <Button
                   variant="dashed"
@@ -190,7 +198,7 @@ export function RoutineCreateModal() {
               </div>
             </div>
 
-            {errors.root && <p className="text-sm text-red-500 mb-1">{errors.root.message}</p>}
+            {errors.root && <p className="mb-1 text-sm text-red-500">{errors.root.message}</p>}
 
             <Button
               type="submit"
@@ -215,16 +223,18 @@ export function RoutineCreateModal() {
               </div>
               <div className="flex-1 space-y-2 overflow-y-auto p-6">
                 <div className="relative">
-                  <IconSearch className="absolute left-3 top-1/2 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
+                  <IconSearch className="absolute top-1/2 left-3 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
                   <input
                     type="text"
                     placeholder={t("searchPlaceholder")}
                     value={searchQuery}
                     onChange={handleSearchChange}
-                    className="w-full rounded-xl bg-card py-3 pl-10 pr-4 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                    className="w-full rounded-xl bg-card py-3 pr-4 pl-10 text-sm text-foreground placeholder:text-muted-foreground focus:ring-2 focus:ring-primary focus:outline-none"
                   />
                 </div>
-                <div className="text-sm text-muted-foreground">{loading ? "..." : `${filteredExercises.length}/${exercises.length}`}</div>
+                <div className="text-sm text-muted-foreground">
+                  {loading ? "..." : `${filteredExercises.length}/${exercises.length}`}
+                </div>
                 {filteredExercises.map((exercise) => {
                   const isSelected = fields.some((e) => e.exerciseId == exercise.id);
 

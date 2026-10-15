@@ -21,11 +21,11 @@ export function AuthModal() {
 
         <Button
           variant="link"
-          className="text-xs text-zinc-400 hover:underline cursor-pointer self-start"
+          className="cursor-pointer self-start text-xs text-zinc-400 hover:underline"
           onClick={() => setIsSignUp(!isSignUp)}>
           {isSignUp ? t("modal.alreadyHaveAccount") : t("modal.dontHaveAccount")}
         </Button>
-        <div className="w-full h-0.5 bg-muted-foreground opacity-10"></div>
+        <div className="h-0.5 w-full bg-muted-foreground opacity-10"></div>
         <LoginWith />
       </div>
     </ModalWrapper>

@@ -6,7 +6,7 @@ import { QuickWorkoutSession } from "@/types";
 import { useAuth } from "@/hooks/useAuth";
 import { useAllExercises } from "@/hooks/useServices/useExercises";
 import { useWorkoutSession } from "@/hooks/workout/useWorkoutSession";
-import { useModal } from  "@/components/modals/modal-store";
+import { useModal } from "@/components/modals/modal-store";
 import { Select } from "@/components/ui/form/select";
 import { writeWorkoutSession } from "@/lib/actions/workout";
 import { Timestamp } from "firebase/firestore";
@@ -34,7 +34,22 @@ export function QuickWorkoutModal() {
     exercises: [],
   };
 
-  const { workout, setWorkout, isPaused, setIsPaused, elapsedTime, formatTime, handleUpdateSet, handleAddSet, handleRemoveSet, totalSets, completedSets, progress, getFinishedWorkout, persistWorkoutDraft } = useWorkoutSession(initialWorkout);
+  const {
+    workout,
+    setWorkout,
+    isPaused,
+    setIsPaused,
+    elapsedTime,
+    formatTime,
+    handleUpdateSet,
+    handleAddSet,
+    handleRemoveSet,
+    totalSets,
+    completedSets,
+    progress,
+    getFinishedWorkout,
+    persistWorkoutDraft,
+  } = useWorkoutSession(initialWorkout);
 
   useWorkoutSessionPersistence({ persist: persistWorkoutDraft, isPaused });
 
@@ -42,10 +57,21 @@ export function QuickWorkoutModal() {
 
   const handleAddExercise = (exerciseIdOrName: string, isQuick = false) => {
     if (isQuick) {
-      const name = exerciseIdOrName.trim().length === 0 ? `Quick Exercise ${workout.exercises.length + 1}` : exerciseIdOrName.trim();
+      const name =
+        exerciseIdOrName.trim().length === 0
+          ? `Quick Exercise ${workout.exercises.length + 1}`
+          : exerciseIdOrName.trim();
       setWorkout((prev) => ({
         ...prev,
-        exercises: [...prev.exercises, { id: crypto.randomUUID(), name: toLocalizedText(name), isQuick: true, sets: [{ weight: 0, reps: 0, completed: false }] }],
+        exercises: [
+          ...prev.exercises,
+          {
+            id: crypto.randomUUID(),
+            name: toLocalizedText(name),
+            isQuick: true,
+            sets: [{ weight: 0, reps: 0, completed: false }],
+          },
+        ],
       }));
       return;
     }
@@ -81,7 +107,7 @@ export function QuickWorkoutModal() {
     const finishedWorkout = getFinishedWorkout();
 
     const ok = await confirm({
-      title: t('confirmFinish.title')
+      title: t("confirmFinish.title"),
     });
 
     if (ok) {
@@ -126,7 +152,9 @@ export function QuickWorkoutModal() {
         ))}
         <Select
           input={{
-            options: exercises.filter((exercise) => !workout.exercises.some((w) => w.id === exercise.id)).map((exercise) => ({ value: exercise.id, label: getLocalizedText(exercise.name, locale) })),
+            options: exercises
+              .filter((exercise) => !workout.exercises.some((w) => w.id === exercise.id))
+              .map((exercise) => ({ value: exercise.id, label: getLocalizedText(exercise.name, locale) })),
             placeholder: "Виберіть чи введіть назву",
             allowCustom: true,
             onChange: handleAddExercise,

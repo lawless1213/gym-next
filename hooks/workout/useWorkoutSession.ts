@@ -5,7 +5,7 @@ import { PersistReason, WorkoutSet } from "@/types";
 
 interface SessionShape {
   id: string;
-	isQuick: boolean;
+  isQuick: boolean;
   name: string;
   duration?: number;
   volume?: number;
@@ -16,18 +16,18 @@ interface StoredSession<T> {
   workout: T;
   elapsedTime: number;
   savedAt: number;
-	reason: PersistReason;
+  reason: PersistReason;
 }
 
 const STORAGE_PREFIX = "workout-session-";
 
 function getStorageKey(isQuick: boolean, workoutId: string) {
-	if(isQuick) return `${STORAGE_PREFIX}quick`;
+  if (isQuick) return `${STORAGE_PREFIX}quick`;
   return `${STORAGE_PREFIX}${workoutId}`;
 }
 
 export function useWorkoutSession<T extends SessionShape>(initialWorkout: T) {
-	const storageKey = getStorageKey(initialWorkout.isQuick ,initialWorkout.id);
+  const storageKey = getStorageKey(initialWorkout.isQuick, initialWorkout.id);
   const [workout, setWorkout] = useState<T>(initialWorkout);
   const [elapsedTime, setElapsedTime] = useState(0);
   const [isPaused, setIsPaused] = useState(true);
@@ -42,20 +42,28 @@ export function useWorkoutSession<T extends SessionShape>(initialWorkout: T) {
     const hrs = Math.floor(seconds / 3600);
     const mins = Math.floor((seconds % 3600) / 60);
     const secs = seconds % 60;
-    return hrs > 0 ? `${hrs}:${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}` : `${mins}:${secs.toString().padStart(2, "0")}`;
+    return hrs > 0
+      ? `${hrs}:${mins.toString().padStart(2, "0")}:${secs.toString().padStart(2, "0")}`
+      : `${mins}:${secs.toString().padStart(2, "0")}`;
   };
 
   const handleUpdateSet = (exerciseId: string, num: number, updates: Partial<WorkoutSet>) => {
     setWorkout((prev) => ({
       ...prev,
-      exercises: prev.exercises.map((ex) => (ex.id === exerciseId ? { ...ex, sets: ex.sets.map((set, idx) => (idx === num ? { ...set, ...updates } : set)) } : ex)),
+      exercises: prev.exercises.map((ex) =>
+        ex.id === exerciseId
+          ? { ...ex, sets: ex.sets.map((set, idx) => (idx === num ? { ...set, ...updates } : set)) }
+          : ex,
+      ),
     }));
   };
 
   const handleAddSet = (exerciseId: string) => {
     setWorkout((prev) => ({
       ...prev,
-      exercises: prev.exercises.map((ex) => (ex.id === exerciseId ? { ...ex, sets: [...ex.sets, { weight: 0, reps: 0, completed: false }] } : ex)),
+      exercises: prev.exercises.map((ex) =>
+        ex.id === exerciseId ? { ...ex, sets: [...ex.sets, { weight: 0, reps: 0, completed: false }] } : ex,
+      ),
     }));
   };
 
@@ -73,9 +81,11 @@ export function useWorkoutSession<T extends SessionShape>(initialWorkout: T) {
   const getFinishedWorkout = (): T => ({
     ...workout,
     duration: elapsedTime,
-    volume: workout.exercises.reduce((acc, ex) => acc + ex.sets.filter((s) => s.completed).reduce((setAcc, set) => setAcc + set.weight * set.reps, 0), 0),
+    volume: workout.exercises.reduce(
+      (acc, ex) => acc + ex.sets.filter((s) => s.completed).reduce((setAcc, set) => setAcc + set.weight * set.reps, 0),
+      0,
+    ),
   });
-
 
   const stateRef = useRef({ workout, elapsedTime });
   useEffect(() => {
@@ -90,13 +100,11 @@ export function useWorkoutSession<T extends SessionShape>(initialWorkout: T) {
           workout: currentWorkout,
           elapsedTime: currentElapsed,
           savedAt: Date.now(),
-					reason: reason,
+          reason: reason,
         };
 
-        const hasCompletedSet = currentWorkout.exercises.some((ex) =>
-          ex.sets.some((set) => set.completed),
-        );
-  
+        const hasCompletedSet = currentWorkout.exercises.some((ex) => ex.sets.some((set) => set.completed));
+
         if (!hasCompletedSet) {
           if (process.env.NODE_ENV === "development") {
             console.log(`[persistWorkoutDraft] пропущено (немає виконаних сетів), причина: ${reason}`);
@@ -120,7 +128,7 @@ export function useWorkoutSession<T extends SessionShape>(initialWorkout: T) {
     [storageKey],
   );
 
-	const clearStoredWorkout = useCallback(() => {
+  const clearStoredWorkout = useCallback(() => {
     try {
       window.localStorage.removeItem(storageKey);
     } catch (error) {
@@ -143,6 +151,6 @@ export function useWorkoutSession<T extends SessionShape>(initialWorkout: T) {
     progress,
     getFinishedWorkout,
     persistWorkoutDraft,
-		clearStoredWorkout,
+    clearStoredWorkout,
   };
 }

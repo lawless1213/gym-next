@@ -3,11 +3,10 @@ import { db } from "@/lib/config/firebaseConfig";
 import { RecordsMap } from "@/types";
 import { Period } from "@/types";
 
-
 export async function getUserRecords(
   userId: string,
   period: Period = "all",
-  exerciseIds?: string[]
+  exerciseIds?: string[],
 ): Promise<RecordsMap> {
   const snap = await getDoc(doc(db, "users", userId, "stats", "records"));
 

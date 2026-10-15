@@ -16,8 +16,8 @@ export default function Subscribe() {
           />
         </span>
         <div>
-          <h2 className="text-2xl font-bold tracking-tight">{t('title')}</h2>
-          <p className="mt-1 text-sm text-muted-foreground">{t('subtitle')}</p>
+          <h2 className="text-2xl font-bold tracking-tight">{t("title")}</h2>
+          <p className="mt-1 text-sm text-muted-foreground">{t("subtitle")}</p>
         </div>
       </header>
       <Plans />

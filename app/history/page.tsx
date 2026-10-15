@@ -17,8 +17,14 @@ export default function History() {
 
   return (
     <div className="flex flex-col gap-4 pb-4">
-      <WeekStats history={history} loading={loading}/>
-      <WorkoutList history={history} loading={loading}/>
+      <WeekStats
+        history={history}
+        loading={loading}
+      />
+      <WorkoutList
+        history={history}
+        loading={loading}
+      />
     </div>
   );
 }

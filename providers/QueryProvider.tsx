@@ -38,7 +38,7 @@ export const QueryProvider = ({ children }: { children: React.ReactNode }) => {
             retry: 1,
           },
         },
-      })
+      }),
   );
 
   // Drop all cached (and persisted) data when the signed-in user changes: logout,
@@ -84,8 +84,7 @@ export const QueryProvider = ({ children }: { children: React.ReactNode }) => {
       onSuccess={() => {
         queryClient.resumePausedMutations();
         queryClient.invalidateQueries();
-      }}
-    >
+      }}>
       {children}
     </PersistQueryClientProvider>
   );

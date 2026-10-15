@@ -68,13 +68,10 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>(({ input }, _ref) 
 
   const trimmedSearch = search.trim();
   const filteredOptions = searchable
-    ? options.filter((option) =>
-        option.label.toLowerCase().includes(trimmedSearch.toLowerCase()),
-      )
+    ? options.filter((option) => option.label.toLowerCase().includes(trimmedSearch.toLowerCase()))
     : options;
 
-  const showCustomOption =
-    searchable && allowCustom && trimmedSearch.length > 0 && filteredOptions.length === 0;
+  const showCustomOption = searchable && allowCustom && trimmedSearch.length > 0 && filteredOptions.length === 0;
 
   const handleAcceptCustom = () => {
     onChange?.(trimmedSearch || "", true);
@@ -124,9 +121,11 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>(({ input }, _ref) 
         if (typeof _ref === "function") _ref(node);
         else if (_ref) (_ref as React.MutableRefObject<HTMLDivElement | null>).current = node;
       }}>
-      {label && ( <Label label={{ text: label, for: id || "select" }} /> )}
+      {label && <Label label={{ text: label, for: id || "select" }} />}
 
-      <div ref={triggerRef} className="relative">
+      <div
+        ref={triggerRef}
+        className="relative">
         <div className="flex w-full items-center gap-2">
           <Button
             variant="secondary"
@@ -136,14 +135,12 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>(({ input }, _ref) 
             name={name}
             onClick={() => setIsOpen((prev) => !prev)}
             className={clsx(
-              "w-full justify-between flex-1",
+              "w-full flex-1 justify-between",
               !selectedOption && "text-muted-foreground",
               error && "ring-2 ring-red-500",
               classes,
             )}>
-            <span className="truncate text-sm">
-              {isLoading ? "Завантаження..." : displayLabel || placeholder}
-            </span>
+            <span className="truncate text-sm">{isLoading ? "Завантаження..." : displayLabel || placeholder}</span>
             <IconChevronDown
               stroke={2}
               className={clsx(
@@ -184,7 +181,7 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>(({ input }, _ref) 
                     }
                   }}
                   placeholder={searchPlaceholder}
-                  className="w-full rounded-lg bg-background px-3 py-2 pr-8 text-sm text-foreground placeholder:text-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
+                  className="w-full rounded-lg bg-background px-3 py-2 pr-8 text-sm text-foreground placeholder:text-muted-foreground focus:ring-2 focus:ring-primary focus:outline-none"
                 />
               </div>
             )}
@@ -211,10 +208,7 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>(({ input }, _ref) 
                     variant="ghost"
                     type="button"
                     onClick={() => handleSelect(option)}
-                    className={clsx(
-                      "w-full justify-start",
-                      option.value === value && "bg-primary/15 font-medium",
-                    )}>
+                    className={clsx("w-full justify-start", option.value === value && "bg-primary/15 font-medium")}>
                     {option.label}
                   </Button>
                 ))

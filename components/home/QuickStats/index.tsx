@@ -9,12 +9,12 @@ import { PersonalRecord, WorkoutSession } from "@/types";
 import { useUserPreferences } from "@/providers/user-preferences-provider";
 
 type QuickStatsProps = {
-	lastWeekHistory: WorkoutSession[];
-	lastWeekRecords: PersonalRecord[];
-	isLoading: boolean;
+  lastWeekHistory: WorkoutSession[];
+  lastWeekRecords: PersonalRecord[];
+  isLoading: boolean;
 };
 
-export default function QuickStats({lastWeekHistory, lastWeekRecords, isLoading}:QuickStatsProps) {
+export default function QuickStats({ lastWeekHistory, lastWeekRecords, isLoading }: QuickStatsProps) {
   const { params } = useUserPreferences();
   const t = useTranslations("home");
   const tMeasurement = useTranslations("components.measurement");

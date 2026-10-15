@@ -35,9 +35,19 @@ export function WorkoutModal() {
   };
 
   const {
-    workout, isPaused, setIsPaused, elapsedTime, formatTime,
-    handleUpdateSet, handleAddSet, handleRemoveSet,
-    totalSets, completedSets, progress, getFinishedWorkout, persistWorkoutDraft
+    workout,
+    isPaused,
+    setIsPaused,
+    elapsedTime,
+    formatTime,
+    handleUpdateSet,
+    handleAddSet,
+    handleRemoveSet,
+    totalSets,
+    completedSets,
+    progress,
+    getFinishedWorkout,
+    persistWorkoutDraft,
   } = useWorkoutSession(initialWorkout);
 
   useWorkoutSessionPersistence({ persist: persistWorkoutDraft, isPaused });
@@ -49,7 +59,7 @@ export function WorkoutModal() {
     const finishedWorkout = getFinishedWorkout();
 
     const ok = await confirm({
-      title: t('confirmFinish.title')
+      title: t("confirmFinish.title"),
     });
 
     if (ok) {
@@ -63,16 +73,20 @@ export function WorkoutModal() {
   };
 
   return (
-    <ModalWrapper modalType="workout" header={false} title={workout.name} contentClasses="pt-0">
+    <ModalWrapper
+      modalType="workout"
+      header={false}
+      title={workout.name}
+      contentClasses="pt-0">
       <WorkoutHeader
         title={workout.name}
         elapsedTime={formatTime(elapsedTime)}
         isPaused={isPaused}
         onTogglePause={() => setIsPaused(!isPaused)}
         onClose={() => {
-					close(); 
-					persistWorkoutDraft("modal-close");
-				}}
+          close();
+          persistWorkoutDraft("modal-close");
+        }}
         progress={progress}
       />
 
@@ -89,7 +103,11 @@ export function WorkoutModal() {
         ))}
       </main>
 
-      <WorkoutFooter completedSets={completedSets} totalSets={totalSets} onFinish={handleFinishWorkout} />
+      <WorkoutFooter
+        completedSets={completedSets}
+        totalSets={totalSets}
+        onFinish={handleFinishWorkout}
+      />
     </ModalWrapper>
   );
 }
