@@ -20,7 +20,8 @@ Order inside the stage: 0.4 (schema) → 0.3 → 0.1 → 0.2 → the rest. Rules
   - Done: `lib/server/data/{exercises,routines,serialize}.ts`. Routine exercise refs are resolved only for `exercises/*` and the caller's own `users/{uid}/exercises/*` (Admin SDK bypasses rules). Admin values are serialized to plain JSON (Timestamp → ms, ref → path).
 - [x] 0.6 AI limits: charge a try only after a successful response (or refund on failure), decrementing `freeAiTries` inside a Firestore transaction so parallel requests cannot bypass the limit; rate limit premium users too (e.g. N/day); cap message and history length; validate client-sent history with zod.
   - Done: `withAiTry(idToken, run)` in `guard.ts` — atomic reserve → run → refund on failure/throw. Premium: `PREMIUM_DAILY_AI_LIMIT = 50`/UTC day in server-only `users/{uid}.aiUsage` (protected by rules + test). Inputs validated with `AI*RequestSchema` before charging (comment ≤ 500, chat message ≤ 2000, history ≤ 10 × 8000). Fixed: chat sent the new message twice.
-- [ ] 0.7 Validate Gemini responses with zod `safeParse`; generate Gemini schemas with `z.toJSONSchema()`.
+- [x] 0.7 Validate Gemini responses with zod `safeParse`; generate Gemini schemas with `z.toJSONSchema()`.
+  - Done: response schemas in `lib/schemas/ai-response.schema.ts`; `generateStructured({ prompt, schema })` sends `responseJsonSchema` generated from zod and returns `safeParse` data (invalid JSON/shape → error, try refunded by `withAiTry`). Removed `any` from `client.ts`.
 - [ ] 0.8 Validate the `locale` cookie against `i18n/locales.ts`, fall back to `uk`.
 - [ ] 0.9 Verify `.env.local` was never committed (`git log --all -- .env.local`). If it was — rotate all keys (Gemini, Firebase service account), not just purge history. App Hosting secrets via Secret Manager in `apphosting.yaml`.
 

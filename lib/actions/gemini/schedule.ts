@@ -2,6 +2,7 @@
 
 import { randomUUID } from "crypto";
 import { generateStructured } from "./client";
+import { AiScheduleResponseSchema, type AiScheduleDay } from "@/lib/schemas/ai-response.schema";
 import { withAiTry } from "./guard";
 import { AIScheduleRequestSchema } from "@/lib/schemas/ai.schema";
 import { getAllExercises } from "@/lib/server/data/exercises";
@@ -12,58 +13,9 @@ import type { Exercise, Routine, ScheduleMap } from "@/types";
 import { getLocalizedText, toLocalizedText, type Locale } from "@/types/common";
 
 type WeekDay = (typeof weekDays)[number];
-type MuscleGroup = (typeof MUSCLE_GROUPS)[number];
 
-const routineExerciseSchema = {
-  type: "object",
-  properties: {
-    name: { type: "string" },
-    isNew: {
-      type: "boolean",
-      description: "true, якщо цієї вправи немає серед існуючих і її треба створити",
-    },
-    description: {
-      type: "string",
-      description: "Коротка інструкція з техніки виконання. Обов'язково, якщо isNew=true",
-    },
-    muscleGroup: { type: "string", enum: MUSCLE_GROUPS },
-  },
-  required: ["name", "isNew", "muscleGroup"],
-};
 
-const scheduleDaySchema = {
-  type: "object",
-  properties: {
-    day: { type: "string", enum: weekDays },
-    isNewRoutine: {
-      type: "boolean",
-      description: "false, якщо на цей день можна перевикористати ІСНУЮЧУ рутину користувача (тоді вкажи її точну назву в routineName)",
-    },
-    routineName: {
-      type: "string",
-      description: "Точна назва існуючої рутини (якщо isNewRoutine=false) або назва нової рутини (якщо isNewRoutine=true)",
-    },
-    color: {
-      type: "string",
-      description: "HEX-колір, напр. #4F46E5. Обов'язково тільки якщо isNewRoutine=true",
-    },
-    exercises: {
-      type: "array",
-      description: "Список вправ. Обов'язково тільки якщо isNewRoutine=true",
-      items: routineExerciseSchema,
-    },
-  },
-  required: ["day", "isNewRoutine", "routineName"],
-};
 
-const scheduleResponseSchema = {
-  type: "object",
-  properties: {
-    schedule: { type: "array", items: scheduleDaySchema },
-    summary: { type: "string" },
-  },
-  required: ["schedule", "summary"],
-};
 
 export type ScheduleInput = {
   goal: string;
@@ -78,23 +30,7 @@ export type ScheduleInput = {
   locale: string;
 };
 
-type AiScheduleDay = {
-  day: WeekDay;
-  isNewRoutine: boolean;
-  routineName: string;
-  color?: string;
-  exercises?: {
-    name: string;
-    isNew: boolean;
-    description?: string;
-    muscleGroup: MuscleGroup;
-  }[];
-};
 
-type AiRawResponse = {
-  schedule: AiScheduleDay[];
-  summary: string;
-};
 
 /**
  * Генерує превʼю розкладу тренувань за допомогою ШІ. В базу нічого не пише.
@@ -121,9 +57,9 @@ export async function generateAiSchedule(
 
     const prompt = buildPrompt(input, relevantExercises, existingRoutines, restDays);
 
-    const result = await generateStructured<AiRawResponse>({
+    const result = await generateStructured({
       prompt,
-      schema: scheduleResponseSchema,
+      schema: AiScheduleResponseSchema,
     });
 
     if (!result.success) {

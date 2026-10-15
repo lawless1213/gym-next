@@ -3,38 +3,16 @@
 import type { Exercise } from "@/types";
 import { randomUUID } from "crypto";
 import { generateStructured } from "./client";
+import { AiExerciseResponseSchema, type AiExerciseResponse } from "@/lib/schemas/ai-response.schema";
 import { withAiTry } from "./guard";
 import { AIExerciseRequestSchema } from "@/lib/schemas/ai.schema";
 import { getAllExercises } from "@/lib/server/data/exercises";
 import { MUSCLE_GROUPS } from "@/data/exercise";
-import { getLocalizedText, toLocalizedText } from "@/lib/utils";
+import { getLocalizedText } from "@/lib/utils";
+import type { Locale } from "@/types/common";
 
 
-type MuscleGroup = (typeof MUSCLE_GROUPS)[number];
 
-const exerciseResponseSchema = {
-  type: "object",
-  properties: {
-    exercise: {
-      type: "object",
-      properties: {
-        name: { type: "string" },
-        description: {
-          type: "string",
-          description: "Коротка інструкція з техніки виконання",
-        },
-        muscleGroup: {
-          type: "string",
-          enum: MUSCLE_GROUPS,
-          description: "Одна з дозволених груп м'язів",
-        },
-      },
-      required: ["name", "description", "muscleGroup"],
-    },
-    summary: { type: "string" },
-  },
-  required: ["exercise", "summary"],
-};
 
 type ExerciseInput = {
   goal: string;
@@ -46,14 +24,7 @@ type ExerciseInput = {
   locale: string;
 };
 
-type AiRawResponse = {
-  exercise: {
-    name: string;
-    description: string;
-    muscleGroup: MuscleGroup;
-  };
-  summary: string;
-};
+type AiRawResponse = AiExerciseResponse;
 
 const MAX_RETRIES = 2;
 
@@ -67,23 +38,20 @@ export async function generateAiExercise(input: ExerciseInput) {
   return withAiTry(input.idToken, async (userId) => {
     const allExercises = await getAllExercises(userId);
     const relevantExercises = filterRelevantExercises(allExercises, input.groups);
-    const existingNames = relevantExercises.map((ex) => getLocalizedText(ex.name, input.locale as any));
+    const existingNames = relevantExercises.map((ex) => getLocalizedText(ex.name, input.locale as Locale));
 
     for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
       const prompt = buildPrompt(input, existingNames, attempt > 0);
     
-      const result = await generateStructured<AiRawResponse>({
+      const result = await generateStructured({
         prompt,
-        schema: exerciseResponseSchema,
+        schema: AiExerciseResponseSchema,
       });
 
       if (!result.success) {
         return result;
       }
 
-      if (!isValidMuscleGroup(result.data.exercise.muscleGroup)) {
-        continue;
-      }
 
       if (!isDuplicate(result.data.exercise.name, existingNames)) {
         return {
@@ -117,9 +85,6 @@ function isDuplicate(name: string, existing: string[]): boolean {
   });
 }
 
-function isValidMuscleGroup(value: string): value is MuscleGroup {
-  return (MUSCLE_GROUPS as readonly string[]).includes(value);
-}
 
 function buildPrompt(input: ExerciseInput, existingNames: string[], isRetry: boolean): string {
   const exclusionBlock =

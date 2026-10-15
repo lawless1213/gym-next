@@ -2,6 +2,7 @@
 
 import { randomUUID } from "crypto";
 import { generateStructured } from "./client";
+import { AiRoutineResponseSchema } from "@/lib/schemas/ai-response.schema";
 import { withAiTry } from "./guard";
 import { AIRoutineRequestSchema } from "@/lib/schemas/ai.schema";
 import { getAllExercises } from "@/lib/server/data/exercises";
@@ -10,41 +11,8 @@ import type { Exercise } from "@/types";
 import { getLocalizedText, toLocalizedText } from "@/lib/utils";
 import { Locale } from "next-intl";
 
-type MuscleGroup = (typeof MUSCLE_GROUPS)[number];
 
-const routineExerciseSchema = {
-  type: "object",
-  properties: {
-    name: { type: "string" },
-    isNew: {
-      type: "boolean",
-      description: "true, якщо цієї вправи немає серед існуючих і її треба створити",
-    },
-    description: {
-      type: "string",
-      description: "Коротка інструкція з техніки виконання. Обов'язково, якщо isNew=true",
-    },
-    muscleGroup: { type: "string", enum: MUSCLE_GROUPS },
-  },
-  required: ["name", "isNew", "muscleGroup"],
-};
 
-const routineResponseSchema = {
-  type: "object",
-  properties: {
-    routine: {
-      type: "object",
-      properties: {
-        routineName: { type: "string" },
-        color: { type: "string", description: "HEX-колір для рутини, напр. #4F46E5" },
-        exercises: { type: "array", items: routineExerciseSchema },
-      },
-      required: ["routineName", "color", "exercises"],
-    },
-    summary: { type: "string" },
-  },
-  required: ["routine", "summary"],
-};
 
 export type RoutineInput = {
   goal: string;
@@ -58,21 +26,7 @@ export type RoutineInput = {
   locale: string;
 };
 
-type AiRoutineExercise = {
-  name: string;
-  isNew: boolean;
-  description?: string;
-  muscleGroup: MuscleGroup;
-};
 
-type AiRawResponse = {
-  routine: {
-    routineName: string;
-    color: string;
-    exercises: AiRoutineExercise[];
-  };
-  summary: string;
-};
 
 export type GeneratedRoutine = {
   name: string;
@@ -95,9 +49,9 @@ export async function generateAiRoutine(
 
     const prompt = buildPrompt(input, relevantExercises);
 
-    const result = await generateStructured<AiRawResponse>({
+    const result = await generateStructured({
       prompt,
-      schema: routineResponseSchema,
+      schema: AiRoutineResponseSchema,
     });
 
     if (!result.success) {
