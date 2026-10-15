@@ -49,19 +49,19 @@ export function AiChatContent() {
     scrollToBottom(true);
 
     const idToken = await user.getIdToken();
-    const result = await sendChatMessage(idToken, updatedHistory, userMessage.text);
+    // `messages` = history before this message; the server appends the new one itself.
+    const result = await sendChatMessage(idToken, messages, userMessage.text);
 
-    console.log(result);
-    
-
-    queryClient.setQueryData(["userParams", user.uid], (old: UserParams | undefined) => ({
-      ...defaultUserParams,
-      ...old,
-      subscribed: {
-        ...old?.subscribed,
-        freeAiTries: result.freeAiTries,
-      },
-    }));
+    if ("freeAiTries" in result) {
+      queryClient.setQueryData(["userParams", user.uid], (old: UserParams | undefined) => ({
+        ...defaultUserParams,
+        ...old,
+        subscribed: {
+          ...(old?.subscribed ?? defaultUserParams.subscribed),
+          freeAiTries: result.freeAiTries,
+        },
+      }));
+    }
 
     setIsLoading(false);
 

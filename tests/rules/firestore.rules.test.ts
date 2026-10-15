@@ -57,11 +57,12 @@ describe("users/{uid} document", () => {
     await assertSucceeds(updateDoc(doc(alice(), "users/alice"), { "schedule.monday": [] }));
   });
 
-  it("owner cannot change subscribed (whole or nested) or createdAt", async () => {
+  it("owner cannot change subscribed (whole or nested), createdAt or aiUsage", async () => {
     await assertFails(updateDoc(doc(alice(), "users/alice"), { subscribed: { ...subscribed, plan: "lifetime", status: "active" } }));
     await assertFails(updateDoc(doc(alice(), "users/alice"), { "subscribed.freeAiTries": 999 }));
     await assertFails(setDoc(doc(alice(), "users/alice"), { subscribed: { status: "active" } }, { merge: true }));
     await assertFails(updateDoc(doc(alice(), "users/alice"), { createdAt: new Date(0) }));
+    await assertFails(updateDoc(doc(alice(), "users/alice"), { aiUsage: { day: "2026-01-01", count: 0 } }));
   });
 
   it("owner cannot create or delete the user doc (server-only)", async () => {

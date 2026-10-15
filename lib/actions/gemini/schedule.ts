@@ -2,7 +2,8 @@
 
 import { randomUUID } from "crypto";
 import { generateStructured } from "./client";
-import { requireFreeTry } from "./guard";
+import { withAiTry } from "./guard";
+import { AIScheduleRequestSchema } from "@/lib/schemas/ai.schema";
 import { getAllExercises } from "@/lib/server/data/exercises";
 import { getUserRoutines } from "@/lib/server/data/routines";
 import { MUSCLE_GROUPS } from "@/data/exercise";
@@ -102,46 +103,48 @@ type AiRawResponse = {
  */
 export async function generateAiSchedule(
   input: ScheduleInput
-): Promise<{ success: true; data: ScheduleMap; summary: string } | { success: false; error: string }> {
-  const guard = await requireFreeTry(input.idToken);
-  if (!guard.ok) {
-    return { success: false, error: guard.error };
+) {
+  const parsed = AIScheduleRequestSchema.safeParse(input);
+  if (!parsed.success) {
+    return { success: false as const, error: "Некоректні дані запиту." };
   }
-  const userId = guard.userId;
+  input = { ...input, ...parsed.data };
 
-  const [allExercises, existingRoutines] = await Promise.all([
-    getAllExercises(userId),
-    getUserRoutines(userId),
-  ]);
+  return withAiTry(input.idToken, async (userId) => {
+    const [allExercises, existingRoutines] = await Promise.all([
+      getAllExercises(userId),
+      getUserRoutines(userId),
+    ]);
 
-  const relevantExercises = filterRelevantExercises(allExercises, input.groups);
-  const restDays = input.preferredRestDays ?? [];
+    const relevantExercises = filterRelevantExercises(allExercises, input.groups);
+    const restDays = input.preferredRestDays ?? [];
 
-  const prompt = buildPrompt(input, relevantExercises, existingRoutines, restDays);
+    const prompt = buildPrompt(input, relevantExercises, existingRoutines, restDays);
 
-  const result = await generateStructured<AiRawResponse>({
-    prompt,
-    schema: scheduleResponseSchema,
+    const result = await generateStructured<AiRawResponse>({
+      prompt,
+      schema: scheduleResponseSchema,
+    });
+
+    if (!result.success) {
+      return result;
+    }
+
+    const schedule = createEmptySchedule();
+
+    for (const aiDay of result.data.schedule) {
+      if (restDays.includes(aiDay.day)) continue; // підстраховка, навіть якщо AI помилилась
+      const routine = resolveDay(aiDay, allExercises, existingRoutines, input.locale as Locale);
+      schedule[aiDay.day] = [...schedule[aiDay.day], routine];
+    }
+
+    const hasAnyWorkout = weekDays.some((day) => schedule[day].length > 0);
+    if (!hasAnyWorkout) {
+      return { success: false as const, error: "Не вдалося сформувати розклад тренувань." };
+    }
+
+    return { success: true as const, data: schedule, summary: result.data.summary };
   });
-
-  if (!result.success) {
-    return result;
-  }
-
-  const schedule = createEmptySchedule();
-
-  for (const aiDay of result.data.schedule) {
-    if (restDays.includes(aiDay.day)) continue; // підстраховка, навіть якщо AI помилилась
-    const routine = resolveDay(aiDay, allExercises, existingRoutines, input.locale as Locale);
-    schedule[aiDay.day] = [...schedule[aiDay.day], routine];
-  }
-
-  const hasAnyWorkout = weekDays.some((day) => schedule[day].length > 0);
-  if (!hasAnyWorkout) {
-    return { success: false, error: "Не вдалося сформувати розклад тренувань." };
-  }
-
-  return { success: true, data: schedule, summary: result.data.summary };
 }
 
 function resolveDay(aiDay: AiScheduleDay, allExercises: Exercise[], existingRoutines: Routine[], locale: Locale = "uk"): Routine {

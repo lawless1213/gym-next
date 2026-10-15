@@ -4,9 +4,9 @@ import type { UserParams } from "@/lib/services/user";
 import { deleteObject, getDownloadURL, ref, uploadBytes } from "firebase/storage";
 import { updateProfile } from "firebase/auth";
 
-/** Fields the client may write. `subscribed` and `createdAt` are server-only. */
+/** Fields the client may write. `subscribed`, `createdAt` and `aiUsage` are server-only. */
 export type EditableUserParamKey = Exclude<keyof UserParams, "subscribed" | "createdAt">;
-const SERVER_ONLY_PARAMS: ReadonlySet<string> = new Set(["subscribed", "createdAt"]);
+const SERVER_ONLY_PARAMS: ReadonlySet<string> = new Set(["subscribed", "createdAt", "aiUsage"]);
 
 type UserParamKey = EditableUserParamKey;
 

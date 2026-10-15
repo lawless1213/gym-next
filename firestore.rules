@@ -13,10 +13,10 @@ service cloud.firestore {
       return signedIn() && request.auth.uid == uid;
     }
 
-    // Fields only the server may write (see lib/server/actions/user.ts).
+    // Fields only the server may write (lib/server/actions/user.ts, lib/actions/gemini/guard.ts).
     function touchesServerOnlyFields() {
       return request.resource.data.diff(resource.data).affectedKeys()
-        .hasAny(['subscribed', 'createdAt']);
+        .hasAny(['subscribed', 'createdAt', 'aiUsage']);
     }
 
     // Public exercise catalog: readable by anyone, written only by the server/console.

@@ -2,7 +2,8 @@
 
 import { randomUUID } from "crypto";
 import { generateStructured } from "./client";
-import { requireFreeTry } from "./guard";
+import { withAiTry } from "./guard";
+import { AIRoutineRequestSchema } from "@/lib/schemas/ai.schema";
 import { getAllExercises } from "@/lib/server/data/exercises";
 import { MUSCLE_GROUPS } from "@/data/exercise";
 import type { Exercise } from "@/types";
@@ -81,61 +82,63 @@ export type GeneratedRoutine = {
 
 export async function generateAiRoutine(
   input: RoutineInput
-): Promise<{ success: true; data: GeneratedRoutine; summary: string } | { success: false; error: string }> {
-  const guard = await requireFreeTry(input.idToken);
-  if (!guard.ok) {
-    return { success: false, error: guard.error };
+) {
+  const parsed = AIRoutineRequestSchema.safeParse(input);
+  if (!parsed.success) {
+    return { success: false as const, error: "Некоректні дані запиту." };
   }
-  const userId = guard.userId;
+  input = { ...input, ...parsed.data };
 
-  const allExercises = await getAllExercises(userId);
-  const relevantExercises = filterRelevantExercises(allExercises, input.groups);
+  return withAiTry(input.idToken, async (userId) => {
+    const allExercises = await getAllExercises(userId);
+    const relevantExercises = filterRelevantExercises(allExercises, input.groups);
 
-  const prompt = buildPrompt(input, relevantExercises);
+    const prompt = buildPrompt(input, relevantExercises);
 
-  const result = await generateStructured<AiRawResponse>({
-    prompt,
-    schema: routineResponseSchema,
-  });
+    const result = await generateStructured<AiRawResponse>({
+      prompt,
+      schema: routineResponseSchema,
+    });
 
-  if (!result.success) {
-    return result;
-  }
-
-  const exercises = result.data.routine.exercises.map((aiEx) => {
-    const match = !aiEx.isNew ? findExistingMatch(aiEx.name, relevantExercises, input.locale as Locale) : undefined;
-
-    if (match) {
-      return match;
+    if (!result.success) {
+      return result;
     }
 
+    const exercises = result.data.routine.exercises.map((aiEx) => {
+      const match = !aiEx.isNew ? findExistingMatch(aiEx.name, relevantExercises, input.locale as Locale) : undefined;
+
+      if (match) {
+        return match;
+      }
+
+      return {
+        id: `temp-${randomUUID()}`,
+        name: toLocalizedText(aiEx.name),
+        muscleGroup: aiEx.muscleGroup,
+        isCustom: true,
+        description: toLocalizedText(aiEx.description ?? ""),
+        imageUrl: "",
+      } satisfies Exercise;
+    });
+
+    if (exercises.length === 0) {
+      return { success: false as const, error: "Не вдалося сформувати список вправ для рутини." };
+    }
+
+    const rawData: GeneratedRoutine = {
+      name: result.data.routine.routineName,
+      color: result.data.routine.color,
+      exercises,
+    };
+
+    const cleanData: GeneratedRoutine = JSON.parse(JSON.stringify(rawData));
+
     return {
-      id: `temp-${randomUUID()}`,
-      name: toLocalizedText(aiEx.name),
-      muscleGroup: aiEx.muscleGroup,
-      isCustom: true,
-      description: toLocalizedText(aiEx.description ?? ""),
-      imageUrl: "",
-    } satisfies Exercise;
+      success: true as const,
+      data: cleanData,
+      summary: result.data.summary,
+    };
   });
-
-  if (exercises.length === 0) {
-    return { success: false, error: "Не вдалося сформувати список вправ для рутини." };
-  }
-
-  const rawData: GeneratedRoutine = {
-    name: result.data.routine.routineName,
-    color: result.data.routine.color,
-    exercises,
-  };
-
-  const cleanData: GeneratedRoutine = JSON.parse(JSON.stringify(rawData));
-
-  return {
-    success: true,
-    data: cleanData,
-    summary: result.data.summary,
-  };
 }
 
 

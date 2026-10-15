@@ -3,7 +3,8 @@
 import type { Exercise } from "@/types";
 import { randomUUID } from "crypto";
 import { generateStructured } from "./client";
-import { requireFreeTry } from "./guard";
+import { withAiTry } from "./guard";
+import { AIExerciseRequestSchema } from "@/lib/schemas/ai.schema";
 import { getAllExercises } from "@/lib/server/data/exercises";
 import { MUSCLE_GROUPS } from "@/data/exercise";
 import { getLocalizedText, toLocalizedText } from "@/lib/utils";
@@ -56,43 +57,45 @@ type AiRawResponse = {
 
 const MAX_RETRIES = 2;
 
-export async function generateAiExercise(input: ExerciseInput): Promise<{ success: true; data: Exercise; summary: string } | { success: false; error: string }> {
-  const guard = await requireFreeTry(input.idToken);
-  if (!guard.ok) {
-    return { success: false, error: guard.error };
+export async function generateAiExercise(input: ExerciseInput) {
+  const parsed = AIExerciseRequestSchema.safeParse(input);
+  if (!parsed.success) {
+    return { success: false as const, error: "Некоректні дані запиту." };
   }
-  const userId = guard.userId;
+  input = { ...input, ...parsed.data };
 
-  const allExercises = await getAllExercises(userId);
-  const relevantExercises = filterRelevantExercises(allExercises, input.groups);
-  const existingNames = relevantExercises.map((ex) => getLocalizedText(ex.name, input.locale as any));
+  return withAiTry(input.idToken, async (userId) => {
+    const allExercises = await getAllExercises(userId);
+    const relevantExercises = filterRelevantExercises(allExercises, input.groups);
+    const existingNames = relevantExercises.map((ex) => getLocalizedText(ex.name, input.locale as any));
 
-  for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
-    const prompt = buildPrompt(input, existingNames, attempt > 0);
+    for (let attempt = 0; attempt < MAX_RETRIES; attempt++) {
+      const prompt = buildPrompt(input, existingNames, attempt > 0);
     
-    const result = await generateStructured<AiRawResponse>({
-      prompt,
-      schema: exerciseResponseSchema,
-    });
+      const result = await generateStructured<AiRawResponse>({
+        prompt,
+        schema: exerciseResponseSchema,
+      });
 
-    if (!result.success) {
-      return result;
+      if (!result.success) {
+        return result;
+      }
+
+      if (!isValidMuscleGroup(result.data.exercise.muscleGroup)) {
+        continue;
+      }
+
+      if (!isDuplicate(result.data.exercise.name, existingNames)) {
+        return {
+          success: true as const,
+          data: toExercise(result.data.exercise),
+          summary: result.data.summary,
+        };
+      }
     }
 
-    if (!isValidMuscleGroup(result.data.exercise.muscleGroup)) {
-      continue;
-    }
-
-    if (!isDuplicate(result.data.exercise.name, existingNames)) {
-      return {
-        success: true,
-        data: toExercise(result.data.exercise),
-        summary: result.data.summary,
-      };
-    }
-  }
-
-  return { success: false, error: "Не вдалося згенерувати унікальну вправу. Спробуйте ще раз." };
+    return { success: false as const, error: "Не вдалося згенерувати унікальну вправу. Спробуйте ще раз." };
+  });
 }
 
 

@@ -1,10 +1,9 @@
 "use server";
 
-import { generateChatText, type GeminiResult } from "./client";
-import { requireFreeTry } from "./guard";
+import { generateChatText } from "./client";
+import { withAiTry } from "./guard";
+import { AIChatRequestSchema } from "@/lib/schemas/ai.schema";
 import type { ChatMessage } from "@/types";
-
-const MAX_HISTORY_MESSAGES = 10;
 
 const SYSTEM_INSTRUCTION = `
 Ти — досвідчений фітнес-тренер та нутриціолог.
@@ -12,35 +11,26 @@ const SYSTEM_INSTRUCTION = `
 Відповідь має бути тою мовою, якою користувач ввів свій запит.
 `;
 
-export type SendChatMessageResult = GeminiResult<string> & { freeAiTries: number };
-
-export async function sendChatMessage(
-  idToken: string,
-  history: ChatMessage[],
-  newMessageText: string
-): Promise<SendChatMessageResult> {
-  const guard = await requireFreeTry(idToken);
-  if (!guard.ok) {
-    return { success: false, error: guard.error, freeAiTries: guard.freeAiTries };
+/**
+ * @param history previous messages, WITHOUT the new one (only the last AI_CHAT_HISTORY_MAX are used)
+ * @param newMessageText the new user message
+ */
+export async function sendChatMessage(idToken: string, history: ChatMessage[], newMessageText: string) {
+  const parsed = AIChatRequestSchema.safeParse({ history, message: newMessageText });
+  if (!parsed.success) {
+    return { success: false as const, error: "Повідомлення занадто довге або некоректне." };
   }
+  const { history: recentHistory, message } = parsed.data;
 
-  const recentHistory = history.slice(-MAX_HISTORY_MESSAGES);
-
-  const contents = [
-    ...recentHistory.map((msg) => ({
-      role: msg.role,
-      parts: [{ text: msg.text }],
-    })),
-    {
-      role: "user" as const,
-      parts: [{ text: newMessageText }],
-    },
-  ];
-
-  const result = await generateChatText({
-    contents,
-    systemInstruction: SYSTEM_INSTRUCTION,
-  });
-
-  return { ...result, freeAiTries: guard.freeAiTries };
+  return withAiTry(idToken, () =>
+    generateChatText({
+      contents: [
+        ...recentHistory.map((msg) => ({ role: msg.role, parts: [{ text: msg.text }] })),
+        { role: "user" as const, parts: [{ text: message }] },
+      ],
+      systemInstruction: SYSTEM_INSTRUCTION,
+    }),
+  );
 }
+
+export type SendChatMessageResult = Awaited<ReturnType<typeof sendChatMessage>>;
