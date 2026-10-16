@@ -3,7 +3,8 @@
 export const sentryOptions = {
   dsn: process.env.NEXT_PUBLIC_SENTRY_DSN,
   enabled: Boolean(process.env.NEXT_PUBLIC_SENTRY_DSN),
-  environment: process.env.NEXT_PUBLIC_SENTRY_ENVIRONMENT ?? process.env.NODE_ENV,
+  // Explicit override > Vercel's production/preview/development > NODE_ENV.
+  environment: process.env.NEXT_PUBLIC_SENTRY_ENVIRONMENT ?? process.env.NEXT_PUBLIC_VERCEL_ENV ?? process.env.NODE_ENV,
   // Performance: sample a small share of requests; raise if you need more traces.
   tracesSampleRate: 0.1,
   // Privacy: no IPs/cookies/headers. We attach only the Firebase uid (see AuthProvider).

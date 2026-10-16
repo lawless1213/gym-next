@@ -3,6 +3,8 @@
 Priorities: P0 — security/revenue, P1 — bugs, P2 — hygiene and tooling, P3 — architecture, P4 — new features.
 Estimates are rough, for a single developer. The "why" behind each item is in [PROJECT_STATUS.md](./PROJECT_STATUS.md).
 
+**Hosting:** production runs on **Vercel** (env vars and secrets in Vercel project settings; Sentry via the Sentry ↔ Vercel integration; preview deployment per PR). Firebase App Hosting (`apphosting.yaml`, Secret Manager) is set up but disabled.
+
 **Context:** the app has no real users yet. Data schemas can change freely, test data in Firestore can be wiped, and no migrations or backward compatibility are needed. This is the cheapest moment for breaking changes.
 
 ## Stage 0 — Security & monetization (P0, ~3–4 days)
@@ -25,7 +27,7 @@ Order inside the stage: 0.4 (schema) → 0.3 → 0.1 → 0.2 → the rest. Rules
   - Done: response schemas in `lib/schemas/ai-response.schema.ts`; `generateStructured({ prompt, schema })` sends `responseJsonSchema` generated from zod and returns `safeParse` data (invalid JSON/shape → error, try refunded by `withAiTry`). Removed `any` from `client.ts`.
 - [x] 0.8 Validate the `locale` cookie against `i18n/locales.ts`, fall back to `uk`.
   - Done: `isLocale` / `DEFAULT_LOCALE` in `i18n/locales.ts`; used in `i18n/request.ts` and `setUserLocale` (ignores unknown values).
-- [x] 0.9 Verify `.env.local` was never committed (`git log --all -- .env.local`). If it was — rotate all keys (Gemini, Firebase service account), not just purge history. App Hosting secrets via Secret Manager in `apphosting.yaml`.
+- [x] 0.9 Verify `.env.local` was never committed (`git log --all -- .env.local`). If it was — rotate all keys (Gemini, Firebase service account), not just purge history. App Hosting secrets via Secret Manager in `apphosting.yaml`. (App Hosting is now disabled; on Vercel the same values live in Project → Settings → Environment Variables.)
   - Checked 2026-10-15: no `.env*` file in any of 282 commits (all branches); no private keys, service-account JSON or `AIza…` keys in history; `.gitignore` covers `.env*`. No rotation needed.
   - `apphosting.yaml`: public `NEXT_PUBLIC_FIREBASE_*` (BUILD + RUNTIME) and `FIREBASE_PROJECT_ID` as values; `FIREBASE_CLIENT_EMAIL`, `FIREBASE_PRIVATE_KEY`, `GEMINI_API_KEY` as Secret Manager refs (`firebaseClientEmail`, `firebasePrivateKey`, `geminiApiKey`) — create them with `firebase apphosting:secrets:set`.
 
@@ -82,6 +84,7 @@ No users yet, so this is the cheapest time to do it — start right after Stage 
 
 ## Stage 4 — Product (P4, after stabilization)
 
+- [ ] 4.0 Before charging money: move Vercel from Hobby (non-commercial) to a paid plan; give Preview deployments a separate Firebase project (today previews use production Firestore/Auth).
 - [ ] 4.1 Payments: Stripe/LemonSqueezy + webhook → server-side `subscribed` update (depends on 0.3–0.4).
 - [ ] 4.2 Reliable offline workout logging with a sync queue — only for the client-side writes defined in 3.2.
 - [ ] 4.3 Rest timer (vibration, sound).

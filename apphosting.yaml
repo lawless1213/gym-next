@@ -1,3 +1,7 @@
+# NOTE: Firebase App Hosting is currently DISABLED — production runs on Vercel
+# (env vars live in Vercel → Project → Settings → Environment Variables).
+# This file is kept so the backend can be re-enabled without redoing the setup.
+
 # Settings for Backend (on Cloud Run).
 # See https://firebase.google.com/docs/app-hosting/configure#cloud-run
 runConfig:
