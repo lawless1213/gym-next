@@ -13,6 +13,7 @@ import { Header } from "../Header";
 import { NavItem } from "@/types/navMenu";
 import InstallBanner from "../InstallBanner";
 import { useUserPreferences } from "@/providers/UserPreferencesProvider";
+import { usePendingWorkoutSync } from "@/hooks/workout/useWorkoutSync";
 
 function getDirection(from: string, to: string, routes: string[]) {
   const fi = routes.indexOf(from);
@@ -27,6 +28,8 @@ export default function AppShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname() ?? "/";
   const router = useRouter();
   const pageKey = pathname.split("/")[1] || "home";
+
+  usePendingWorkoutSync(user?.uid);
 
   const routes = useMemo(
     () =>

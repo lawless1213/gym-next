@@ -1,11 +1,13 @@
 "use client";
 
 import { Routine } from "@/types";
-import { IconPlayerPlayFilled, IconBarbell } from "@tabler/icons-react";
+import { IconPlayerPlayFilled, IconBarbell, IconRotateClockwise } from "@tabler/icons-react";
 import { Button } from "@/components/ui/Button";
 import { useLocale, useTranslations } from "next-intl";
 import { useModal } from "@/components/modals/ModalProvider";
 import { getLocalizedText, type Locale } from "@/types/common";
+import { useAuth } from "@/hooks/useAuth";
+import { useStoredDraft } from "@/hooks/workout/useStoredDraft";
 
 interface WorkoutCardProps {
   routine: Routine;
@@ -14,7 +16,17 @@ interface WorkoutCardProps {
 export function WorkoutCard({ routine }: WorkoutCardProps) {
   const t = useTranslations("home.workoutCard");
   const locale = useLocale() as Locale;
-  const { open } = useModal();
+  const { open, confirm } = useModal();
+  const { user } = useAuth();
+  // An unfinished workout of this routine saved on this device (see lib/workoutStorage.ts).
+  const draft = useStoredDraft(user?.uid, routine.id);
+
+  const handleRestart = async () => {
+    const ok = await confirm({ title: t("restartConfirm") });
+    if (!ok) return;
+    draft.discard();
+    open("workout", routine);
+  };
 
   return (
     <div
@@ -54,13 +66,36 @@ export function WorkoutCard({ routine }: WorkoutCardProps) {
       </div>
       {routine.available && (
         <div className="p-4 pt-3">
-          <Button
-            onClick={() => open("workout", routine)}
-            className="w-full cursor-pointer gap-2 bg-primary text-primary-foreground hover:bg-primary/90"
-            size="lg">
-            <IconPlayerPlayFilled className="h-5 w-5 fill-current" />
-            {t("startButton")}
-          </Button>
+          {draft.hasDraft ? (
+            <>
+              <p className="mb-2 text-xs text-muted-foreground">{t("draftProgress", { count: draft.completedSets })}</p>
+              <div className="grid grid-cols-2 gap-2">
+                <Button
+                  onClick={() => open("workout", routine)}
+                  className="w-full cursor-pointer gap-2 bg-primary text-primary-foreground hover:bg-primary/90"
+                  size="lg">
+                  <IconPlayerPlayFilled className="h-5 w-5 fill-current" />
+                  {t("continueButton")}
+                </Button>
+                <Button
+                  onClick={handleRestart}
+                  variant="outline"
+                  className="w-full cursor-pointer gap-2"
+                  size="lg">
+                  <IconRotateClockwise className="h-5 w-5" />
+                  {t("restartButton")}
+                </Button>
+              </div>
+            </>
+          ) : (
+            <Button
+              onClick={() => open("workout", routine)}
+              className="w-full cursor-pointer gap-2 bg-primary text-primary-foreground hover:bg-primary/90"
+              size="lg">
+              <IconPlayerPlayFilled className="h-5 w-5 fill-current" />
+              {t("startButton")}
+            </Button>
+          )}
         </div>
       )}
     </div>

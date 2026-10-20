@@ -5,6 +5,7 @@ import { PersistQueryClientProvider } from "@tanstack/react-query-persist-client
 import { useState, useEffect, useRef } from "react";
 import { get, set, del } from "idb-keyval";
 import { useAuth } from "@/hooks/useAuth";
+import { removeOtherUsersDrafts } from "@/lib/workoutStorage";
 
 const PERSIST_KEY = "REACT_QUERY_OFFLINE_CACHE";
 
@@ -52,6 +53,9 @@ export const QueryProvider = ({ children }: { children: React.ReactNode }) => {
     if (previousUid.current && previousUid.current !== uid) {
       queryClient.clear();
       del(PERSIST_KEY).catch((error) => console.error("Failed to clear persisted query cache:", error));
+      // Unfinished workout drafts are per user too. Pending (finished, unsynced) workouts are kept:
+      // they are keyed by uid and re-sent when that user signs in again.
+      removeOtherUsersDrafts(uid);
     }
     previousUid.current = uid;
   }, [user?.uid, loading, queryClient]);
