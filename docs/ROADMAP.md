@@ -81,6 +81,10 @@ No users yet, so this is the cheapest time to do it — start right after Stage 
   - [ ] Each feature exposes a public API via `index.ts`; no deep imports into another feature's internals.
   - [ ] Enforce boundaries with ESLint (`eslint-plugin-boundaries` or `import/no-restricted-paths`): `shared` never imports from `features`/`server`; features import each other only through `index.ts`; client code never imports `server/`.
   - [ ] `app/` stays routing-only (thin `page.tsx`/`layout.tsx` composing features).
+- [ ] 3.12 Review custom form controls (`components/ui/form/select`, `stepper`, `Tabs`, modals, `type="number"` in `modals/workout/_components/setInput.tsx`) for accessibility and mobile input; where they fall short, replace with React Aria Components (unstyled, Tailwind-friendly). Not React Spectrum (Adobe look, heavy). Ideally done alongside the move to `shared/ui` in 3.11.
+  - Check: keyboard and focus (Tab/arrows/Esc, focus trap in modals), screen-reader labels/roles, `NumberField` with locale-aware decimals (`,` vs `.` for uk/en), step/min/max, correct mobile keyboard (`inputMode="decimal"`), touch targets.
+  - Candidates: `NumberField` (weight/reps), `Select`/`ComboBox`, `Tabs`, `Modal`/`Dialog`; `DatePicker`/`Calendar` if the schedule ever needs date input.
+  - Decision rule: only swap a control if the review finds real issues; one UI library only (Headless UI was already removed in 2.1).
 
 ## Stage 4 — Product (P4, after stabilization)
 
@@ -92,6 +96,10 @@ No users yet, so this is the cheapest time to do it — start right after Stage 
 - [ ] 4.5 1RM estimate (Epley), history export to CSV.
 - [ ] 4.6 Analytics (Firebase Analytics / PostHog): subscription funnel.
 - [ ] 4.7 Extend e2e coverage (AI flows, subscription, offline) — base smoke suite lives in 2.7.
+- [ ] 4.8 Trained-muscles view: highlight the muscles worked on `MuscleSchema` — per workout (finish summary, `WorkoutSessionCard` in history) and per period (week/month in stats, next to `WeekStats`).
+  - Data: workout exercises already snapshot `muscleGroup` (optional in `types/workout.ts`) — make it required when saving; derive per-muscle sets/volume in `lib/domain/*` (pure + Vitest), reusing volume/periods logic.
+  - UI: `MuscleSchema` today only takes `selectedMuscles` (on/off) — add an intensity mode (heatmap by sets or volume) plus a legend; read-only (`clickable={false}`). Easier after 3.8 (paths as data).
+  - Nice to have: "not trained for N days" hint for neglected muscles; secondary muscles per exercise (schema change, catalog + AI prompts) — later.
 
 ## Target structure (FSD-lite)
 
