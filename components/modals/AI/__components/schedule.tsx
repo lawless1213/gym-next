@@ -11,12 +11,12 @@ import { useQueryClient } from "@tanstack/react-query";
 import { DIFFICULTY, EQUIPMENT_GROUPS, GOALS, MUSCLE_GROUPS, SPLIT_TYPES } from "@/data/exercise";
 import { TextArea } from "@/components/ui/form/textarea";
 import { weekDays } from "@/types";
-import { generateAiSchedule } from "@/lib/actions/gemini/schedule";
+import { generateAiSchedule } from "@/lib/server/actions/ai/schedule";
 import { Select } from "@/components/ui/form/select";
 import { ChipGroup } from "@/components/ui/form/chipGroup";
 import { WeeklyCalendar } from "@/components/shared/WeeklyCalendar";
 import { TypewriterText } from "@/components/ui/TypewritterText";
-import { createAiUserSchedule } from "@/lib/actions/shedule";
+import { createAiUserSchedule } from "@/lib/mutations/schedule";
 import { useLocale, useTranslations } from "next-intl";
 import { AIScheduleFormData, AIScheduleSchema } from "@/lib/schemas";
 

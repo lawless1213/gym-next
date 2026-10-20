@@ -1,9 +1,9 @@
 "use server";
 
 import { randomUUID } from "crypto";
-import { generateStructured } from "./client";
+import { generateStructured } from "@/lib/server/ai/client";
 import { AiRoutineResponseSchema } from "@/lib/schemas/ai-response.schema";
-import { withAiTry } from "./guard";
+import { withAiTry } from "@/lib/server/ai/guard";
 import { AIRoutineRequestSchema } from "@/lib/schemas/ai.schema";
 import { getAllExercises } from "@/lib/server/data/exercises";
 import { MUSCLE_GROUPS } from "@/data/exercise";

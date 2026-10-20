@@ -12,7 +12,7 @@ import { useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import { userFormData, userSchema } from "@/lib/schemas";
 import { useUserPreferences } from "@/providers/user-preferences-provider";
-import { updateUserProfile } from "@/lib/actions/user";
+import { updateUserProfile } from "@/lib/mutations/user";
 import { useModal } from "../modal-store";
 
 export function UserEditModal() {

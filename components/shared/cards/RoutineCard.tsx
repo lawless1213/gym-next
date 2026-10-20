@@ -1,5 +1,5 @@
 import { useAuth } from "@/hooks/useAuth";
-import { deleteUserRoutine } from "@/lib/actions/routine";
+import { deleteUserRoutine } from "@/lib/mutations/routine";
 import { useModal } from "@/components/modals/modal-store";
 import { Routine } from "@/types";
 import { IconChecks, IconX, IconMenu2, IconEdit, IconTrash, IconPlayerPlayFilled } from "@tabler/icons-react";

@@ -1,3 +1,4 @@
+import "server-only";
 import { adminAuth, adminDb } from "@/lib/firebase/firebase-admin";
 import { isSubscriptionActive, parseSubscription } from "@/lib/subscription";
 import { FieldValue } from "firebase-admin/firestore";

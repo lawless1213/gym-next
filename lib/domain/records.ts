@@ -1,4 +1,4 @@
-// Pure personal-record rules (no Firebase). Used by lib/actions/record.ts.
+// Pure personal-record rules (no Firebase). Used by lib/mutations/record.ts.
 
 export type RecordValue = { weight: number; reps: number };
 

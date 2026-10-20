@@ -8,7 +8,7 @@ import { useAllExercises } from "@/hooks/useServices/useExercises";
 import { useWorkoutSession } from "@/hooks/workout/useWorkoutSession";
 import { useModal } from "@/components/modals/modal-store";
 import { Select } from "@/components/ui/form/select";
-import { writeWorkoutSession } from "@/lib/actions/workout";
+import { writeWorkoutSession } from "@/lib/mutations/workout";
 import { Timestamp } from "firebase/firestore";
 import { useQueryClient } from "@tanstack/react-query";
 import { WorkoutHeader } from "../_components/workoutHeader";

@@ -1,7 +1,7 @@
 "use client";
 
 import { useState, useRef, useCallback } from "react";
-import { sendChatMessage } from "@/lib/actions/gemini/chat";
+import { sendChatMessage } from "@/lib/server/actions/ai/chat";
 import type { ChatMessage } from "@/types";
 import { useTranslations } from "next-intl";
 import { Input } from "@/components/ui/form/input";

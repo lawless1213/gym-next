@@ -1,3 +1,4 @@
+import "server-only";
 import { GoogleGenAI } from "@google/genai";
 import { z } from "zod";
 import { toGeminiJsonSchema } from "@/lib/schemas/ai-response.schema";

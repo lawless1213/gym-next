@@ -2,9 +2,9 @@
 
 import type { Exercise } from "@/types";
 import { randomUUID } from "crypto";
-import { generateStructured } from "./client";
+import { generateStructured } from "@/lib/server/ai/client";
 import { AiExerciseResponseSchema, type AiExerciseResponse } from "@/lib/schemas/ai-response.schema";
-import { withAiTry } from "./guard";
+import { withAiTry } from "@/lib/server/ai/guard";
 import { AIExerciseRequestSchema } from "@/lib/schemas/ai.schema";
 import { getAllExercises } from "@/lib/server/data/exercises";
 import { MUSCLE_GROUPS } from "@/data/exercise";

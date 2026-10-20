@@ -5,7 +5,7 @@ description: Use when adding or changing a Gemini-powered server action in Gym N
 
 # Gym Next — Gemini server actions
 
-Files live in `lib/actions/gemini/`. Shared pieces:
+Actions live in `lib/server/actions/ai/` (`"use server"`). Shared server-only pieces live in `lib/server/ai/`:
 
 - `client.ts` — `ai`, `GEMINI_MODEL`, `generateStructured({ prompt, schema })` (zod schema in, validated `z.infer` data out), `generateChatText(...)`, `GeminiResult<T>`.
 - `lib/schemas/ai-response.schema.ts` — zod response schemas (`Ai*ResponseSchema`) + `toGeminiJsonSchema`.
@@ -13,7 +13,7 @@ Files live in `lib/actions/gemini/`. Shared pieces:
 
 ## Steps
 
-1. File starts with `"use server";`.
+1. File goes in `lib/server/actions/ai/` and starts with `"use server";`. Import helpers from `@/lib/server/ai/client` and `@/lib/server/ai/guard` (both `import "server-only"`).
 2. Validate input FIRST with a request schema from `lib/schemas/ai.schema.ts` (`AI*RequestSchema`; cap free-text lengths and history size) — invalid input must never cost a try.
 3. Then `return withAiTry(input.idToken, async (userId) => { ... })`. Inside, return literals with `success: true as const` / `success: false as const`.
 4. Load user data ONLY via `adminDb` (Admin SDK) — use or extend `lib/server/data/*` (`getAllExercises`, `getUserRoutines`; `import "server-only"`, values passed through `toPlain`). Never import `lib/services/*` (client SDK) into a server action. Admin SDK bypasses rules: never follow a user-supplied path/ref outside `exercises/*` or the caller's own `users/{uid}/**`.

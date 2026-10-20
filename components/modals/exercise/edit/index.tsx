@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/form/input";
 import { IconBarbell, IconUpload } from "@tabler/icons-react";
 import { useEffect } from "react";
 import { toast } from "sonner";
-import { editUserExecise } from "@/lib/actions/exercise";
+import { editUserExecise } from "@/lib/mutations/exercise";
 import { useAuth } from "@/hooks/useAuth";
 import { useExerciseEditModal } from "@/hooks/useModals/useExerciseEditModal";
 import { useQueryClient } from "@tanstack/react-query";

@@ -1,5 +1,5 @@
 import { doc, getDoc, setDoc, serverTimestamp } from "firebase/firestore";
-import { db } from "../config/firebaseConfig";
+import { db } from "@/lib/config/firebaseConfig";
 import { PersonalRecord } from "@/types";
 import { isNewPersonalRecord } from "@/lib/domain/records";
 

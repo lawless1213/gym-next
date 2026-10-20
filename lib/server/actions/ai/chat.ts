@@ -1,7 +1,7 @@
 "use server";
 
-import { generateChatText } from "./client";
-import { withAiTry } from "./guard";
+import { generateChatText } from "@/lib/server/ai/client";
+import { withAiTry } from "@/lib/server/ai/guard";
 import { AIChatRequestSchema } from "@/lib/schemas/ai.schema";
 import type { ChatMessage } from "@/types";
 

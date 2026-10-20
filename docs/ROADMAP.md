@@ -65,7 +65,8 @@ Order inside the stage: 0.4 (schema) → 0.3 → 0.1 → 0.2 → the rest. Rules
 
 No users yet, so this is the cheapest time to do it — start right after Stage 2 instead of postponing.
 
-- [ ] 3.1 `lib/actions` (client-side writes) → `lib/mutations`; real server actions → `lib/server/actions`.
+- [x] 3.1 `lib/actions` (client-side writes) → `lib/mutations`; real server actions → `lib/server/actions`.
+  - Done: client Firestore writes in `lib/mutations/*`; Gemini server actions in `lib/server/actions/ai/*`; their helpers (`client.ts`, `guard.ts`) in `lib/server/ai/` with `import "server-only"` (they had none before). Skills and comments updated.
 - [ ] 3.2 Move critical writes to the server: ~~account deletion~~ (done in 0.1), records, subscription. Decide and document which writes stay client-side (and can work offline — workout sets, notes) vs server-only (subscription, AI tries, account) — this defines the scope of 4.2.
 - [ ] 3.3 Return error codes (`NO_FREE_TRIES`, `AI_RATE_LIMIT`) and translate them via next-intl.
 - [ ] 3.4 Naming: `shedule.ts`→`schedule.ts`, `navManu.tsx`→`navMenu.tsx`, `TypewritterText`→`TypewriterText`; one `_components` convention and one file-casing convention.

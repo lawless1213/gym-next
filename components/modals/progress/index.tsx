@@ -9,7 +9,7 @@ import { useModal } from "@/components/modals/modal-store";
 import { toast } from "sonner";
 import { useAuth } from "@/hooks/useAuth";
 import { useQueryClient } from "@tanstack/react-query";
-import { addUserProgress } from "@/lib/actions/progress";
+import { addUserProgress } from "@/lib/mutations/progress";
 import { useTranslations } from "next-intl";
 import { ProgressFormData, progressSchema } from "@/lib/schemas";
 import { useUserPreferences } from "@/providers/user-preferences-provider";

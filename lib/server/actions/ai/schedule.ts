@@ -1,9 +1,9 @@
 "use server";
 
 import { randomUUID } from "crypto";
-import { generateStructured } from "./client";
+import { generateStructured } from "@/lib/server/ai/client";
 import { AiScheduleResponseSchema, type AiScheduleDay } from "@/lib/schemas/ai-response.schema";
-import { withAiTry } from "./guard";
+import { withAiTry } from "@/lib/server/ai/guard";
 import { AIScheduleRequestSchema } from "@/lib/schemas/ai.schema";
 import { getAllExercises } from "@/lib/server/data/exercises";
 import { getUserRoutines } from "@/lib/server/data/routines";

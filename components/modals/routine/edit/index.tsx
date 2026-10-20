@@ -10,7 +10,7 @@ import { IconGridDots, IconPlus, IconSearch, IconTrash, IconX } from "@tabler/ic
 import { useEffect, useMemo, useState } from "react";
 import { useAllExercises } from "@/hooks/useServices/useExercises";
 import { toast } from "sonner";
-import { editUserRoutine } from "@/lib/actions/routine";
+import { editUserRoutine } from "@/lib/mutations/routine";
 import { useQueryClient } from "@tanstack/react-query";
 import { useRoutineEditModal } from "@/hooks/useModals/useRoutineEditModal";
 import { ExerciseCard } from "@/components/shared/cards/ExerciseCard";

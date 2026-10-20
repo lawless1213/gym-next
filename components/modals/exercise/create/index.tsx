@@ -8,7 +8,7 @@ import { Input } from "@/components/ui/form/input";
 import { useModal } from "@/components/modals/modal-store";
 import { IconBarbell, IconUpload } from "@tabler/icons-react";
 import { toast } from "sonner";
-import { createUserExercise } from "@/lib/actions/exercise";
+import { createUserExercise } from "@/lib/mutations/exercise";
 import { useAuth } from "@/hooks/useAuth";
 import { useQueryClient } from "@tanstack/react-query";
 import { MUSCLE_GROUPS } from "@/data/exercise";

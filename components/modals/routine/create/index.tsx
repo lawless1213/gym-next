@@ -11,7 +11,7 @@ import { IconGridDots, IconPlus, IconSearch, IconTrash, IconX } from "@tabler/ic
 import { useMemo, useState } from "react";
 import { useAllExercises } from "@/hooks/useServices/useExercises";
 import { toast } from "sonner";
-import { createUserRoutine } from "@/lib/actions/routine";
+import { createUserRoutine } from "@/lib/mutations/routine";
 import { useQueryClient } from "@tanstack/react-query";
 import { ExerciseCard } from "@/components/shared/cards/ExerciseCard";
 import { useLocale, useTranslations } from "next-intl";

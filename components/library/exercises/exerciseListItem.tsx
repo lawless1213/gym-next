@@ -5,7 +5,7 @@ import { IconMenu2, IconEdit, IconTrash, IconX } from "@tabler/icons-react";
 import { useState } from "react";
 import { AnimatePresence, motion } from "motion/react";
 import { useSwipeable } from "react-swipeable";
-import { deleteUserExercise } from "@/lib/actions/exercise";
+import { deleteUserExercise } from "@/lib/mutations/exercise";
 import { useAuth } from "@/hooks/useAuth";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";

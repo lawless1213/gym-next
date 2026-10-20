@@ -10,7 +10,7 @@ import { toast } from "sonner";
 import { useEffect, useState } from "react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/Tooltip";
 import { Button } from "@/components/ui/Button";
-import { setUserParams } from "@/lib/actions/user";
+import { setUserParams } from "@/lib/mutations/user";
 
 type HeaderProps = {
   page: string;
