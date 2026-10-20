@@ -1,7 +1,9 @@
 import { expect, test } from "@playwright/test";
 import { E2E_EXERCISE_NAME, E2E_ROUTINE_NAME, E2E_USER } from "./fixtures";
+import { seedEmulators } from "./seed";
 
 test.beforeEach(async ({ context, baseURL }) => {
+  await seedEmulators();
   // English UI for stable selectors.
   await context.addCookies([{ name: "locale", value: "en", url: baseURL! }]);
 });

@@ -1,7 +1,15 @@
 // Import the functions you need from the SDKs you need
 import { initializeApp } from "firebase/app";
 import { connectAuthEmulator, getAuth } from "firebase/auth";
-import { connectFirestoreEmulator, getFirestore } from "firebase/firestore";
+import {
+  connectFirestoreEmulator,
+  getFirestore,
+  type Firestore,
+  initializeFirestore,
+  memoryLocalCache,
+  persistentLocalCache,
+  persistentMultipleTabManager,
+} from "firebase/firestore";
 import { connectStorageEmulator, getStorage } from "firebase/storage";
 
 const firebaseConfig = {
@@ -15,7 +23,24 @@ const firebaseConfig = {
 
 const app = initializeApp(firebaseConfig);
 export const auth = getAuth(app);
-export const db = getFirestore(app);
+// Persistent (IndexedDB) cache in the browser: reads work offline, and pending writes
+// survive reloads and are re-sent when the device is back online. Memory cache on the server.
+function createDb(): Firestore {
+  try {
+    return initializeFirestore(app, {
+      // Optional fields (e.g. an exercise without description) are dropped instead of failing the write.
+      ignoreUndefinedProperties: true,
+      localCache:
+        typeof window === "undefined"
+          ? memoryLocalCache()
+          : persistentLocalCache({ tabManager: persistentMultipleTabManager() }),
+    });
+  } catch {
+    // Already initialized (e.g. module re-evaluated by Fast Refresh).
+    return getFirestore(app);
+  }
+}
+export const db = createDb();
 export const storage = getStorage(app);
 
 // Local emulators (e2e tests / offline dev). Never set this in production.

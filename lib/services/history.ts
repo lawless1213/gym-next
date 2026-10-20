@@ -4,6 +4,18 @@ import { WorkoutSession, HistoryOptions } from "@/types";
 import { calculateWorkoutVolume } from "@/lib/domain/volume";
 import { getHistoryRange } from "@/lib/domain/periods";
 
+/**
+ * Timestamp → ISO string. Also accepts a `{ seconds, nanoseconds }` map (workouts saved from a
+ * badly revived offline copy, see lib/workoutStorage.ts) so one bad doc can't break the whole list.
+ */
+function toIsoDate(value: unknown): string | undefined {
+  if (value instanceof Timestamp) return value.toDate().toISOString();
+  if (value && typeof value === "object" && typeof (value as { seconds?: unknown }).seconds === "number") {
+    return new Date((value as { seconds: number }).seconds * 1000).toISOString();
+  }
+  return undefined;
+}
+
 export async function getUserHistory(userId: string, options: HistoryOptions): Promise<WorkoutSession[]> {
   let q;
 
@@ -28,7 +40,7 @@ export async function getUserHistory(userId: string, options: HistoryOptions): P
     const workout = {
       id: doc.id,
       ...data,
-      startedAt: data.startedAt?.toDate().toISOString(),
+      startedAt: toIsoDate(data.startedAt),
     } as unknown as WorkoutSession;
     return { ...workout, volume: calculateWorkoutVolume(workout) };
   });

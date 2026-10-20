@@ -213,6 +213,10 @@
       "title": "Next workout",
       "exercisesValue": "Number of exercises",
       "startButton": "Start workout",
+      "continueButton": "Continue",
+      "restartButton": "Start over",
+      "restartConfirm": "Discard the unfinished workout and start over?",
+      "draftProgress": "Unfinished workout: {count, plural, one {# set done} other {# sets done}}",
       "notAuth": "Login for workout",
       "empty": "Today's routine list is empty"
     },
@@ -621,6 +625,15 @@
     },
     "confirmQuickStart": {
       "title": "Start quick workout?"
+    },
+    "draft": {
+      "restored": "Unfinished workout restored",
+      "startOver": "Start over"
+    },
+    "finish": {
+      "savedOffline": "You're offline — the workout is saved on this device and will sync when you're back online",
+      "syncError": "Couldn't sync the workout yet. We'll retry automatically.",
+      "synced": "Workout synced"
     }
   },
   "measurements": {

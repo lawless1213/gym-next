@@ -8,23 +8,21 @@ import { useAllExercises } from "@/hooks/useServices/useExercises";
 import { useWorkoutSession } from "@/hooks/workout/useWorkoutSession";
 import { useModal } from "@/components/modals/ModalProvider";
 import { Select } from "@/components/ui/form/Select";
-import { writeWorkoutSession } from "@/lib/mutations/workout";
 import { Timestamp } from "firebase/firestore";
-import { useQueryClient } from "@tanstack/react-query";
 import { WorkoutHeader } from "../_components/WorkoutHeader";
 import { WorkoutFooter } from "../_components/WorkoutFooter";
 import { useWorkoutSessionPersistence } from "@/hooks/workout/useWorkoutSessionPersistence";
+import { useFinishWorkout, useRestoredDraftNotice } from "@/hooks/workout/useWorkoutSync";
 import { cn } from "@/lib/utils";
 import { useLocale, useTranslations } from "next-intl";
 import { getLocalizedText, toLocalizedText, type Locale } from "@/types/common";
-import { reportError } from "@/lib/monitoring";
 
 export function QuickWorkoutModal() {
   const t = useTranslations("workout");
   const locale = useLocale() as Locale;
   const { user } = useAuth();
   const { confirm, close } = useModal();
-  const queryClient = useQueryClient();
+  const finishWorkout = useFinishWorkout();
 
   const initialWorkout: QuickWorkoutSession = {
     id: crypto.randomUUID(),
@@ -50,9 +48,13 @@ export function QuickWorkoutModal() {
     progress,
     getFinishedWorkout,
     persistWorkoutDraft,
-  } = useWorkoutSession(initialWorkout);
+    restoredFromDraft,
+    discardDraft,
+    markFinished,
+  } = useWorkoutSession(initialWorkout, { userId: user?.uid, slot: "quick" });
 
   useWorkoutSessionPersistence({ persist: persistWorkoutDraft, isPaused });
+  useRestoredDraftNotice(restoredFromDraft, discardDraft);
 
   const { data: exercises = [], isLoading: loading } = useAllExercises(user?.uid);
 
@@ -113,17 +115,9 @@ export function QuickWorkoutModal() {
 
     if (ok) {
       if (!user) throw new Error("Not authenticated");
+      // Saves locally first and syncs in the background, so it also works offline.
+      finishWorkout(user.uid, finishedWorkout, markFinished);
       close();
-      // Invalidate only after the write: refetching earlier caches the old list for staleTime.
-      try {
-        await writeWorkoutSession(user.uid, finishedWorkout);
-      } catch (error) {
-        reportError(error, "Failed to save workout");
-      } finally {
-        queryClient.invalidateQueries({ queryKey: ["history"] });
-        queryClient.invalidateQueries({ queryKey: ["records"] });
-        queryClient.invalidateQueries({ queryKey: ["schedule"] });
-      }
     }
   };
 

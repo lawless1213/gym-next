@@ -2,6 +2,7 @@
 
 import { useEffect, useState, useCallback, useRef } from "react";
 import { PersistReason, WorkoutSet } from "@/types";
+import { draftKey, readDraft, removeDraft, writeDraft } from "@/lib/workoutStorage";
 
 interface SessionShape {
   id: string;
@@ -12,25 +13,27 @@ interface SessionShape {
   exercises: { id: string; sets: WorkoutSet[] }[];
 }
 
-interface StoredSession<T> {
-  workout: T;
-  elapsedTime: number;
-  savedAt: number;
-  reason: PersistReason;
+interface UseWorkoutSessionOptions {
+  userId: string | undefined;
+  /** Draft slot: the routine id for a regular workout, `"quick"` for a quick one. */
+  slot: string;
 }
 
-const STORAGE_PREFIX = "workout-session-";
-
-function getStorageKey(isQuick: boolean, workoutId: string) {
-  if (isQuick) return `${STORAGE_PREFIX}quick`;
-  return `${STORAGE_PREFIX}${workoutId}`;
-}
-
-export function useWorkoutSession<T extends SessionShape>(initialWorkout: T) {
-  const storageKey = getStorageKey(initialWorkout.isQuick, initialWorkout.id);
-  const [workout, setWorkout] = useState<T>(initialWorkout);
-  const [elapsedTime, setElapsedTime] = useState(0);
+export function useWorkoutSession<T extends SessionShape>(
+  initialWorkout: T,
+  { userId, slot }: UseWorkoutSessionOptions,
+) {
+  const storageKey = draftKey(userId ?? "anonymous", slot);
+  // The modal only mounts in the browser, so reading localStorage in the initializer is safe.
+  const [restoredDraft] = useState(() => readDraft<T>(storageKey));
+  // Fresh workout from the first render, used by "Start over".
+  const [freshWorkout] = useState(initialWorkout);
+  const [workout, setWorkout] = useState<T>(restoredDraft?.workout ?? freshWorkout);
+  const [elapsedTime, setElapsedTime] = useState(restoredDraft?.elapsedTime ?? 0);
   const [isPaused, setIsPaused] = useState(true);
+  const [restoredFromDraft, setRestoredFromDraft] = useState(!!restoredDraft);
+  // Set once the workout is saved: stops autosave/unmount handlers from re-creating the draft.
+  const finishedRef = useRef(false);
 
   useEffect(() => {
     if (isPaused) return;
@@ -94,39 +97,34 @@ export function useWorkoutSession<T extends SessionShape>(initialWorkout: T) {
 
   const persistWorkoutDraft = useCallback(
     (reason: PersistReason) => {
-      try {
-        const { workout: currentWorkout, elapsedTime: currentElapsed } = stateRef.current;
-        const payload: StoredSession<T> = {
-          workout: currentWorkout,
-          elapsedTime: currentElapsed,
-          savedAt: Date.now(),
-          reason: reason,
-        };
+      if (finishedRef.current) return;
+      const { workout: currentWorkout, elapsedTime: currentElapsed } = stateRef.current;
+      const hasCompletedSet = currentWorkout.exercises.some((ex) => ex.sets.some((set) => set.completed));
 
-        const hasCompletedSet = currentWorkout.exercises.some((ex) => ex.sets.some((set) => set.completed));
-
-        if (!hasCompletedSet) {
-          if (window.localStorage.getItem(storageKey)) {
-            window.localStorage.removeItem(storageKey);
-          }
-          return;
-        }
-
-        window.localStorage.setItem(storageKey, JSON.stringify(payload));
-      } catch (error) {
-        console.error(`Не вдалося зберегти чернетку тренування (причина: ${reason}):`, error);
+      if (!hasCompletedSet) {
+        removeDraft(storageKey);
+        return;
       }
+
+      writeDraft(storageKey, { workout: currentWorkout, elapsedTime: currentElapsed, savedAt: Date.now(), reason });
     },
     [storageKey],
   );
 
-  const clearStoredWorkout = useCallback(() => {
-    try {
-      window.localStorage.removeItem(storageKey);
-    } catch (error) {
-      console.error("Не вдалося очистити чернетку тренування:", error);
-    }
+  /** Call after the workout is saved: removes the draft and stops further autosaves. */
+  const markFinished = useCallback(() => {
+    finishedRef.current = true;
+    removeDraft(storageKey);
   }, [storageKey]);
+
+  /** "Start over": drop the restored draft and reset to a fresh workout. */
+  const discardDraft = useCallback(() => {
+    removeDraft(storageKey);
+    setWorkout(freshWorkout);
+    setElapsedTime(0);
+    setIsPaused(true);
+    setRestoredFromDraft(false);
+  }, [storageKey, freshWorkout]);
 
   return {
     workout,
@@ -143,6 +141,8 @@ export function useWorkoutSession<T extends SessionShape>(initialWorkout: T) {
     progress,
     getFinishedWorkout,
     persistWorkoutDraft,
-    clearStoredWorkout,
+    restoredFromDraft,
+    discardDraft,
+    markFinished,
   };
 }
