@@ -41,6 +41,11 @@ Order inside the stage: 0.4 (schema) → 0.3 → 0.1 → 0.2 → the rest. Rules
 - [x] 1.6 On logout: `queryClient.clear()` + `del("REACT_QUERY_OFFLINE_CACHE")` (otherwise the next user on the same device sees cached data — must be done before launch).
   - Done in `QueryProvider`: clears the query cache and the IndexedDB copy whenever the signed-in uid changes (logout, account deletion, account switch).
 - [x] 1.7 `themeColor` as an array for light/dark.
+- [ ] 1.8 Offline workouts lose data (found 2026-10-20, ~1 day). Today the draft is written but never used, and finishing offline drops the workout:
+  - Resume: `useWorkoutSession` saves a draft to `localStorage` (`workout-session-<id>` / `-quick`) but never reads it back (`useState(initialWorkout)`), and `clearStoredWorkout` is never called. Restore the draft (sets + `elapsedTime`) when the workout opens, offer "Continue / Start over", clear it after a successful finish. Key the draft by uid and clear it on user change (same idea as 1.6).
+  - Re-send: Firestore uses the default memory cache (no `persistentLocalCache`), so pending writes die with the tab. `writeWorkoutSession` first calls `writeExerciseRecord` → `getDoc` throws offline → `addDoc` to `workoutHistory` never runs; the modal is already closed and the error only goes to Sentry. Fix: `initializeFirestore(app, { localCache: persistentLocalCache({ tabManager: persistentMultipleTabManager() }) })`; write the history doc first and don't `await` the server ack; compute records from cached data (or move them to the server in 3.2) so a failed read can't block the history write.
+  - Keep the draft until the history write is confirmed (pending-writes / `waitForPendingWrites`), show an "offline — will sync" toast instead of a silent failure.
+  - Test: e2e with `context.setOffline(true)` — finish a workout offline, reload, go online → the workout appears in history; reload mid-workout → resume prompt.
 
 ## Stage 2 — Packages, tooling & safety net (P2, ~2–3 days)
 
@@ -92,7 +97,7 @@ No users yet, so this is the cheapest time to do it — start right after Stage 
 
 - [ ] 4.0 Before charging money: move Vercel from Hobby (non-commercial) to a paid plan; give Preview deployments a separate Firebase project (today previews use production Firestore/Auth).
 - [ ] 4.1 Payments: Stripe/LemonSqueezy + webhook → server-side `subscribed` update (depends on 0.3–0.4).
-- [ ] 4.2 Reliable offline workout logging with a sync queue — only for the client-side writes defined in 3.2.
+- [ ] 4.2 Reliable offline workout logging with a sync queue — only for the client-side writes defined in 3.2. Builds on 1.8 (Firestore persistent cache + draft resume); 4.2 covers the rest: other offline writes (notes, progress, routines), conflict handling, sync status in the UI.
 - [ ] 4.3 Rest timer (vibration, sound).
 - [ ] 4.4 Scheduled push reminders (FCM).
 - [ ] 4.5 1RM estimate (Epley), history export to CSV.
