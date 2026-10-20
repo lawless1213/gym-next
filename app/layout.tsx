@@ -4,12 +4,12 @@ import "./globals.css";
 import { AuthProvider } from "../hooks/useAuth";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getTranslations } from "next-intl/server";
-import FaviconSwitcher, { ThemeProvider } from "@/providers/theme-provider";
+import FaviconSwitcher, { ThemeProvider } from "@/providers/ThemeProvider";
 import { QueryProvider } from "@/providers/QueryProvider";
 import AppShell from "@/components/shared/AppShell";
-import { ModalProvider } from "@/components/modals/modal-store";
+import { ModalProvider } from "@/components/modals/ModalProvider";
 import { TooltipProvider } from "@/components/ui/Tooltip";
-import { UserPreferencesProvider } from "@/providers/user-preferences-provider";
+import { UserPreferencesProvider } from "@/providers/UserPreferencesProvider";
 import { CookieBanner } from "@/components/shared/CookieBanner";
 
 const exo2 = Exo_2({

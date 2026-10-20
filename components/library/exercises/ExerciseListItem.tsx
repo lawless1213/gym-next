@@ -9,7 +9,7 @@ import { deleteUserExercise } from "@/lib/mutations/exercise";
 import { useAuth } from "@/hooks/useAuth";
 import { useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
-import { useModal } from "@/components/modals/modal-store";
+import { useModal } from "@/components/modals/ModalProvider";
 import { ExerciseCard } from "@/components/shared/cards/ExerciseCard";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/Tooltip";
 import { useLocale, useTranslations } from "next-intl";

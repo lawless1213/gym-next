@@ -1,7 +1,7 @@
 "use client";
 
-import { ModalWrapper } from "../modal-wrapper";
-import { ExerciseCard } from "./_components/exerciseCard";
+import { ModalWrapper } from "../ModalWrapper";
+import { ExerciseCard } from "./_components/ExerciseCard";
 import { RegularWorkoutSession } from "@/types";
 import { useRecords } from "@/hooks/useServices/useRecords";
 import { useAuth } from "@/hooks/useAuth";
@@ -10,8 +10,8 @@ import { useWorkoutSession } from "@/hooks/workout/useWorkoutSession";
 import { writeWorkoutSession } from "@/lib/mutations/workout";
 import { Timestamp } from "firebase/firestore";
 import { useQueryClient } from "@tanstack/react-query";
-import { WorkoutHeader } from "./_components/workoutHeader";
-import { WorkoutFooter } from "./_components/workoutFooter";
+import { WorkoutHeader } from "./_components/WorkoutHeader";
+import { WorkoutFooter } from "./_components/WorkoutFooter";
 import { useWorkoutSessionPersistence } from "@/hooks/workout/useWorkoutSessionPersistence";
 import { useTranslations } from "next-intl";
 import { reportError } from "@/lib/monitoring";

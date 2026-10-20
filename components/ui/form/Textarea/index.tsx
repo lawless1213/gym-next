@@ -1,7 +1,7 @@
 "use client";
 import clsx from "clsx";
 import { forwardRef } from "react";
-import { Label } from "../label";
+import { Label } from "../Label";
 
 type TextAreaType = {
   placeholder?: string;

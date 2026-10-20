@@ -5,7 +5,7 @@ import { useTranslations } from "next-intl";
 import SkeletonSwitcher from "@/components/ui/Skeleton/SkeletonSwitcher";
 import SkeletonBone from "@/components/ui/Skeleton/SkeletonBone";
 import { WorkoutSession } from "@/types";
-import { useUserPreferences } from "@/providers/user-preferences-provider";
+import { useUserPreferences } from "@/providers/UserPreferencesProvider";
 
 interface WeekStatsProps {
   history: WorkoutSession[];

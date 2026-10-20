@@ -1,5 +1,5 @@
 import { Button } from "../../Button";
-import { Label } from "../label";
+import { Label } from "../Label";
 
 export function ChipGroup<T extends string>({
   items,

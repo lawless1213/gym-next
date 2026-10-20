@@ -2,7 +2,7 @@
 
 import clsx from "clsx";
 import { forwardRef, useState } from "react";
-import { Label } from "../label";
+import { Label } from "../Label";
 import { IconEye, IconEyeOff } from "@tabler/icons-react";
 import { Button } from "../../Button";
 

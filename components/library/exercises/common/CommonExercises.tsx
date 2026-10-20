@@ -6,8 +6,8 @@ import { useLocale, useTranslations } from "next-intl";
 import { useCommonExercises } from "@/hooks/useServices/useExercises";
 import SkeletonSwitcher from "@/components/ui/Skeleton/SkeletonSwitcher";
 import { getLocalizedText } from "@/lib/utils";
-import { ExercisesSkeleton } from "../exercisesSkeleton";
-import ExercisesList from "../exercisesList";
+import { ExercisesSkeleton } from "../ExercisesSkeleton";
+import ExercisesList from "../ExercisesList";
 import type { Locale } from "@/types/common";
 
 const ITEMS_PER_PAGE = 10;

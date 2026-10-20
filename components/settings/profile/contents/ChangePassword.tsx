@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/Button";
-import { Input } from "@/components/ui/form/input";
+import { Input } from "@/components/ui/form/Input";
 import { useAuth } from "@/hooks/useAuth";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner";

@@ -1,6 +1,6 @@
 "use client";
 import { createContext, useCallback, useContext, useState } from "react";
-import { ModalRenderer, ModalType } from "./modal-renderer";
+import { ModalRenderer, ModalType } from "./ModalRenderer";
 import { ConfirmModal, ConfirmOptions } from "@/components/modals/confirm";
 
 type ModalStore = {

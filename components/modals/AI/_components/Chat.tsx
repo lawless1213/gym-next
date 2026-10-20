@@ -4,14 +4,14 @@ import { useState, useRef, useCallback } from "react";
 import { sendChatMessage } from "@/lib/server/actions/ai/chat";
 import type { ChatMessage } from "@/types";
 import { useTranslations } from "next-intl";
-import { Input } from "@/components/ui/form/input";
+import { Input } from "@/components/ui/form/Input";
 import { IconSend } from "@tabler/icons-react";
 import { Button } from "@/components/ui/Button";
-import { TypewriterText } from "@/components/ui/TypewritterText";
+import { TypewriterText } from "@/components/ui/TypewriterText";
 import { useAuth } from "@/hooks/useAuth";
 import { useQueryClient } from "@tanstack/react-query";
 import { UserParams } from "@/lib/services/user";
-import { defaultUserParams, useUserPreferences } from "@/providers/user-preferences-provider";
+import { defaultUserParams, useUserPreferences } from "@/providers/UserPreferencesProvider";
 
 export function AiChatContent() {
   const t = useTranslations("ai.modal.chat");

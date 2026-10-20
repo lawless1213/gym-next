@@ -1,7 +1,7 @@
 "use client";
 
 import { useState } from "react";
-import { WorkoutExercise, WorkoutSet, PersonalRecord } from "@/types";
+import { WorkoutSet, PersonalRecord, QuickWorkoutExercise } from "@/types";
 import { cn } from "@/lib/utils";
 import {
   IconBarbell,
@@ -11,21 +11,30 @@ import {
   IconMinus,
   IconPlus,
   IconTrophy,
+  IconX,
 } from "@tabler/icons-react";
-import { SetInput } from "./setInput";
+import { SetInput } from "./SetInput";
 import { useLocale, useTranslations } from "next-intl";
 import { Button } from "@/components/ui/Button";
 import { getLocalizedText, type Locale } from "@/types/common";
 
-interface ExerciseCardProps {
-  workoutExercise: WorkoutExercise;
+interface QuickExerciseCardProps {
+  workoutExercise: QuickWorkoutExercise;
   record?: PersonalRecord;
   onUpdateSet: (id: number, updates: Partial<WorkoutSet>) => void;
   onAddSet: () => void;
   onRemoveSet: () => void;
+  onRemoveExercise: () => void;
 }
 
-export function ExerciseCard({ workoutExercise, record, onUpdateSet, onAddSet, onRemoveSet }: ExerciseCardProps) {
+export function QuickExerciseCard({
+  workoutExercise,
+  record,
+  onUpdateSet,
+  onAddSet,
+  onRemoveSet,
+  onRemoveExercise,
+}: QuickExerciseCardProps) {
   const t = useTranslations("workout.modal.exercise");
   const locale = useLocale() as Locale;
   const [expanded, setExpanded] = useState(true);
@@ -39,6 +48,13 @@ export function ExerciseCard({ workoutExercise, record, onUpdateSet, onAddSet, o
   return (
     <div className="overflow-hidden rounded-2xl bg-card p-0.5">
       <div
+        role="button"
+        onKeyDown={(e) => {
+          if (e.key === "Enter" || e.key === " ") {
+            e.preventDefault();
+            setExpanded(!expanded);
+          }
+        }}
         onClick={() => setExpanded(!expanded)}
         className="flex w-full items-center gap-3 text-left">
         <div className="flex h-14 w-14 shrink-0 items-center justify-center rounded-xl bg-secondary">
@@ -54,7 +70,9 @@ export function ExerciseCard({ workoutExercise, record, onUpdateSet, onAddSet, o
         </div>
 
         <div className="flex-1">
-          <h3 className="font-semibold text-foreground">{displayName}</h3>
+          <div className="flex items-center gap-2">
+            <h3 className="flex-1 text-center font-semibold text-foreground">{displayName}</h3>
+          </div>
           <p className="text-sm text-muted-foreground">{muscleGroup}</p>
           <div className="mt-2 h-1 w-full overflow-hidden rounded-full bg-secondary">
             <div
@@ -128,7 +146,7 @@ export function ExerciseCard({ workoutExercise, record, onUpdateSet, onAddSet, o
               size="sm"
               onClick={onRemoveSet}
               className="flex-1 hover:border-red-500 hover:text-red-500">
-              <IconMinus className="h-4 w-4" />
+              <IconMinus className="size-4" />
               {t("removeSet")}
             </Button>
             <Button
@@ -136,8 +154,16 @@ export function ExerciseCard({ workoutExercise, record, onUpdateSet, onAddSet, o
               size="sm"
               onClick={onAddSet}
               className="flex-1 hover:border-primary hover:text-primary">
-              <IconPlus className="h-4 w-4" />
+              <IconPlus className="size-4" />
               {t("addSet")}
+            </Button>
+            <Button
+              variant="outline"
+              size="sm"
+              onClick={onRemoveExercise}
+              className="flex-1 hover:border-red-500 hover:text-red-500">
+              <IconX className="size-4" />
+              {t("remove")}
             </Button>
           </div>
         </div>

@@ -2,7 +2,7 @@
 
 import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
-import { useModal } from "@/components/modals/modal-store";
+import { useModal } from "@/components/modals/ModalProvider";
 import { Button } from "@/components/ui/Button";
 import { toast } from "sonner";
 import { IconBrandGithubFilled, IconBrandGoogleFilled } from "@tabler/icons-react";

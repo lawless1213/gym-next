@@ -1,19 +1,19 @@
 "use client";
 
-import { ModalWrapper } from "../modal-wrapper";
+import { ModalWrapper } from "../ModalWrapper";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/Button";
-import { Input } from "@/components/ui/form/input";
+import { Input } from "@/components/ui/form/Input";
 import { IconUpload } from "@tabler/icons-react";
 import { toast } from "sonner";
 import { useAuth } from "@/hooks/useAuth";
 import { useQueryClient } from "@tanstack/react-query";
 import { useTranslations } from "next-intl";
 import { userFormData, userSchema } from "@/lib/schemas";
-import { useUserPreferences } from "@/providers/user-preferences-provider";
+import { useUserPreferences } from "@/providers/UserPreferencesProvider";
 import { updateUserProfile } from "@/lib/mutations/user";
-import { useModal } from "../modal-store";
+import { useModal } from "../ModalProvider";
 
 export function UserEditModal() {
   const tComponents = useTranslations("components");

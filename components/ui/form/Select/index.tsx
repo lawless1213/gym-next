@@ -3,7 +3,7 @@
 import clsx from "clsx";
 import { forwardRef, useEffect, useLayoutEffect, useRef, useState } from "react";
 import { IconChevronDown, IconPlus } from "@tabler/icons-react";
-import { Label } from "../label";
+import { Label } from "../Label";
 import { Button } from "../../Button";
 
 export type SelectOption = {

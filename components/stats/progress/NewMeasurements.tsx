@@ -2,10 +2,10 @@
 
 import { useTranslations } from "next-intl";
 import { IconEdit } from "@tabler/icons-react";
-import { useModal } from "@/components/modals/modal-store";
+import { useModal } from "@/components/modals/ModalProvider";
 import ButtonAdd from "@/components/shared/ButtonAdd";
 import { useRouter } from "next/navigation";
-import { useUserPreferences } from "@/providers/user-preferences-provider";
+import { useUserPreferences } from "@/providers/UserPreferencesProvider";
 
 export default function NewMeasurements() {
   const router = useRouter();

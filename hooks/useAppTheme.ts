@@ -2,7 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useTheme } from "next-themes";
-import { useUserPreferences } from "@/providers/user-preferences-provider";
+import { useUserPreferences } from "@/providers/UserPreferencesProvider";
 
 export type AppTheme = "light" | "dark" | "system";
 type ResolvedTheme = "light" | "dark";

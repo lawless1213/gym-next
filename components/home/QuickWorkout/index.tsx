@@ -3,7 +3,7 @@
 import { useTranslations } from "next-intl";
 import { useAuth } from "@/hooks/useAuth";
 import { IconBolt } from "@tabler/icons-react";
-import { useModal } from "@/components/modals/modal-store";
+import { useModal } from "@/components/modals/ModalProvider";
 import ButtonAdd from "@/components/shared/ButtonAdd";
 
 export default function QuickWorkout() {

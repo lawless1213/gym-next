@@ -1,4 +1,4 @@
-import { useModal } from "@/components/modals/modal-store";
+import { useModal } from "@/components/modals/ModalProvider";
 import { Exercise } from "@/types";
 
 type ExerciseEditModalData = {

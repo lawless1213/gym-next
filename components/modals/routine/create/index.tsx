@@ -1,12 +1,12 @@
 "use client";
 
-import { ModalWrapper } from "../../modal-wrapper";
+import { ModalWrapper } from "../../ModalWrapper";
 import { Controller, useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/Button";
 import { useAuth } from "@/hooks/useAuth";
-import { Input } from "@/components/ui/form/input";
-import { useModal } from "@/components/modals/modal-store";
+import { Input } from "@/components/ui/form/Input";
+import { useModal } from "@/components/modals/ModalProvider";
 import { IconGridDots, IconPlus, IconSearch, IconTrash, IconX } from "@tabler/icons-react";
 import { useMemo, useState } from "react";
 import { useAllExercises } from "@/hooks/useServices/useExercises";

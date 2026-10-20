@@ -1,6 +1,6 @@
 "use client";
 
-import { ModalWrapper } from "../modal-wrapper";
+import { ModalWrapper } from "../ModalWrapper";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/Button";

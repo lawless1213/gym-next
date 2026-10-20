@@ -3,29 +3,26 @@
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/Button";
-import { Input } from "@/components/ui/form/input";
-import { useModal } from "@/components/modals/modal-store";
+import { useModal } from "@/components/modals/ModalProvider";
 import { toast } from "sonner";
 import { useAuth } from "@/hooks/useAuth";
 import { useQueryClient } from "@tanstack/react-query";
-import { DIFFICULTY, EQUIPMENT_GROUPS, GOALS, MUSCLE_GROUPS, SPLIT_TYPES } from "@/data/exercise";
-import { TextArea } from "@/components/ui/form/textarea";
-import { weekDays } from "@/types";
-import { generateAiSchedule } from "@/lib/server/actions/ai/schedule";
-import { Select } from "@/components/ui/form/select";
-import { ChipGroup } from "@/components/ui/form/chipGroup";
-import { WeeklyCalendar } from "@/components/shared/WeeklyCalendar";
-import { TypewriterText } from "@/components/ui/TypewritterText";
-import { createAiUserSchedule } from "@/lib/mutations/schedule";
+import { DIFFICULTY, EQUIPMENT_GROUPS, GOALS, MUSCLE_GROUPS } from "@/data/exercise";
+import { TextArea } from "@/components/ui/form/Textarea";
+import { Input } from "@/components/ui/form/Input";
+import { ChipGroup } from "@/components/ui/form/ChipGroup";
+import { Select } from "@/components/ui/form/Select";
+import { generateAiRoutine } from "@/lib/server/actions/ai/routine";
+import RoutineCard from "@/components/shared/cards/RoutineCard";
+import { createAiUserRoutine } from "@/lib/mutations/routine";
 import { useLocale, useTranslations } from "next-intl";
-import { AIScheduleFormData, AIScheduleSchema } from "@/lib/schemas";
+import { TypewriterText } from "@/components/ui/TypewriterText";
+import { AIRoutineAFormData, AIRoutineSchema } from "@/lib/schemas";
 
-export function AiScheduleContent() {
+export function AiRoutineContent() {
   const locale = useLocale();
-
   const t = useTranslations("ai.modal");
   const tComponents = useTranslations("components");
-
   const { close, confirm } = useModal();
   const { user } = useAuth();
   const queryClient = useQueryClient();
@@ -34,46 +31,42 @@ export function AiScheduleContent() {
     register,
     handleSubmit,
     control,
-    setError,
     formState: { errors, isSubmitting, isValid, isDirty },
-  } = useForm<AIScheduleFormData>({
-    resolver: zodResolver(AIScheduleSchema),
+  } = useForm<AIRoutineAFormData>({
+    resolver: zodResolver(AIRoutineSchema),
     mode: "onChange",
     defaultValues: {
       groups: [],
+      difficulty: "",
+      equipment: "",
+      goal: "",
     },
   });
 
   const { ref: commentRef, ...commentRest } = register("comment");
-  const { ref: dayPerWeekRef, ...dayPerWeekRest } = register("dayPerWeek");
+  const { ref: durationRef, ...durationRest } = register("duration");
+  const { ref: countRef, ...countRest } = register("count");
 
   const selectFields = [
     { name: "goal", placeholder: t("fields.goals"), options: GOALS, key: "goals" },
     { name: "difficulty", placeholder: t("fields.difficulty"), options: DIFFICULTY, key: "difficulty" },
     { name: "equipment", placeholder: t("fields.equipmentGroups"), options: EQUIPMENT_GROUPS, key: "equipmentGroups" },
-    { name: "splitType", placeholder: t("fields.splitTypes"), options: SPLIT_TYPES, key: "splitTypes" },
   ] as const;
 
-  const chipFields = [
-    { id: "groups", name: "groups", label: t("fields.muscleGroups"), items: MUSCLE_GROUPS, key: "muscleGroups" },
-    {
-      id: "preferredRestDays",
-      name: "preferredRestDays",
-      label: t("fields.restDays"),
-      items: weekDays,
-      key: "day.default",
-    },
-  ] as const;
-
-  const onSubmit = async (formData: AIScheduleFormData) => {
+  const onSubmit = async (formData: AIRoutineAFormData) => {
     try {
-      if (!user) throw new Error("Not authenticated");
+      if (!user) throw new Error("Користувач не авторизований");
 
       const idToken = await user.getIdToken();
-      const result = await generateAiSchedule({ ...formData, idToken, locale });
+
+      const result = await generateAiRoutine({
+        ...formData,
+        idToken,
+        locale,
+      });
 
       if (!result.success) {
-        setError("root", { message: result.error });
+        toast.error(result.error);
         return;
       }
 
@@ -81,7 +74,7 @@ export function AiScheduleContent() {
       const typingDuration = result.summary.length * speed;
 
       const ok = await confirm({
-        title: t("confirm.confirmSchedule"),
+        title: result.data.name,
         description: (
           <TypewriterText
             text={result.summary}
@@ -95,30 +88,29 @@ export function AiScheduleContent() {
               animationDelay: `${typingDuration}ms`,
               animationFillMode: "forwards",
             }}>
-            <WeeklyCalendar schedule={result.data} />
+            <RoutineCard routine={{ ...result.data, id: "preview" }} />
           </div>
         ),
         cancelLabel: t("confirm.cancel"),
+        confirmLabel: t("confirm.confirm"),
       });
 
-      if (!ok) return;
+      if (ok) {
+        await createAiUserRoutine(user.uid, {
+          title: result.data.name,
+          color: result.data.color,
+          exercises: result.data.exercises,
+        });
 
-      const saveResult = await createAiUserSchedule(user.uid, result.data);
+        queryClient.invalidateQueries({ queryKey: ["routines", user.uid] });
+        queryClient.invalidateQueries({ queryKey: ["exercises", user.uid] });
 
-      if (!saveResult.success) {
-        toast.error(saveResult.error);
-        return;
+        toast.success("Рутину та нові вправи успішно додано!");
+        close();
       }
-
-      queryClient.invalidateQueries({ queryKey: ["schedule", user.uid] });
-      queryClient.invalidateQueries({ queryKey: ["routines", user.uid] });
-      queryClient.invalidateQueries({ queryKey: ["exercises", user.uid] });
-
-      toast.success("Графік та нові рутини успішно додано!");
-      close();
     } catch (error) {
       console.error(error);
-      toast.error("Сталася помилка при створенні графіку.");
+      toast.error("Сталася помилка при створенні рутини.");
     }
   };
 
@@ -148,35 +140,45 @@ export function AiScheduleContent() {
           />
         ))}
 
-        {chipFields.map(({ name, label, items, key }) => (
-          <div key={name}>
-            <Controller
-              name={name}
-              control={control}
-              render={({ field }) => (
-                <ChipGroup
-                  items={items}
-                  value={field.value ?? []}
-                  onChange={field.onChange}
-                  label={label}
-                  formatLabel={(item) => tComponents(`${key}.${item}`)}
-                  error={errors[name]?.message && tComponents(`forms.${errors[name].message}`)}
-                />
-              )}
+        <Controller
+          name={"groups"}
+          control={control}
+          render={({ field }) => (
+            <ChipGroup
+              items={MUSCLE_GROUPS}
+              value={field.value ?? []}
+              onChange={field.onChange}
+              id="groups"
+              label={t("fields.muscleGroups")}
+              formatLabel={(item) => tComponents("muscleGroups." + item)}
+              error={errors.groups?.message && tComponents("forms." + errors.groups?.message)}
             />
-          </div>
-        ))}
-
-        <Input
-          ref={dayPerWeekRef}
-          input={{
-            ...dayPerWeekRest,
-            id: "dayPerWeek",
-            placeholder: t("fields.daysCount"),
-            error: errors.dayPerWeek?.message && tComponents("forms." + errors.dayPerWeek?.message),
-            type: "number",
-          }}
+          )}
         />
+
+        <div className="flex w-full items-center gap-2">
+          <Input
+            ref={durationRef}
+            input={{
+              ...durationRest,
+              id: "duratio",
+              placeholder: t("fields.duration"),
+              error: errors.duration?.message && tComponents("forms." + errors.duration?.message),
+              type: "number",
+            }}
+          />
+          <Input
+            ref={countRef}
+            input={{
+              ...countRest,
+              id: "count",
+              placeholder: t("fields.exerciseCount"),
+              error: errors.count?.message && tComponents(errors.count?.message),
+              type: "number",
+            }}
+          />
+        </div>
+
         <TextArea
           ref={commentRef}
           textarea={{

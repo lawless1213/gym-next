@@ -6,7 +6,7 @@ import { cn } from "@/lib/utils";
 import { IconCheck, IconMinus, IconPlus } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/Button";
-import { useUserPreferences } from "@/providers/user-preferences-provider";
+import { useUserPreferences } from "@/providers/UserPreferencesProvider";
 
 interface SetInputProps {
   set: WorkoutSet;

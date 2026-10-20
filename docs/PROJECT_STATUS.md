@@ -25,7 +25,7 @@ _Updated: 2026-10-09. Detailed checklist plan — [ROADMAP.md](./ROADMAP.md)._
 - **Offline-first React Query** (`networkMode: "offlineFirst"`, IndexedDB persister, `resumePausedMutations`). A solid PWA foundation.
 - **AI guard via the Admin SDK:** ID-token verification and transactional try deduction.
 - **Gemini structured output** (JSON schema) mapped onto existing exercises and routines.
-- **Centralized modals** (`modal-store` with a Promise-based `confirm()`).
+- **Centralized modals** (`ModalProvider` with a Promise-based `confirm()`).
 - **TypeScript strict**; `tsc --noEmit` passes cleanly.
 - **Both locales in sync** (uk/en, ~640 lines each).
 
@@ -74,7 +74,7 @@ _Updated: 2026-10-09. Detailed checklist plan — [ROADMAP.md](./ROADMAP.md)._
 | ✅ ~~`lib/actions/*` are client functions but named like server actions~~                                           | Fixed in roadmap 3.1                                                                                                 |
 | Ukrainian error strings in server code                                                                              | Bypass next-intl; return error codes instead                                                                         |
 | Hand-written JSON schemas for Gemini duplicate zod                                                                  | Two sources of truth                                                                                                 |
-| Naming: `shedule.ts`, `navManu.tsx`, `TypewritterText`, `__components` vs `_components`                             | Confusing, hard to search                                                                                            |
+| ✅ ~~Naming: `shedule.ts`, `navManu.tsx`, `TypewritterText`, `__components` vs `_components`~~                      | Fixed in roadmap 3.4                                                                                                 |
 | `useAuth.tsx` (a provider) lives in `hooks/`                                                                        | Move to `providers/`                                                                                                 |
 | ~51 occurrences of `console.log` / `any` / `@ts-ignore`                                                             | Console noise, holes in typing                                                                                       |
 | Query keys are inline strings across components                                                                     | Easy to get invalidation wrong; needs a key factory                                                                  |

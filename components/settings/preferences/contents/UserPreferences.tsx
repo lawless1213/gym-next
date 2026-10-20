@@ -1,7 +1,7 @@
 "use client";
 
-import { Select } from "@/components/ui/form/select";
-import { useUserPreferences } from "@/providers/user-preferences-provider";
+import { Select } from "@/components/ui/form/Select";
+import { useUserPreferences } from "@/providers/UserPreferencesProvider";
 import { useTranslations } from "next-intl";
 
 export default function UserPreferences() {

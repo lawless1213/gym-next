@@ -69,8 +69,9 @@ No users yet, so this is the cheapest time to do it — start right after Stage 
   - Done: client Firestore writes in `lib/mutations/*`; Gemini server actions in `lib/server/actions/ai/*`; their helpers (`client.ts`, `guard.ts`) in `lib/server/ai/` with `import "server-only"` (they had none before). Skills and comments updated.
 - [ ] 3.2 Move critical writes to the server: ~~account deletion~~ (done in 0.1), records, subscription. Decide and document which writes stay client-side (and can work offline — workout sets, notes) vs server-only (subscription, AI tries, account) — this defines the scope of 4.2.
 - [ ] 3.3 Return error codes (`NO_FREE_TRIES`, `AI_RATE_LIMIT`) and translate them via next-intl.
-- [ ] 3.4 Naming: `shedule.ts`→`schedule.ts`, `navManu.tsx`→`navMenu.tsx`, `TypewritterText`→`TypewriterText`; one `_components` convention and one file-casing convention.
-- [ ] 3.5 `useAuth.tsx` (a provider) → `providers/auth-provider.tsx`, hook separately.
+- [x] 3.4 Naming: `shedule.ts`→`schedule.ts`, `navManu.tsx`→`navMenu.tsx`, `TypewritterText`→`TypewriterText`; one `_components` convention and one file-casing convention.
+  - Done: renames above + `LoginWIth`→`LoginWith`, `AI/__components`→`AI/_components`, `utils/PWA.ts`→`pwa.ts`. Convention (in the `gym-next-feature` skill): component files and component folders PascalCase (`SetInput.tsx`, `ui/form/Input/`, `ModalProvider.tsx` ← `modal-store.tsx`, `ThemeProvider.tsx`, `UserPreferencesProvider.tsx`); other modules camelCase; grouping folders lowercase; private subcomponents in `_components/`.
+- [ ] 3.5 `useAuth.tsx` (a provider) → `providers/AuthProvider.tsx`, hook separately.
 - [ ] 3.6 Query key factory (`lib/queryKeys.ts`).
 - [ ] 3.7 Server components for the layout and static parts.
 - [ ] 3.8 `MuscleSchema`: move SVG paths into data + one render component.
@@ -82,7 +83,7 @@ No users yet, so this is the cheapest time to do it — start right after Stage 
   - [ ] Each feature exposes a public API via `index.ts`; no deep imports into another feature's internals.
   - [ ] Enforce boundaries with ESLint (`eslint-plugin-boundaries` or `import/no-restricted-paths`): `shared` never imports from `features`/`server`; features import each other only through `index.ts`; client code never imports `server/`.
   - [ ] `app/` stays routing-only (thin `page.tsx`/`layout.tsx` composing features).
-- [ ] 3.12 Review custom form controls (`components/ui/form/select`, `stepper`, `Tabs`, modals, `type="number"` in `modals/workout/_components/setInput.tsx`) for accessibility and mobile input; where they fall short, replace with React Aria Components (unstyled, Tailwind-friendly). Not React Spectrum (Adobe look, heavy). Ideally done alongside the move to `shared/ui` in 3.11.
+- [ ] 3.12 Review custom form controls (`components/ui/form/Select`, `Stepper`, `Tabs`, modals, `type="number"` in `modals/workout/_components/SetInput.tsx`) for accessibility and mobile input; where they fall short, replace with React Aria Components (unstyled, Tailwind-friendly). Not React Spectrum (Adobe look, heavy). Ideally done alongside the move to `shared/ui` in 3.11.
   - Check: keyboard and focus (Tab/arrows/Esc, focus trap in modals), screen-reader labels/roles, `NumberField` with locale-aware decimals (`,` vs `.` for uk/en), step/min/max, correct mobile keyboard (`inputMode="decimal"`), touch targets.
   - Candidates: `NumberField` (weight/reps), `Select`/`ComboBox`, `Tabs`, `Modal`/`Dialog`; `DatePicker`/`Calendar` if the schedule ever needs date input.
   - Decision rule: only swap a control if the review finds real issues; one UI library only (Headless UI was already removed in 2.1).

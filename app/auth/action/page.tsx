@@ -6,7 +6,7 @@ import { applyActionCode } from "firebase/auth";
 import { auth } from "@/lib/config/firebaseConfig";
 import { Button } from "@/components/ui/Button";
 import { useTranslations } from "next-intl";
-import { useModal } from "@/components/modals/modal-store";
+import { useModal } from "@/components/modals/ModalProvider";
 
 export default function AuthActionPage() {
   const t = useTranslations("auth.page");

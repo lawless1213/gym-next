@@ -3,9 +3,9 @@
 import { Button } from "@/components/ui/Button";
 import { useTranslations } from "next-intl";
 import { useRouter } from "next/navigation";
-import { useModal } from "../../modal-store";
+import { useModal } from "../../ModalProvider";
 import Image from "next/image";
-import { useUserPreferences } from "@/providers/user-preferences-provider";
+import { useUserPreferences } from "@/providers/UserPreferencesProvider";
 
 type PreviewProps = {
   onChange?: (value: boolean) => void;

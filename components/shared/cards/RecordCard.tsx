@@ -1,7 +1,7 @@
 "use client";
 
 import { getLocalizedText } from "@/lib/utils";
-import { useUserPreferences } from "@/providers/user-preferences-provider";
+import { useUserPreferences } from "@/providers/UserPreferencesProvider";
 import { PersonalRecord } from "@/types";
 import { IconTrophy } from "@tabler/icons-react";
 import { AnimatePresence, motion } from "motion/react";

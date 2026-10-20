@@ -1,18 +1,18 @@
 "use client";
 
-import { ModalWrapper } from "../../modal-wrapper";
-import { QuickExerciseCard } from "./../_components/quickExerciseCard";
+import { ModalWrapper } from "../../ModalWrapper";
+import { QuickExerciseCard } from "../_components/QuickExerciseCard";
 import { QuickWorkoutSession } from "@/types";
 import { useAuth } from "@/hooks/useAuth";
 import { useAllExercises } from "@/hooks/useServices/useExercises";
 import { useWorkoutSession } from "@/hooks/workout/useWorkoutSession";
-import { useModal } from "@/components/modals/modal-store";
-import { Select } from "@/components/ui/form/select";
+import { useModal } from "@/components/modals/ModalProvider";
+import { Select } from "@/components/ui/form/Select";
 import { writeWorkoutSession } from "@/lib/mutations/workout";
 import { Timestamp } from "firebase/firestore";
 import { useQueryClient } from "@tanstack/react-query";
-import { WorkoutHeader } from "../_components/workoutHeader";
-import { WorkoutFooter } from "../_components/workoutFooter";
+import { WorkoutHeader } from "../_components/WorkoutHeader";
+import { WorkoutFooter } from "../_components/WorkoutFooter";
 import { useWorkoutSessionPersistence } from "@/hooks/workout/useWorkoutSessionPersistence";
 import { cn } from "@/lib/utils";
 import { useLocale, useTranslations } from "next-intl";

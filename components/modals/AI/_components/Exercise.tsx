@@ -3,26 +3,26 @@
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/Button";
-import { useModal } from "@/components/modals/modal-store";
+import { TextArea } from "@/components/ui/form/Textarea";
+import { useModal } from "@/components/modals/ModalProvider";
 import { toast } from "sonner";
+import { createUserExercise } from "@/lib/mutations/exercise";
 import { useAuth } from "@/hooks/useAuth";
 import { useQueryClient } from "@tanstack/react-query";
 import { DIFFICULTY, EQUIPMENT_GROUPS, GOALS, MUSCLE_GROUPS } from "@/data/exercise";
-import { TextArea } from "@/components/ui/form/textarea";
-import { Input } from "@/components/ui/form/input";
-import { ChipGroup } from "@/components/ui/form/chipGroup";
-import { Select } from "@/components/ui/form/select";
-import { generateAiRoutine } from "@/lib/server/actions/ai/routine";
-import RoutineCard from "@/components/shared/cards/RoutineCard";
-import { createAiUserRoutine } from "@/lib/mutations/routine";
+import { Select } from "@/components/ui/form/Select";
+import { ChipGroup } from "@/components/ui/form/ChipGroup";
+import { generateAiExercise } from "@/lib/server/actions/ai/exercise";
+import { ExerciseCard } from "@/components/shared/cards/ExerciseCard";
 import { useLocale, useTranslations } from "next-intl";
-import { TypewriterText } from "@/components/ui/TypewritterText";
-import { AIRoutineAFormData, AIRoutineSchema } from "@/lib/schemas";
+import { TypewriterText } from "@/components/ui/TypewriterText";
+import { AIExerciseFormData, AIExerciseSchema } from "@/lib/schemas";
+import { getLocalizedText, type Locale } from "@/types/common";
 
-export function AiRoutineContent() {
-  const locale = useLocale();
-  const t = useTranslations("ai.modal");
+export function AiExerciseContent() {
+  const locale = useLocale() as Locale;
   const tComponents = useTranslations("components");
+  const t = useTranslations("ai.modal");
   const { close, confirm } = useModal();
   const { user } = useAuth();
   const queryClient = useQueryClient();
@@ -32,8 +32,8 @@ export function AiRoutineContent() {
     handleSubmit,
     control,
     formState: { errors, isSubmitting, isValid, isDirty },
-  } = useForm<AIRoutineAFormData>({
-    resolver: zodResolver(AIRoutineSchema),
+  } = useForm<AIExerciseFormData>({
+    resolver: zodResolver(AIExerciseSchema),
     mode: "onChange",
     defaultValues: {
       groups: [],
@@ -44,8 +44,6 @@ export function AiRoutineContent() {
   });
 
   const { ref: commentRef, ...commentRest } = register("comment");
-  const { ref: durationRef, ...durationRest } = register("duration");
-  const { ref: countRef, ...countRest } = register("count");
 
   const selectFields = [
     { name: "goal", placeholder: t("fields.goals"), options: GOALS, key: "goals" },
@@ -53,17 +51,12 @@ export function AiRoutineContent() {
     { name: "equipment", placeholder: t("fields.equipmentGroups"), options: EQUIPMENT_GROUPS, key: "equipmentGroups" },
   ] as const;
 
-  const onSubmit = async (formData: AIRoutineAFormData) => {
+  const onSubmit = async (data: AIExerciseFormData) => {
     try {
-      if (!user) throw new Error("Користувач не авторизований");
+      if (!user) throw new Error("Not authenticated");
 
       const idToken = await user.getIdToken();
-
-      const result = await generateAiRoutine({
-        ...formData,
-        idToken,
-        locale,
-      });
+      const result = await generateAiExercise({ ...data, idToken, locale });
 
       if (!result.success) {
         toast.error(result.error);
@@ -74,7 +67,7 @@ export function AiRoutineContent() {
       const typingDuration = result.summary.length * speed;
 
       const ok = await confirm({
-        title: result.data.name,
+        title: getLocalizedText(result.data.name, locale),
         description: (
           <TypewriterText
             text={result.summary}
@@ -88,7 +81,7 @@ export function AiRoutineContent() {
               animationDelay: `${typingDuration}ms`,
               animationFillMode: "forwards",
             }}>
-            <RoutineCard routine={{ ...result.data, id: "preview" }} />
+            <ExerciseCard exercise={result.data} />
           </div>
         ),
         cancelLabel: t("confirm.cancel"),
@@ -96,21 +89,17 @@ export function AiRoutineContent() {
       });
 
       if (ok) {
-        await createAiUserRoutine(user.uid, {
+        await createUserExercise(user.uid, {
           title: result.data.name,
-          color: result.data.color,
-          exercises: result.data.exercises,
+          groups: [result.data.muscleGroup],
+          description: result.data.description,
         });
-
-        queryClient.invalidateQueries({ queryKey: ["routines", user.uid] });
         queryClient.invalidateQueries({ queryKey: ["exercises", user.uid] });
-
-        toast.success("Рутину та нові вправи успішно додано!");
+        toast.success(t("success"));
         close();
       }
-    } catch (error) {
-      console.error(error);
-      toast.error("Сталася помилка при створенні рутини.");
+    } catch (err) {
+      toast.error(t("error"));
     }
   };
 
@@ -156,34 +145,11 @@ export function AiRoutineContent() {
           )}
         />
 
-        <div className="flex w-full items-center gap-2">
-          <Input
-            ref={durationRef}
-            input={{
-              ...durationRest,
-              id: "duratio",
-              placeholder: t("fields.duration"),
-              error: errors.duration?.message && tComponents("forms." + errors.duration?.message),
-              type: "number",
-            }}
-          />
-          <Input
-            ref={countRef}
-            input={{
-              ...countRest,
-              id: "count",
-              placeholder: t("fields.exerciseCount"),
-              error: errors.count?.message && tComponents(errors.count?.message),
-              type: "number",
-            }}
-          />
-        </div>
-
         <TextArea
           ref={commentRef}
           textarea={{
             ...commentRest,
-            id: "comment",
+            id: "title",
             placeholder: t("fields.additionalComment"),
             error: errors.comment?.message && tComponents("forms." + errors.comment?.message),
           }}

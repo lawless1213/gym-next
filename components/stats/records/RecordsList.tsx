@@ -1,8 +1,8 @@
 "use client";
 
-import { useModal } from "@/components/modals/modal-store";
+import { useModal } from "@/components/modals/ModalProvider";
 import ActionCard from "@/components/shared/cards/ActionCard";
-import RecordCard from "@/components/shared/cards/recordCard";
+import RecordCard from "@/components/shared/cards/RecordCard";
 import SkeletonBone from "@/components/ui/Skeleton/SkeletonBone";
 import SkeletonSwitcher from "@/components/ui/Skeleton/SkeletonSwitcher";
 import { useAuth } from "@/hooks/useAuth";

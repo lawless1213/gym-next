@@ -3,10 +3,10 @@
 import { createPortal } from "react-dom";
 import { AnimatePresence, motion } from "motion/react";
 import { useBodyScrollLock } from "@/hooks/useBodyScrollLock";
-import { useModal } from "@/components/modals/modal-store";
+import { useModal } from "@/components/modals/ModalProvider";
 import clsx from "clsx";
 import { IconX } from "@tabler/icons-react";
-import { ModalType } from "@/components/modals/modal-renderer";
+import { ModalType } from "@/components/modals/ModalRenderer";
 import { Button } from "@/components/ui/Button";
 import { useEffect } from "react";
 

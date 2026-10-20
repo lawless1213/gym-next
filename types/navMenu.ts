@@ -1,4 +1,4 @@
-import { ModalType } from "@/components/modals/modal-renderer";
+import { ModalType } from "@/components/modals/ModalRenderer";
 import { ReactNode } from "react";
 
 type BaseNavItem = {

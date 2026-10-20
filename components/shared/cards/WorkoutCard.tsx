@@ -4,7 +4,7 @@ import { Routine } from "@/types";
 import { IconPlayerPlayFilled, IconBarbell } from "@tabler/icons-react";
 import { Button } from "@/components/ui/Button";
 import { useLocale, useTranslations } from "next-intl";
-import { useModal } from "@/components/modals/modal-store";
+import { useModal } from "@/components/modals/ModalProvider";
 import { getLocalizedText, type Locale } from "@/types/common";
 
 interface WorkoutCardProps {

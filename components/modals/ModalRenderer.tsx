@@ -1,6 +1,6 @@
 "use client";
 import { RoutineCreateModal } from "@/components/modals/routine/create";
-import { useModal } from "./modal-store";
+import { useModal } from "./ModalProvider";
 import { AuthModal } from "@/components/modals/auth";
 import { ExerciseCreateModal } from "@/components/modals/exercise/create";
 import { WorkoutModal } from "@/components/modals/workout";

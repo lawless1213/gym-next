@@ -1,6 +1,6 @@
 "use client";
 
-import { ExerciseListItem } from "@/components/library/exercises/exerciseListItem";
+import { ExerciseListItem } from "@/components/library/exercises/ExerciseListItem";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/Button";
 import { Exercise } from "@/types";

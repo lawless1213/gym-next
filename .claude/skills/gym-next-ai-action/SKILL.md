@@ -20,7 +20,7 @@ Actions live in `lib/server/actions/ai/` (`"use server"`). Shared server-only pi
 5. Define the response shape once as a zod schema in `lib/schemas/ai-response.schema.ts` (use `.describe()` for model hints) and pass it to `generateStructured` — it generates the JSON Schema and runs `safeParse`. No hand-written JSON schemas, no `JSON.parse(...) as T`.
 6. Map AI names to existing exercises/routines; new items get a `temp-` id so `createAiUserRoutine` creates them.
 7. Return `{ success, data | error }` from `run`; `withAiTry` adds `freeAiTries`. Prefer error codes (e.g. `NO_FREE_TRIES`, `AI_INVALID_RESPONSE`) translated on the client via next-intl.
-8. On the client, update cached user params (`subscribed.freeAiTries`) from the result, as `components/modals/AI/__components/chat.tsx` does.
+8. On the client, update cached user params (`subscribed.freeAiTries`) from the result, as `components/modals/AI/_components/Chat.tsx` does.
 
 ## Prompting
 

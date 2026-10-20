@@ -2,7 +2,7 @@
 
 import SkeletonBone from "@/components/ui/Skeleton/SkeletonBone";
 import SkeletonSwitcher from "@/components/ui/Skeleton/SkeletonSwitcher";
-import { useUserPreferences } from "@/providers/user-preferences-provider";
+import { useUserPreferences } from "@/providers/UserPreferencesProvider";
 import { PersonalRecord } from "@/types";
 import { useTranslations } from "next-intl";
 
