@@ -20,12 +20,12 @@ _Updated: 2026-10-09. Detailed checklist plan — [ROADMAP.md](./ROADMAP.md)._
 ## 👍 What's good and worth keeping
 
 - **Modern stack:** Next 16, React 19, Tailwind 4, zod 4, TanStack Query 5. No outdated libraries.
-- **Clear layers:** `types` → `lib/schemas` → `lib/services` (reads) → `lib/actions` (writes) → `hooks/useServices` → components. New code is easy to add by following the pattern.
+- **Clear layers:** `types` → `lib/schemas` → `lib/services` (reads) → `lib/mutations` (client writes; server actions in `lib/server/actions`) → `hooks/useServices` → components. New code is easy to add by following the pattern.
 - **Forms on react-hook-form + zod** with i18n keys in validation messages.
 - **Offline-first React Query** (`networkMode: "offlineFirst"`, IndexedDB persister, `resumePausedMutations`). A solid PWA foundation.
 - **AI guard via the Admin SDK:** ID-token verification and transactional try deduction.
 - **Gemini structured output** (JSON schema) mapped onto existing exercises and routines.
-- **Centralized modals** (`modal-store` with a Promise-based `confirm()`).
+- **Centralized modals** (`ModalProvider` with a Promise-based `confirm()`).
 - **TypeScript strict**; `tsc --noEmit` passes cleanly.
 - **Both locales in sync** (uk/en, ~640 lines each).
 
@@ -71,10 +71,10 @@ _Updated: 2026-10-09. Detailed checklist plan — [ROADMAP.md](./ROADMAP.md)._
 
 | What                                                                                                                | Why                                                                                                                  |
 | ------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------- |
-| `lib/actions/*` are client functions but named like server actions                                                  | Misleading; rename to `lib/mutations`, keep real server actions separate                                             |
+| ✅ ~~`lib/actions/*` are client functions but named like server actions~~                                           | Fixed in roadmap 3.1                                                                                                 |
 | Ukrainian error strings in server code                                                                              | Bypass next-intl; return error codes instead                                                                         |
 | Hand-written JSON schemas for Gemini duplicate zod                                                                  | Two sources of truth                                                                                                 |
-| Naming: `shedule.ts`, `navManu.tsx`, `TypewritterText`, `__components` vs `_components`                             | Confusing, hard to search                                                                                            |
+| ✅ ~~Naming: `shedule.ts`, `navManu.tsx`, `TypewritterText`, `__components` vs `_components`~~                      | Fixed in roadmap 3.4                                                                                                 |
 | `useAuth.tsx` (a provider) lives in `hooks/`                                                                        | Move to `providers/`                                                                                                 |
 | ~51 occurrences of `console.log` / `any` / `@ts-ignore`                                                             | Console noise, holes in typing                                                                                       |
 | Query keys are inline strings across components                                                                     | Easy to get invalidation wrong; needs a key factory                                                                  |

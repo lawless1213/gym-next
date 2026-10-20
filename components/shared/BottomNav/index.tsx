@@ -5,12 +5,12 @@ import Link from "next/link";
 import { useTranslations } from "next-intl";
 import { toast } from "sonner"; // Або ваш кастомний toast
 import { useAuth } from "@/hooks/useAuth";
-import { useModal } from "@/components/modals/modal-store";
+import { useModal } from "@/components/modals/ModalProvider";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/Tooltip";
-import { getNavLinks } from "@/data/navManu";
+import { getNavLinks } from "@/data/navMenu";
 import { NavItem } from "@/types/navMenu";
 import { IconCarambolaFilled } from "@tabler/icons-react";
-import { useUserPreferences } from "@/providers/user-preferences-provider";
+import { useUserPreferences } from "@/providers/UserPreferencesProvider";
 
 export function BottomNav() {
   const t = useTranslations("components.bottomNav");

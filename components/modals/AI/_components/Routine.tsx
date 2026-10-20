@@ -1,0 +1,204 @@
+"use client";
+
+import { useForm, Controller } from "react-hook-form";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { Button } from "@/components/ui/Button";
+import { useModal } from "@/components/modals/ModalProvider";
+import { toast } from "sonner";
+import { useAuth } from "@/hooks/useAuth";
+import { useQueryClient } from "@tanstack/react-query";
+import { DIFFICULTY, EQUIPMENT_GROUPS, GOALS, MUSCLE_GROUPS } from "@/data/exercise";
+import { TextArea } from "@/components/ui/form/Textarea";
+import { Input } from "@/components/ui/form/Input";
+import { ChipGroup } from "@/components/ui/form/ChipGroup";
+import { Select } from "@/components/ui/form/Select";
+import { generateAiRoutine } from "@/lib/server/actions/ai/routine";
+import RoutineCard from "@/components/shared/cards/RoutineCard";
+import { createAiUserRoutine } from "@/lib/mutations/routine";
+import { useLocale, useTranslations } from "next-intl";
+import { TypewriterText } from "@/components/ui/TypewriterText";
+import { AIRoutineAFormData, AIRoutineSchema } from "@/lib/schemas";
+
+export function AiRoutineContent() {
+  const locale = useLocale();
+  const t = useTranslations("ai.modal");
+  const tComponents = useTranslations("components");
+  const { close, confirm } = useModal();
+  const { user } = useAuth();
+  const queryClient = useQueryClient();
+
+  const {
+    register,
+    handleSubmit,
+    control,
+    formState: { errors, isSubmitting, isValid, isDirty },
+  } = useForm<AIRoutineAFormData>({
+    resolver: zodResolver(AIRoutineSchema),
+    mode: "onChange",
+    defaultValues: {
+      groups: [],
+      difficulty: "",
+      equipment: "",
+      goal: "",
+    },
+  });
+
+  const { ref: commentRef, ...commentRest } = register("comment");
+  const { ref: durationRef, ...durationRest } = register("duration");
+  const { ref: countRef, ...countRest } = register("count");
+
+  const selectFields = [
+    { name: "goal", placeholder: t("fields.goals"), options: GOALS, key: "goals" },
+    { name: "difficulty", placeholder: t("fields.difficulty"), options: DIFFICULTY, key: "difficulty" },
+    { name: "equipment", placeholder: t("fields.equipmentGroups"), options: EQUIPMENT_GROUPS, key: "equipmentGroups" },
+  ] as const;
+
+  const onSubmit = async (formData: AIRoutineAFormData) => {
+    try {
+      if (!user) throw new Error("Користувач не авторизований");
+
+      const idToken = await user.getIdToken();
+
+      const result = await generateAiRoutine({
+        ...formData,
+        idToken,
+        locale,
+      });
+
+      if (!result.success) {
+        toast.error(result.error);
+        return;
+      }
+
+      const speed = 15;
+      const typingDuration = result.summary.length * speed;
+
+      const ok = await confirm({
+        title: result.data.name,
+        description: (
+          <TypewriterText
+            text={result.summary}
+            speed={speed}
+          />
+        ),
+        children: (
+          <div
+            className="animate-fade-in"
+            style={{
+              animationDelay: `${typingDuration}ms`,
+              animationFillMode: "forwards",
+            }}>
+            <RoutineCard routine={{ ...result.data, id: "preview" }} />
+          </div>
+        ),
+        cancelLabel: t("confirm.cancel"),
+        confirmLabel: t("confirm.confirm"),
+      });
+
+      if (ok) {
+        await createAiUserRoutine(user.uid, {
+          title: result.data.name,
+          color: result.data.color,
+          exercises: result.data.exercises,
+        });
+
+        queryClient.invalidateQueries({ queryKey: ["routines", user.uid] });
+        queryClient.invalidateQueries({ queryKey: ["exercises", user.uid] });
+
+        toast.success("Рутину та нові вправи успішно додано!");
+        close();
+      }
+    } catch (error) {
+      console.error(error);
+      toast.error("Сталася помилка при створенні рутини.");
+    }
+  };
+
+  return (
+    <form
+      onSubmit={handleSubmit(onSubmit)}
+      className="static flex flex-1 flex-col">
+      <div className="mb-10 flex-1 space-y-6">
+        {selectFields.map(({ name, placeholder, options, key }) => (
+          <Controller
+            key={name}
+            name={name}
+            control={control}
+            render={({ field }) => (
+              <Select
+                input={{
+                  id: name,
+                  placeholder,
+                  searchable: false,
+                  value: field.value,
+                  onChange: (value) => field.onChange(value),
+                  error: errors[name]?.message && tComponents(`forms.${errors[name].message}`),
+                  options: options.map((opt) => ({ value: opt, label: tComponents(`${key}.${opt}`) })),
+                }}
+              />
+            )}
+          />
+        ))}
+
+        <Controller
+          name={"groups"}
+          control={control}
+          render={({ field }) => (
+            <ChipGroup
+              items={MUSCLE_GROUPS}
+              value={field.value ?? []}
+              onChange={field.onChange}
+              id="groups"
+              label={t("fields.muscleGroups")}
+              formatLabel={(item) => tComponents("muscleGroups." + item)}
+              error={errors.groups?.message && tComponents("forms." + errors.groups?.message)}
+            />
+          )}
+        />
+
+        <div className="flex w-full items-center gap-2">
+          <Input
+            ref={durationRef}
+            input={{
+              ...durationRest,
+              id: "duratio",
+              placeholder: t("fields.duration"),
+              error: errors.duration?.message && tComponents("forms." + errors.duration?.message),
+              type: "number",
+            }}
+          />
+          <Input
+            ref={countRef}
+            input={{
+              ...countRest,
+              id: "count",
+              placeholder: t("fields.exerciseCount"),
+              error: errors.count?.message && tComponents(errors.count?.message),
+              type: "number",
+            }}
+          />
+        </div>
+
+        <TextArea
+          ref={commentRef}
+          textarea={{
+            ...commentRest,
+            id: "comment",
+            placeholder: t("fields.additionalComment"),
+            error: errors.comment?.message && tComponents("forms." + errors.comment?.message),
+          }}
+        />
+      </div>
+
+      {errors.root && <p className="mb-1 text-sm text-red-500">{errors.root.message}</p>}
+
+      <Button
+        type="submit"
+        disabled={isSubmitting || !isDirty || !isValid}
+        className="w-full bg-primary text-primary-foreground hover:bg-primary/90"
+        size="lg">
+        {t("fields.submit")}
+      </Button>
+    </form>
+  );
+}

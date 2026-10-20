@@ -4,7 +4,7 @@ import { WorkoutSession as WorkoutSessionType } from "@/types";
 import { getLocalizedText, type Locale } from "@/types/common";
 import { useLocale, useTranslations } from "next-intl";
 import { AnimatePresence, motion } from "motion/react";
-import { useUserPreferences } from "@/providers/user-preferences-provider";
+import { useUserPreferences } from "@/providers/UserPreferencesProvider";
 
 export default function WorkoutSessionCard(workout: WorkoutSessionType) {
   const { params } = useUserPreferences();

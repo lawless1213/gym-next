@@ -1,12 +1,12 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import QuickStat from "@/components/ui/quickStat";
+import QuickStat from "@/components/ui/QuickStat";
 import { totalHistoryVolume } from "@/lib/utils";
 import SkeletonSwitcher from "@/components/ui/Skeleton/SkeletonSwitcher";
 import SkeletonBone from "@/components/ui/Skeleton/SkeletonBone";
 import { PersonalRecord, WorkoutSession } from "@/types";
-import { useUserPreferences } from "@/providers/user-preferences-provider";
+import { useUserPreferences } from "@/providers/UserPreferencesProvider";
 
 type QuickStatsProps = {
   lastWeekHistory: WorkoutSession[];

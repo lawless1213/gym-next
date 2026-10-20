@@ -1,20 +1,20 @@
 "use client";
 
-import { ModalWrapper } from "../../modal-wrapper";
+import { ModalWrapper } from "../../ModalWrapper";
 import { useForm, Controller } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/Button";
-import { Input } from "@/components/ui/form/input";
+import { Input } from "@/components/ui/form/Input";
 import { IconBarbell, IconUpload } from "@tabler/icons-react";
 import { useEffect } from "react";
 import { toast } from "sonner";
-import { editUserExecise } from "@/lib/actions/exercise";
+import { editUserExecise } from "@/lib/mutations/exercise";
 import { useAuth } from "@/hooks/useAuth";
 import { useExerciseEditModal } from "@/hooks/useModals/useExerciseEditModal";
 import { useQueryClient } from "@tanstack/react-query";
 import { MUSCLE_GROUPS } from "@/data/exercise";
 import { useLocale, useTranslations } from "next-intl";
-import { ChipGroup } from "@/components/ui/form/chipGroup";
+import { ChipGroup } from "@/components/ui/form/ChipGroup";
 import { ExerciseFormData, exerciseSchema } from "@/lib/schemas";
 import MuscleSchema from "@/components/shared/MuscleSchema";
 import { getLocalizedText, type Locale } from "@/types/common";

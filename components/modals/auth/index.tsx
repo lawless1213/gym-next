@@ -3,8 +3,8 @@
 import { useState } from "react";
 import SignUpForm from "./SignUpForm";
 import LoginForm from "./LoginForm";
-import LoginWith from "./LoginWIth";
-import { ModalWrapper } from "../modal-wrapper";
+import LoginWith from "./LoginWith";
+import { ModalWrapper } from "../ModalWrapper";
 import { useTranslations } from "next-intl";
 import { Button } from "@/components/ui/Button";
 

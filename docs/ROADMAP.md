@@ -41,6 +41,11 @@ Order inside the stage: 0.4 (schema) → 0.3 → 0.1 → 0.2 → the rest. Rules
 - [x] 1.6 On logout: `queryClient.clear()` + `del("REACT_QUERY_OFFLINE_CACHE")` (otherwise the next user on the same device sees cached data — must be done before launch).
   - Done in `QueryProvider`: clears the query cache and the IndexedDB copy whenever the signed-in uid changes (logout, account deletion, account switch).
 - [x] 1.7 `themeColor` as an array for light/dark.
+- [ ] 1.8 Offline workouts lose data (found 2026-10-20, ~1 day). Today the draft is written but never used, and finishing offline drops the workout:
+  - Resume: `useWorkoutSession` saves a draft to `localStorage` (`workout-session-<id>` / `-quick`) but never reads it back (`useState(initialWorkout)`), and `clearStoredWorkout` is never called. Restore the draft (sets + `elapsedTime`) when the workout opens, offer "Continue / Start over", clear it after a successful finish. Key the draft by uid and clear it on user change (same idea as 1.6).
+  - Re-send: Firestore uses the default memory cache (no `persistentLocalCache`), so pending writes die with the tab. `writeWorkoutSession` first calls `writeExerciseRecord` → `getDoc` throws offline → `addDoc` to `workoutHistory` never runs; the modal is already closed and the error only goes to Sentry. Fix: `initializeFirestore(app, { localCache: persistentLocalCache({ tabManager: persistentMultipleTabManager() }) })`; write the history doc first and don't `await` the server ack; compute records from cached data (or move them to the server in 3.2) so a failed read can't block the history write.
+  - Keep the draft until the history write is confirmed (pending-writes / `waitForPendingWrites`), show an "offline — will sync" toast instead of a silent failure.
+  - Test: e2e with `context.setOffline(true)` — finish a workout offline, reload, go online → the workout appears in history; reload mid-workout → resume prompt.
 
 ## Stage 2 — Packages, tooling & safety net (P2, ~2–3 days)
 
@@ -65,11 +70,13 @@ Order inside the stage: 0.4 (schema) → 0.3 → 0.1 → 0.2 → the rest. Rules
 
 No users yet, so this is the cheapest time to do it — start right after Stage 2 instead of postponing.
 
-- [ ] 3.1 `lib/actions` (client-side writes) → `lib/mutations`; real server actions → `lib/server/actions`.
+- [x] 3.1 `lib/actions` (client-side writes) → `lib/mutations`; real server actions → `lib/server/actions`.
+  - Done: client Firestore writes in `lib/mutations/*`; Gemini server actions in `lib/server/actions/ai/*`; their helpers (`client.ts`, `guard.ts`) in `lib/server/ai/` with `import "server-only"` (they had none before). Skills and comments updated.
 - [ ] 3.2 Move critical writes to the server: ~~account deletion~~ (done in 0.1), records, subscription. Decide and document which writes stay client-side (and can work offline — workout sets, notes) vs server-only (subscription, AI tries, account) — this defines the scope of 4.2.
 - [ ] 3.3 Return error codes (`NO_FREE_TRIES`, `AI_RATE_LIMIT`) and translate them via next-intl.
-- [ ] 3.4 Naming: `shedule.ts`→`schedule.ts`, `navManu.tsx`→`navMenu.tsx`, `TypewritterText`→`TypewriterText`; one `_components` convention and one file-casing convention.
-- [ ] 3.5 `useAuth.tsx` (a provider) → `providers/auth-provider.tsx`, hook separately.
+- [x] 3.4 Naming: `shedule.ts`→`schedule.ts`, `navManu.tsx`→`navMenu.tsx`, `TypewritterText`→`TypewriterText`; one `_components` convention and one file-casing convention.
+  - Done: renames above + `LoginWIth`→`LoginWith`, `AI/__components`→`AI/_components`, `utils/PWA.ts`→`pwa.ts`. Convention (in the `gym-next-feature` skill): component files and component folders PascalCase (`SetInput.tsx`, `ui/form/Input/`, `ModalProvider.tsx` ← `modal-store.tsx`, `ThemeProvider.tsx`, `UserPreferencesProvider.tsx`); other modules camelCase; grouping folders lowercase; private subcomponents in `_components/`.
+- [ ] 3.5 `useAuth.tsx` (a provider) → `providers/AuthProvider.tsx`, hook separately.
 - [ ] 3.6 Query key factory (`lib/queryKeys.ts`).
 - [ ] 3.7 Server components for the layout and static parts.
 - [ ] 3.8 `MuscleSchema`: move SVG paths into data + one render component.
@@ -81,17 +88,25 @@ No users yet, so this is the cheapest time to do it — start right after Stage 
   - [ ] Each feature exposes a public API via `index.ts`; no deep imports into another feature's internals.
   - [ ] Enforce boundaries with ESLint (`eslint-plugin-boundaries` or `import/no-restricted-paths`): `shared` never imports from `features`/`server`; features import each other only through `index.ts`; client code never imports `server/`.
   - [ ] `app/` stays routing-only (thin `page.tsx`/`layout.tsx` composing features).
+- [ ] 3.12 Review custom form controls (`components/ui/form/Select`, `Stepper`, `Tabs`, modals, `type="number"` in `modals/workout/_components/SetInput.tsx`) for accessibility and mobile input; where they fall short, replace with React Aria Components (unstyled, Tailwind-friendly). Not React Spectrum (Adobe look, heavy). Ideally done alongside the move to `shared/ui` in 3.11.
+  - Check: keyboard and focus (Tab/arrows/Esc, focus trap in modals), screen-reader labels/roles, `NumberField` with locale-aware decimals (`,` vs `.` for uk/en), step/min/max, correct mobile keyboard (`inputMode="decimal"`), touch targets.
+  - Candidates: `NumberField` (weight/reps), `Select`/`ComboBox`, `Tabs`, `Modal`/`Dialog`; `DatePicker`/`Calendar` if the schedule ever needs date input.
+  - Decision rule: only swap a control if the review finds real issues; one UI library only (Headless UI was already removed in 2.1).
 
 ## Stage 4 — Product (P4, after stabilization)
 
 - [ ] 4.0 Before charging money: move Vercel from Hobby (non-commercial) to a paid plan; give Preview deployments a separate Firebase project (today previews use production Firestore/Auth).
 - [ ] 4.1 Payments: Stripe/LemonSqueezy + webhook → server-side `subscribed` update (depends on 0.3–0.4).
-- [ ] 4.2 Reliable offline workout logging with a sync queue — only for the client-side writes defined in 3.2.
+- [ ] 4.2 Reliable offline workout logging with a sync queue — only for the client-side writes defined in 3.2. Builds on 1.8 (Firestore persistent cache + draft resume); 4.2 covers the rest: other offline writes (notes, progress, routines), conflict handling, sync status in the UI.
 - [ ] 4.3 Rest timer (vibration, sound).
 - [ ] 4.4 Scheduled push reminders (FCM).
 - [ ] 4.5 1RM estimate (Epley), history export to CSV.
 - [ ] 4.6 Analytics (Firebase Analytics / PostHog): subscription funnel.
 - [ ] 4.7 Extend e2e coverage (AI flows, subscription, offline) — base smoke suite lives in 2.7.
+- [ ] 4.8 Trained-muscles view: highlight the muscles worked on `MuscleSchema` — per workout (finish summary, `WorkoutSessionCard` in history) and per period (week/month in stats, next to `WeekStats`).
+  - Data: workout exercises already snapshot `muscleGroup` (optional in `types/workout.ts`) — make it required when saving; derive per-muscle sets/volume in `lib/domain/*` (pure + Vitest), reusing volume/periods logic.
+  - UI: `MuscleSchema` today only takes `selectedMuscles` (on/off) — add an intensity mode (heatmap by sets or volume) plus a legend; read-only (`clickable={false}`). Easier after 3.8 (paths as data).
+  - Nice to have: "not trained for N days" hint for neglected muscles; secondary muscles per exercise (schema change, catalog + AI prompts) — later.
 
 ## Target structure (FSD-lite)
 

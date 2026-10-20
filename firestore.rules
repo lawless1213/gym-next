@@ -13,7 +13,7 @@ service cloud.firestore {
       return signedIn() && request.auth.uid == uid;
     }
 
-    // Fields only the server may write (lib/server/actions/user.ts, lib/actions/gemini/guard.ts).
+    // Fields only the server may write (lib/server/actions/user.ts, lib/server/ai/guard.ts).
     function touchesServerOnlyFields() {
       return request.resource.data.diff(resource.data).affectedKeys()
         .hasAny(['subscribed', 'createdAt', 'aiUsage']);

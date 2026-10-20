@@ -3,7 +3,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { BodyProgress } from "@/types";
 import SkeletonBone from "@/components/ui/Skeleton/SkeletonBone";
 import SkeletonSwitcher from "@/components/ui/Skeleton/SkeletonSwitcher";
-import { useUserPreferences } from "@/providers/user-preferences-provider";
+import { useUserPreferences } from "@/providers/UserPreferencesProvider";
 import { IconEdit } from "@tabler/icons-react";
 
 interface MeasurementsChartProps {

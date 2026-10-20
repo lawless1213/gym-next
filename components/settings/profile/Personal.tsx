@@ -1,9 +1,9 @@
 "use client";
 
-import { useModal } from "@/components/modals/modal-store";
+import { useModal } from "@/components/modals/ModalProvider";
 import { Button } from "@/components/ui/Button";
 import { useAuth } from "@/hooks/useAuth";
-import { useUserPreferences } from "@/providers/user-preferences-provider";
+import { useUserPreferences } from "@/providers/UserPreferencesProvider";
 import { IconEdit } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
 import Image from "next/image";

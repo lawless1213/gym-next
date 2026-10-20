@@ -12,13 +12,14 @@ Stack: Next.js 16 (App Router), React 19, Firebase (client SDK + firebase-admin)
 1. **Type** — `types/<entity>.ts`, re-export from `types/index.ts`.
 2. **Schema** — `lib/schemas/<entity>.schema.ts` (zod), re-export from `lib/schemas/index.ts`. Error messages are i18n keys (e.g. `"title_too_small"`), never human text.
 3. **Reads** — `lib/services/<entity>.ts` (Firestore client SDK, `db` from `lib/config/firebaseConfig`). Return typed data, catch and `console.error`, return a safe empty value.
-4. **Writes** — `lib/actions/<entity>.ts` (client-side mutations; planned rename to `lib/mutations`). Use `writeBatch` for multi-doc writes, `serverTimestamp()` for dates.
+4. **Writes** — `lib/mutations/<entity>.ts` (client-side Firestore writes, not server actions). Real server actions (Admin SDK, `"use server"`) go in `lib/server/actions/`. Use `writeBatch` for multi-doc writes, `serverTimestamp()` for dates.
 5. **Hook** — `hooks/useServices/use<Entity>.ts` with `useQuery({ queryKey: ["<entity>", userId], enabled: !!userId })`.
-6. **UI** — components in `components/<area>/`; modals in `components/modals/<name>/` registered in `modal-renderer`, opened via `useModal().open("<type>", data)`. After a mutation: `queryClient.invalidateQueries({ queryKey: ["<entity>", user.uid] })` and a sonner toast.
+6. **UI** — components in `components/<area>/`; modals in `components/modals/<name>/` registered in `ModalRenderer.tsx`, opened via `useModal().open("<type>", data)`. After a mutation: `queryClient.invalidateQueries({ queryKey: ["<entity>", user.uid] })` and a sonner toast.
 7. **i18n** — add every new key to BOTH `messages/uk.json` and `messages/en.json` under the matching top-level namespace (app, home, library, history, stats, settings, common, notification, schedule, exercise, routine, ai, workout, measurements…). Call `useTranslations("ns")` only at component top level, never inside loops or callbacks.
 
 ## Rules
 
+- Naming: files and folders that export a React component are PascalCase (`SetInput.tsx`, `ui/form/Input/index.tsx`); hooks, utils, stores and other modules are camelCase (`useAuth.ts`, `navMenu.tsx`, `pwa.ts`); grouping folders (areas, modal names, `create`/`edit`) are lowercase. Private subcomponents of a folder go in `_components/` (one underscore).
 - Never write `users/{uid}.subscribed` or `createdAt` from the client — they are server-only (Admin SDK). The user doc is created by the `initUserDoc` server action (`lib/server/actions/user.ts`); new server actions go to `lib/server/actions/`.
 - Premium gating in UI uses `params.subscribed.isActive` from `UserPreferencesProvider`; the server must re-check.
 - Subscription logic lives only in `lib/subscription.ts`: read raw data with `parseSubscription()`, decide access with `isSubscriptionActive()`. Never compare `plan`/`status`/`expiresAt` by hand.

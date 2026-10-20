@@ -1,5 +1,5 @@
 // hooks/useReauthModal.ts
-import { useModal } from "@/components/modals/modal-store";
+import { useModal } from "@/components/modals/ModalProvider";
 
 type ReauthModalData = {
   title?: string;

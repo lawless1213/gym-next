@@ -7,12 +7,12 @@ import { useSwipeable } from "react-swipeable";
 import { useAuth } from "@/hooks/useAuth";
 import LoadingScreen from "@/components/shared/LoadingScreen";
 import { BottomNav } from "@/components/shared/BottomNav";
-import { getNavLinks, navLinks } from "@/data/navManu";
+import { getNavLinks, navLinks } from "@/data/navMenu";
 import { Toaster } from "@/components/shared/Toaster/Toaster";
 import { Header } from "../Header";
 import { NavItem } from "@/types/navMenu";
 import InstallBanner from "../InstallBanner";
-import { useUserPreferences } from "@/providers/user-preferences-provider";
+import { useUserPreferences } from "@/providers/UserPreferencesProvider";
 
 function getDirection(from: string, to: string, routes: string[]) {
   const fi = routes.indexOf(from);

@@ -1,13 +1,13 @@
 "use client";
 
 import { useState } from "react";
-import { ModalWrapper } from "../modal-wrapper";
+import { ModalWrapper } from "../ModalWrapper";
 import { useTranslations } from "next-intl";
 import { Tabs } from "@/components/ui/Tabs";
-import { AiChatContent } from "./__components/chat";
-import { AiGeneration } from "./__components/generation";
-import { Preview } from "./__components/preview";
-import { useUserPreferences } from "@/providers/user-preferences-provider";
+import { AiChatContent } from "./_components/Chat";
+import { AiGeneration } from "./_components/Generation";
+import { Preview } from "./_components/Preview";
+import { useUserPreferences } from "@/providers/UserPreferencesProvider";
 import ActionCard from "@/components/shared/cards/ActionCard";
 
 type AiTab = "generation" | "chat";

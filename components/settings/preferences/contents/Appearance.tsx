@@ -1,9 +1,9 @@
 "use client";
 
-import { Select } from "@/components/ui/form/select";
+import { Select } from "@/components/ui/form/Select";
 import { AppTheme, useAppTheme } from "@/hooks/useAppTheme";
 import { setUserLocale } from "@/i18n/i18n-action";
-import { useUserPreferences } from "@/providers/user-preferences-provider";
+import { useUserPreferences } from "@/providers/UserPreferencesProvider";
 import { useLocale, useTranslations } from "next-intl";
 import { useEffect, useState } from "react";
 import { toast } from "sonner";

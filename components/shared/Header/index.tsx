@@ -5,12 +5,12 @@ import { setUserLocale } from "@/i18n/i18n-action";
 import { IconUser, IconLogout, IconMoon, IconSun } from "@tabler/icons-react";
 import { useAuth } from "@/hooks/useAuth";
 import { useAppTheme } from "@/hooks/useAppTheme";
-import { useModal } from "@/components/modals/modal-store";
+import { useModal } from "@/components/modals/ModalProvider";
 import { toast } from "sonner";
 import { useEffect, useState } from "react";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/Tooltip";
 import { Button } from "@/components/ui/Button";
-import { setUserParams } from "@/lib/actions/user";
+import { setUserParams } from "@/lib/mutations/user";
 
 type HeaderProps = {
   page: string;

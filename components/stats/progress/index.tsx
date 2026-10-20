@@ -8,7 +8,7 @@ import NewMeasurements from "./NewMeasurements";
 import MeasurementsList from "./MeasurementsList";
 import MeasurementsGrid from "./MeasurementsGrid";
 import MeasurementsChart from "./MeasurementsChart";
-import { useUserPreferences } from "@/providers/user-preferences-provider";
+import { useUserPreferences } from "@/providers/UserPreferencesProvider";
 
 export default function Progress() {
   const { params } = useUserPreferences();

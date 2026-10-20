@@ -1,7 +1,7 @@
 "use client";
 
 import { Button } from "@/components/ui/Button";
-import { Input } from "@/components/ui/form/input";
+import { Input } from "@/components/ui/form/Input";
 import { useAuth } from "@/hooks/useAuth";
 import { newEmailFormData, newEmailSchema } from "@/lib/schemas";
 import { useForm } from "react-hook-form";

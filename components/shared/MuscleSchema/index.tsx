@@ -6,7 +6,7 @@ import ManFrontView from "./Man/ManFrontView";
 import WomanBackView from "./Woman/WomanBackView";
 import WomanFrontView from "./Woman/WomanFrontView";
 import { cn } from "@/lib/utils";
-import { useUserPreferences } from "@/providers/user-preferences-provider";
+import { useUserPreferences } from "@/providers/UserPreferencesProvider";
 
 type SideType = "front" | "back" | undefined;
 

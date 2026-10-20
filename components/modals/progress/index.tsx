@@ -1,18 +1,18 @@
 "use client";
 
-import { ModalWrapper } from "../modal-wrapper";
+import { ModalWrapper } from "../ModalWrapper";
 import { useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/Button";
-import { Input } from "@/components/ui/form/input";
-import { useModal } from "@/components/modals/modal-store";
+import { Input } from "@/components/ui/form/Input";
+import { useModal } from "@/components/modals/ModalProvider";
 import { toast } from "sonner";
 import { useAuth } from "@/hooks/useAuth";
 import { useQueryClient } from "@tanstack/react-query";
-import { addUserProgress } from "@/lib/actions/progress";
+import { addUserProgress } from "@/lib/mutations/progress";
 import { useTranslations } from "next-intl";
 import { ProgressFormData, progressSchema } from "@/lib/schemas";
-import { useUserPreferences } from "@/providers/user-preferences-provider";
+import { useUserPreferences } from "@/providers/UserPreferencesProvider";
 
 export function ProgressModal() {
   const { params } = useUserPreferences();

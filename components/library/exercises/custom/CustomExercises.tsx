@@ -1,0 +1,99 @@
+"use client";
+
+import { useState, useMemo } from "react";
+import { IconSearch } from "@tabler/icons-react";
+import { useAuth } from "@/hooks/useAuth";
+import { useLocale, useTranslations } from "next-intl";
+import { useUserExercises } from "@/hooks/useServices/useExercises";
+import SkeletonSwitcher from "@/components/ui/Skeleton/SkeletonSwitcher";
+import { getLocalizedText } from "@/lib/utils";
+import { ExercisesSkeleton } from "../ExercisesSkeleton";
+import ExercisesList from "../ExercisesList";
+import ButtonAdd from "@/components/shared/ButtonAdd";
+import { useModal } from "@/components/modals/ModalProvider";
+import { useUserPreferences } from "@/providers/UserPreferencesProvider";
+import { useRouter } from "next/navigation";
+import SubscribeBanner from "@/components/shared/SubscribeBanner";
+import type { Locale } from "@/types/common";
+
+const ITEMS_PER_PAGE = 10;
+
+export default function CustomExercises() {
+  const { params } = useUserPreferences();
+  const t = useTranslations("library.exercises");
+  const locale = useLocale();
+  const { user } = useAuth();
+  const userId = user?.uid;
+  const router = useRouter();
+  const { open } = useModal();
+
+  const [searchQuery, setSearchQuery] = useState("");
+  const [displayLimit, setDisplayLimit] = useState(ITEMS_PER_PAGE);
+
+  const { data: exercises = [], isLoading: loading } = useUserExercises(userId);
+
+  const filteredExercises = useMemo(() => {
+    if (!searchQuery) return exercises;
+    const query = searchQuery.toLowerCase().trim();
+
+    return exercises.filter(
+      (ex) =>
+        getLocalizedText(ex.name, locale as Locale)
+          .toLowerCase()
+          .includes(query) || ex.muscleGroup?.toLowerCase().includes(query),
+    );
+  }, [searchQuery, exercises, locale]);
+
+  const visibleExercises = useMemo(() => {
+    return filteredExercises.slice(0, displayLimit);
+  }, [filteredExercises, displayLimit]);
+
+  const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchQuery(e.target.value);
+    setDisplayLimit(ITEMS_PER_PAGE);
+  };
+
+  const handleLoadMore = () => {
+    setDisplayLimit((prev) => prev + ITEMS_PER_PAGE);
+  };
+
+  const hasMore = visibleExercises.length < filteredExercises.length;
+
+  return (
+    <>
+      <SubscribeBanner />
+      {!!visibleExercises.length && (
+        <>
+          <div className="relative">
+            <IconSearch className="absolute top-1/2 left-3 h-5 w-5 -translate-y-1/2 text-muted-foreground" />
+            <input
+              type="text"
+              placeholder={t("searchPlaceholder")}
+              value={searchQuery}
+              onChange={handleSearchChange}
+              className="w-full rounded-xl bg-card py-3 pr-4 pl-10 text-sm text-foreground placeholder:text-muted-foreground focus:ring-2 focus:ring-primary focus:outline-none"
+            />
+          </div>
+          <div className="text-sm text-muted-foreground">
+            {loading ? "..." : `${filteredExercises.length}/${exercises.length}`}
+          </div>
+        </>
+      )}
+      <SkeletonSwitcher
+        isLoading={loading}
+        skeleton={ExercisesSkeleton}>
+        <ExercisesList
+          visibleExercises={visibleExercises}
+          hasMore={hasMore}
+          handleLoadMore={handleLoadMore}
+        />
+      </SkeletonSwitcher>
+      {user && (
+        <ButtonAdd
+          onClick={() => (params.subscribed.isActive ? open("exercise") : router.push("/settings?tab=subscribe"))}
+          ariaLabel={t("buttonAdd")}
+        />
+      )}
+    </>
+  );
+}

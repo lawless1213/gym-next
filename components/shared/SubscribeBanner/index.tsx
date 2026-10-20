@@ -3,7 +3,7 @@
 import { IconCarambolaFilled, IconChevronRight } from "@tabler/icons-react";
 import { useTranslations } from "next-intl";
 import { useAuth } from "@/hooks/useAuth";
-import { useUserPreferences } from "@/providers/user-preferences-provider";
+import { useUserPreferences } from "@/providers/UserPreferencesProvider";
 import { useRouter } from "next/navigation";
 
 export default function SubscribeBanner() {

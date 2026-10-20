@@ -1,6 +1,6 @@
 "use client";
 
-import { ModalWrapper } from "../modal-wrapper";
+import { ModalWrapper } from "../ModalWrapper";
 import { useForm, useFieldArray } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/Button";
@@ -14,7 +14,7 @@ import RoutineCard from "@/components/shared/cards/RoutineCard";
 import { useScheduleModal } from "@/hooks/useModals/useScheduleModal";
 import { useTranslations } from "next-intl";
 import { weekDays } from "@/types";
-import { editUserSchedule } from "@/lib/actions/shedule";
+import { editUserSchedule } from "@/lib/mutations/schedule";
 import { ScheduleFormData, scheduleSchema } from "@/lib/schemas";
 
 export function ScheduleEditModal() {

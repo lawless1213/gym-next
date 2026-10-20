@@ -4,8 +4,8 @@ import { useState } from "react";
 import { useAuth } from "@/hooks/useAuth";
 import { useTranslations } from "next-intl";
 import { Tabs } from "@/components/ui/Tabs";
-import CommonExercises from "./common/commonExercises";
-import CustomExercises from "./custom/customExercises";
+import CommonExercises from "./common/CommonExercises";
+import CustomExercises from "./custom/CustomExercises";
 
 type ExerciseTab = "common" | "custom";
 

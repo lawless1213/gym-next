@@ -10,7 +10,7 @@ import { useSchedule } from "@/hooks/useServices/useSchedule";
 import SkeletonBone from "../../ui/Skeleton/SkeletonBone";
 import SkeletonSwitcher from "../../ui/Skeleton/SkeletonSwitcher";
 import { IconEdit, IconPlus } from "@tabler/icons-react";
-import { useModal } from "@/components/modals/modal-store";
+import { useModal } from "@/components/modals/ModalProvider";
 import { Button } from "../../ui/Button";
 import { EMPTY_SCHEDULE } from "@/lib/services/schedule";
 import { toast } from "sonner";
