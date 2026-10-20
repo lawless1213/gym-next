@@ -112,6 +112,22 @@ _Updated: 2026-10-09. Detailed checklist plan — [ROADMAP.md](./ROADMAP.md)._
 4. **Stage 3 — architecture** (~1–2 weeks, incremental), including the FSD-lite migration
 5. **Stage 4 — new features**
 
+## 🔀 Who writes what
+
+Decided in roadmap 3.2. Rule of thumb: the server owns money, limits and accounts; the user's own training data is written by the client so it works offline (Firestore persistent cache, 1.8). Client data can't be made trustworthy by the server anyway — the user writes their own history — so `firestore.rules` only rejects malformed writes (types, list sizes), which keeps history and stats queries from breaking.
+
+| Data                                                 | Written by                                  | Offline                                 | Guard                                                                         |
+| ---------------------------------------------------- | ------------------------------------------- | --------------------------------------- | ----------------------------------------------------------------------------- |
+| `users/{uid}/workoutHistory/*`                       | client (`lib/mutations/workout.ts`)         | ✅                                      | rules: shape (`startedAt` timestamp, doc id = workout id, list/number limits) |
+| `users/{uid}/stats/records`                          | client (`lib/mutations/record.ts`)          | ✅ (skipped if records unknown offline) | rules: ≤ 500 entries                                                          |
+| `users/{uid}/stats/progress`                         | client (`lib/mutations/progress.ts`)        | ✅                                      | rules: known fields, lists                                                    |
+| routines, schedule, custom exercises, profile fields | client (`lib/mutations/*`)                  | ✅                                      | rules: owner only                                                             |
+| `users/{uid}` create / delete                        | server (`initUserDoc`, `deleteUserData`)    | —                                       | rules: client create/delete denied                                            |
+| `subscribed`, `createdAt`, `aiUsage`                 | server (Admin SDK; payments webhook in 4.1) | —                                       | rules: client can't touch                                                     |
+| `exercises` catalog                                  | console / server                            | —                                       | rules: read-only                                                              |
+
+Revisit records if users start competing (leaderboards, challenges): then a server recompute from history (option B in 3.2) is worth the offline trade-off.
+
 ## 🤖 Claude skills in the repo
 
 - `.claude/skills/gym-next-feature` — how to add a feature following the project's layers

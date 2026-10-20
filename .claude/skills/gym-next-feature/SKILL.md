@@ -25,6 +25,7 @@ Stack: Next.js 16 (App Router), React 19, Firebase (client SDK + firebase-admin)
 - Subscription logic lives only in `lib/subscription.ts`: read raw data with `parseSubscription()`, decide access with `isSubscriptionActive()`. Never compare `plan`/`status`/`expiresAt` by hand.
 - Anything with `"use server"` must use `adminDb`/`adminAuth` from `lib/firebase/firebase-admin.ts`, never the client `db`, and must verify the idToken.
 - No `console.log`, no `any`, no `@ts-ignore` in committed code. Errors you catch and swallow go through `reportError(error, message, context?)` from `lib/monitoring.ts` (console + Sentry); never put PII in `context`.
+- Decide who writes new data using "Who writes what" in `docs/PROJECT_STATUS.md`: user's own training data → client (offline) + shape validation in `firestore.rules`; money, limits, accounts → server only.
 - Firestore rules change? Update `firestore.rules`/`storage.rules` and `tests/rules/*.test.ts` in the same change; run `pnpm test:rules`. New per-user data goes under `users/{uid}/...` (covered by the owner rule); new top-level collections are denied until a rule is added. The client cannot create or delete `users/{uid}` — do that via server actions.
 
 ## Done checklist
