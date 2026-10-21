@@ -1,10 +1,11 @@
 "use client";
 
 import { MuscleGroup } from "@/types";
-import ManBackView from "./Man/ManBackView";
-import ManFrontView from "./Man/ManFrontView";
-import WomanBackView from "./Woman/WomanBackView";
-import WomanFrontView from "./Woman/WomanFrontView";
+import { BodyView } from "./BodyView";
+import { MAN_BACK } from "./data/manBack";
+import { MAN_FRONT } from "./data/manFront";
+import { WOMAN_BACK } from "./data/womanBack";
+import { WOMAN_FRONT } from "./data/womanFront";
 import { cn } from "@/lib/utils";
 import { useUserPreferences } from "@/providers/UserPreferencesProvider";
 
@@ -14,11 +15,6 @@ interface MuscleSchemaProps {
   size?: "sm" | "md" | "xl";
   clickable?: boolean;
   side?: SideType;
-  selectedMuscles?: MuscleGroup[];
-  onToggleMuscle?: (muscle: MuscleGroup) => void;
-}
-
-export interface MuscleViewProps {
   selectedMuscles?: MuscleGroup[];
   onToggleMuscle?: (muscle: MuscleGroup) => void;
 }
@@ -42,30 +38,20 @@ export default function MuscleSchema({
         size === "md" && "max-h-[400px]",
         size === "xl" && "max-h-[600px]",
       )}>
-      {side !== "back" &&
-        (isMale ? (
-          <ManFrontView
-            selectedMuscles={selectedMuscles}
-            onToggleMuscle={onToggleMuscle}
-          />
-        ) : (
-          <WomanFrontView
-            selectedMuscles={selectedMuscles}
-            onToggleMuscle={onToggleMuscle}
-          />
-        ))}
-      {side !== "front" &&
-        (isMale ? (
-          <ManBackView
-            selectedMuscles={selectedMuscles}
-            onToggleMuscle={onToggleMuscle}
-          />
-        ) : (
-          <WomanBackView
-            selectedMuscles={selectedMuscles}
-            onToggleMuscle={onToggleMuscle}
-          />
-        ))}
+      {side !== "back" && (
+        <BodyView
+          view={isMale ? MAN_FRONT : WOMAN_FRONT}
+          selectedMuscles={selectedMuscles}
+          onToggleMuscle={onToggleMuscle}
+        />
+      )}
+      {side !== "front" && (
+        <BodyView
+          view={isMale ? MAN_BACK : WOMAN_BACK}
+          selectedMuscles={selectedMuscles}
+          onToggleMuscle={onToggleMuscle}
+        />
+      )}
     </div>
   );
 }

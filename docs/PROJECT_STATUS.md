@@ -79,7 +79,7 @@ _Updated: 2026-10-09. Detailed checklist plan — [ROADMAP.md](./ROADMAP.md)._
 | ~51 occurrences of `console.log` / `any` / `@ts-ignore`                                                             | Console noise, holes in typing                                                                                       |
 | ✅ ~~Query keys are inline strings across components~~                                                              | Fixed in roadmap 3.6                                                                                                 |
 | Every page is `"use client"`                                                                                        | No server-rendering benefits; layout and static parts can be server components                                       |
-| `MuscleSchema` — ~1800 lines of inline SVG                                                                          | Hard to maintain; move paths into data                                                                               |
+| ✅ ~~`MuscleSchema` — ~1800 lines of inline SVG~~                                                                   | Fixed in roadmap 3.8                                                                                                 |
 | Code is grouped by technical type (`types/`, `lib/schemas`, `lib/services`, `lib/actions`, `hooks/`, `components/`) | One change to a domain (e.g. routines) touches 6 folders; move to a feature-based structure (FSD-lite, roadmap 3.11) |
 
 ## 📋 Still to do
