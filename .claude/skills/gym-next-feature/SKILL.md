@@ -14,8 +14,9 @@ Stack: Next.js 16 (App Router), React 19, Firebase (client SDK + firebase-admin)
 3. **Reads** — `lib/services/<entity>.ts` (Firestore client SDK, `db` from `lib/config/firebaseConfig`). Return typed data, catch and `console.error`, return a safe empty value.
 4. **Writes** — `lib/mutations/<entity>.ts` (client-side Firestore writes, not server actions). Real server actions (Admin SDK, `"use server"`) go in `lib/server/actions/`. Use `writeBatch` for multi-doc writes, `serverTimestamp()` for dates.
 5. **Hook** — `hooks/useServices/use<Entity>.ts` with `useQuery({ queryKey: queryKeys.<entity>(userId), enabled: !!userId })` — add the key to `lib/queryKeys.ts` (per-user keys start with `[entity, userId]`); never inline key arrays.
-6. **UI** — components in `components/<area>/`; modals in `components/modals/<name>/` registered in `ModalRenderer.tsx`, opened via `useModal().open("<type>", data)`. After a mutation: `queryClient.invalidateQueries({ queryKey: queryKeys.<entity>(user.uid) })` and a sonner toast.
-7. **i18n** — add every new key to BOTH `messages/uk.json` and `messages/en.json` under the matching top-level namespace (app, home, library, history, stats, settings, common, notification, schedule, exercise, routine, ai, workout, measurements…). Call `useTranslations("ns")` only at component top level, never inside loops or callbacks.
+6. **Page** (if a new route) — `app/<route>/page.tsx` stays a server component: `generateMetadata` (title via `getTranslations`) + render the client view `components/<area>/<Area>Page.tsx`; wrap in `<Suspense>` if the view uses `useSearchParams`.
+7. **UI** — components in `components/<area>/`; modals in `components/modals/<name>/` registered in `ModalRenderer.tsx`, opened via `useModal().open("<type>", data)`. After a mutation: `queryClient.invalidateQueries({ queryKey: queryKeys.<entity>(user.uid) })` and a sonner toast.
+8. **i18n** — add every new key to BOTH `messages/uk.json` and `messages/en.json` under the matching top-level namespace (app, home, library, history, stats, settings, common, notification, schedule, exercise, routine, ai, workout, measurements…). Call `useTranslations("ns")` only at component top level, never inside loops or callbacks.
 
 ## Rules
 
