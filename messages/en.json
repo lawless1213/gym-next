@@ -1,7 +1,7 @@
 {
   "app": {
-    "title": "GYM",
-    "subtitle": "Training portal"
+    "title": "NextForma",
+    "subtitle": "Your next form"
   },
   "components": {
     "header": {
@@ -465,7 +465,7 @@
       "repeatLogin": "Log In with New Email"
     },
     "modal": {
-      "title": "Welcome to GYM",
+      "title": "Welcome to NextForma",
       "registerTab": "Sign Up",
       "loginTab": "Login",
       "alreadyHaveAccount": "Already have an account? Log in",

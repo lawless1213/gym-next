@@ -11,7 +11,7 @@ export default function GlobalError({ error, reset }: { error: Error & { digest?
 
   return (
     <html lang="uk">
-      <body style={{ fontFamily: "system-ui, sans-serif", padding: 24, background: "#020202", color: "#f4f5f6" }}>
+      <body style={{ fontFamily: "system-ui, sans-serif", padding: 24, background: "#060605", color: "#f4f5f6" }}>
         <h1 style={{ fontSize: 20 }}>Щось пішло не так / Something went wrong</h1>
         <button
           type="button"

@@ -3,32 +3,33 @@
 
 @custom-variant dark (&:is(.dark *));
 
-/* IronStack Fitness App Theme */
-/* Dark Mode: #0D0D0D bg, #1A1A1A surface, #CCFF00 volt green accent */
-/* Light Mode: #F8F9FA bg, #FFFFFF surface, #2563EB blue accent */
+/* NextForma theme — one brand in both modes.
+ * Volt #D4F53C on graphite #0D0E0B is the brand pair (logo, loading screen, `bg-volt`).
+ * Light mode can't use volt as text on white (contrast ~1.3:1), so --primary there is a
+ * darker olive-lime that passes 4.5:1 both as text and behind white text. */
 
 :root {
-  /* Light Mode */
-  --background: oklch(0.98 0.002 247);
-  --foreground: oklch(0.13 0.028 261);
+  /* Light mode */
+  --background: oklch(0.977 0.006 115); /* #f7f8f3 — keep in sync with theme-color */
+  --foreground: oklch(0.161 0.006 122);
   --card: oklch(1 0 0);
-  --card-foreground: oklch(0.13 0.028 261);
+  --card-foreground: oklch(0.161 0.006 122);
   --popover: oklch(1 0 0);
-  --popover-foreground: oklch(0.13 0.028 261);
-  --primary: oklch(0.55 0.22 264);
+  --popover-foreground: oklch(0.161 0.006 122);
+  --primary: oklch(0.5 0.13 122); /* #576e00 */
   --primary-foreground: oklch(1 0 0);
-  --secondary: oklch(0.93 0.005 247);
-  --secondary-foreground: oklch(0.13 0.028 261);
-  --muted: oklch(0.93 0.005 247);
-  --muted-foreground: oklch(0.45 0.02 261);
-  --accent: oklch(0.55 0.22 264);
+  --secondary: oklch(0.94 0.01 115);
+  --secondary-foreground: oklch(0.161 0.006 122);
+  --muted: oklch(0.94 0.01 115);
+  --muted-foreground: oklch(0.45 0.015 120);
+  --accent: oklch(0.5 0.13 122);
   --accent-foreground: oklch(1 0 0);
   --destructive: oklch(0.55 0.2 27);
   --destructive-foreground: oklch(1 0 0);
-  --border: oklch(0.88 0.005 247);
-  --input: oklch(0.88 0.005 247);
-  --ring: oklch(0.55 0.22 264);
-  --chart-1: oklch(0.55 0.22 264);
+  --border: oklch(0.89 0.01 115);
+  --input: oklch(0.89 0.01 115);
+  --ring: oklch(0.5 0.13 122);
+  --chart-1: oklch(0.5 0.13 122);
   --chart-2: oklch(0.65 0.18 162);
   --chart-3: oklch(0.75 0.15 84);
   --chart-4: oklch(0.55 0.2 27);
@@ -36,66 +37,69 @@
   --radius: 0.75rem;
   --muscle: rgb(237, 97, 108);
 
-  /* IronStack specific */
+  /* Brand */
   --surface: oklch(1 0 0);
-  --volt: oklch(0.55 0.22 264);
+  --volt: oklch(0.916 0.199 119.6); /* #D4F53C */
+  --volt-foreground: oklch(0.161 0.006 122); /* #0D0E0B */
 
   /* Statuses */
   --success: oklch(0.65 0.18 162);
-  --success-foreground: oklch(0.13 0.028 261);
+  --success-foreground: oklch(0.161 0.006 122);
   --warning: oklch(0.75 0.15 84);
-  --warning-foreground: oklch(0.13 0.028 261);
-  --info: oklch(0.55 0.22 264);
+  --warning-foreground: oklch(0.161 0.006 122);
+  --info: oklch(0.5 0.13 122);
   --info-foreground: oklch(1 0 0);
   --error: oklch(0.55 0.2 27);
   --error-foreground: oklch(1 0 0);
 }
 
 .dark {
-  /* Dark Mode - IronStack Primary */
-  --background: oklch(0.08 0 0);
+  /* Dark mode — graphite with volt */
+  --background: oklch(0.12 0.004 120); /* #060605 — keep in sync with theme-color */
   --foreground: oklch(1 0 0);
-  --card: oklch(0.13 0 0);
+  --card: oklch(0.165 0.005 120);
   --card-foreground: oklch(1 0 0);
-  --popover: oklch(0.13 0 0);
+  --popover: oklch(0.165 0.005 120);
   --popover-foreground: oklch(1 0 0);
-  --primary: oklch(0.88 0.17 110);
-  --primary-foreground: oklch(0.08 0 0);
-  --secondary: oklch(0.18 0 0);
+  --primary: oklch(0.916 0.199 119.6); /* #D4F53C */
+  --primary-foreground: oklch(0.161 0.006 122);
+  --secondary: oklch(0.21 0.006 120);
   --secondary-foreground: oklch(1 0 0);
-  --muted: oklch(0.18 0 0);
-  --muted-foreground: oklch(0.6 0 0);
-  --accent: oklch(0.88 0.17 110);
-  --accent-foreground: oklch(0.08 0 0);
+  --muted: oklch(0.21 0.006 120);
+  --muted-foreground: oklch(0.65 0.01 120);
+  --accent: oklch(0.916 0.199 119.6);
+  --accent-foreground: oklch(0.161 0.006 122);
   --destructive: oklch(0.55 0.2 27);
   --destructive-foreground: oklch(1 0 0);
-  --border: oklch(0.22 0 0);
-  --input: oklch(0.22 0 0);
-  --ring: oklch(0.88 0.17 110);
-  --chart-1: oklch(0.88 0.17 110);
+  --border: oklch(0.25 0.006 120);
+  --input: oklch(0.25 0.006 120);
+  --ring: oklch(0.916 0.199 119.6);
+  --chart-1: oklch(0.916 0.199 119.6);
   --chart-2: oklch(0.65 0.18 162);
-  --chart-3: oklch(0.55 0.22 264);
+  --chart-3: oklch(0.7 0.15 250);
   --chart-4: oklch(0.75 0.15 84);
   --chart-5: oklch(0.55 0.2 27);
   --muscle: rgb(215, 65, 80);
 
-  /* IronStack specific */
-  --surface: oklch(0.13 0 0);
-  --volt: oklch(0.88 0.17 110);
+  /* Brand */
+  --surface: oklch(0.165 0.005 120);
+  --volt: oklch(0.916 0.199 119.6);
+  --volt-foreground: oklch(0.161 0.006 122);
 
   /* Statuses */
   --success: oklch(0.72 0.2 162);
-  --success-foreground: oklch(0.08 0 0);
+  --success-foreground: oklch(0.161 0.006 122);
   --warning: oklch(0.8 0.18 84);
-  --warning-foreground: oklch(0.08 0 0);
-  --info: oklch(0.88 0.17 110);
-  --info-foreground: oklch(0.08 0 0);
+  --warning-foreground: oklch(0.161 0.006 122);
+  --info: oklch(0.916 0.199 119.6);
+  --info-foreground: oklch(0.161 0.006 122);
   --error: oklch(0.6 0.2 27);
   --error-foreground: oklch(1 0 0);
 }
 
 @theme inline {
-  --font-sans: var(--font-exo2), system-ui, sans-serif;
+  --font-sans: var(--font-manrope), system-ui, sans-serif;
+  --font-display: var(--font-unbounded), var(--font-manrope), system-ui, sans-serif;
   --font-mono: "Geist Mono", "Geist Mono Fallback", monospace;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
@@ -131,6 +135,7 @@
   --color-chart-5: var(--chart-5);
   --color-surface: var(--surface);
   --color-volt: var(--volt);
+  --color-volt-foreground: var(--volt-foreground);
   --color-shimmer: color-mix(in srgb, var(--primary) 15%, transparent);
   --color-muscle: var(--muscle);
   --radius-sm: calc(var(--radius) - 4px);

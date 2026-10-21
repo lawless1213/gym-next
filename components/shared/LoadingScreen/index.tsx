@@ -1,8 +1,8 @@
 "use client";
 
-import { IconBarbellFilled } from "@tabler/icons-react";
 import { motion } from "motion/react";
 import { useTranslations } from "next-intl";
+import { LogoMark, Wordmark } from "@/components/shared/Logo";
 
 export default function LoadingScreen() {
   const t = useTranslations("app");
@@ -12,17 +12,17 @@ export default function LoadingScreen() {
       initial={{ opacity: 1 }}
       exit={{ opacity: 0, scale: 1.05 }}
       transition={{ duration: 0.35, ease: "easeIn" }}>
-      <div className="relative mb-4 flex items-center justify-center">
-        {[0, 0.5, 1].map((delay) => (
+      <div className="relative mb-6 flex items-center justify-center">
+        {[0, 0.8].map((delay) => (
           <motion.div
             key={delay}
-            className="absolute rounded-[18px] border border-primary"
-            style={{ width: 64, height: 64 }}
-            initial={{ scale: 1, opacity: 0.7 }}
-            animate={{ scale: 2.6, opacity: 0 }}
+            className="absolute size-20 rounded-[22%] bg-volt"
+            initial={{ scale: 1, opacity: 0 }}
+            animate={{ scale: [1, 1.9], opacity: [0.35, 0] }}
             transition={{
-              duration: 2.4,
-              delay,
+              duration: 1.6,
+              // Start pulsing once the mark has faded in.
+              delay: delay + 0.4,
               repeat: Infinity,
               ease: "easeOut",
             }}
@@ -30,21 +30,25 @@ export default function LoadingScreen() {
         ))}
 
         <motion.div
-          className="relative z-10 flex h-16 w-16 items-center justify-center rounded-[18px] bg-primary"
-          animate={{ scale: [1, 1.06, 1] }}
-          transition={{ duration: 2.4, repeat: Infinity, ease: "easeInOut" }}>
-          <IconBarbellFilled className="h-8 w-8 text-background" />
+          className="relative z-10"
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.4, ease: "easeOut" }}>
+          <LogoMark
+            className="size-20"
+            title={t("title")}
+          />
         </motion.div>
       </div>
 
-      <motion.span
+      <motion.div
         className="text-center"
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4 }}>
-        <div className="text-2xl font-bold tracking-[4px]">{t("title")}</div>
-        <div className="mt-1 text-xs tracking-[2px] text-muted-foreground uppercase">{t("subtitle")}</div>
-      </motion.span>
+        initial={{ opacity: 0, y: 8, scale: 0.96 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.5, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}>
+        <Wordmark className="text-2xl" />
+        <div className="mt-2 text-xs tracking-[2px] text-muted-foreground uppercase">{t("subtitle")}</div>
+      </motion.div>
     </motion.div>
   );
 }

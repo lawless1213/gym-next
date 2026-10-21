@@ -15,25 +15,14 @@ export function ThemeProvider({ children }: { children: React.ReactNode }) {
   );
 }
 
-export default function FaviconSwitcher() {
+export default function ThemeColorSync() {
   const { resolvedTheme } = useTheme();
 
   useEffect(() => {
     if (!resolvedTheme) return;
 
-    const isDark = resolvedTheme === "dark";
-    const themeColor = isDark ? "#020202" : "#ffffff";
-    const faviconHref = isDark ? "/favicon-dark.svg" : "/favicon-light.svg";
-
-    const existingIcon = document.querySelector("link[rel~='icon']") as HTMLLinkElement | null;
-    if (existingIcon) {
-      existingIcon.href = faviconHref;
-    } else {
-      const link = document.createElement("link");
-      link.rel = "icon";
-      link.href = faviconHref;
-      document.head.appendChild(link);
-    }
+    // Must match --background in globals.css. The favicon is the same in both themes (layout metadata).
+    const themeColor = resolvedTheme === "dark" ? "#060605" : "#f7f8f3";
 
     // The layout renders one meta per prefers-color-scheme. The user may pick a theme that
     // differs from the OS one, so drop the media query and force the chosen colour on all of them.

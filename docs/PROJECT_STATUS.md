@@ -1,4 +1,4 @@
-# Gym Next — Project Status
+# NextForma — Project Status
 
 _Updated: 2026-10-09. Detailed checklist plan — [ROADMAP.md](./ROADMAP.md)._
 

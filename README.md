@@ -1,6 +1,6 @@
-# Gym Next 🏋️‍♂️
+# NextForma 🏋️‍♂️
 
-**Gym Next** is a modern Progressive Web Application (PWA) designed for tracking workouts, monitoring body progress, generating AI-powered training plans, and managing personalized fitness routines.
+**NextForma** (formerly Gym Next) is a modern Progressive Web Application (PWA) designed for tracking workouts, monitoring body progress, generating AI-powered training plans, and managing personalized fitness routines.
 
 ---
 

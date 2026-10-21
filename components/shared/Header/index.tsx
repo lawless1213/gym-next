@@ -87,7 +87,7 @@ export function Header({ page }: HeaderProps) {
   return (
     <header className="sticky top-0 z-30 flex items-center justify-between gap-2 border-b border-border bg-card/95 p-4">
       <div className="space-y-1">
-        <h1 className="text-md font-bold text-foreground sm:text-2xl">{title}</h1>
+        <h1 className="text-md font-display font-bold tracking-tight text-foreground sm:text-2xl">{title}</h1>
         <p className="text-xs text-muted-foreground sm:text-sm">{subtitle}</p>
       </div>
 
