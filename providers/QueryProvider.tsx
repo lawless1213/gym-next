@@ -6,6 +6,7 @@ import { useState, useEffect, useRef } from "react";
 import { get, set, del } from "idb-keyval";
 import { useAuth } from "@/hooks/useAuth";
 import { removeOtherUsersDrafts } from "@/lib/workoutStorage";
+import { QUERY_CACHE_MAX_AGE_MS, QUERY_CACHE_SCHEMA_VERSION } from "@/lib/config/queryCache";
 
 const PERSIST_KEY = "REACT_QUERY_OFFLINE_CACHE";
 
@@ -33,7 +34,8 @@ export const QueryProvider = ({ children }: { children: React.ReactNode }) => {
         defaultOptions: {
           queries: {
             staleTime: 1000 * 60 * 5,
-            gcTime: 1000 * 60 * 60 * 24 * 7,
+            // Must be >= maxAge of the persister, or queries are dropped before they are persisted.
+            gcTime: QUERY_CACHE_MAX_AGE_MS,
             networkMode: "offlineFirst",
             refetchOnWindowFocus: false,
             retry: 1,
@@ -82,8 +84,8 @@ export const QueryProvider = ({ children }: { children: React.ReactNode }) => {
       client={queryClient}
       persistOptions={{
         persister: idbPersister,
-        maxAge: 1000 * 60 * 60 * 24 * 7,
-        buster: "v2",
+        maxAge: QUERY_CACHE_MAX_AGE_MS,
+        buster: `v${QUERY_CACHE_SCHEMA_VERSION}`,
       }}
       onSuccess={() => {
         queryClient.resumePausedMutations();

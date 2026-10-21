@@ -19,6 +19,7 @@ import { useAiErrorMessage } from "@/hooks/useAiErrorMessage";
 import { TypewriterText } from "@/components/ui/TypewriterText";
 import { AIExerciseFormData, AIExerciseSchema } from "@/lib/schemas";
 import { getLocalizedText, type Locale } from "@/types/common";
+import { queryKeys } from "@/lib/queryKeys";
 
 export function AiExerciseContent() {
   const locale = useLocale() as Locale;
@@ -96,7 +97,7 @@ export function AiExerciseContent() {
           groups: [result.data.muscleGroup],
           description: result.data.description,
         });
-        queryClient.invalidateQueries({ queryKey: ["exercises", user.uid] });
+        queryClient.invalidateQueries({ queryKey: queryKeys.userExercises(user.uid) });
         toast.success(t("success"));
         close();
       }

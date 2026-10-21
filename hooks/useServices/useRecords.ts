@@ -1,6 +1,7 @@
 import { useQuery } from "@tanstack/react-query";
 import { getUserRecords } from "@/lib/services/records";
 import { Period } from "@/types";
+import { queryKeys } from "@/lib/queryKeys";
 
 export const useRecords = ({
   userId,
@@ -12,7 +13,7 @@ export const useRecords = ({
   exerciseIds?: string[];
 }) => {
   return useQuery({
-    queryKey: ["records", { userId, period, exerciseIds }],
+    queryKey: queryKeys.records.list(userId, period, exerciseIds),
     queryFn: () => getUserRecords(userId!, period, exerciseIds),
     staleTime: 1000 * 60 * 60 * 6,
     enabled: !!userId,

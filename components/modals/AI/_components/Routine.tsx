@@ -19,6 +19,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { useAiErrorMessage } from "@/hooks/useAiErrorMessage";
 import { TypewriterText } from "@/components/ui/TypewriterText";
 import { AIRoutineAFormData, AIRoutineSchema } from "@/lib/schemas";
+import { queryKeys } from "@/lib/queryKeys";
 
 export function AiRoutineContent() {
   const locale = useLocale();
@@ -104,8 +105,8 @@ export function AiRoutineContent() {
           exercises: result.data.exercises,
         });
 
-        queryClient.invalidateQueries({ queryKey: ["routines", user.uid] });
-        queryClient.invalidateQueries({ queryKey: ["exercises", user.uid] });
+        queryClient.invalidateQueries({ queryKey: queryKeys.routines(user.uid) });
+        queryClient.invalidateQueries({ queryKey: queryKeys.userExercises(user.uid) });
 
         toast.success(t("routineSaved"));
         close();

@@ -13,6 +13,7 @@ import { addUserProgress } from "@/lib/mutations/progress";
 import { useTranslations } from "next-intl";
 import { ProgressFormData, progressSchema } from "@/lib/schemas";
 import { useUserPreferences } from "@/providers/UserPreferencesProvider";
+import { queryKeys } from "@/lib/queryKeys";
 
 export function ProgressModal() {
   const { params } = useUserPreferences();
@@ -47,7 +48,7 @@ export function ProgressModal() {
     try {
       if (!user) throw new Error("Not authenticated");
       await addUserProgress(user.uid, data);
-      queryClient.invalidateQueries({ queryKey: ["lastProgress"] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.progress.all(user.uid) });
       toast.success(t("success"));
       close();
     } catch (err) {

@@ -7,6 +7,7 @@ import { setUserParams, type EditableUserParamKey } from "@/lib/mutations/user";
 import { useAuth } from "@/hooks/useAuth";
 import { useUserParams } from "@/hooks/useServices/useUserParams";
 import { DEFAULT_SUBSCRIPTION } from "@/lib/subscription";
+import { queryKeys } from "@/lib/queryKeys";
 
 export const defaultUserParams: UserParams = {
   theme: "system",
@@ -49,7 +50,7 @@ export function UserPreferencesProvider({ children }: { children: React.ReactNod
       userId: user.uid,
     });
 
-    queryClient.setQueryData(["userParams", user.uid], (old: UserParams | undefined) => ({
+    queryClient.setQueryData(queryKeys.userParams(user.uid), (old: UserParams | undefined) => ({
       ...defaultUserParams,
       ...old,
       [param]: value,

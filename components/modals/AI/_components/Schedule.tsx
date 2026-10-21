@@ -20,6 +20,7 @@ import { createAiUserSchedule } from "@/lib/mutations/schedule";
 import { useLocale, useTranslations } from "next-intl";
 import { useAiErrorMessage } from "@/hooks/useAiErrorMessage";
 import { AIScheduleFormData, AIScheduleSchema } from "@/lib/schemas";
+import { queryKeys } from "@/lib/queryKeys";
 
 export function AiScheduleContent() {
   const locale = useLocale();
@@ -112,9 +113,9 @@ export function AiScheduleContent() {
         return;
       }
 
-      queryClient.invalidateQueries({ queryKey: ["schedule", user.uid] });
-      queryClient.invalidateQueries({ queryKey: ["routines", user.uid] });
-      queryClient.invalidateQueries({ queryKey: ["exercises", user.uid] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.schedule(user.uid) });
+      queryClient.invalidateQueries({ queryKey: queryKeys.routines(user.uid) });
+      queryClient.invalidateQueries({ queryKey: queryKeys.userExercises(user.uid) });
 
       toast.success(t("scheduleSaved"));
       close();
