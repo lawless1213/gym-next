@@ -1,4 +1,4 @@
-# Gym Next — Improvement Roadmap (October 2026)
+# NextForma — Improvement Roadmap (October 2026)
 
 Priorities: P0 — security/revenue, P1 — bugs, P2 — hygiene and tooling, P3 — architecture, P4 — new features.
 Estimates are rough, for a single developer. The "why" behind each item is in [PROJECT_STATUS.md](./PROJECT_STATUS.md).
@@ -83,7 +83,7 @@ No users yet, so this is the cheapest time to do it — start right after Stage 
 - [x] 3.6 Query key factory (`lib/queryKeys.ts`).
   - Done: `lib/queryKeys.ts`; all `useQuery`/`invalidateQueries`/`setQueryData` use it. Per-user keys are `[entity, userId, ...]` so `.all(uid)` invalidates every list of that user; the public catalog moved to `commonExercises` (was `["exercises"]`, a prefix of the user's `["exercises", uid]`).
 - [x] 3.7 Server components for the layout and static parts.
-  - Done (slimmed): data is per-user and auth exists only in the browser (Firebase client SDK, offline-first), so pages can't be server-rendered with content. Instead every `app/**/page.tsx` is a server component that only sets metadata (per-page `<title>` via next-intl, layout template `%s · GYM`) and renders a client view from `components/<area>/<Area>Page.tsx`; pages using `useSearchParams` (settings, auth/action) get a `Suspense` boundary. Layout was already a server component. Revisit real SSR only with server sessions (session cookies + Admin SDK).
+  - Done (slimmed): data is per-user and auth exists only in the browser (Firebase client SDK, offline-first), so pages can't be server-rendered with content. Instead every `app/**/page.tsx` is a server component that only sets metadata (per-page `<title>` via next-intl, layout template `%s · NextForma`) and renders a client view from `components/<area>/<Area>Page.tsx`; pages using `useSearchParams` (settings, auth/action) get a `Suspense` boundary. Layout was already a server component. Revisit real SSR only with server sessions (session cookies + Admin SDK).
 - [x] 3.8 `MuscleSchema`: move SVG paths into data + one render component.
   - Done: path data in `components/shared/MuscleSchema/data/{manFront,manBack,womanFront,womanBack}.ts` (typed `BodyViewData`: ordered muscle/outline layers, ids checked against `MuscleGroup`), one renderer `BodyView.tsx`; the four 370–530-line view components are gone (1856 → ~730 lines). Verified pixel-identical against the old SVGs (headless Chromium diff). For 4.8 add a per-muscle intensity/class prop to `BodyView`.
 - [ ] 3.9 PWA: `@ducanh2912/next-pwa` → Serwist (`@serwist/next`), verify offline mode.

@@ -1,7 +1,7 @@
 {
   "app": {
-    "title": "GYM",
-    "subtitle": "Портал для тренувань"
+    "title": "NextForma",
+    "subtitle": "Твоя наступна форма"
   },
   "components": {
     "header": {
@@ -465,7 +465,7 @@
       "repeatLogin": "Увійти з новою поштою"
     },
     "modal": {
-      "title": "Ласкаво просимо до GYM",
+      "title": "Ласкаво просимо до NextForma",
       "registerTab": "Реєстрація",
       "loginTab": "Вхід",
       "alreadyHaveAccount": "Вже маєш акаунт? Увійти",
