@@ -21,8 +21,8 @@ export default function LoadingScreen() {
             animate={{ scale: [1, 1.9], opacity: [0.35, 0] }}
             transition={{
               duration: 1.6,
-              // Start pulsing once the mark has scaled in.
-              delay: delay + 0.6,
+              // Start pulsing once the mark has faded in.
+              delay: delay + 0.4,
               repeat: Infinity,
               ease: "easeOut",
             }}
@@ -31,12 +31,9 @@ export default function LoadingScreen() {
 
         <motion.div
           className="relative z-10"
-          initial={{ scale: 0.4, opacity: 0 }}
-          animate={{ scale: 1, opacity: 1 }}
-          transition={{
-            scale: { duration: 0.7, ease: [0.16, 1, 0.3, 1] },
-            opacity: { duration: 0.35, ease: "easeOut" },
-          }}>
+          initial={{ opacity: 0 }}
+          animate={{ opacity: 1 }}
+          transition={{ duration: 0.4, ease: "easeOut" }}>
           <LogoMark
             className="size-20"
             title={t("title")}
