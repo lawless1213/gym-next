@@ -12,6 +12,7 @@ import { AnimatePresence, motion } from "motion/react";
 import { ExerciseCard } from "@/components/shared/cards/ExerciseCard";
 import { Tooltip, TooltipContent, TooltipTrigger } from "@/components/ui/Tooltip";
 import { Button } from "../../ui/Button";
+import { queryKeys } from "@/lib/queryKeys";
 
 interface RoutineListItemProps {
   routine: Routine;
@@ -65,8 +66,8 @@ export default function RoutineCard({ routine, isOpen: controlledIsOpen, onToggl
       if (ok) {
         await deleteUserRoutine(user.uid, routine.id);
 
-        queryClient.invalidateQueries({ queryKey: ["exercises", user.uid] });
-        queryClient.invalidateQueries({ queryKey: ["routines", user.uid] });
+        queryClient.invalidateQueries({ queryKey: queryKeys.userExercises(user.uid) });
+        queryClient.invalidateQueries({ queryKey: queryKeys.routines(user.uid) });
         toast.success(t("deleteSuccess"));
       }
     } catch (err) {

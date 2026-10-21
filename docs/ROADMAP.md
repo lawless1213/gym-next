@@ -78,12 +78,15 @@ No users yet, so this is the cheapest time to do it — start right after Stage 
   - Done: `lib/errors/ai.ts` (`AI_ERROR_CODES`, `AiFailure`); Gemini client, guard and all AI actions return codes; client translates via `useAiErrorMessage()` (`ai.errors.*`). Auth errors via `authErrorKey()` → `auth.errors.*` (replaces the Ukrainian `AUTH_ERRORS` map). Also moved remaining hardcoded UI strings to messages (AI toasts, chat `alert` → toast + "no tries" text, social login, `Select` defaults, quick-workout placeholder, `aria-label`/`sr-only`), fixed missing en `ai.modal.confirm.confirmSchedule`. Unit test: uk/en key parity + every AI code translated.
 - [x] 3.4 Naming: `shedule.ts`→`schedule.ts`, `navManu.tsx`→`navMenu.tsx`, `TypewritterText`→`TypewriterText`; one `_components` convention and one file-casing convention.
   - Done: renames above + `LoginWIth`→`LoginWith`, `AI/__components`→`AI/_components`, `utils/PWA.ts`→`pwa.ts`. Convention (in the `gym-next-feature` skill): component files and component folders PascalCase (`SetInput.tsx`, `ui/form/Input/`, `ModalProvider.tsx` ← `modal-store.tsx`, `ThemeProvider.tsx`, `UserPreferencesProvider.tsx`); other modules camelCase; grouping folders lowercase; private subcomponents in `_components/`.
-- [ ] 3.5 `useAuth.tsx` (a provider) → `providers/AuthProvider.tsx`, hook separately.
-- [ ] 3.6 Query key factory (`lib/queryKeys.ts`).
+- [x] 3.5 `useAuth.tsx` (a provider) → `providers/AuthProvider.tsx`, hook separately.
+  - Done: provider in `providers/AuthProvider.tsx` (exports `AuthProvider`, `AuthContext`), hook in `hooks/useAuth.ts`; imports of `useAuth` unchanged.
+- [x] 3.6 Query key factory (`lib/queryKeys.ts`).
+  - Done: `lib/queryKeys.ts`; all `useQuery`/`invalidateQueries`/`setQueryData` use it. Per-user keys are `[entity, userId, ...]` so `.all(uid)` invalidates every list of that user; the public catalog moved to `commonExercises` (was `["exercises"]`, a prefix of the user's `["exercises", uid]`).
 - [ ] 3.7 Server components for the layout and static parts.
 - [ ] 3.8 `MuscleSchema`: move SVG paths into data + one render component.
 - [ ] 3.9 PWA: `@ducanh2912/next-pwa` → Serwist (`@serwist/next`), verify offline mode.
-- [ ] 3.10 Tie the persister `buster` to the data schema version.
+- [x] 3.10 Tie the persister `buster` to the data schema version.
+  - Done: `QUERY_CACHE_SCHEMA_VERSION` in `lib/config/queryCache.ts` → persister `buster` (now `v3` because keys changed); bump on any cached-shape/key change (rule in the feature skill). Not tied to the build id so deploys keep the offline cache. `gcTime` = persister `maxAge`.
 - [ ] 3.11 Feature-based structure ("FSD-lite"), one feature per PR, after Stages 0–2. See [Target structure](#target-structure-fsd-lite).
   - [ ] Create `shared/` (ui, lib, config) and `server/` (Admin SDK, server actions, AI guard, `import "server-only"`).
   - [ ] Migrate features one by one, smallest first: `progress` → `history` → `exercises` → `routines` → `schedule` → `workouts` → `ai` → `subscription` → `auth`.

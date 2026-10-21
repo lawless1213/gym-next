@@ -1,6 +1,6 @@
 "use client";
 
-import { createContext, useContext, useEffect, useMemo, useState } from "react";
+import { createContext, useEffect, useMemo, useState } from "react";
 import type { User } from "firebase/auth";
 import {
   onAuthStateChanged,
@@ -22,7 +22,7 @@ import { deleteUserData, initUserDoc } from "@/lib/server/actions/user";
 import { reportError } from "@/lib/monitoring";
 import * as Sentry from "@sentry/nextjs";
 
-type AuthContextValue = {
+export type AuthContextValue = {
   user: User | null;
   loading: boolean;
   login: (email: string, password: string) => Promise<void>;
@@ -38,7 +38,8 @@ type AuthContextValue = {
   reauthenticate: (password: string) => Promise<void>;
 };
 
-const AuthContext = createContext<AuthContextValue | undefined>(undefined);
+/** Read it with `useAuth()` from hooks/useAuth.ts. */
+export const AuthContext = createContext<AuthContextValue | undefined>(undefined);
 
 // Creates the Firestore user doc on the server (Admin SDK). Idempotent.
 async function ensureUserDoc(user: User) {
@@ -174,12 +175,4 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   );
 
   return <AuthContext.Provider value={value}>{children}</AuthContext.Provider>;
-}
-
-export function useAuth() {
-  const ctx = useContext(AuthContext);
-  if (!ctx) {
-    throw new Error("useAuth must be used within an AuthProvider");
-  }
-  return ctx;
 }

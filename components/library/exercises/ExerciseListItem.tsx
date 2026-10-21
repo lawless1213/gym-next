@@ -17,6 +17,7 @@ import { Button } from "@/components/ui/Button";
 import MuscleSchema from "@/components/shared/MuscleSchema";
 import { MUSCLE_GROUPS } from "@/data/exercise";
 import { getLocalizedText, type Locale } from "@/types/common";
+import { queryKeys } from "@/lib/queryKeys";
 
 interface ExerciseListItemProps {
   exercise: Exercise;
@@ -63,8 +64,8 @@ export function ExerciseListItem({ exercise, isOpen, onToggle }: ExerciseListIte
       if (ok) {
         await deleteUserExercise(user.uid, exercise.id, exercise.imageUrl);
 
-        queryClient.invalidateQueries({ queryKey: ["exercises", user.uid] });
-        queryClient.invalidateQueries({ queryKey: ["routines", user.uid] });
+        queryClient.invalidateQueries({ queryKey: queryKeys.userExercises(user.uid) });
+        queryClient.invalidateQueries({ queryKey: queryKeys.routines(user.uid) });
         toast.success(t("deleteSuccess"));
       }
     } catch (err) {

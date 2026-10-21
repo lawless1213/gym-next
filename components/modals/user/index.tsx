@@ -14,6 +14,7 @@ import { userFormData, userSchema } from "@/lib/schemas";
 import { useUserPreferences } from "@/providers/UserPreferencesProvider";
 import { updateUserProfile } from "@/lib/mutations/user";
 import { useModal } from "../ModalProvider";
+import { queryKeys } from "@/lib/queryKeys";
 
 export function UserEditModal() {
   const tComponents = useTranslations("components");
@@ -56,7 +57,7 @@ export function UserEditModal() {
       });
 
       await queryClient.invalidateQueries({
-        queryKey: ["userParams", user.uid],
+        queryKey: queryKeys.userParams(user.uid),
       });
 
       toast.success(t("success"));

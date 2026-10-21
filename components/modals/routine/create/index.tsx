@@ -18,6 +18,7 @@ import { useLocale, useTranslations } from "next-intl";
 import { RoutineFormData, routineSchema } from "@/lib/schemas";
 import { MUSCLE_GROUPS } from "@/data/exercise";
 import { getLocalizedText, type Locale } from "@/types/common";
+import { queryKeys } from "@/lib/queryKeys";
 
 const colors = ["#CCFF00", "#2563EB", "#F97316", "#EF4444", "#8B5CF6", "#10B981"];
 
@@ -78,7 +79,7 @@ export function RoutineCreateModal() {
       if (!user) throw new Error("Not authenticated");
 
       await createUserRoutine(user.uid, data);
-      queryClient.invalidateQueries({ queryKey: ["routines", user.uid] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.routines(user.uid) });
       toast.success(t("success"));
       close();
     } catch (err) {

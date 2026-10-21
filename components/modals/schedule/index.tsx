@@ -16,6 +16,7 @@ import { useTranslations } from "next-intl";
 import { weekDays } from "@/types";
 import { editUserSchedule } from "@/lib/mutations/schedule";
 import { ScheduleFormData, scheduleSchema } from "@/lib/schemas";
+import { queryKeys } from "@/lib/queryKeys";
 
 export function ScheduleEditModal() {
   const tDays = useTranslations("components.day");
@@ -82,7 +83,7 @@ export function ScheduleEditModal() {
           dayIndex,
           routineIds: data.routines.map((r) => r.routineId),
         });
-        queryClient.invalidateQueries({ queryKey: ["schedule", user.uid] });
+        queryClient.invalidateQueries({ queryKey: queryKeys.schedule(user.uid) });
         toast.success(`${tDays(`default.${weekDays[dayIndex]}`)} - ${t("success")}`);
         close();
       }

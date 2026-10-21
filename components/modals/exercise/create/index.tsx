@@ -16,6 +16,7 @@ import { useTranslations } from "next-intl";
 import { ChipGroup } from "@/components/ui/form/ChipGroup";
 import { ExerciseFormData, exerciseSchema } from "@/lib/schemas";
 import MuscleSchema from "@/components/shared/MuscleSchema";
+import { queryKeys } from "@/lib/queryKeys";
 
 export function ExerciseCreateModal() {
   const tComponents = useTranslations("components");
@@ -49,7 +50,7 @@ export function ExerciseCreateModal() {
         title: data.title,
         description: data.description,
       });
-      queryClient.invalidateQueries({ queryKey: ["exercises", user.uid] });
+      queryClient.invalidateQueries({ queryKey: queryKeys.userExercises(user.uid) });
       toast.success(t("success"));
       close();
     } catch (err) {

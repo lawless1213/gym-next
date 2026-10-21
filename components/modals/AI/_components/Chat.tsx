@@ -14,6 +14,7 @@ import { useAuth } from "@/hooks/useAuth";
 import { useQueryClient } from "@tanstack/react-query";
 import { UserParams } from "@/lib/services/user";
 import { defaultUserParams, useUserPreferences } from "@/providers/UserPreferencesProvider";
+import { queryKeys } from "@/lib/queryKeys";
 
 export function AiChatContent() {
   const t = useTranslations("ai.modal.chat");
@@ -55,7 +56,7 @@ export function AiChatContent() {
     const result = await sendChatMessage(idToken, messages, userMessage.text);
 
     if ("freeAiTries" in result) {
-      queryClient.setQueryData(["userParams", user.uid], (old: UserParams | undefined) => ({
+      queryClient.setQueryData(queryKeys.userParams(user.uid), (old: UserParams | undefined) => ({
         ...defaultUserParams,
         ...old,
         subscribed: {

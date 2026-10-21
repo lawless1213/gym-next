@@ -1,9 +1,10 @@
 import { useQuery } from "@tanstack/react-query";
 import { getUserExercises, getCommonExercises } from "@/lib/services/exercises";
+import { queryKeys } from "@/lib/queryKeys";
 
 export const useCommonExercises = () => {
   return useQuery({
-    queryKey: ["exercises"],
+    queryKey: queryKeys.commonExercises(),
     queryFn: () => getCommonExercises(),
     staleTime: 1000 * 60 * 60 * 24, // 24 hour
   });
@@ -11,7 +12,7 @@ export const useCommonExercises = () => {
 
 export const useUserExercises = (userId: string | undefined) => {
   return useQuery({
-    queryKey: ["exercises", userId],
+    queryKey: queryKeys.userExercises(userId),
     queryFn: () => getUserExercises(userId!),
     staleTime: 1000 * 60 * 60, // 1 hour
     enabled: !!userId,

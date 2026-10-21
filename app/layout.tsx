@@ -1,7 +1,7 @@
 import type { Metadata, Viewport } from "next";
 import { Exo_2 } from "next/font/google";
 import "./globals.css";
-import { AuthProvider } from "../hooks/useAuth";
+import { AuthProvider } from "@/providers/AuthProvider";
 import { NextIntlClientProvider } from "next-intl";
 import { getLocale, getTranslations } from "next-intl/server";
 import FaviconSwitcher, { ThemeProvider } from "@/providers/ThemeProvider";

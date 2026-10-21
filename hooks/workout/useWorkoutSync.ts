@@ -8,14 +8,23 @@ import type { WorkoutSession } from "@/types";
 import { writeWorkoutSession } from "@/lib/mutations/workout";
 import { readPendingWorkouts, removePendingWorkout, savePendingWorkout } from "@/lib/workoutStorage";
 import { reportError, reportIssue } from "@/lib/monitoring";
+import { queryKeys } from "@/lib/queryKeys";
 
-const WORKOUT_QUERY_KEYS = [["history"], ["records"], ["schedule"]] as const;
-
+/** Everything a saved workout changes: history lists, records, and the schedule ("done" marks). */
 function useInvalidateWorkoutQueries() {
   const queryClient = useQueryClient();
-  return useCallback(() => {
-    for (const queryKey of WORKOUT_QUERY_KEYS) queryClient.invalidateQueries({ queryKey: [...queryKey] });
-  }, [queryClient]);
+  return useCallback(
+    (userId: string) => {
+      for (const queryKey of [
+        queryKeys.history.all(userId),
+        queryKeys.records.all(userId),
+        queryKeys.schedule(userId),
+      ]) {
+        queryClient.invalidateQueries({ queryKey });
+      }
+    },
+    [queryClient],
+  );
 }
 
 /**
@@ -42,14 +51,14 @@ export function useFinishWorkout() {
       }
 
       // The history write is already in the local cache, so refetching now shows it.
-      invalidate();
+      invalidate(userId);
       const savedOffline = !navigator.onLine;
       if (savedOffline) toast.info(t("savedOffline"));
 
       synced
         .then(() => {
           removePendingWorkout(userId, workout.id);
-          invalidate();
+          invalidate(userId);
           if (savedOffline) toast.success(t("synced"), { id: "workout-synced" });
         })
         .catch((error) => {
@@ -81,7 +90,7 @@ export function usePendingWorkoutSync(userId: string | undefined) {
         writeWorkoutSession(userId, workout)
           .synced.then(() => {
             removePendingWorkout(userId, workout.id);
-            invalidate();
+            invalidate(userId);
             toast.success(t("synced"), { id: "workout-synced" });
           })
           .catch((error) => reportIssue("Failed to re-send pending workout", { error: String(error) }))
