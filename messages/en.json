@@ -178,7 +178,7 @@
       "lastWeek": "Last week: {workouts, plural, one {# workout} other {# workouts}}, {volume}. Time to match it",
       "thisWeek": "This",
       "prevWeek": "Last",
-      "start": "Start workout",
+      "start": "Quick workout",
       "motivation": {
         "record": {
           "0": "Getting stronger — keep it up!",
