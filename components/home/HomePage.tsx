@@ -34,6 +34,7 @@ export default function HomePage() {
         records={lastWeekRecords}
         lastWeekHistory={lastWeekHistory}
         prevWeekHistory={prevWeekHistory}
+        isLoading={isLoadingPrevWeekHistory || isLoadingRecords}
       />
       <QuickStats
         lastWeekHistory={lastWeekHistory}
