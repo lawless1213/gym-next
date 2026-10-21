@@ -11,6 +11,7 @@ import { ModalProvider } from "@/components/modals/ModalProvider";
 import { TooltipProvider } from "@/components/ui/Tooltip";
 import { UserPreferencesProvider } from "@/providers/UserPreferencesProvider";
 import { CookieBanner } from "@/components/shared/CookieBanner";
+import { ServiceWorker } from "@/components/shared/ServiceWorker";
 
 // Body text.
 const manrope = Manrope({
@@ -77,6 +78,7 @@ export default async function RootLayout({
         className={`${manrope.variable} ${unbounded.variable} flex min-h-screen flex-col bg-background font-sans antialiased`}>
         <ThemeProvider>
           <ThemeColorSync />
+          <ServiceWorker />
           <NextIntlClientProvider>
             <CookieBanner />
             <AuthProvider>

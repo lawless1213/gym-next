@@ -3,6 +3,7 @@ allowBuilds:
   "@google/genai": false
   "@parcel/watcher": false
   "@swc/core": false
+  esbuild: set this to true or false
   protobufjs: false
   re2: false
   sharp: false

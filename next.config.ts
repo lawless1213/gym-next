@@ -1,46 +1,8 @@
 import type { NextConfig } from "next";
 import createNextIntlPlugin from "next-intl/plugin";
-import withPWAInit from "@ducanh2912/next-pwa";
 import { withSentryConfig } from "@sentry/nextjs/config";
 
 const withNextIntl = createNextIntlPlugin();
-
-const withPWA = withPWAInit({
-  dest: "public",
-  disable: process.env.NODE_ENV === "development",
-  workboxOptions: {
-    runtimeCaching: [
-      {
-        urlPattern: /^\/_next\/image\?url=.*/i,
-        handler: "StaleWhileRevalidate",
-        options: {
-          cacheName: "next-image-cache",
-          expiration: {
-            maxEntries: 300,
-            maxAgeSeconds: 30 * 24 * 60 * 60, // 30 днів
-          },
-          cacheableResponse: {
-            statuses: [0, 200],
-          },
-        },
-      },
-      {
-        urlPattern: /^https:\/\/firebasestorage\.googleapis\.com\/.*/i,
-        handler: "CacheFirst",
-        options: {
-          cacheName: "firebase-raw-images",
-          expiration: {
-            maxEntries: 200,
-            maxAgeSeconds: 30 * 24 * 60 * 60,
-          },
-          cacheableResponse: {
-            statuses: [0, 200],
-          },
-        },
-      },
-    ],
-  },
-});
 
 const nextConfig: NextConfig = {
   images: {
@@ -61,7 +23,7 @@ const nextConfig: NextConfig = {
   },
 };
 
-export default withSentryConfig(withPWA(withNextIntl(nextConfig)), {
+export default withSentryConfig(withNextIntl(nextConfig), {
   org: process.env.SENTRY_ORG,
   project: process.env.SENTRY_PROJECT,
   // Source maps are uploaded only when SENTRY_AUTH_TOKEN is available (App Hosting build).
