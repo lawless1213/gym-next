@@ -47,6 +47,6 @@
 - **Framework:** Next.js (App Router)
 - **Language:** TypeScript
 - **Styling:** Tailwind CSS
-- **PWA:** `@ducanh2912/next-pwa`
+- **PWA:** Serwist (configurator mode: `serwist.config.js`, worker in `app/sw.ts`, built by `serwist build` after `next build`)
 - **Authentication & Database:** Firebase / Cloud Firestore
 - **Internationalization:** `next-intl`

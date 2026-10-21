@@ -3,6 +3,8 @@ allowBuilds:
   "@google/genai": false
   "@parcel/watcher": false
   "@swc/core": false
+  # Native binary for `serwist build` (compiles app/sw.ts).
+  esbuild: true
   protobufjs: false
   re2: false
   sharp: false

@@ -687,5 +687,9 @@
       "success": "Successfully saved!",
       "error": "Something went wrong! Please try again later."
     }
+  },
+  "offline": {
+    "title": "You're offline",
+    "description": "This page hasn't been opened on this device yet. Connect to the internet and try again — pages you've visited work offline."
   }
 }
