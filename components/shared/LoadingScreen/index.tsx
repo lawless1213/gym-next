@@ -17,11 +17,12 @@ export default function LoadingScreen() {
           <motion.div
             key={delay}
             className="absolute size-20 rounded-[22%] bg-volt"
-            initial={{ scale: 1, opacity: 0.35 }}
-            animate={{ scale: 1.9, opacity: 0 }}
+            initial={{ scale: 1, opacity: 0 }}
+            animate={{ scale: [1, 1.9], opacity: [0.35, 0] }}
             transition={{
               duration: 1.6,
-              delay,
+              // Start pulsing once the mark has scaled in.
+              delay: delay + 0.6,
               repeat: Infinity,
               ease: "easeOut",
             }}
@@ -30,9 +31,12 @@ export default function LoadingScreen() {
 
         <motion.div
           className="relative z-10"
-          initial={{ scale: 0.8, opacity: 0 }}
+          initial={{ scale: 0.4, opacity: 0 }}
           animate={{ scale: 1, opacity: 1 }}
-          transition={{ type: "spring", stiffness: 260, damping: 18 }}>
+          transition={{
+            scale: { duration: 0.7, ease: [0.16, 1, 0.3, 1] },
+            opacity: { duration: 0.35, ease: "easeOut" },
+          }}>
           <LogoMark
             className="size-20"
             title={t("title")}
@@ -42,9 +46,9 @@ export default function LoadingScreen() {
 
       <motion.div
         className="text-center"
-        initial={{ opacity: 0, y: 8 }}
-        animate={{ opacity: 1, y: 0 }}
-        transition={{ duration: 0.4, delay: 0.15 }}>
+        initial={{ opacity: 0, y: 8, scale: 0.96 }}
+        animate={{ opacity: 1, y: 0, scale: 1 }}
+        transition={{ duration: 0.5, delay: 0.3, ease: [0.16, 1, 0.3, 1] }}>
         <Wordmark className="text-2xl" />
         <div className="mt-2 text-xs tracking-[2px] text-muted-foreground uppercase">{t("subtitle")}</div>
       </motion.div>
