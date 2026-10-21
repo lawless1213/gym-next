@@ -1,27 +1,14 @@
-"use client";
+// Server component: page metadata only. The page itself is client-side (data needs the
+// signed-in Firebase user, which exists only in the browser).
+import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
+import HistoryPage from "@/components/history/HistoryPage";
 
-import { useAuth } from "@/hooks/useAuth";
-import { useHistory } from "../../hooks/useServices/useHistory";
-import WeekStats from "@/components/history/WeekStats";
-import WorkoutList from "@/components/history/WorkoutList";
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("components.bottomNav");
+  return { title: t("history") };
+}
 
-export default function History() {
-  const { user, loading: isUserLoading } = useAuth();
-  const userId = user?.uid;
-
-  const { data: history = [], isLoading: isDataLoading } = useHistory(userId, { period: "week" });
-  const loading = isUserLoading || isDataLoading || (!!userId && !history);
-
-  return (
-    <div className="flex flex-col gap-4 pb-4">
-      <WeekStats
-        history={history}
-        loading={loading}
-      />
-      <WorkoutList
-        history={history}
-        loading={loading}
-      />
-    </div>
-  );
+export default function Page() {
+  return <HistoryPage />;
 }

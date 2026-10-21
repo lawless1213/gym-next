@@ -32,7 +32,8 @@ export async function generateMetadata(): Promise<Metadata> {
   const t = await getTranslations("app");
 
   return {
-    title: t("title"),
+    // Pages set their own title (app/*/page.tsx) → "Stats · GYM".
+    title: { default: t("title"), template: `%s · ${t("title")}` },
     description: t("subtitle"),
     appleWebApp: {
       capable: true,
