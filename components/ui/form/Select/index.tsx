@@ -5,6 +5,7 @@ import { forwardRef, useEffect, useLayoutEffect, useRef, useState } from "react"
 import { IconChevronDown, IconPlus } from "@tabler/icons-react";
 import { Label } from "../Label";
 import { Button } from "../../Button";
+import { useTranslations } from "next-intl";
 
 export type SelectOption = {
   value: string;
@@ -41,8 +42,8 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>(({ input }, _ref) 
     options,
     isLoading,
     placeholder = "Input..",
-    searchPlaceholder = "Пошук...",
-    emptyText = "Нічого не знайдено",
+    searchPlaceholder,
+    emptyText,
     classes,
     value,
     onChange,
@@ -51,9 +52,10 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>(({ input }, _ref) 
     label,
     error,
     allowCustom = false,
-    customOptionLabel = "Використати «{value}»",
+    customOptionLabel,
     searchable = true,
   } = input;
+  const t = useTranslations("components.select");
 
   const [isOpen, setIsOpen] = useState(false);
   const [search, setSearch] = useState("");
@@ -141,7 +143,7 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>(({ input }, _ref) 
               error && "ring-2 ring-red-500",
               classes,
             )}>
-            <span className="truncate text-sm">{isLoading ? "Завантаження..." : displayLabel || placeholder}</span>
+            <span className="truncate text-sm">{isLoading ? t("loading") : displayLabel || placeholder}</span>
             <IconChevronDown
               stroke={2}
               className={clsx(
@@ -156,7 +158,7 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>(({ input }, _ref) 
               type="button"
               onClick={handleAcceptCustom}
               className="flex size-10 shrink-0 cursor-pointer items-center justify-center rounded-full bg-secondary text-muted-foreground hover:text-foreground"
-              aria-label="Додати">
+              aria-label={t("add")}>
               <IconPlus className="size-6" />
             </Button>
           )}
@@ -181,7 +183,7 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>(({ input }, _ref) 
                       handleAcceptCustom();
                     }
                   }}
-                  placeholder={searchPlaceholder}
+                  placeholder={searchPlaceholder ?? t("search")}
                   className="w-full rounded-lg bg-background px-3 py-2 pr-8 text-sm text-foreground placeholder:text-muted-foreground focus:ring-2 focus:ring-primary focus:outline-none"
                 />
               </div>
@@ -197,10 +199,12 @@ export const Select = forwardRef<HTMLDivElement, SelectProps>(({ input }, _ref) 
                     type="button"
                     onClick={handleAcceptCustom}
                     className="w-full justify-start">
-                    {customOptionLabel.replace("{value}", trimmedSearch)}
+                    {customOptionLabel
+                      ? customOptionLabel.replace("{value}", trimmedSearch)
+                      : t("useCustom", { value: trimmedSearch })}
                   </Button>
                 ) : (
-                  <div className="px-3 py-3 text-sm text-muted-foreground">{emptyText}</div>
+                  <div className="px-3 py-3 text-sm text-muted-foreground">{emptyText ?? t("empty")}</div>
                 )
               ) : (
                 filteredOptions.map((option) => (

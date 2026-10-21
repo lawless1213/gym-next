@@ -1,10 +1,19 @@
-export const AUTH_ERRORS: Record<string, string> = {
-  "auth/invalid-credential": "Неправильний email або пароль.",
-  "auth/user-disabled": "Цей акаунт було заблоковано.",
-  "auth/too-many-requests": "Забагато спроб. Спробуйте пізніше.",
-  "auth/network-request-failed": "Проблема з мережею. Перевірте з'єднання.",
-  default: "Сталася помилка. Спробуйте ще раз.",
-};
+/** Firebase Auth error code → key under `auth.errors` in messages/*.json. */
+const AUTH_ERROR_KEYS = {
+  "auth/invalid-credential": "invalidCredential",
+  "auth/user-disabled": "userDisabled",
+  "auth/too-many-requests": "tooManyRequests",
+  "auth/network-request-failed": "network",
+  "auth/account-exists-with-different-credential": "accountExistsWithDifferentCredential",
+} as const;
+
+export type AuthErrorKey = (typeof AUTH_ERROR_KEYS)[keyof typeof AUTH_ERROR_KEYS] | "default";
+
+/** Translation key for an auth error, e.g. `t("errors." + authErrorKey(err))` with `useTranslations("auth")`. */
+export function authErrorKey(error: unknown): AuthErrorKey {
+  const code = getErrorCode(error);
+  return (code && AUTH_ERROR_KEYS[code as keyof typeof AUTH_ERROR_KEYS]) || "default";
+}
 
 /** Safely reads `code` from an unknown error (FirebaseError and friends). */
 export function getErrorCode(error: unknown): string | undefined {

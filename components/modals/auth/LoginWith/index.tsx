@@ -6,9 +6,11 @@ import { useModal } from "@/components/modals/ModalProvider";
 import { Button } from "@/components/ui/Button";
 import { toast } from "sonner";
 import { IconBrandGithubFilled, IconBrandGoogleFilled } from "@tabler/icons-react";
-import { getErrorCode } from "@/lib/errors/auth";
+import { authErrorKey, getErrorCode } from "@/lib/errors/auth";
+import { useTranslations } from "next-intl";
 
 export default function LoginWith() {
+  const t = useTranslations("auth");
   const { close } = useModal();
   const { loginWithGoogle, loginWithGithub } = useAuth();
   const [loading, setLoading] = useState(false);
@@ -17,18 +19,14 @@ export default function LoginWith() {
     try {
       setLoading(true);
       await loginFn();
-      toast.success("Успішний вхід!");
+      toast.success(t("login.success"));
       close();
     } catch (error) {
       const code = getErrorCode(error);
       if (code === "auth/popup-closed-by-user") return;
 
-      if (code === "auth/account-exists-with-different-credential") {
-        toast.error("Ця пошта вже прив'язана до іншого способу входу (наприклад, Google).");
-        return;
-      }
-
-      toast.error("Не вдалося увійти. Спробуйте ще раз.");
+      const key = authErrorKey(error);
+      toast.error(key === "default" ? t("errors.loginFailed") : t(`errors.${key}`));
     } finally {
       setLoading(false);
     }

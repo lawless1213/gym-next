@@ -146,7 +146,8 @@
       "description": "Faster access and offline support",
       "descriptionIOS": "Tap 'Share' → 'Add to Home Screen'",
       "install": "Install",
-      "closeLAbel": "Close"
+      "closeLAbel": "Close",
+      "close": "Close"
     },
     "routineCard": {
       "amount": "Number of exercises",
@@ -197,6 +198,13 @@
         "required": "Required only",
         "all": "Accept all"
       }
+    },
+    "select": {
+      "search": "Search...",
+      "empty": "Nothing found",
+      "useCustom": "Use “{value}”",
+      "loading": "Loading...",
+      "add": "Add"
     }
   },
   "home": {
@@ -332,6 +340,11 @@
           "footnote": "No recurring charges."
         },
         "ariaLabel": "Choose a plan"
+      },
+      "features": {
+        "inFree": "Included in Free",
+        "notInFree": "Not included in Free",
+        "inPremium": "Included in Premium"
       }
     },
     "profile": {
@@ -464,7 +477,8 @@
     },
     "login": {
       "submit": "Log in",
-      "submitting": "Logging in..."
+      "submitting": "Logging in...",
+      "success": "Signed in!"
     },
     "signup": {
       "submit": "Sign up",
@@ -472,7 +486,13 @@
     },
     "errors": {
       "loginFailed": "Failed to log in. Please try again.",
-      "signupFailed": "Failed to sign up. Please try again."
+      "signupFailed": "Failed to sign up. Please try again.",
+      "invalidCredential": "Wrong email or password.",
+      "userDisabled": "This account has been disabled.",
+      "tooManyRequests": "Too many attempts. Please try again later.",
+      "network": "Network problem. Check your connection.",
+      "accountExistsWithDifferentCredential": "This email is already linked to another sign-in method (e.g. Google).",
+      "default": "Something went wrong. Please try again."
     }
   },
   "reauth": {
@@ -582,14 +602,16 @@
       },
       "confirm": {
         "confirm": "Add to library",
-        "cancel": "Edit request"
+        "cancel": "Edit request",
+        "confirmSchedule": "Apply this training schedule?"
       },
       "chat": {
         "title": "AI Consultant",
         "submit": "Send",
         "description": "Ask anything about training, nutrition, or exercise technique!",
         "placeholder": "For example: How to do a proper warm-up?",
-        "loading": "Thinking..."
+        "loading": "Thinking...",
+        "noTries": "Free tries are over. Get Premium to keep chatting."
       },
       "subscribe": {
         "subtitle": "Get personalized advice, form analysis, and smart insights for every workout.",
@@ -599,7 +621,22 @@
         "link": "Get Premium Access"
       },
       "success": "Successfully saved!",
-      "error": "Something went wrong! Please try again later."
+      "error": "Something went wrong! Please try again later.",
+      "routineSaved": "Routine and new exercises added!",
+      "scheduleSaved": "Schedule and new routines added!"
+    },
+    "errors": {
+      "INVALID_SESSION": "Your session has expired. Please sign in again.",
+      "INVALID_REQUEST": "The request is invalid or too long. Please check the fields.",
+      "NO_FREE_TRIES": "You've used all free AI tries. Get Premium to continue.",
+      "AI_DAILY_LIMIT": "You've reached today's AI limit. Try again tomorrow.",
+      "AI_OVERLOADED": "The AI service is busy right now. Please try again in a minute.",
+      "AI_UNAVAILABLE": "The AI service is unavailable. Please try again later.",
+      "AI_EMPTY_RESPONSE": "The AI returned an empty response. Please try again.",
+      "AI_INVALID_RESPONSE": "The AI returned an unusable response. Please try again.",
+      "AI_NOT_UNIQUE": "Couldn't come up with a new exercise you don't have yet. Try changing the request.",
+      "AI_FAILED": "Couldn't process the AI request. Please try again.",
+      "NO_TRAINING_DAYS": "The schedule has no training days to save."
     }
   },
   "workout": {

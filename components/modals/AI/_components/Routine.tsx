@@ -16,6 +16,7 @@ import { generateAiRoutine } from "@/lib/server/actions/ai/routine";
 import RoutineCard from "@/components/shared/cards/RoutineCard";
 import { createAiUserRoutine } from "@/lib/mutations/routine";
 import { useLocale, useTranslations } from "next-intl";
+import { useAiErrorMessage } from "@/hooks/useAiErrorMessage";
 import { TypewriterText } from "@/components/ui/TypewriterText";
 import { AIRoutineAFormData, AIRoutineSchema } from "@/lib/schemas";
 
@@ -23,6 +24,7 @@ export function AiRoutineContent() {
   const locale = useLocale();
   const t = useTranslations("ai.modal");
   const tComponents = useTranslations("components");
+  const aiErrorMessage = useAiErrorMessage();
   const { close, confirm } = useModal();
   const { user } = useAuth();
   const queryClient = useQueryClient();
@@ -55,7 +57,7 @@ export function AiRoutineContent() {
 
   const onSubmit = async (formData: AIRoutineAFormData) => {
     try {
-      if (!user) throw new Error("Користувач не авторизований");
+      if (!user) throw new Error("Not authenticated");
 
       const idToken = await user.getIdToken();
 
@@ -66,7 +68,7 @@ export function AiRoutineContent() {
       });
 
       if (!result.success) {
-        toast.error(result.error);
+        toast.error(aiErrorMessage(result.error));
         return;
       }
 
@@ -105,12 +107,12 @@ export function AiRoutineContent() {
         queryClient.invalidateQueries({ queryKey: ["routines", user.uid] });
         queryClient.invalidateQueries({ queryKey: ["exercises", user.uid] });
 
-        toast.success("Рутину та нові вправи успішно додано!");
+        toast.success(t("routineSaved"));
         close();
       }
     } catch (error) {
       console.error(error);
-      toast.error("Сталася помилка при створенні рутини.");
+      toast.error(t("error"));
     }
   };
 

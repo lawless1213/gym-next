@@ -19,7 +19,7 @@ Actions live in `lib/server/actions/ai/` (`"use server"`). Shared server-only pi
 4. Load user data ONLY via `adminDb` (Admin SDK) — use or extend `lib/server/data/*` (`getAllExercises`, `getUserRoutines`; `import "server-only"`, values passed through `toPlain`). Never import `lib/services/*` (client SDK) into a server action. Admin SDK bypasses rules: never follow a user-supplied path/ref outside `exercises/*` or the caller's own `users/{uid}/**`.
 5. Define the response shape once as a zod schema in `lib/schemas/ai-response.schema.ts` (use `.describe()` for model hints) and pass it to `generateStructured` — it generates the JSON Schema and runs `safeParse`. No hand-written JSON schemas, no `JSON.parse(...) as T`.
 6. Map AI names to existing exercises/routines; new items get a `temp-` id so `createAiUserRoutine` creates them.
-7. Return `{ success, data | error }` from `run`; `withAiTry` adds `freeAiTries`. Prefer error codes (e.g. `NO_FREE_TRIES`, `AI_INVALID_RESPONSE`) translated on the client via next-intl.
+7. Return `{ success, data | error }` from `run`; `withAiTry` adds `freeAiTries`. `error` is always a code from `lib/errors/ai.ts` (`AiErrorCode`, e.g. `NO_FREE_TRIES`, `AI_INVALID_RESPONSE`) — never human text. New code → add it to `AI_ERROR_CODES` and to `ai.errors` in both `messages/uk.json` and `messages/en.json` (a unit test checks this). On the client show it with `useAiErrorMessage()`.
 8. On the client, update cached user params (`subscribed.freeAiTries`) from the result, as `components/modals/AI/_components/Chat.tsx` does.
 
 ## Prompting

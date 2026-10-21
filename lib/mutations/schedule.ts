@@ -25,7 +25,7 @@ export async function createAiUserSchedule(userId: string, schedule: ScheduleMap
   }
 
   if (Object.keys(scheduleUpdate).length === 0) {
-    return { success: false as const, error: "Немає тренувальних днів для збереження." };
+    return { success: false, error: "NO_TRAINING_DAYS" } as const;
   }
 
   batch.update(userRef, scheduleUpdate);

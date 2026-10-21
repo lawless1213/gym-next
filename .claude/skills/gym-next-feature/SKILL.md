@@ -20,6 +20,7 @@ Stack: Next.js 16 (App Router), React 19, Firebase (client SDK + firebase-admin)
 ## Rules
 
 - Naming: files and folders that export a React component are PascalCase (`SetInput.tsx`, `ui/form/Input/index.tsx`); hooks, utils, stores and other modules are camelCase (`useAuth.ts`, `navMenu.tsx`, `pwa.ts`); grouping folders (areas, modal names, `create`/`edit`) are lowercase. Private subcomponents of a folder go in `_components/` (one underscore).
+- No hardcoded UI text, including toasts, `aria-label`, `sr-only`, placeholders and error messages: everything goes through next-intl. Server code returns error codes, the client translates them (`useAiErrorMessage`, `authErrorKey` in `lib/errors/`).
 - Never write `users/{uid}.subscribed` or `createdAt` from the client — they are server-only (Admin SDK). The user doc is created by the `initUserDoc` server action (`lib/server/actions/user.ts`); new server actions go to `lib/server/actions/`.
 - Premium gating in UI uses `params.subscribed.isActive` from `UserPreferencesProvider`; the server must re-check.
 - Subscription logic lives only in `lib/subscription.ts`: read raw data with `parseSubscription()`, decide access with `isSubscriptionActive()`. Never compare `plan`/`status`/`expiresAt` by hand.

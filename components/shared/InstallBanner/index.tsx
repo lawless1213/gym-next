@@ -27,7 +27,7 @@ export default function InstallBanner() {
         variant="outline"
         size="icon"
         onClick={dismiss}
-        aria-label="Закрити">
+        aria-label={t("close")}>
         <IconX className="size-6" />
       </Button>
     </div>

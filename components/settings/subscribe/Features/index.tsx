@@ -1,7 +1,9 @@
 import { IconCheck, IconMinus } from "@tabler/icons-react";
 import { FEATURES } from "@/data/subscribe";
+import { useTranslations } from "next-intl";
 
 export default function Features() {
+  const t = useTranslations("settings.subscribe.features");
   return (
     <section
       className="mt-8"
@@ -40,7 +42,7 @@ export default function Features() {
                       className="size-4 text-muted-foreground"
                       aria-hidden
                     />
-                    <span className="sr-only">Є у безкоштовному плані</span>
+                    <span className="sr-only">{t("inFree")}</span>
                   </>
                 ) : (
                   <>
@@ -48,7 +50,7 @@ export default function Features() {
                       className="size-4 text-muted-foreground/40"
                       aria-hidden
                     />
-                    <span className="sr-only">Немає у безкоштовному плані</span>
+                    <span className="sr-only">{t("notInFree")}</span>
                   </>
                 )}
               </span>
@@ -59,7 +61,7 @@ export default function Features() {
                   stroke={3}
                   aria-hidden
                 />
-                <span className="sr-only">Є в Premium</span>
+                <span className="sr-only">{t("inPremium")}</span>
               </span>
             </li>
           ))}

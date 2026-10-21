@@ -89,14 +89,14 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const reauthenticate = async (password: string) => {
     const currentUser = auth.currentUser;
     if (!currentUser || !currentUser.email) {
-      throw new Error("Користувач не авторизований");
+      throw new Error("Not authenticated");
     }
     const credential = EmailAuthProvider.credential(currentUser.email, password);
     await reauthenticateWithCredential(currentUser, credential);
   };
 
   const sendVerificationEmail = async () => {
-    if (!auth.currentUser) throw new Error("Користувач не авторизований");
+    if (!auth.currentUser) throw new Error("Not authenticated");
     await sendEmailVerification(auth.currentUser);
   };
 
@@ -109,10 +109,10 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   };
 
   const changePassword = async (newPassword: string, currentPassword?: string) => {
-    if (!auth.currentUser) throw new Error("Користувач не авторизований");
+    if (!auth.currentUser) throw new Error("Not authenticated");
 
     if (currentPassword && currentPassword === newPassword) {
-      throw Object.assign(new Error("Новий пароль не може збігатися з поточним"), { code: "auth/same-password" });
+      throw Object.assign(new Error("New password must differ from the current one"), { code: "auth/same-password" });
     }
 
     if (currentPassword) {
@@ -140,7 +140,7 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
 
   const deleteAccount = async (password?: string) => {
     const currentUser = auth.currentUser;
-    if (!currentUser) throw new Error("Користувач не авторизований");
+    if (!currentUser) throw new Error("Not authenticated");
 
     if (password) {
       await reauthenticate(password);

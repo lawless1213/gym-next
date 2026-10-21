@@ -4,6 +4,8 @@ import { useState, useRef, useCallback } from "react";
 import { sendChatMessage } from "@/lib/server/actions/ai/chat";
 import type { ChatMessage } from "@/types";
 import { useTranslations } from "next-intl";
+import { toast } from "sonner";
+import { useAiErrorMessage } from "@/hooks/useAiErrorMessage";
 import { Input } from "@/components/ui/form/Input";
 import { IconSend } from "@tabler/icons-react";
 import { Button } from "@/components/ui/Button";
@@ -15,6 +17,7 @@ import { defaultUserParams, useUserPreferences } from "@/providers/UserPreferenc
 
 export function AiChatContent() {
   const t = useTranslations("ai.modal.chat");
+  const aiErrorMessage = useAiErrorMessage();
   const { params } = useUserPreferences();
   const queryClient = useQueryClient();
   const [messages, setMessages] = useState<ChatMessage[]>([]);
@@ -72,7 +75,7 @@ export function AiChatContent() {
       };
       setMessages([...updatedHistory, aiMessage]);
     } else {
-      alert(result.error);
+      toast.error(aiErrorMessage(result.error));
     }
   };
 
@@ -116,7 +119,7 @@ export function AiChatContent() {
         <div ref={messagesEndRef} />
       </div>
       {!params.subscribed.isActive && params.subscribed.freeAiTries === 0 && (
-        <div className="rounded-2xl bg-secondary p-2 text-center">дальші треба купіть подпіську</div>
+        <div className="rounded-2xl bg-secondary p-2 text-center">{t("noTries")}</div>
       )}
       <form
         onSubmit={handleSubmit}
