@@ -1,36 +1,17 @@
 "use client";
 
 import { useTranslations } from "next-intl";
-import { useAuth } from "@/hooks/useAuth";
 import { IconBolt } from "@tabler/icons-react";
-import { useModal } from "@/components/modals/ModalProvider";
 import ButtonAdd from "@/components/shared/ButtonAdd";
+import { useStartQuickWorkout } from "@/hooks/useStartQuickWorkout";
 
 export default function QuickWorkout() {
   const t = useTranslations("home");
-  const tQuickWorkout = useTranslations("workout.confirmQuickStart");
-  const { open, confirm } = useModal();
-  const { user } = useAuth();
-
-  const quickWorkoutConfirm = async () => {
-    try {
-      if (!user) throw new Error("Not authenticated");
-
-      const ok = await confirm({
-        title: tQuickWorkout("title"),
-      });
-
-      if (ok) {
-        open("quickWorkout");
-      }
-    } catch (err) {
-      console.error(err);
-    }
-  };
+  const startQuickWorkout = useStartQuickWorkout();
 
   return (
     <ButtonAdd
-      onClick={() => quickWorkoutConfirm()}
+      onClick={() => startQuickWorkout()}
       ariaLabel={t("buttonAdd")}
       icon={<IconBolt className="size-6" />}
     />

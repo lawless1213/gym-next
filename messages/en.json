@@ -168,11 +168,44 @@
       "edit": "Edit schedule"
     },
     "motivationalBanner": {
-      "records": "{value} PRs",
-      "title": "Keep pushing your limits!",
-      "subtitle": "You're on track to exceed your weekly goal. {value} this week",
-      "zeroSubtitle": "Don't give up!",
-      "volumeChange": "{value}% volume compared to last week"
+      "recordLabel": "New record",
+      "recordGain": "+{value} over your previous best",
+      "recordFirst": "first result on this exercise",
+      "otherRecords": "{count, plural, one {# more record} other {# more records}} this week",
+      "volumeLabel": "Volume, last 7 days",
+      "stats": "{workouts, plural, one {# workout} other {# workouts}} · {records, plural, one {# record} other {# records}}",
+      "catchUp": "~{count, plural, one {# more workout} other {# more workouts}} to match last week",
+      "lastWeek": "Last week: {workouts, plural, one {# workout} other {# workouts}}, {volume}. Time to match it",
+      "thisWeek": "This",
+      "prevWeek": "Last",
+      "start": "Quick workout",
+      "motivation": {
+        "record": {
+          "0": "Getting stronger — keep it up!",
+          "1": "This is what you train for.",
+          "2": "New level unlocked."
+        },
+        "up": {
+          "0": "Stronger than a week ago.",
+          "1": "Right pace — don't slow down.",
+          "2": "The numbers show your progress."
+        },
+        "down": {
+          "0": "There's still time to catch up.",
+          "1": "One workout changes the picture.",
+          "2": "Get back in rhythm — you're already here."
+        },
+        "first": {
+          "0": "Great start — keep the rhythm.",
+          "1": "First step done.",
+          "2": "This is how habits are built."
+        },
+        "empty": {
+          "0": "Your week is waiting for its first workout",
+          "1": "Starting is the hardest part. Let's go?",
+          "2": "One workout and the week is yours"
+        }
+      }
     },
     "forms": {
       "at_least_one_required": "At least one field must be filled",
