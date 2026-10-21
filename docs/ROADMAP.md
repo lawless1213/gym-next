@@ -91,16 +91,25 @@ No users yet, so this is the cheapest time to do it — start right after Stage 
   - Verify after deploy: DevTools → Application → Service workers shows `/sw.js`; open the app once, go offline, reload → app opens; unvisited page → offline page.
 - [x] 3.10 Tie the persister `buster` to the data schema version.
   - Done: `QUERY_CACHE_SCHEMA_VERSION` in `lib/config/queryCache.ts` → persister `buster` (now `v3` because keys changed); bump on any cached-shape/key change (rule in the feature skill). Not tied to the build id so deploys keep the offline cache. `gcTime` = persister `maxAge`.
-- [ ] 3.11 Feature-based structure ("FSD-lite"), one feature per PR, after Stages 0–2. See [Target structure](#target-structure-fsd-lite).
+- [ ] 3.11 _(deferred 2026-10-22)_ Feature-based structure ("FSD-lite"), one feature per PR, after Stages 0–2. See [Target structure](#target-structure-fsd-lite).
+  - Deferred: ~200 of 233 files would move and ~190 get import edits (~730 import lines), ~180 cross-feature imports need public `index.ts` APIs, while the current layers (types → schemas → services → mutations → hooks → components) are consistent and documented in the skills. Gain for one developer at ~15k lines is small. Revisit when: ~25k lines, a second developer, or code must be shared with another app.
+  - A future admin panel doesn't need it: plan is an `/admin` route group in the same app (own layout without `AppShell`, `admin` custom claim, server actions guarded by `requireAdmin(idToken)`). A separate app (monorepo) would instead need a small `packages/shared` (types, schemas, `lib/domain`, Firebase config — ~30–40 files), not full FSD.
   - [ ] Create `shared/` (ui, lib, config) and `server/` (Admin SDK, server actions, AI guard, `import "server-only"`).
   - [ ] Migrate features one by one, smallest first: `progress` → `history` → `exercises` → `routines` → `schedule` → `workouts` → `ai` → `subscription` → `auth`.
   - [ ] Each feature exposes a public API via `index.ts`; no deep imports into another feature's internals.
   - [ ] Enforce boundaries with ESLint (`eslint-plugin-boundaries` or `import/no-restricted-paths`): `shared` never imports from `features`/`server`; features import each other only through `index.ts`; client code never imports `server/`.
   - [ ] `app/` stays routing-only (thin `page.tsx`/`layout.tsx` composing features).
-- [ ] 3.12 Review custom form controls (`components/ui/form/Select`, `Stepper`, `Tabs`, modals, `type="number"` in `modals/workout/_components/SetInput.tsx`) for accessibility and mobile input; where they fall short, replace with React Aria Components (unstyled, Tailwind-friendly). Not React Spectrum (Adobe look, heavy). Ideally done alongside the move to `shared/ui` in 3.11.
-  - Check: keyboard and focus (Tab/arrows/Esc, focus trap in modals), screen-reader labels/roles, `NumberField` with locale-aware decimals (`,` vs `.` for uk/en), step/min/max, correct mobile keyboard (`inputMode="decimal"`), touch targets.
-  - Candidates: `NumberField` (weight/reps), `Select`/`ComboBox`, `Tabs`, `Modal`/`Dialog`; `DatePicker`/`Calendar` if the schedule ever needs date input.
-  - Decision rule: only swap a control if the review finds real issues; one UI library only (Headless UI was already removed in 2.1).
+- [ ] 3.12 Form controls: accessibility and mobile input. Reviewed 2026-10-22: no visual gain from a library (React Aria / Radix are unstyled, the look stays ours); the value is in fixing real bugs and a11y gaps. Library choice per item (hand-made vs Radix vs React Aria Components) is still open — decide before 3.12.3/3.12.4.
+  - [ ] 3.12.1 `SetInput` (workout set row) — highest priority, used every set:
+    - bug: "Complete set" is disabled while `weight === 0` → bodyweight exercises (pull-ups, push-ups) can't be completed; allow weight 0 (reps > 0 is enough);
+    - risk: controlled `type="number"` + `parseFloat` on every keystroke can reset/cut decimals ("62,5" with a comma in Safari, intermediate "62."); add `inputMode="decimal"` (reps: `"numeric"`), keep a raw string while typing and parse on blur/step — verify on iPhone;
+    - touch targets ≥ 44 px for the inputs and +/− buttons;
+    - step by unit: 2.5 kg / 5 lb;
+    - labels: inputs have no accessible name; translate `aria-label`s ("Decrease weight", "Complete set"…) and update e2e selectors together.
+  - [ ] 3.12.2 Small fixes, no library: `Tabs` → `role="tablist"/"tab"`, `aria-selected`, arrow keys; `ChipGroup` → `fieldset` + `legend` (the label points to a non-existent id); `Input` → `aria-invalid` + `aria-describedby` for the error; translate the leftover "Loading..." in `Select` and `aria-label="Close"` in `ModalWrapper`; delete unused `Stepper`.
+  - [ ] 3.12.3 `ModalWrapper` → real dialog: `role="dialog"`, `aria-modal`, `aria-labelledby` (title), move focus into the modal on open, trap Tab inside, return focus to the trigger on close. Keep the current look and `motion` animations. Options: hand-made focus trap, Radix Dialog (Radix is already a dependency) or React Aria `Modal`.
+  - [ ] 3.12.4 `Select` → accessible combobox: `combobox`/`listbox`/`option` roles, `aria-expanded`, arrow keys + Enter, Esc closes the list (today Esc closes the whole modal), popover not clipped by the modal's scroll container. Custom values ("add exercise by name") must keep working. Options: hand-made, Radix Popover + own list, React Aria `ComboBox` (`allowsCustomValue`).
+  - Optional: React Aria `NumberField` for weight/reps if 3.12.1 by hand still has locale/decimal problems.
 
 ## Stage 4 — Product (P4, after stabilization)
 
