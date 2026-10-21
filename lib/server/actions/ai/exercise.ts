@@ -28,7 +28,7 @@ const MAX_RETRIES = 2;
 export async function generateAiExercise(input: ExerciseInput) {
   const parsed = AIExerciseRequestSchema.safeParse(input);
   if (!parsed.success) {
-    return { success: false as const, error: "Некоректні дані запиту." };
+    return { success: false, error: "INVALID_REQUEST" } as const;
   }
   input = { ...input, ...parsed.data };
 
@@ -58,7 +58,7 @@ export async function generateAiExercise(input: ExerciseInput) {
       }
     }
 
-    return { success: false as const, error: "Не вдалося згенерувати унікальну вправу. Спробуйте ще раз." };
+    return { success: false, error: "AI_NOT_UNIQUE" } as const;
   });
 }
 

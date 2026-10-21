@@ -18,7 +18,7 @@ const SYSTEM_INSTRUCTION = `
 export async function sendChatMessage(idToken: string, history: ChatMessage[], newMessageText: string) {
   const parsed = AIChatRequestSchema.safeParse({ history, message: newMessageText });
   if (!parsed.success) {
-    return { success: false as const, error: "Повідомлення занадто довге або некоректне." };
+    return { success: false, error: "INVALID_REQUEST" } as const;
   }
   const { history: recentHistory, message } = parsed.data;
 

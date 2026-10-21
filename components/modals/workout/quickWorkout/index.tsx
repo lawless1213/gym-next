@@ -156,7 +156,7 @@ export function QuickWorkoutModal() {
             options: exercises
               .filter((exercise) => !workout.exercises.some((w) => w.id === exercise.id))
               .map((exercise) => ({ value: exercise.id, label: getLocalizedText(exercise.name, locale) })),
-            placeholder: "Виберіть чи введіть назву",
+            placeholder: t("modal.search.placeholder"),
             allowCustom: true,
             onChange: handleAddExercise,
             isLoading: loading,

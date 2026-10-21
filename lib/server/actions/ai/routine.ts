@@ -32,7 +32,7 @@ export type GeneratedRoutine = {
 export async function generateAiRoutine(input: RoutineInput) {
   const parsed = AIRoutineRequestSchema.safeParse(input);
   if (!parsed.success) {
-    return { success: false as const, error: "Некоректні дані запиту." };
+    return { success: false, error: "INVALID_REQUEST" } as const;
   }
   input = { ...input, ...parsed.data };
 
@@ -69,7 +69,7 @@ export async function generateAiRoutine(input: RoutineInput) {
     });
 
     if (exercises.length === 0) {
-      return { success: false as const, error: "Не вдалося сформувати список вправ для рутини." };
+      return { success: false, error: "AI_INVALID_RESPONSE" } as const;
     }
 
     const rawData: GeneratedRoutine = {

@@ -4,7 +4,7 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import { Button } from "@/components/ui/Button";
 import { useAuth } from "@/hooks/useAuth";
 import { Input } from "@/components/ui/form/Input";
-import { AUTH_ERRORS, getErrorCode } from "@/lib/errors/auth";
+import { authErrorKey } from "@/lib/errors/auth";
 import { useModal } from "@/components/modals/ModalProvider";
 import { useTranslations } from "next-intl";
 import { AuthFormData, authSchema } from "@/lib/schemas";
@@ -34,7 +34,7 @@ export default function SignUpForm() {
       close();
     } catch (err) {
       setError("root", {
-        message: AUTH_ERRORS[getErrorCode(err) ?? "default"] ?? AUTH_ERRORS["default"],
+        message: t(`errors.${authErrorKey(err)}`),
       });
     }
   };

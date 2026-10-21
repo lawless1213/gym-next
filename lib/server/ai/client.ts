@@ -3,14 +3,13 @@ import { GoogleGenAI } from "@google/genai";
 import { z } from "zod";
 import { toGeminiJsonSchema } from "@/lib/schemas/ai-response.schema";
 import { reportError, reportIssue } from "@/lib/monitoring";
+import type { AiFailure } from "@/lib/errors/ai";
 
 export const ai = new GoogleGenAI({ apiKey: process.env.GEMINI_API_KEY });
 
 export const GEMINI_MODEL = "gemini-3.1-flash-lite" as const;
 
-const INVALID_RESPONSE_ERROR = "AI повернув некоректну відповідь. Спробуйте ще раз.";
-
-export type GeminiResult<T> = { success: true; data: T } | { success: false; error: string };
+export type GeminiResult<T> = { success: true; data: T } | AiFailure;
 
 export type ChatMessagePart = {
   role: "user" | "model";
@@ -44,7 +43,7 @@ export async function generateStructured<S extends z.ZodType>(params: {
   }
 
   if (!text) {
-    return { success: false, error: "Порожня відповідь від AI" };
+    return { success: false, error: "AI_EMPTY_RESPONSE" };
   }
 
   let json: unknown;
@@ -52,7 +51,7 @@ export async function generateStructured<S extends z.ZodType>(params: {
     json = JSON.parse(text);
   } catch {
     reportIssue("Gemini returned invalid JSON", { model, sample: text.slice(0, 300) });
-    return { success: false, error: INVALID_RESPONSE_ERROR };
+    return { success: false, error: "AI_INVALID_RESPONSE" };
   }
 
   const parsed = schema.safeParse(json);
@@ -61,7 +60,7 @@ export async function generateStructured<S extends z.ZodType>(params: {
       model,
       issues: z.prettifyError(parsed.error).slice(0, 1000),
     });
-    return { success: false, error: INVALID_RESPONSE_ERROR };
+    return { success: false, error: "AI_INVALID_RESPONSE" };
   }
 
   return { success: true, data: parsed.data };
@@ -84,7 +83,7 @@ export async function generateChatText(params: {
     });
 
     if (!response.text) {
-      return { success: false, error: "Порожня відповідь від AI" };
+      return { success: false, error: "AI_EMPTY_RESPONSE" };
     }
 
     return { success: true, data: response.text };
@@ -93,21 +92,19 @@ export async function generateChatText(params: {
   }
 }
 
-function handleError(err: unknown): { success: false; error: string } {
+function handleError(err: unknown): AiFailure {
   const status =
     typeof err === "object" && err !== null && "status" in err ? (err as { status?: number }).status : undefined;
   // 429 is expected under load; everything else is worth an alert.
   if (status !== 429) reportError(err, "Gemini generation error", { status: status ?? null });
 
   if (status === 429) {
-    return { success: false, error: "Сервіс тимчасово перевантажений. Спробуйте пізніше." };
+    return { success: false, error: "AI_OVERLOADED" };
   }
-  if (status === 404) {
-    return { success: false, error: "Модель AI недоступна. Зверніться до підтримки." };
-  }
-  if (status === 401 || status === 403) {
-    return { success: false, error: "Помилка авторизації сервісу AI." };
+  if (status === 404 || status === 401 || status === 403) {
+    // Model not found or our API key rejected: nothing the user can fix.
+    return { success: false, error: "AI_UNAVAILABLE" };
   }
 
-  return { success: false, error: "Не вдалося обробити запит до AI" };
+  return { success: false, error: "AI_FAILED" };
 }

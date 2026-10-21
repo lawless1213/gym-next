@@ -35,7 +35,7 @@ export type ScheduleInput = {
 export async function generateAiSchedule(input: ScheduleInput) {
   const parsed = AIScheduleRequestSchema.safeParse(input);
   if (!parsed.success) {
-    return { success: false as const, error: "Некоректні дані запиту." };
+    return { success: false, error: "INVALID_REQUEST" } as const;
   }
   input = { ...input, ...parsed.data };
 
@@ -66,7 +66,7 @@ export async function generateAiSchedule(input: ScheduleInput) {
 
     const hasAnyWorkout = weekDays.some((day) => schedule[day].length > 0);
     if (!hasAnyWorkout) {
-      return { success: false as const, error: "Не вдалося сформувати розклад тренувань." };
+      return { success: false, error: "AI_INVALID_RESPONSE" } as const;
     }
 
     return { success: true as const, data: schedule, summary: result.data.summary };

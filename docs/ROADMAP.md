@@ -72,8 +72,10 @@ No users yet, so this is the cheapest time to do it — start right after Stage 
 
 - [x] 3.1 `lib/actions` (client-side writes) → `lib/mutations`; real server actions → `lib/server/actions`.
   - Done: client Firestore writes in `lib/mutations/*`; Gemini server actions in `lib/server/actions/ai/*`; their helpers (`client.ts`, `guard.ts`) in `lib/server/ai/` with `import "server-only"` (they had none before). Skills and comments updated.
-- [ ] 3.2 Move critical writes to the server: ~~account deletion~~ (done in 0.1), records, subscription. Decide and document which writes stay client-side (and can work offline — workout sets, notes) vs server-only (subscription, AI tries, account) — this defines the scope of 4.2.
-- [ ] 3.3 Return error codes (`NO_FREE_TRIES`, `AI_RATE_LIMIT`) and translate them via next-intl.
+- [x] 3.2 Move critical writes to the server: ~~account deletion~~ (done in 0.1), records, subscription. Decide and document which writes stay client-side (and can work offline — workout sets, notes) vs server-only (subscription, AI tries, account) — this defines the scope of 4.2.
+  - Decided: records stay client-side (offline; server can't protect data the user writes about themselves, history is client-written anyway); subscription is already server-only (0.1/0.3), payments webhook comes in 4.1. Instead `firestore.rules` validate the shape of `workoutHistory` (`startedAt` timestamp, doc id = workout id, list/number limits), `stats/records` (≤ 500 entries) and `stats/progress` (known fields, lists) + rules tests. Table "Who writes what" in `docs/PROJECT_STATUS.md`.
+- [x] 3.3 Return error codes (`NO_FREE_TRIES`, `AI_RATE_LIMIT`) and translate them via next-intl.
+  - Done: `lib/errors/ai.ts` (`AI_ERROR_CODES`, `AiFailure`); Gemini client, guard and all AI actions return codes; client translates via `useAiErrorMessage()` (`ai.errors.*`). Auth errors via `authErrorKey()` → `auth.errors.*` (replaces the Ukrainian `AUTH_ERRORS` map). Also moved remaining hardcoded UI strings to messages (AI toasts, chat `alert` → toast + "no tries" text, social login, `Select` defaults, quick-workout placeholder, `aria-label`/`sr-only`), fixed missing en `ai.modal.confirm.confirmSchedule`. Unit test: uk/en key parity + every AI code translated.
 - [x] 3.4 Naming: `shedule.ts`→`schedule.ts`, `navManu.tsx`→`navMenu.tsx`, `TypewritterText`→`TypewriterText`; one `_components` convention and one file-casing convention.
   - Done: renames above + `LoginWIth`→`LoginWith`, `AI/__components`→`AI/_components`, `utils/PWA.ts`→`pwa.ts`. Convention (in the `gym-next-feature` skill): component files and component folders PascalCase (`SetInput.tsx`, `ui/form/Input/`, `ModalProvider.tsx` ← `modal-store.tsx`, `ThemeProvider.tsx`, `UserPreferencesProvider.tsx`); other modules camelCase; grouping folders lowercase; private subcomponents in `_components/`.
 - [ ] 3.5 `useAuth.tsx` (a provider) → `providers/AuthProvider.tsx`, hook separately.
@@ -97,7 +99,7 @@ No users yet, so this is the cheapest time to do it — start right after Stage 
 
 - [ ] 4.0 Before charging money: move Vercel from Hobby (non-commercial) to a paid plan; give Preview deployments a separate Firebase project (today previews use production Firestore/Auth).
 - [ ] 4.1 Payments: Stripe/LemonSqueezy + webhook → server-side `subscribed` update (depends on 0.3–0.4).
-- [ ] 4.2 Reliable offline workout logging with a sync queue — only for the client-side writes defined in 3.2. Builds on 1.8 (Firestore persistent cache + draft resume); 4.2 covers the rest: other offline writes (notes, progress, routines), conflict handling, sync status in the UI.
+- [ ] 4.2 Reliable offline workout logging with a sync queue — only for the client-side writes defined in 3.2 (see "Who writes what" in `docs/PROJECT_STATUS.md`). Builds on 1.8 (Firestore persistent cache + draft resume); 4.2 covers the rest: other offline writes (notes, progress, routines), conflict handling, sync status in the UI.
 - [ ] 4.3 Rest timer (vibration, sound).
 - [ ] 4.4 Scheduled push reminders (FCM).
 - [ ] 4.5 1RM estimate (Epley), history export to CSV.

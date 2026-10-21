@@ -19,6 +19,33 @@ service cloud.firestore {
         .hasAny(['subscribed', 'createdAt', 'aiUsage']);
     }
 
+    function optionalNumberIn(data, field, min, max) {
+      return !(field in data) || (data[field] is number && data[field] >= min && data[field] <= max);
+    }
+
+    // Shape of a finished workout (types/workout.ts). Exercises/sets are not checked one by one
+    // (rules have no loops); the list size cap keeps documents bounded.
+    function isValidWorkout(data, workoutId) {
+      return data.keys().hasAll(['id', 'name', 'startedAt', 'isQuick', 'exercises'])
+        && data.id == workoutId
+        && data.name is string && data.name.size() <= 200
+        && data.startedAt is timestamp
+        && data.isQuick is bool
+        && data.exercises is list && data.exercises.size() <= 100
+        && optionalNumberIn(data, 'duration', 0, 7 * 24 * 60 * 60)
+        && optionalNumberIn(data, 'volume', 0, 100000000)
+        && (!('routineId' in data) || data.routineId is string);
+    }
+
+    function isValidProgress(data) {
+      return data.keys().hasOnly(['weight', 'waist', 'chest', 'arms', 'thighs'])
+        && (!('weight' in data) || (data.weight is list && data.weight.size() <= 5000))
+        && (!('waist' in data) || (data.waist is list && data.waist.size() <= 5000))
+        && (!('chest' in data) || (data.chest is list && data.chest.size() <= 5000))
+        && (!('arms' in data) || (data.arms is list && data.arms.size() <= 5000))
+        && (!('thighs' in data) || (data.thighs is list && data.thighs.size() <= 5000));
+    }
+
     // Public exercise catalog: readable by anyone, written only by the server/console.
     match /exercises/{exerciseId} {
       allow read: if true;
@@ -32,12 +59,40 @@ service cloud.firestore {
       allow create, delete: if false;
       allow update: if isOwner(uid) && !touchesServerOnlyFields();
 
-      // exercises, routines, stats, workoutHistory, ...
+      // Client-written data (works offline, see "Who writes what" in docs/PROJECT_STATUS.md).
+      // Rules can't make it trustworthy — it's the user's own data — but they reject malformed
+      // writes (wrong types, oversized lists) that would break history and stats queries.
+
+      // Finished workouts (lib/mutations/workout.ts). Doc id = workout id (idempotent re-sends).
+      match /workoutHistory/{workoutId} {
+        allow read, delete: if isOwner(uid);
+        allow create, update: if isOwner(uid) && isValidWorkout(request.resource.data, workoutId);
+      }
+
+      // Personal records: one map { exerciseId: record } (lib/mutations/record.ts).
+      // Rules can't iterate map values, so only the number of entries is capped.
+      match /stats/records {
+        allow read, delete: if isOwner(uid);
+        allow create, update: if isOwner(uid) && request.resource.data.size() <= 500;
+      }
+
+      // Body measurements: { weight|waist|chest|arms|thighs: [{ date, value }] } (lib/mutations/progress.ts).
+      match /stats/progress {
+        allow read, delete: if isOwner(uid);
+        allow create, update: if isOwner(uid) && isValidProgress(request.resource.data);
+      }
+
+      // exercises, routines, other stats docs, ...
       // NB: `/{subcollection}/{rest=**}` requires at least one segment below the user doc.
       // A bare `/{path=**}` also matches users/{uid} itself (zero segments) and would
-      // bypass the restrictions above.
+      // bypass the restrictions above. Validated collections are excluded here, because
+      // rules allow a request if ANY matching statement allows it.
       match /{subcollection}/{rest=**} {
-        allow read, write: if isOwner(uid);
+        allow read: if isOwner(uid);
+        allow write: if isOwner(uid) && !(subcollection in ['workoutHistory', 'stats']);
+      }
+      match /stats/{statsDoc} {
+        allow write: if isOwner(uid) && !(statsDoc in ['records', 'progress']);
       }
     }
 

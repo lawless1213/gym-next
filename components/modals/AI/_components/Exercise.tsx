@@ -15,6 +15,7 @@ import { ChipGroup } from "@/components/ui/form/ChipGroup";
 import { generateAiExercise } from "@/lib/server/actions/ai/exercise";
 import { ExerciseCard } from "@/components/shared/cards/ExerciseCard";
 import { useLocale, useTranslations } from "next-intl";
+import { useAiErrorMessage } from "@/hooks/useAiErrorMessage";
 import { TypewriterText } from "@/components/ui/TypewriterText";
 import { AIExerciseFormData, AIExerciseSchema } from "@/lib/schemas";
 import { getLocalizedText, type Locale } from "@/types/common";
@@ -23,6 +24,7 @@ export function AiExerciseContent() {
   const locale = useLocale() as Locale;
   const tComponents = useTranslations("components");
   const t = useTranslations("ai.modal");
+  const aiErrorMessage = useAiErrorMessage();
   const { close, confirm } = useModal();
   const { user } = useAuth();
   const queryClient = useQueryClient();
@@ -59,7 +61,7 @@ export function AiExerciseContent() {
       const result = await generateAiExercise({ ...data, idToken, locale });
 
       if (!result.success) {
-        toast.error(result.error);
+        toast.error(aiErrorMessage(result.error));
         return;
       }
 

@@ -3,6 +3,7 @@ import { adminAuth, adminDb } from "@/lib/firebase/firebase-admin";
 import { isSubscriptionActive, parseSubscription } from "@/lib/subscription";
 import { FieldValue } from "firebase-admin/firestore";
 import { reportError } from "@/lib/monitoring";
+import type { AiErrorCode, AiFailure } from "@/lib/errors/ai";
 
 /** Max AI requests per UTC day for premium users (protects the Gemini bill). */
 export const PREMIUM_DAILY_AI_LIMIT = 50;
@@ -13,13 +14,13 @@ type AiUsage = { day: string; count: number };
 type Reservation = { userId: string; kind: "free" } | { userId: string; kind: "premium"; day: string };
 
 type ReserveResult =
-  { ok: true; reservation: Reservation; freeAiTries: number } | { ok: false; error: string; freeAiTries: number };
+  { ok: true; reservation: Reservation; freeAiTries: number } | { ok: false; error: AiErrorCode; freeAiTries: number };
 
 const utcDay = (date = new Date()) => date.toISOString().slice(0, 10);
 
 class GuardError extends Error {
   constructor(
-    public code: "NO_FREE_TRIES" | "AI_DAILY_LIMIT",
+    public code: Extract<AiErrorCode, "NO_FREE_TRIES" | "AI_DAILY_LIMIT">,
     public freeAiTries: number,
   ) {
     super(code);
@@ -35,7 +36,7 @@ async function reserveAiTry(idToken: string): Promise<ReserveResult> {
   try {
     userId = (await adminAuth.verifyIdToken(idToken)).uid;
   } catch {
-    return { ok: false, error: "Сесія недійсна. Увійдіть ще раз.", freeAiTries: 0 };
+    return { ok: false, error: "INVALID_SESSION", freeAiTries: 0 };
   }
 
   const userRef = adminDb.collection("users").doc(userId);
@@ -61,13 +62,7 @@ async function reserveAiTry(idToken: string): Promise<ReserveResult> {
       return { ok: true, reservation: { userId, kind: "free" }, freeAiTries: subscribed.freeAiTries - 1 };
     });
   } catch (err) {
-    if (err instanceof GuardError) {
-      const error =
-        err.code === "NO_FREE_TRIES"
-          ? "Безкоштовні спроби вичерпано. Оформіть підписку, щоб продовжити."
-          : "Денний ліміт AI-запитів вичерпано. Спробуйте завтра.";
-      return { ok: false, error, freeAiTries: err.freeAiTries };
-    }
+    if (err instanceof GuardError) return { ok: false, error: err.code, freeAiTries: err.freeAiTries };
     throw err;
   }
 }
@@ -91,7 +86,7 @@ async function refundAiTry(reservation: Reservation): Promise<void> {
   }
 }
 
-type Failure = { success: false; error: string };
+type Failure = AiFailure;
 
 /**
  * Runs an AI action under the try/limit policy:
@@ -118,6 +113,6 @@ export async function withAiTry<T extends { success: true } | Failure>(
   } catch (error) {
     reportError(error, "AI action failed");
     await refundAiTry(reservation);
-    return { success: false, error: "Не вдалося обробити запит до AI", freeAiTries: refundedTries };
+    return { success: false, error: "AI_FAILED", freeAiTries: refundedTries };
   }
 }

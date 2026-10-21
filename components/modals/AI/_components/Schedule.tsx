@@ -18,6 +18,7 @@ import { WeeklyCalendar } from "@/components/shared/WeeklyCalendar";
 import { TypewriterText } from "@/components/ui/TypewriterText";
 import { createAiUserSchedule } from "@/lib/mutations/schedule";
 import { useLocale, useTranslations } from "next-intl";
+import { useAiErrorMessage } from "@/hooks/useAiErrorMessage";
 import { AIScheduleFormData, AIScheduleSchema } from "@/lib/schemas";
 
 export function AiScheduleContent() {
@@ -25,6 +26,7 @@ export function AiScheduleContent() {
 
   const t = useTranslations("ai.modal");
   const tComponents = useTranslations("components");
+  const aiErrorMessage = useAiErrorMessage();
 
   const { close, confirm } = useModal();
   const { user } = useAuth();
@@ -73,7 +75,7 @@ export function AiScheduleContent() {
       const result = await generateAiSchedule({ ...formData, idToken, locale });
 
       if (!result.success) {
-        setError("root", { message: result.error });
+        setError("root", { message: aiErrorMessage(result.error) });
         return;
       }
 
@@ -106,7 +108,7 @@ export function AiScheduleContent() {
       const saveResult = await createAiUserSchedule(user.uid, result.data);
 
       if (!saveResult.success) {
-        toast.error(saveResult.error);
+        toast.error(aiErrorMessage(saveResult.error));
         return;
       }
 
@@ -114,11 +116,11 @@ export function AiScheduleContent() {
       queryClient.invalidateQueries({ queryKey: ["routines", user.uid] });
       queryClient.invalidateQueries({ queryKey: ["exercises", user.uid] });
 
-      toast.success("Графік та нові рутини успішно додано!");
+      toast.success(t("scheduleSaved"));
       close();
     } catch (error) {
       console.error(error);
-      toast.error("Сталася помилка при створенні графіку.");
+      toast.error(t("error"));
     }
   };
 
