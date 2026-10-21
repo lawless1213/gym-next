@@ -1,39 +1,14 @@
-"use client";
+// Server component: page metadata only. The page itself is client-side (data needs the
+// signed-in Firebase user, which exists only in the browser).
+import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
+import LibraryPage from "@/components/library/LibraryPage";
 
-import { useState } from "react";
-import { IconBarbell, IconFolderOpen } from "@tabler/icons-react";
-import Exercises from "@/components/library/exercises";
-import Routines from "@/components/library/routines";
-import { useTranslations } from "next-intl";
-import { Tabs } from "@/components/ui/Tabs";
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("components.bottomNav");
+  return { title: t("library") };
+}
 
-type LibraryTab = "exercise" | "routine";
-
-export default function LibraryScreen() {
-  const t = useTranslations("library");
-  const [activeTab, setActiveTab] = useState<LibraryTab>("exercise");
-
-  const tabItems = [
-    {
-      id: "exercise",
-      label: t("tabs.exercises"),
-      icon: <IconBarbell className="size-4" />,
-    },
-    {
-      id: "routine",
-      label: t("tabs.routines"),
-      icon: <IconFolderOpen className="size-4" />,
-    },
-  ];
-
-  return (
-    <div className="flex flex-col gap-2 pb-4">
-      <Tabs
-        items={tabItems}
-        activeTab={activeTab}
-        onChange={setActiveTab}>
-        {activeTab === "exercise" ? <Exercises /> : <Routines />}
-      </Tabs>
-    </div>
-  );
+export default function Page() {
+  return <LibraryPage />;
 }

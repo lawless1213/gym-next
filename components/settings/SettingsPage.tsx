@@ -1,0 +1,64 @@
+"use client";
+
+import { useState } from "react";
+import { IconAdjustmentsHorizontal, IconCarambolaFilled, IconUser } from "@tabler/icons-react";
+import { useTranslations } from "next-intl";
+import { Tabs } from "@/components/ui/Tabs";
+import Profile from "@/components/settings/profile";
+import Preferences from "@/components/settings/preferences";
+import Subscribe from "@/components/settings/subscribe";
+import { useSearchParams } from "next/navigation";
+
+type SettingsTab = "profile" | "preferences" | "subscribe";
+
+export default function SettingsPage() {
+  const t = useTranslations("settings");
+  const searchParams = useSearchParams();
+
+  const tab = searchParams.get("tab");
+  const [activeTab, setActiveTab] = useState<SettingsTab>(
+    tab === "subscribe" || tab === "preferences" || tab === "profile" ? tab : "profile",
+  );
+
+  // Follow ?tab= when the URL changes (adjust state while rendering, no effect).
+  const [lastRequestedTab, setLastRequestedTab] = useState(tab);
+  if (tab !== lastRequestedTab) {
+    setLastRequestedTab(tab);
+    if (tab === "subscribe" || tab === "preferences" || tab === "profile") setActiveTab(tab);
+  }
+
+  const tabItems = [
+    {
+      id: "subscribe",
+      label: t("tabs.subscribe"),
+      icon: <IconCarambolaFilled className="size-4" />,
+    },
+    {
+      id: "profile",
+      label: t("tabs.profile"),
+      icon: <IconUser className="size-4" />,
+    },
+    {
+      id: "preferences",
+      label: t("tabs.preferences"),
+      icon: <IconAdjustmentsHorizontal className="size-4" />,
+    },
+  ];
+
+  const content: Record<SettingsTab, React.ReactNode> = {
+    profile: <Profile />,
+    preferences: <Preferences />,
+    subscribe: <Subscribe />,
+  };
+
+  return (
+    <div className="flex flex-col gap-4 pb-4">
+      <Tabs
+        items={tabItems}
+        activeTab={activeTab}
+        onChange={setActiveTab}>
+        {content[activeTab]}
+      </Tabs>
+    </div>
+  );
+}

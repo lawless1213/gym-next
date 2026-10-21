@@ -1,64 +1,20 @@
-"use client";
+// Server component: page metadata only. The page itself is client-side (data needs the
+// signed-in Firebase user, which exists only in the browser).
+import { Suspense } from "react";
+import type { Metadata } from "next";
+import { getTranslations } from "next-intl/server";
+import SettingsPage from "@/components/settings/SettingsPage";
 
-import { useState } from "react";
-import { IconAdjustmentsHorizontal, IconCarambolaFilled, IconUser } from "@tabler/icons-react";
-import { useTranslations } from "next-intl";
-import { Tabs } from "@/components/ui/Tabs";
-import Profile from "@/components/settings/profile";
-import Preferences from "@/components/settings/preferences";
-import Subscribe from "@/components/settings/subscribe";
-import { useSearchParams } from "next/navigation";
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations("components.bottomNav");
+  return { title: t("settings") };
+}
 
-type SettingsTab = "profile" | "preferences" | "subscribe";
-
-export default function Setting() {
-  const t = useTranslations("settings");
-  const searchParams = useSearchParams();
-
-  const tab = searchParams.get("tab");
-  const [activeTab, setActiveTab] = useState<SettingsTab>(
-    tab === "subscribe" || tab === "preferences" || tab === "profile" ? tab : "profile",
-  );
-
-  // Follow ?tab= when the URL changes (adjust state while rendering, no effect).
-  const [lastRequestedTab, setLastRequestedTab] = useState(tab);
-  if (tab !== lastRequestedTab) {
-    setLastRequestedTab(tab);
-    if (tab === "subscribe" || tab === "preferences" || tab === "profile") setActiveTab(tab);
-  }
-
-  const tabItems = [
-    {
-      id: "subscribe",
-      label: t("tabs.subscribe"),
-      icon: <IconCarambolaFilled className="size-4" />,
-    },
-    {
-      id: "profile",
-      label: t("tabs.profile"),
-      icon: <IconUser className="size-4" />,
-    },
-    {
-      id: "preferences",
-      label: t("tabs.preferences"),
-      icon: <IconAdjustmentsHorizontal className="size-4" />,
-    },
-  ];
-
-  const content: Record<SettingsTab, React.ReactNode> = {
-    profile: <Profile />,
-    preferences: <Preferences />,
-    subscribe: <Subscribe />,
-  };
-
+export default function Page() {
+  // useSearchParams() inside needs a Suspense boundary.
   return (
-    <div className="flex flex-col gap-4 pb-4">
-      <Tabs
-        items={tabItems}
-        activeTab={activeTab}
-        onChange={setActiveTab}>
-        {content[activeTab]}
-      </Tabs>
-    </div>
+    <Suspense>
+      <SettingsPage />
+    </Suspense>
   );
 }
